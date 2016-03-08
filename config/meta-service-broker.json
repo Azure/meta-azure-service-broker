@@ -1,0 +1,15 @@
+{
+    "apiVersion": "2.3.0",
+    "authUser": "demouser",
+    "authPassword": "demopassword",
+    "defaultVersion": "1.0",
+    "name": "Echo Service",
+    "port": 5001,
+    "url": "auto",
+    "database": {
+        "enabled": true,
+        "allowOrphanedBindings": false,
+        "databaseFile": "./leveldb",
+        "encryptionKey": "demokey"
+    }
+}

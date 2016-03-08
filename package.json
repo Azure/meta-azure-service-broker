@@ -1,0 +1,31 @@
+{
+  "name": "meta-azure-service-broker",
+  "version": "0.0.1",
+  "description": "A service broker to manager multiple Azure services in Cloud Foundry",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingosummer/meta-azure-service-broker"
+  },
+  "keywords": [
+    "cloud-foundry",
+    "broker"
+  ],
+  "author": "Bin Xia <binxi@microsoft.com>",
+  "license": "Apache License, Version 2.0",
+  "dependencies": {
+    "restify": "~4.0.4",
+    "semver": "~5.1.0",
+    "async": "^0.6.2",
+    "logule": "~2.1.0",
+    "levelup": "~1.3.1",
+    "level": "~1.4.0"
+  },
+  "bugs": {
+    "url": "https://github.com/bingosummer/meta-azure-service-broker/issues"
+  }
+}

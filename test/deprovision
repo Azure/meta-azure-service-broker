@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+bin=$(dirname $0)
+
+instance_id=`cat $bin/instance_id`
+
+curl "http://localhost:5001/v2/service_instances/$instance_id?service_id=47c6bff8-c653-4812-89f8-ee9a9b6c3d53&plan_id=6b6fdd28-eb91-4eb7-9936-bf82ec1ec2d7" -u demouser:demopassword -X DELETE -H "X-Broker-API-Version: 2.7" -v
