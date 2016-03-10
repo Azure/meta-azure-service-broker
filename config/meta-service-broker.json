@@ -9,7 +9,7 @@
     "database": {
         "enabled": true,
         "allowOrphanedBindings": false,
-        "databaseFile": "./leveldb",
-        "encryptionKey": "demokey"
+        "azureStorageAccount": "CHANGE-ME",
+        "azureStorageAccessKey": "CHANGE-ME"
     }
 }

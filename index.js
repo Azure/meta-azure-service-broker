@@ -36,16 +36,16 @@ broker.on('catalog', function (req, next) {
     next(reply);
 });
 
-broker.on('poll', echo.poll);
-
 // Listeners for echo service
 broker.on('provision', echo.provision);
+broker.on('poll', echo.poll);
 broker.on('deprovision', echo.deprovision);
 broker.on('bind', echo.bind);
 broker.on('unbind', echo.unbind);
 
 // Listeners for echo service
 broker.on('provision', anotherecho.provision);
+broker.on('poll', anotherecho.poll);
 broker.on('deprovision', anotherecho.deprovision);
 broker.on('bind', anotherecho.bind);
 broker.on('unbind', anotherecho.unbind);

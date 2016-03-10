@@ -153,18 +153,7 @@ Handlers.handleProvisionRequest = function (broker, req, res, next) {
         } else {
             res.status(201);
             res.send(reply);
-            Async.series([
-                function (done) {
-                    broker.db.provision(req, reply, done);
-                },
-                function (done) {
-                     broker.db.getAllInstances(function (err, instances) {
-                        broker.log.info('There are now ' + instances.length + ' services registered to this node');
-                        broker.log.info('%j', instances);
-                        done(err);
-                    });
-                }
-            ], next);
+            broker.db.provision(req, reply, next);
         }
     };
 
@@ -186,17 +175,22 @@ Handlers.handleProvisionRequest = function (broker, req, res, next) {
  * @callback {Function} restify's next() handler
  */
 Handlers.handlePollRequest = function (broker, req, res, next) {
-
-    broker.log.info('%j', req.params)
     broker.log.info('Processing poll request ' + req.params.id + ' from ' + req.connection.remoteAddress + ':' + req.connection.remotePort);
 
     var processResponse = function (reply) {
-        reply = reply || {};
+        reply = reply || {
+          'state': '',
+          'description': '',
+        };
         res.send(reply);
     };
 
     if (broker.listeners('poll').length > 0) {
-        broker.emit('poll', req, processResponse);
+	broker.db.getServiceID(req.params.id, function (err, serviceID) {
+	  req.params.service_id = serviceID;
+          broker.log.info('%j', req.params)
+          broker.emit('poll', req, processResponse);
+        });
     } else {
         broker.log.error('No listeners attached for the "poll" event');
         return next(new Error('Polling not implemented on this broker. ' + req.params.version));
@@ -232,20 +226,8 @@ Handlers.handleDeProvisionRequest = function (broker, req, res, next) {
             res.status(410);
         }
 
-        Async.series([
-            function (done) {
-                broker.db.deprovision(req, reply, done);
-            },
-            function (done) {
-                 broker.db.getAllInstances(function (err, instances) {
-                    broker.log.info('There are now ' + instances.length + ' services registered to this node');
-                    done(err);
-                });
-            }, function (done) {
-                res.send(reply);
-                done();
-            }
-        ], next);
+        res.send(reply);
+        broker.db.deprovision(req, reply, next);
     };
 
     if (broker.listeners('deprovision').length > 0) {

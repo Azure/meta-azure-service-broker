@@ -18,15 +18,23 @@
 'use strict';
 
 var Async = require('async');
-var LevelUp = require('level');
-var Encryptor = require('../../../common/encryptor.js');
+var azure = require('azure-storage');
 
 var Database = function (opts) {
 
     this.opts = opts || {};
-    this.db = new LevelUp(opts.databaseFile);
-    this.sep = '::';
-    this.ns = '__CFSC' + this.sep;
+    this.instanceTableName = 'instances'
+    this.bindingTableName = 'bindings'
+
+    var retryOperations = new azure.ExponentialRetryPolicyFilter();
+    this.tableService = azure.createTableService(this.opts.azureStorageAccount, this.opts.azureStorageAccessKey).withFilter(retryOperations);
+    this.tableService.createTableIfNotExists(this.instanceTableName, function(error, result, response) {
+	if (!error) {}
+    });
+    this.tableService.createTableIfNotExists(this.bindingTableName, function(error, result, response) {
+	if (!error) {}
+    });
+
     return this;
 };
 
@@ -34,105 +42,48 @@ var Database = function (opts) {
  * Store the service instance ID and broker reply
  *
  * @param {Object} req - the restify request object
- * @param {Object} key - the broker implementor reply.
+ * @param {Object} reply - the broker implementor reply
  * @callback {Function} next - (err)
  */
 Database.prototype.storeInstance = function (req, reply, next) {
     var db = this;
-    var instanceID = req.params.id;
 
-    Async.waterfall([
-        function (done) {
-            db.getAllInstances(done);
-        },
-        function (instances, done) {
-            if (instances.indexOf(instanceID) < 0) {
-                instances.push(instanceID);
-            }
-            done(null, instances);
-        },
-        function (instances, done) {
-            db.db.put(db.ns + 'instances', JSON.stringify(instances), done);
-        },
-        function (done) {
-            db.db.put(db.ns + 'instances' + db.sep + instanceID, JSON.stringify(reply), done);
-        }
-    ], next);
+    var instanceID = req.params.id;
+    var serviceID = req.params.service_id;
+
+    var entGen = azure.TableUtilities.entityGenerator;
+    var entity = {
+      PartitionKey: entGen.String(serviceID),
+      RowKey: entGen.String(instanceID),
+    };
+    db.tableService.insertEntity(db.instanceTableName, entity, function(error, result, response) {
+      if (!error) {
+      }
+    });
 };
 
 /**
  * Deletes the service instance and associated objects
  *
- * @param {String} instanceID - the service instance ID supplied by the CC.
+ * @param {Object} req - the restify request object
+ * @param {Object} reply - the broker implementor reply
  * @callback {Function} next - (err)
  */
-Database.prototype.deleteInstance = function (instanceID, next) {
+Database.prototype.deleteInstance = function (req, reply, next) {
     var db = this;
-    Async.waterfall([
-        function (done) {
-            db.getAllBindingsForInstance(instanceID, done);
-        },
-        function (bindings, done) {
-            if (bindings && db.opts.allowOrphanBindings) {
-                Async.each(bindings, function (binding, callback) {
-                    db.deleteBinding(instanceID, binding, callback);
-                }, done);
-            } else if (bindings && bindings.length > 0) {
-                done(new Error('This service cannot be deleted, ' + bindings.length + ' bindings exist.'));
-            } else {
-                done();
-            }
-        },
-        function (done) {
-            db.getAllInstances(done);
-        },
-        function (instances, done) {
-            if (instances.indexOf(instanceID) >= 0) {
-                instances.splice(instances.indexOf(instanceID), 1);
-            }
-            done(null, instances);
-        },
-        function (instances, done) {
-            db.db.put(db.ns + 'instances', JSON.stringify(instances), done);
-        },
-        function (done) {
-            db.db.del(db.ns + 'instances' + db.sep + instanceID, done);
-        }
-    ], next);
-};
 
-/**
- * Returns an array of all the provisioned service instance ID's
- *
- * @callback {Function} next - (err, instances)
- */
-Database.prototype.getAllInstances = function (next) {
-    var db = this;
-    db.db.get(db.ns + 'instances', function (err, instances) {
-        if ((err && err.notFound) || !instances) {
-            instances = [];
-        } else {
-            instances = JSON.parse(instances);
-        }
-        next(null, instances);
-    });
-};
+    var instanceID = req.params.id;
+    var serviceID = req.params.service_id;
 
-/**
- * Returns an array of all the provisioned service binding ID's
- *
- * @param {String} instanceID - the service instance ID
- * @callback {Function} next - (err, bindings)
- */
-Database.prototype.getAllBindingsForInstance = function (instanceID, next) {
-    var db = this;
-    db.db.get(db.ns + 'instances' + db.sep + instanceID + db.sep + 'bindings', function (err, bindings) {
-        if ((err && err.notFound) || !bindings) {
-            bindings = [];
-        } else {
-            bindings = JSON.parse(bindings);
-        }
-        next(null, bindings);
+    var entityDescriptor = {
+        PartitionKey: {_: serviceID},
+        RowKey: {_: instanceID},
+    };
+
+    db.tableService.deleteEntity(db.instanceTableName, entityDescriptor, function(error, response){
+      if(!error) {
+        // Entity deleted
+      }
     });
 };
 
@@ -140,34 +91,27 @@ Database.prototype.getAllBindingsForInstance = function (instanceID, next) {
  * Stores the binding and broker reply/credentials with the associated
  * instance
  *
- * @param {String} instanceID - the service instance ID
- * @param {String} bindingID - the binding ID
+ * @param {Object} req - the restify request object
  * @param {Object} reply - the broker implementor reply
  * @callback {Function} next - (err)
  */
-Database.prototype.storeBinding = function (instanceID, bindingID, reply, next) {
+Database.prototype.storeBinding = function (req, reply, next) {
     var db = this;
 
-    /* Ensure credentials are encrypted */
-    reply = Encryptor.encrypt(JSON.stringify(reply), db.opts.encryptionKey);
+    var instanceID = req.params.instance_id
+    var bindingID = req.params.id;
+    var serviceID = req.params.service_id;
 
-    Async.waterfall([
-        function (done) {
-            db.getAllBindingsForInstance(instanceID, done);
-        },
-        function (bindings, done) {
-            if (bindings.indexOf(bindingID) < 0) {
-                bindings.push(bindingID);
-            }
-            done(null, bindings);
-        },
-        function (bindings, done) {
-            db.db.put(db.ns + 'instances' + db.sep + instanceID + db.sep + 'bindings', JSON.stringify(bindings), done);
-        },
-        function (done) {
-            db.db.put(db.ns + 'instances' + db.sep + instanceID + db.sep + 'binding' + bindingID, reply, done);
-        }
-    ], next);
+    var entGen = azure.TableUtilities.entityGenerator;
+    var entity = {
+      PartitionKey: entGen.String(instanceID),
+      RowKey: entGen.String(bindingID),
+      ServiceID: entGen.String(serviceID),
+    };
+    db.tableService.insertEntity(db.bindingTableName, entity, function(error, result, response) {
+      if (!error) {
+      }
+    });
 };
 
 /**
@@ -177,25 +121,45 @@ Database.prototype.storeBinding = function (instanceID, bindingID, reply, next) 
  * @param {String} bindingID - the binding ID
  * @callback {Function} next - (err)
  */
-Database.prototype.deleteBinding = function (instanceID, bindingID, next) {
+Database.prototype.deleteBinding = function (req, reply, next) {
     var db = this;
-    Async.waterfall([
-        function (done) {
-            db.getAllBindingsForInstance(instanceID, done);
-        },
-        function (bindings, done) {
-            if (bindings.indexOf(bindingID) >= 0) {
-                bindings.splice(bindings.indexOf(bindingID), 1);
-            }
-            done(null, bindings);
-        },
-        function (bindings, done) {
-            db.db.put(db.ns + 'instances' + db.sep + instanceID + db.sep + 'bindings', JSON.stringify(bindings), done);
-        },
-        function (done) {
-            db.db.del(db.ns + 'instances' + db.sep + instanceID + db.sep + 'binding' + bindingID, done);
-        }
-    ], next);
+
+    var instanceID = req.params.instance_id
+    var bindingID = req.params.id;
+    var serviceID = req.params.service_id;
+
+    var entityDescriptor = {
+      PartitionKey: {_: instanceID},
+      RowKey: {_: bindingID},
+    };
+
+    db.tableService.deleteEntity(db.bindingTableName, entityDescriptor, function(error, response){
+      if(!error) {
+        // Entity deleted
+      }
+    });
+};
+
+/**
+ * Get the service ID by  the service instance ID
+ *
+ * @param {String} instanceID - the service instance ID
+ * @callback {Function} next - (err)
+ */
+Database.prototype.getServiceID = function (instanceID, next) {
+    var db = this;
+
+    var query = new azure.TableQuery()
+      .top(1)
+      .where('RowKey eq ?', instanceID);
+
+    db.tableService.queryEntities(db.instanceTableName, query, null, function(error, result, response) {
+      if (!error) {
+        next(null, result.entries[0].PartitionKey['_']);
+      } else {
+        next(null, '');
+      }
+    });
 };
 
 /**
@@ -217,7 +181,7 @@ Database.prototype.provision = function (req, reply, next) {
  * @callback {Function} next - (err)
  */
 Database.prototype.deprovision = function (req, reply, next) {
-    this.deleteInstance(req.params.id, next);
+    this.deleteInstance(req, reply, next);
 };
 
 /**
@@ -228,7 +192,7 @@ Database.prototype.deprovision = function (req, reply, next) {
  * @callback {Function} next - (err)
  */
 Database.prototype.bind = function (req, reply, next) {
-    this.storeBinding(req.params.instance_id, req.params.id, reply, next);
+    this.storeBinding(req, reply, next);
 };
 
 /**
@@ -239,7 +203,7 @@ Database.prototype.bind = function (req, reply, next) {
  * @callback {Function} next - (err)
  */
 Database.prototype.unbind = function (req, reply, next) {
-    this.deleteBinding(req.params.instance_id, req.params.id, reply, next);
+    this.deleteBinding(req, reply, next);
 };
 
 module.exports = Database;

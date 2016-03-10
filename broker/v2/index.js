@@ -92,9 +92,6 @@ BrokerV2.prototype.start = function (cb) {
         broker.initPeriodicJobs();
         broker.emit('start');
         broker.log.info('Broker now started with PID: ' + process.pid);
-        broker.db.getAllInstances(function (err, instances) {
-            broker.log.info('There are ' + instances.length + ' service instances registered on this node');
-        });
         return (cb ? cb(err) : err);
     });
 };

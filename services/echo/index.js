@@ -34,7 +34,13 @@ Handlers.provision = function (req, next) {
 }
 
 Handlers.poll = function (req, next) {
-    next();
+    if (req.params.service_id == Config.id) {
+        var reply = {
+	    state: "succeeded",
+	    description: "succeeded",
+       	};
+        next(reply);
+    }
 }
 
 Handlers.deprovision = function (req, next) {
