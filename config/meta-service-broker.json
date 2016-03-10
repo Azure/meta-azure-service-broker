@@ -1,15 +1,14 @@
 {
-    "apiVersion": "2.3.0",
-    "authUser": "demouser",
-    "authPassword": "demopassword",
-    "defaultVersion": "1.0",
-    "name": "Echo Service",
-    "port": 5001,
-    "url": "auto",
-    "database": {
-        "enabled": true,
-        "allowOrphanedBindings": false,
-        "azureStorageAccount": "CHANGE-ME",
-        "azureStorageAccessKey": "CHANGE-ME"
-    }
+  "apiVersion": "2.8.0",
+  "authUser": "demouser",
+  "authPassword": "demopassword",
+  "name": "Meta Azure Service Broker",
+  "port": 5001,
+  "debug": false,
+  "database": {
+    "enabled": true,
+    "allowOrphanedBindings": false,
+    "azureStorageAccount": "binxi030902",
+    "azureStorageAccessKey": "rYF7mqHmJYUG9W/HTLw37eIZcRw9Gn5WkX+DnkTffeS5Gmv9wR3qJD2du0nuYAFEi1IH8c3AmL2DxUnqxPwyvw=="
+  }
 }

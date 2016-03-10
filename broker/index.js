@@ -1,9 +1,7 @@
 'use strict';
 
 var Semver = require('semver');
-var Common = require('../common');
 var Events = require('events');
-var Logule = require('logule');
 var Util = require('util');
 
 /**
@@ -12,48 +10,47 @@ var Util = require('util');
  * @param {Object} opts - Broker options.
  */
 var Broker = function(opts) {
+  var missingOpts = [];
 
-    var missingOpts = [];
+  var requiredOpts = {
+    apiVersion: String,
+    authUser: String,
+    authPassword: String,
+    database: Object,
+    name: String,
+    port: Number
+  };
 
-    var requiredOpts = {
-        apiVersion: String,
-        authUser: String,
-        authPassword: String,
-        database: Object,
-        name: String,
-        port: Number
-    };
+  if (!opts) {
+    throw new Error('Options not supplied to the broker');
+  }
 
-    if (!opts) {
-        throw new Error('Options not supplied to the broker');
+  for (var opt in requiredOpts) {
+    if (!opts.hasOwnProperty(opt)) {
+      missingOpts.push(opt);
     }
+  }
 
-    for (var opt in requiredOpts) {
-        if (!opts.hasOwnProperty(opt)) {
-            missingOpts.push(opt);
-        }
-    }
+  if (missingOpts.length > 0) {
+    throw new Error('Missing options: ' + missingOpts.join(', '));
+  }
 
-    if (missingOpts.length > 0) {
-        throw new Error('Missing options: ' + missingOpts.join(', '));
-    }
+  opts.port = process.env.PORT || opts.port;
 
-    opts.port = process.env.PORT || opts.port;
+  opts.semver = Semver.parse(opts.apiVersion);
+  opts.version = opts.semver.major;
 
-    opts.semver = Semver.parse(opts.apiVersion);
-    opts.version = opts.semver.major;
+  var Broker;
 
-    var Broker;
+  if (opts.semver.major === 2) {
+    Broker = require('./v2');
+  }
 
-    if (opts.semver.major === 2) {
-        Broker = require('./v2');
-    }
+  if (!Broker) {
+    throw new Error('Unsupported service API version: ' + opts.apiVersion);
+  }
 
-    if (!Broker) {
-        throw new Error('Unsupported service API version: ' + opts.apiVersion);
-    }
-
-    return new Broker(opts);
+  return new Broker(opts);
 };
 
 /* Must inherit here, before custom prototypes are assigned */

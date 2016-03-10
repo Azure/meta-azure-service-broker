@@ -22,41 +22,13 @@ var Url = require('url');
 
 /* Extends an objects properties with anothers */
 module.exports.extend = function(target, source) {
-    if (source) {
-        for (var key in source) {
-            var val = source[key];
-            if (typeof val !== 'undefined') {
-                target[key] = val;
-            }
-        }
+  if (source) {
+    for (var key in source) {
+      var val = source[key];
+      if (typeof val !== 'undefined') {
+        target[key] = val;
+      }
     }
-    return target;
-};
-
-/* set the gateway url to "auto" to automatically detect the url using this
-*  function */
-module.exports.detectBrokerIP = function(cloudControllerUri, cb) {
-
-    var ccUrl = Url.parse(cloudControllerUri);
-
-    var conn = Net.createConnection( { port: ccUrl.port || 80, host: ccUrl.host } );
-
-    conn.on('connect', function() {
-        var ra = conn.localAddress;
-        conn.end();
-        cb(null, ra);
-    });
-
-    conn.on('error', function(err) {
-        cb(err);
-    });
-
-    conn.on('timeout', function(err) {
-        cb(err);
-    });
-
-};
-
-module.exports.epochSeconds = function() {
-    return Math.round(new Date().getTime()/1000.0);
+  }
+  return target;
 };

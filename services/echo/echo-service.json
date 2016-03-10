@@ -1,25 +1,17 @@
 {
-        "id": "47c6bff8-c653-4812-89f8-ee9a9b6c3d53",
-        "bindable": true,
-        "name": "Echo Service",
-        "version": "1.0",
-        "description": "Echo Service - echoes",
-        "metadata": {
-            "providerDisplayName": "Echo Service Ltd.",
-            "tags": [ "echo", "demo" ]
-        },
-        "plans": [{
-            "name": "default",
-            "id": "6b6fdd28-eb91-4eb7-9936-bf82ec1ec2d7",
-            "description": "This is the first plan",
-            "public": true,
-            "free": true
-            },
-            {
-            "name": "secondary",
-            "id": "a3d1fb32-ba06-4122-9013-d42ef84d8b71",
-            "description": "This is the secondary plan",
-            "public": true,
-            "free": false
-        }]
+  "id": "47c6bff8-c653-4812-89f8-ee9a9b6c3d53",
+  "name": "echoservice",
+  "description": "Echo Service - echoes",
+  "bindable": true,
+  "plans": [{
+    "id": "6b6fdd28-eb91-4eb7-9936-bf82ec1ec2d7",
+    "name": "default",
+    "description": "This is the first plan",
+    "free": true
+  }, {
+    "id": "a3d1fb32-ba06-4122-9013-d42ef84d8b71",
+    "name": "secondary",
+    "description": "This is the secondary plan",
+    "free": false
+  }]
 }
