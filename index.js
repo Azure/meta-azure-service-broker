@@ -23,10 +23,10 @@ broker.on('deprovision', azurestorageblob.deprovision);
 broker.on('bind', azurestorageblob.bind);
 broker.on('unbind', azurestorageblob.unbind);
 
-broker.on('catalog', function(req, next) {
+broker.on('catalog', function(broker, req, next) {
   var reply = {};
-  reply.services = []
-  reply.services.push(echo.catalog(req, next))
-  reply.services.push(azurestorageblob.catalog(req, next))
+  reply.services = [];
+  reply.services.push(echo.catalog(broker, req, next));
+  reply.services.push(azurestorageblob.catalog(broker, req, next));
   next(reply);
 });

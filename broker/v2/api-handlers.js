@@ -44,21 +44,25 @@ Handlers.handleCatalogRequest = function(broker, req, res, next) {
 
   var processResponse = function(reply) {
     reply = reply || {
-      services: null,
+      services: [],
     };
+
+    if (reply.services.length == 0) {
+      return next(new Error(
+        'There should be at least one service provided by the broker'));
+    }
 
     var missingServiceOpts = [];
     var requiredServiceOpts = {
+      id: String,
+      name: String,
+      description: String,
+      bindable: Boolean,
       plans: Object
     };
 
-    if (!reply.services) {
-      return next(new Error(
-        '"service" options key not supplied to the broker'));
-    }
-
     for (var sopt in requiredServiceOpts) {
-      for (var service in reply.services[service]) {
+      for (var service in reply.services) {
         if (!reply.services[service].hasOwnProperty(sopt)) {
           missingServiceOpts.push(sopt);
         }
@@ -74,7 +78,7 @@ Handlers.handleCatalogRequest = function(broker, req, res, next) {
   };
 
   if (broker.listeners('catalog').length > 0) {
-    broker.emit('catalog', req, processResponse);
+    broker.emit('catalog', broker, req, processResponse);
   } else {
     broker.log.error('No listeners attached for the "catalog" event');
     return next(new Error('Provisioning not implemented on this broker. ' +
@@ -127,7 +131,7 @@ Handlers.handleProvisionRequest = function(broker, req, res, next) {
   };
 
   if (broker.listeners('provision').length > 0) {
-    broker.emit('provision', req, processResponse);
+    broker.emit('provision', broker, req, processResponse);
   } else {
     broker.log.error('No listeners attached for the "provision" event');
     return next(new Error('Provisioning not implemented on this broker. ' +
@@ -160,7 +164,7 @@ Handlers.handlePollRequest = function(broker, req, res, next) {
     broker.db.getServiceID(req.params.id, function(err, serviceID) {
       req.params.service_id = serviceID;
       broker.log.info('%j', req.params)
-      broker.emit('poll', req, processResponse);
+      broker.emit('poll', broker, req, processResponse);
     });
   } else {
     broker.log.error('No listeners attached for the "poll" event');
@@ -206,7 +210,7 @@ Handlers.handleDeProvisionRequest = function(broker, req, res, next) {
   };
 
   if (broker.listeners('deprovision').length > 0) {
-    broker.emit('deprovision', req, processResponse);
+    broker.emit('deprovision', broker, req, processResponse);
   } else {
     broker.log.error('No listeners attached for the "deprovision" event');
     return next(new Error('Deprovisioning not implemented on this broker. ' +
@@ -246,7 +250,7 @@ Handlers.handleBindRequest = function(broker, req, res, next) {
 
 
   if (broker.listeners('bind').length > 0) {
-    broker.emit('bind', req, processResponse);
+    broker.emit('bind', broker, req, processResponse);
   } else {
     broker.log.error('No listeners attached for the "bind" event');
     return next(new Error('Binding not implemented on this broker. ' + req.params
@@ -276,7 +280,7 @@ Handlers.handleUnbindRequest = function(broker, req, res, next) {
   };
 
   if (broker.listeners('unbind').length > 0) {
-    broker.emit('unbind', req, processResponse);
+    broker.emit('unbind', broker, req, processResponse);
   } else {
     broker.log.error('No listeners attached for the "unbind" event');
     return next(new Error('Unbinding not implemented on this broker. ' + req.params

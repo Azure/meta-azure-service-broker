@@ -21,21 +21,22 @@ var Config = require('./echo-service')
 
 var Handlers = {};
 
-Handlers.catalog = function(req, next) {
-  var reply = Config
+Handlers.catalog = function(broker, req, next) {
+  var reply = Config;
   return reply;
 }
 
-Handlers.provision = function(req, next) {
+Handlers.provision = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var reply = {
       dashboard_url: "1"
     };
+    broker.log.info('%j', reply)
     next(reply);
   }
 }
 
-Handlers.poll = function(req, next) {
+Handlers.poll = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var reply = {
       state: "succeeded",
@@ -45,14 +46,14 @@ Handlers.poll = function(req, next) {
   }
 }
 
-Handlers.deprovision = function(req, next) {
+Handlers.deprovision = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var reply = {};
     next(reply);
   }
 }
 
-Handlers.bind = function(req, next) {
+Handlers.bind = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var reply = {};
     reply.credentials = {
@@ -62,7 +63,7 @@ Handlers.bind = function(req, next) {
   }
 };
 
-Handlers.unbind = function(req, next) {
+Handlers.unbind = function(broker, req, next) {
   next();
 };
 
