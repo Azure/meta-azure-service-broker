@@ -27,8 +27,8 @@ module.exports.requestLogger = function(opts) {
       log.info(req.connection.remoteAddress + ' - ' + res.statusCode +
         ' - ' + req.method + ' - ' + req.url);
       if (opts.debug) {
-        log.info('Params: %j', req.params);
-        log.info('Headers: %j', req.headers);
+        log.info('Request Params: %j', req.params);
+        log.info('Request Headers: %j', req.headers);
       }
     });
 
@@ -36,8 +36,8 @@ module.exports.requestLogger = function(opts) {
       log.error('Error processing request: ' + err + ' ' + req.connection
         .remoteAddress + ' - ' + res.statusCode + ' - ' + req.url);
       if (opts.debug) {
-        log.info('Params: %j', req.params);
-        log.info('Headers: %j', req.headers);
+        log.info('Request Params: %j', req.params);
+        log.info('Request Headers: %j', req.headers);
       }
     });
 

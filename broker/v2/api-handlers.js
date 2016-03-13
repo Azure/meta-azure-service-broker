@@ -4,6 +4,8 @@
 'use strict';
 
 var Restify = require('restify');
+var url = require('url');
+var qs = require('querystring');
 
 var Handlers = {};
 
@@ -52,28 +54,6 @@ Handlers.handleCatalogRequest = function(broker, req, res, next) {
         'There should be at least one service provided by the broker'));
     }
 
-    var missingServiceOpts = [];
-    var requiredServiceOpts = {
-      id: String,
-      name: String,
-      description: String,
-      bindable: Boolean,
-      plans: Object
-    };
-
-    for (var sopt in requiredServiceOpts) {
-      for (var service in reply.services) {
-        if (!reply.services[service].hasOwnProperty(sopt)) {
-          missingServiceOpts.push(sopt);
-        }
-      }
-    }
-
-    if (missingServiceOpts.length > 0) {
-      return next(new Error('Missing service options: ' +
-        missingServiceOpts.join(', ')));
-    }
-
     res.send(reply);
   };
 
@@ -101,33 +81,29 @@ Handlers.handleProvisionRequest = function(broker, req, res, next) {
   broker.log.info('Processing provision request ' + req.params.id + ' from ' +
     req.connection.remoteAddress + ':' + req.connection.remotePort);
 
-  var requiredParams = ['space_guid', 'organization_guid', 'service_id', 'id'];
-  var missingOpts = [];
-  for (var p in requiredParams) {
-    if (!req.params.hasOwnProperty(requiredParams[p])) {
-      missingOpts.push(requiredParams[p]);
-    }
-  }
+  var queryUrl = url.parse(req.url).query;
+  var accepts_incomplete = qs.parse(queryUrl)['accepts_incomplete'];
 
-  if (missingOpts.length > 0) {
-    var msg = 'Provision request is missing the options: ' + missingOpts;
-    broker.log.warn(msg);
-    return next(Restify.MissingParameterError(msg));
+  if (typeof(accepts_incomplete) == 'undefined' || accepts_incomplete == 'false') {
+      var msg = 'This service plan requires client support for asynchronous service operations.';
+      broker.log.warn(msg);
+      res.status(422);
+      var reply = {
+        error: 'AsyncRequired',
+        description: msg
+      };
+      res.send(reply);
+      return next();
   }
 
   var processResponse = function(reply) {
     reply = reply || {
-      dashboard_url: null,
+      dashboard_url: '',
     };
 
-    if (reply.exists) {
-      res.status(409);
-      next();
-    } else {
-      res.status(201);
-      res.send(reply);
-      broker.db.provision(req, reply, next);
-    }
+    res.status(202);
+    res.send(reply);
+    broker.db.provision(req, reply, next);
   };
 
   if (broker.listeners('provision').length > 0) {
@@ -186,14 +162,6 @@ Handlers.handlePollRequest = function(broker, req, res, next) {
  * @callback {Function} restify's next() handler
  */
 Handlers.handleDeProvisionRequest = function(broker, req, res, next) {
-
-  if (!req.params.id) {
-    var errMsg =
-      'Discarding deprovision request from the cloud controller  - missing "id" parameter';
-    broker.log.warn(errMsg);
-    return next(errMsg);
-  }
-
   broker.log.info('Deprovision request for service instance ' + req.params.id +
     ' from ' + req.connection.remoteAddress + ':' + req.connection.remotePort
   );
