@@ -1,5 +1,8 @@
 'use strict';
 
+var Common = require('./common');
+Common.validateEnvironmentVariables();
+
 var Broker = require('./broker');
 var Config = require('./config/meta-service-broker');
 

@@ -9,8 +9,8 @@ binding_id=`python -c 'import uuid; print str(uuid.uuid1())'`
 `echo $binding_id > $bin/binding_id`
 
 curl http://localhost:5001/v2/service_instances/$instance_id/service_bindings/$binding_id -u demouser:demopassword -d '{
-  "plan_id":            "6b6fdd28-eb91-4eb7-9936-bf82ec1ec2d7",
-  "service_id":         "47c6bff8-c653-4812-89f8-ee9a9b6c3d53",
+  "plan_id":            "6ddf6b41-fb60-4b70-af99-8ecc4896b3cf",
+  "service_id":         "2e2fc314-37b6-4587-8127-8f9ee8b33fea",
   "app_guid":   "5",
   "parameters": {}
-}' -X PUT -H "X-Broker-API-Version: 2.7"  -H "Content-Type: application/json" -v
+}' -X PUT -H "X-Broker-API-Version: 2.8"  -H "Content-Type: application/json" -v

@@ -17,6 +17,7 @@
 
 'use strict';
 
+var util = require('util');
 var Net = require('net');
 var Url = require('url');
 
@@ -32,3 +33,14 @@ module.exports.extend = function(target, source) {
   }
   return target;
 };
+
+module.exports.validateEnvironmentVariables = function() {
+  var envs = [];
+  if (!process.env['subscriptionID']) envs.push('subscriptionID');
+  if (!process.env['tenantID']) envs.push('tenantID');
+  if (!process.env['clientID']) envs.push('clientID');
+  if (!process.env['clientSecret']) envs.push('clientSecret');
+  if (envs.length > 0) {
+    throw new Error(util.format('please set/export the following environment variables: %s', envs.toString()));
+  }
+}

@@ -203,14 +203,6 @@ Handlers.handleBindRequest = function(broker, req, res, next) {
   var processResponse = function(reply) {
     reply = reply || {};
 
-    if (!reply.credentials) {
-      broker.log.error(
-        'Cannot reply to bind request without the "credentials" field supplied'
-      );
-      res.status(500);
-      return next(new Error('Internal error'));
-    }
-
     res.status(201);
     res.send(reply);
     broker.db.bind(req, reply, next);

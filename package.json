@@ -21,7 +21,10 @@
     "restify": "~4.0.4",
     "semver": "~5.1.0",
     "logule": "~2.1.0",
-    "azure-storage": "~0.9.0"
+    "azure-storage": "~0.9.0",
+    "azure-arm-storage": "~0.12.2-preview",
+    "ms-rest-azure": "~1.10.0",
+    "azure-arm-resource": "~1.0.0-preview"
   },
   "bugs": {
     "url": "https://github.com/bingosummer/meta-azure-service-broker/issues"
