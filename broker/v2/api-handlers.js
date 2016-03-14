@@ -84,16 +84,18 @@ Handlers.handleProvisionRequest = function(broker, req, res, next) {
   var queryUrl = url.parse(req.url).query;
   var accepts_incomplete = qs.parse(queryUrl)['accepts_incomplete'];
 
-  if (typeof(accepts_incomplete) == 'undefined' || accepts_incomplete == 'false') {
-      var msg = 'This service plan requires client support for asynchronous service operations.';
-      broker.log.warn(msg);
-      res.status(422);
-      var reply = {
-        error: 'AsyncRequired',
-        description: msg
-      };
-      res.send(reply);
-      return next();
+  if (typeof(accepts_incomplete) == 'undefined' || accepts_incomplete ==
+    'false') {
+    var msg =
+      'This service plan requires client support for asynchronous service operations.';
+    broker.log.warn(msg);
+    res.status(422);
+    var reply = {
+      error: 'AsyncRequired',
+      description: msg
+    };
+    res.send(reply);
+    return next();
   }
 
   var processResponse = function(reply) {
@@ -101,6 +103,7 @@ Handlers.handleProvisionRequest = function(broker, req, res, next) {
 
     res.status(202);
     res.send(reply);
+
     broker.db.provision(req, reply, next);
   };
 
@@ -126,18 +129,32 @@ Handlers.handlePollRequest = function(broker, req, res, next) {
   broker.log.info('Processing poll request ' + req.params.id + ' from ' + req
     .connection.remoteAddress + ':' + req.connection.remotePort);
 
+  var instanceId = req.params.id;
+
   var processResponse = function(reply) {
     reply = reply || {
       'state': '',
       'description': '',
     };
     res.send(reply);
+
+    if (reply.state == 'succeeded') {
+      broker.db.getServiceInstance(instanceId, function(err,
+        serviceInstance) {
+        var lastOperation = serviceInstance.last_operation.operation;
+        broker.log.info('Last Operation is: %s', lastOperation);
+        broker.db.updateInstanceState(req, reply, lastOperation, next);
+      });
+    }
   };
 
   if (broker.listeners('poll').length > 0) {
-    broker.db.getServiceID(req.params.id, function(err, serviceID) {
-      req.params.service_id = serviceID;
-      broker.log.info('%j', req.params)
+    broker.db.getServiceInstance(instanceId, function(err, serviceInstance) {
+      req.params.service_id = serviceInstance.service_id;
+      req.params.plan_id = serviceInstance.plan_id;
+      req.params.organization_guid = serviceInstance.organization_guid;
+      req.params.space_guid = serviceInstance.space_guid;
+      req.params.parameters = serviceInstance.parameters;
       broker.emit('poll', broker, req, processResponse);
     });
   } else {
@@ -167,16 +184,19 @@ Handlers.handleDeProvisionRequest = function(broker, req, res, next) {
   var processResponse = function(reply) {
     reply = reply || {};
 
-    if (reply.doesNotExist) {
-      res.status(410);
-    }
-
     res.send(reply);
     broker.db.deprovision(req, reply, next);
   };
 
   if (broker.listeners('deprovision').length > 0) {
-    broker.emit('deprovision', broker, req, processResponse);
+    broker.db.getServiceInstance(req.params.id, function(err, serviceInstance) {
+      req.params.service_id = serviceInstance.service_id;
+      req.params.plan_id = serviceInstance.plan_id;
+      req.params.organization_guid = serviceInstance.organization_guid;
+      req.params.space_guid = serviceInstance.space_guid;
+      req.params.parameters = serviceInstance.parameters;
+      broker.emit('deprovision', broker, req, processResponse);
+    });
   } else {
     broker.log.error('No listeners attached for the "deprovision" event');
     return next(new Error('Deprovisioning not implemented on this broker. ' +
@@ -208,7 +228,14 @@ Handlers.handleBindRequest = function(broker, req, res, next) {
 
 
   if (broker.listeners('bind').length > 0) {
-    broker.emit('bind', broker, req, processResponse);
+    broker.db.getServiceInstance(req.params.id, function(err, serviceInstance) {
+      req.params.service_id = serviceInstance.service_id;
+      req.params.plan_id = serviceInstance.plan_id;
+      req.params.organization_guid = serviceInstance.organization_guid;
+      req.params.space_guid = serviceInstance.space_guid;
+      req.params.parameters = serviceInstance.parameters;
+      broker.emit('bind', broker, req, processResponse);
+    });
   } else {
     broker.log.error('No listeners attached for the "bind" event');
     return next(new Error('Binding not implemented on this broker. ' + req.params
@@ -238,7 +265,14 @@ Handlers.handleUnbindRequest = function(broker, req, res, next) {
   };
 
   if (broker.listeners('unbind').length > 0) {
-    broker.emit('unbind', broker, req, processResponse);
+    broker.db.getServiceInstance(req.params.id, function(err, serviceInstance) {
+      req.params.service_id = serviceInstance.service_id;
+      req.params.plan_id = serviceInstance.plan_id;
+      req.params.organization_guid = serviceInstance.organization_guid;
+      req.params.space_guid = serviceInstance.space_guid;
+      req.params.parameters = serviceInstance.parameters;
+      broker.emit('unbind', broker, req, processResponse);
+    });
   } else {
     broker.log.error('No listeners attached for the "unbind" event');
     return next(new Error('Unbinding not implemented on this broker. ' + req.params

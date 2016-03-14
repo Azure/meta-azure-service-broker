@@ -36,11 +36,13 @@ module.exports.extend = function(target, source) {
 
 module.exports.validateEnvironmentVariables = function() {
   var envs = [];
-  if (!process.env['subscriptionID']) envs.push('subscriptionID');
-  if (!process.env['tenantID']) envs.push('tenantID');
-  if (!process.env['clientID']) envs.push('clientID');
-  if (!process.env['clientSecret']) envs.push('clientSecret');
+  if (!process.env['subscription_id']) envs.push('subscription_id');
+  if (!process.env['tenant_id']) envs.push('tenant_id');
+  if (!process.env['client_id']) envs.push('client_id');
+  if (!process.env['client_secret']) envs.push('client_secret');
   if (envs.length > 0) {
-    throw new Error(util.format('please set/export the following environment variables: %s', envs.toString()));
+    throw new Error(util.format(
+      'please set/export the following environment variables: %s', envs.toString()
+    ));
   }
 }

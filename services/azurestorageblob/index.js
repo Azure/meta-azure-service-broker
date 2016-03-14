@@ -7,15 +7,15 @@ var azureStorage = require('azure-storage');
 var Config = require('./catalog')
 
 //Environment Setup
-var subscriptionID = process.env['subscriptionID'];
-var tenantID = process.env['tenantID'];
-var clientID = process.env['clientID'];
-var clientSecret = process.env['clientSecret'];
-var credentials = new msRestAzure.ApplicationTokenCredentials(clientID,
-  tenantID, clientSecret);
+var subscriptionId = process.env['subscription_id'];
+var tenantId = process.env['tenant_id'];
+var clientId = process.env['client_id'];
+var clientSecret = process.env['client_secret'];
+var credentials = new msRestAzure.ApplicationTokenCredentials(clientId,
+  tenantId, clientSecret);
 var resourceClient = new resourceManagement.ResourceManagementClient(
-  credentials, subscriptionID);
-var storageClient = new storageManagementClient(credentials, subscriptionID);
+  credentials, subscriptionId);
+var storageClient = new storageManagementClient(credentials, subscriptionId);
 
 //Sample Config
 var location = 'eastus'
@@ -42,6 +42,8 @@ Handlers.provision = function(broker, req, next) {
     var groupParameters = {
       location: location
     };
+    broker.log.info('Creating or updating the resource group ' +
+      resourceGroupName);
     resourceClient.resourceGroups.createOrUpdate(resourceGroupName,
       groupParameters,
       function(err, result, request, response) {
@@ -66,7 +68,13 @@ Handlers.provision = function(broker, req, next) {
           storageClient.storageAccounts.create(resourceGroupName,
             storageAccountName, accountParameters,
             function(err, result, request, response) {
-              if (!err) {}
+              if (!err) {
+                broker.log.info('Creating the storage account ' +
+                  storageAccountName);
+              } else {
+                broker.log.error('Failed to create the storage account ' +
+                  storageAccountName);
+              }
             });
         }
       });
@@ -78,32 +86,68 @@ Handlers.provision = function(broker, req, next) {
 Handlers.poll = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var instanceId = req.params.id;
+    var params = req.params.parameters;
     var resourceGroupName = RESOURCE_GROUP_NAME_PREFIX + instanceId;
+    if (params.hasOwnProperty('resource_group_name') && params.resource_group_name !=
+      '') {
+      resourceGroupName = params.resource_group_name;
+    }
     var storageAccountName = STORAGE_ACCOUNT_NAME_PREFIX + instanceId
       .replace(/-/g, "").slice(0, 22)
+    if (params.hasOwnProperty('storage_account_name') && params.storage_account_name !=
+      '') {
+      storageAccountName = params.storage_account_name;
+    }
+
     storageClient.storageAccounts.getProperties(resourceGroupName,
       storageAccountName,
       function(err, result, request, response) {
-        var reply = {
-          state: '',
-          description: '',
-        };
-        if (!err) {
-          var state = result.provisioningState;
 
-          if (state == 'Creating' || state == 'ResolvingDNS') {
-            reply.state = 'in progress';
-            reply.description = state;
-          } else {
-            reply.state = 'succeeded';
-            reply.description = state;
+        broker.db.getServiceInstance(instanceId, function(errIgnore,
+          serviceInstance) {
+          var reply = {
+            state: '',
+            description: '',
+          };
+          var lastOperation = serviceInstance.last_operation.operation;
+          if (lastOperation == 'provision') {
+            if (!err) {
+              broker.log.info(
+                'Getting the properties of the storage account %s: %j',
+                storageAccountName, result);
+              var state = result.provisioningState;
+
+              if (state == 'Creating' || state == 'ResolvingDNS') {
+                reply.state = 'in progress';
+                reply.description =
+                  'Creating the storage account, state: ' +
+                  state;
+              } else if (state == 'Succeeded') {
+                reply.state = 'succeeded';
+                reply.description =
+                  'Creating the storage account, state: ' +
+                  state;
+              }
+            } else {
+              broker.log.error(err);
+              reply.state = 'failed';
+              reply.description = err;
+            }
+          } else if (lastOperation == 'deprovision') {
+            if (!err) {
+              reply.state = 'in progress';
+              reply.description = 'Deleting the storage account'
+            } else if (err.statusCode == 404) {
+              reply.state = 'succeeded';
+              reply.description = 'Deleting the storage account'
+            } else {
+              broker.log.error(err);
+              reply.state = 'failed';
+              reply.description = err;
+            }
           }
-        } else {
-          broker.log.info(err);
-          reply.state = 'failed';
-          reply.description = err;
-        }
-        next(reply);
+          next(reply);
+        });
       });
   }
 }
@@ -111,9 +155,18 @@ Handlers.poll = function(broker, req, next) {
 Handlers.deprovision = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var instanceId = req.params.id;
+    var params = req.params.parameters;
     var resourceGroupName = RESOURCE_GROUP_NAME_PREFIX + instanceId;
+    if (params.hasOwnProperty('resource_group_name') && params.resource_group_name !=
+      '') {
+      resourceGroupName = params.resource_group_name;
+    }
     var storageAccountName = STORAGE_ACCOUNT_NAME_PREFIX + instanceId
       .replace(/-/g, "").slice(0, 22)
+    if (params.hasOwnProperty('storage_account_name') && params.storage_account_name !=
+      '') {
+      storageAccountName = params.storage_account_name;
+    }
     storageClient.storageAccounts.deleteMethod(resourceGroupName,
       storageAccountName,
       function(err, result, request, response) {
@@ -130,8 +183,16 @@ Handlers.bind = function(broker, req, next) {
     var params = req.params.parameters
 
     var resourceGroupName = RESOURCE_GROUP_NAME_PREFIX + instanceId;
+    if (params.hasOwnProperty('resource_group_name') && params.resource_group_name !=
+      '') {
+      resourceGroupName = params.resource_group_name;
+    }
     var storageAccountName = STORAGE_ACCOUNT_NAME_PREFIX + instanceId
       .replace(/-/g, "").slice(0, 22);
+    if (params.hasOwnProperty('storage_account_name') && params.storage_account_name !=
+      '') {
+      storageAccountName = params.storage_account_name;
+    }
     storageClient.storageAccounts.listKeys(resourceGroupName,
       storageAccountName, {},
       function(error, result, response) {
@@ -174,8 +235,16 @@ Handlers.unbind = function(broker, req, next) {
     var params = req.params.parameters
 
     var resourceGroupName = RESOURCE_GROUP_NAME_PREFIX + instanceId;
+    if (params.hasOwnProperty('resource_group_name') && params.resource_group_name !=
+      '') {
+      resourceGroupName = params.resource_group_name;
+    }
     var storageAccountName = STORAGE_ACCOUNT_NAME_PREFIX + instanceId
       .replace(/-/g, "").slice(0, 22);
+    if (params.hasOwnProperty('storage_account_name') && params.storage_account_name !=
+      '') {
+      storageAccountName = params.storage_account_name;
+    }
     storageClient.storageAccounts.regenerateKey(resourceGroupName,
       storageAccountName, 'key1', {},
       function(error, result, response) {
