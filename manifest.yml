@@ -1,0 +1,9 @@
+---
+applications:
+- name: meta-azure-service-broker
+  instances: 1
+  env:
+    subscriptionID: REPLACE-ME
+    tenantID: REPLACE-ME
+    clientID: REPLACE-ME
+    clientSecret: REPLACE-ME
