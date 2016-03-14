@@ -70,9 +70,7 @@ Handlers.provision = function(broker, req, next) {
             });
         }
       });
-    var reply = {
-      dashboard_url: instanceId
-    };
+    var reply = {};
     next(reply);
   }
 }
@@ -156,10 +154,10 @@ Handlers.bind = function(broker, req, next) {
             if (!error) {
               var reply = {
                 credentials: {
-                  StorageAccountName: storageAccountName,
-                  ContainerName: containerName,
-                  PrimaryAccessKey: primaryAccessKey,
-                  SecondaryAccessKey: secondaryAccessKey,
+                  storage_account_name: storageAccountName,
+                  container_name: containerName,
+                  primary_access_key: primaryAccessKey,
+                  secondary_access_key: secondaryAccessKey,
                 }
               };
               next(reply);

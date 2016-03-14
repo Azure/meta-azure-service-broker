@@ -4,7 +4,7 @@
   "authPassword": "demopassword",
   "name": "Meta Azure Service Broker",
   "port": 5001,
-  "debug": false,
+  "debug": true,
   "database": {
     "enabled": true,
     "allowOrphanedBindings": false,

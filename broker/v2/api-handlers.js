@@ -61,7 +61,7 @@ Handlers.handleCatalogRequest = function(broker, req, res, next) {
     broker.emit('catalog', broker, req, processResponse);
   } else {
     broker.log.error('No listeners attached for the "catalog" event');
-    return next(new Error('Provisioning not implemented on this broker. ' +
+    return next(new Error('Catalog not implemented on this broker. ' +
       req.params.version));
   }
   next();
@@ -97,9 +97,7 @@ Handlers.handleProvisionRequest = function(broker, req, res, next) {
   }
 
   var processResponse = function(reply) {
-    reply = reply || {
-      dashboard_url: '',
-    };
+    reply = reply || {};
 
     res.status(202);
     res.send(reply);
