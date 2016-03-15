@@ -13,15 +13,30 @@ broker.start();
 var echo = require('./lib/services/echo')
 var azurestorageblob = require('./lib/services/azurestorageblob')
 
+var addListeners = function(serviceId, serviceModule) {
+  broker.on('provision-' + serviceId, serviceModule.provision);
+  broker.on('poll-' + serviceId, serviceModule.poll);
+  broker.on('deprovision-' + serviceId, serviceModule.deprovision);
+  broker.on('bind-' + serviceId, serviceModule.bind);
+  broker.on('unbind-' + serviceId, serviceModule.unbind);
+}
+
 broker.log.info(
   'Starting to collect the service offering and plans of each service module...'
 );
+
 async.parallel([
     function(callback) {
-      echo.catalog(broker, callback);
+      echo.catalog(broker, function(err, result) {
+        addListeners(result.id, echo);
+        callback(null, result);
+      });
     },
     function(callback) {
-      azurestorageblob.catalog(broker, callback);
+      azurestorageblob.catalog(broker, function(err, result) {
+        addListeners(result.id, azurestorageblob);
+        callback(null, result);
+      });
     }
   ],
   function(err, results) {
@@ -32,17 +47,3 @@ async.parallel([
       next(reply);
     });
   });
-
-// Listeners for echo service
-broker.on('provision', echo.provision);
-broker.on('poll', echo.poll);
-broker.on('deprovision', echo.deprovision);
-broker.on('bind', echo.bind);
-broker.on('unbind', echo.unbind);
-
-// Listeners for echo service
-broker.on('provision', azurestorageblob.provision);
-broker.on('poll', azurestorageblob.poll);
-broker.on('deprovision', azurestorageblob.deprovision);
-broker.on('bind', azurestorageblob.bind);
-broker.on('unbind', azurestorageblob.unbind);
