@@ -21,9 +21,9 @@ var Config = require('./echo-service')
 
 var Handlers = {};
 
-Handlers.catalog = function(broker, req, next) {
+Handlers.catalog = function(broker, next) {
   var reply = Config;
-  return reply;
+  next(null, reply);
 }
 
 Handlers.provision = function(broker, req, next) {

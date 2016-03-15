@@ -24,7 +24,8 @@
     "azure-storage": "~0.9.0",
     "azure-arm-storage": "~0.12.2-preview",
     "ms-rest-azure": "~1.10.0",
-    "azure-arm-resource": "~1.0.0-preview"
+    "azure-arm-resource": "~1.0.0-preview",
+    "async": "~1.5.2"
   },
   "bugs": {
     "url": "https://github.com/bingosummer/meta-azure-service-broker/issues"
