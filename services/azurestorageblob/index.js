@@ -33,7 +33,7 @@ Handlers.catalog = function(broker, next) {
 Handlers.provision = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var instanceId = req.params.id;
-    var params = req.params.parameters;
+    var params = req.params.parameters || {};
     var resourceGroupName = RESOURCE_GROUP_NAME_PREFIX + instanceId;
     if (params.hasOwnProperty('resource_group_name') && params.resource_group_name !=
       '') {
@@ -86,7 +86,7 @@ Handlers.provision = function(broker, req, next) {
 Handlers.poll = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var instanceId = req.params.id;
-    var params = req.params.parameters;
+    var params = req.params.parameters || {};
     var resourceGroupName = RESOURCE_GROUP_NAME_PREFIX + instanceId;
     if (params.hasOwnProperty('resource_group_name') && params.resource_group_name !=
       '') {
@@ -155,7 +155,7 @@ Handlers.poll = function(broker, req, next) {
 Handlers.deprovision = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var instanceId = req.params.id;
-    var params = req.params.parameters;
+    var params = req.params.parameters || {};
     var resourceGroupName = RESOURCE_GROUP_NAME_PREFIX + instanceId;
     if (params.hasOwnProperty('resource_group_name') && params.resource_group_name !=
       '') {
@@ -180,7 +180,7 @@ Handlers.deprovision = function(broker, req, next) {
 Handlers.bind = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var instanceId = req.params.instance_id;
-    var params = req.params.parameters
+    var params = req.params.parameters || {};
 
     var resourceGroupName = RESOURCE_GROUP_NAME_PREFIX + instanceId;
     if (params.hasOwnProperty('resource_group_name') && params.resource_group_name !=
@@ -232,7 +232,7 @@ Handlers.bind = function(broker, req, next) {
 Handlers.unbind = function(broker, req, next) {
   if (req.params.service_id == Config.id) {
     var instanceId = req.params.instance_id;
-    var params = req.params.parameters
+    var params = req.params.parameters || {};
 
     var resourceGroupName = RESOURCE_GROUP_NAME_PREFIX + instanceId;
     if (params.hasOwnProperty('resource_group_name') && params.resource_group_name !=
