@@ -2,16 +2,16 @@
 
 var async = require('async');
 
-var Common = require('./common');
-var Broker = require('./broker');
+var Common = require('./lib/common');
+var Broker = require('./lib/broker');
 var Config = require('./config/meta-service-broker');
 
 Common.validateEnvironmentVariables();
 var broker = new Broker(Config);
 broker.start();
 
-var echo = require('./services/echo')
-var azurestorageblob = require('./services/azurestorageblob')
+var echo = require('./lib/services/echo')
+var azurestorageblob = require('./lib/services/azurestorageblob')
 
 broker.log.info(
   'Starting to collect the service offering and plans of each service module...'
