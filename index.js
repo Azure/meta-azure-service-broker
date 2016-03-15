@@ -27,13 +27,13 @@ broker.log.info(
 
 async.parallel([
     function(callback) {
-      echo.catalog(broker, function(err, result) {
+      echo.catalog({}, broker.log, function(err, result) {
         addListeners(result.id, echo);
         callback(null, result);
       });
     },
     function(callback) {
-      azurestorageblob.catalog(broker, function(err, result) {
+      azurestorageblob.catalog({}, broker.log, function(err, result) {
         addListeners(result.id, azurestorageblob);
         callback(null, result);
       });
@@ -41,7 +41,7 @@ async.parallel([
   ],
   function(err, results) {
     broker.log.info('All the service offerings and plans are collected.');
-    broker.on('catalog', function(broker, req, next) {
+    broker.on('catalog', function(next) {
       var reply = {};
       reply.services = results;
       next(reply);
