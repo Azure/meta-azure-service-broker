@@ -1,2 +1,4 @@
-test/
+tests/
+docs/
+scripts/
 README.md
