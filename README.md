@@ -28,13 +28,13 @@ Capability with the Cloud Foundry service broker API is indicated by the project
   3. Update `manifest.yml` with your credentials.
 
     ```
-    subscriptionID: REPLACE-ME
-    tenantID: REPLACE-ME
-    clientID: REPLACE-ME
-    clientSecret: REPLACE-ME
+    subscription_id: REPLACE-ME
+    tenant_id: REPLACE-ME
+    client_id: REPLACE-ME
+    client_secret: REPLACE-ME
     ```
 
-    A [service principal](https://azure.microsoft.com/en-us/documentation/articles/resource-group-create-service-principal-portal/) is composed of `tenantID`, `clientID` and `clientSecret`.
+    A [service principal](https://azure.microsoft.com/en-us/documentation/articles/resource-group-create-service-principal-portal/) is composed of `tenant_id`, `client_id` and `client_secret`.
 
   4. Push the broker to Cloud Foundry
 
@@ -143,10 +143,10 @@ Capability with the Cloud Foundry service broker API is indicated by the project
 1. Setup the environment variables.
 
   ```
-  export clientID="REPLACE-ME"
-  export clientSecret="REPLACE-ME"
-  export subscriptionID="REPLACE-ME"
-  export tenantID="REPLACE-ME"
+  export client_id="REPLACE-ME"
+  export client_secret="REPLACE-ME"
+  export subscription_id="REPLACE-ME"
+  export tenant_id="REPLACE-ME"
   ```
 
 2. Start the server.
