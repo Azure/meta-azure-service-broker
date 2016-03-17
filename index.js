@@ -14,9 +14,6 @@ broker.log.info(
   'Validating and getting Azure credentials and subscript ID from environment variables...'
 );
 common.validateEnvironmentVariables();
-var credentialsAndSubscriptionId = common.getCredentialsAndSubscriptionId();
-var credentials = credentialsAndSubscriptionId.credentials;
-var subscriptionId = credentialsAndSubscriptionId.subscriptionId;
 
 var addListeners = function(serviceId, serviceModule) {
   broker.on('provision-' + serviceId, serviceModule.provision);
@@ -32,14 +29,14 @@ broker.log.info(
 
 async.parallel([
     function(callback) {
-      echo.catalog(credentials, subscriptionId, {}, broker.log, function(err,
+      echo.catalog(broker.log, {}, function(err,
         result) {
         addListeners(result.id, echo);
         callback(null, result);
       });
     },
     function(callback) {
-      azurestorageblob.catalog(credentials, subscriptionId, {}, broker.log,
+      azurestorageblob.catalog(broker.log, {},
         function(err, result) {
           addListeners(result.id, azurestorageblob);
           callback(null, result);
