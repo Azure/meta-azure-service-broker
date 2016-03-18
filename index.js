@@ -27,29 +27,45 @@ broker.log.info(
   'Starting to collect the service offering and plans of each service module...'
 );
 
+var params = {};
+params.azure = common.getCredentialsAndSubscriptionId();
+
 async.parallel([
     function(callback) {
-      echo.catalog(broker.log, {}, function(err,
+      echo.catalog(broker.log, params, function(err,
         result) {
-        addListeners(result.id, echo);
-        callback(null, result);
+        if (err) {
+          callback(err);
+        } else {
+          addListeners(result.id, echo);
+          callback(null, result);
+        }
       });
     },
     function(callback) {
-      azurestorageblob.catalog(broker.log, {},
+      azurestorageblob.catalog(broker.log, params,
         function(err, result) {
-          addListeners(result.id, azurestorageblob);
-          callback(null, result);
+          if (err) {
+            callback(err);
+          } else {
+            addListeners(result.id, azurestorageblob);
+            callback(null, result);
+          }
         });
     }
   ],
   function(err, results) {
-    broker.log.info('All the service offerings and plans are collected.');
-    broker.on('catalog', function(next) {
-      var reply = {};
-      reply.services = results;
-      next(reply);
-    });
+    if (err) {
+      broker.log.error(err);
+      next(err);
+    } else {
+      broker.log.info('All the service offerings and plans are collected.');
+      broker.on('catalog', function(next) {
+        var reply = {};
+        reply.services = results;
+        next(null, reply);
+      });
+    }
   });
 
 broker.start();
