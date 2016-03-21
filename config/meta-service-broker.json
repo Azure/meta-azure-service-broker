@@ -8,7 +8,8 @@
   "database": {
     "enabled": true,
     "allowOrphanedBindings": false,
-    "azureStorageAccount": "binxi030902",
-    "azureStorageAccessKey": "rYF7mqHmJYUG9W/HTLw37eIZcRw9Gn5WkX+DnkTffeS5Gmv9wR3qJD2du0nuYAFEi1IH8c3AmL2DxUnqxPwyvw=="
+    "type": "",
+    "config": {
+    }
   }
 }
