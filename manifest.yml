@@ -3,6 +3,7 @@ applications:
 - name: meta-azure-service-broker
   instances: 1
   env:
+    environment: AzureCloud
     subscription_id: REPLACE-ME
     tenant_id: REPLACE-ME
     client_id: REPLACE-ME
