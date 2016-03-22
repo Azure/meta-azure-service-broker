@@ -1,0 +1,17 @@
+{
+  "apiVersion": "2.8.0",
+  "authUser": "demouser",
+  "authPassword": "demopassword",
+  "name": "Meta Azure Service Broker",
+  "port": 5001,
+  "debug": true,
+  "database": {
+    "enabled": true,
+    "allowOrphanedBindings": false,
+    "type": "azurestoragetable",
+    "config": {
+      "azureStorageAccount": "<REPLACE-WITH-STORAGE-ACCOUNT-NAME>",
+      "azureStorageAccessKey": "<REPLACE-WITH-STORAGE-ACCOUNT-ACCESS-KEY>"
+    }
+  }
+}

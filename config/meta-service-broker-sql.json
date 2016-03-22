@@ -1,0 +1,22 @@
+{
+  "apiVersion": "2.8.0",
+  "authUser": "demouser",
+  "authPassword": "demopassword",
+  "name": "Meta Azure Service Broker",
+  "port": 5001,
+  "debug": true,
+  "database": {
+    "enabled": true,
+    "allowOrphanedBindings": false,
+    "type": "sqlserver",
+    "config": {
+      "server": "<REPLACE-WITH-SERVER-NAME>.database.windows.net",
+      "user": "<REPLACE-WITH-USERNAME>",
+      "password": "<REPLACE-WITH-PASSWORD>",
+      "database": "<REPLACE-WITH-DATABASE-NAME>",
+      "options": {
+        "encrypt": true
+      }
+    }
+  }
+}
