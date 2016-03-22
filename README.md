@@ -1,5 +1,7 @@
 # Meta Azure Service Broker
 
+[![Build Status](https://api.travis-ci.org/bingosummer/meta-azure-service-broker.svg?branch=master)](https://travis-ci.org/bingosummer/meta-azure-service-broker)
+
 [Cloud Foundry on Azure is generally available.](https://azure.microsoft.com/en-us/blog/general-availability-of-cloud-foundry-and-preview-access-of-pivotal-cloud-foundry/) If you want to try it, please follow [the guidance](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md).
 
 ## Design
@@ -11,6 +13,32 @@ Capability with the Cloud Foundry service broker API is indicated by the project
 ## The provided services
 
 * [Azure Storage Blob Service](./services/azurestorageblob/)
+
+## Test Locally
+
+1. Setup the environment variables.
+
+  ```
+  export client_id="REPLACE-ME"
+  export client_secret="REPLACE-ME"
+  export subscription_id="REPLACE-ME"
+  export tenant_id="REPLACE-ME"
+  ```
+
+2. Start the server.
+
+  ```
+  npm install
+  node index.js
+  ```
+
+3. Run the test commands in `scripts/operations/`.
+
+  * `./provision`
+  * `./poll`
+  * `./bind`
+  * `./unbind`
+  * `./deprovision`
 
 ## How to deploy your service and application in Cloud Foundry
 
@@ -137,32 +165,6 @@ Capability with the Cloud Foundry service broker API is indicated by the project
   ```
   cf delete azure-storage-consumer -f -r
   ```
-
-## Test Locally
-
-1. Setup the environment variables.
-
-  ```
-  export client_id="REPLACE-ME"
-  export client_secret="REPLACE-ME"
-  export subscription_id="REPLACE-ME"
-  export tenant_id="REPLACE-ME"
-  ```
-
-2. Start the server.
-
-  ```
-  npm install
-  node index.js
-  ```
-
-3. Run the test commands.
-
-  * `test/provision`
-  * `test/poll`
-  * `test/bind`
-  * `test/unbind`
-  * `test/deprovision`
 
 ## More information
 
