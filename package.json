@@ -5,7 +5,7 @@
     "Bin Xia <binxi@microsoft.com>"
   ],
   "version": "0.0.1",
-  "description": "A service broker to manager multiple Azure services in Cloud Foundry",
+  "description": "A service broker to manage multiple Azure services in Cloud Foundry",
   "tags": [
     "azure"
   ],
@@ -39,7 +39,7 @@
     "url": "https://github.com/bingosummer/meta-azure-service-broker/issues"
   },
   "scripts": {
-    "test": "npm -s run-script unit",
+    "test": "npm -s run-script jshint && npm -s run-script unit",
     "jshint": "jshint lib --reporter=jslint",
     "unit": "node scripts/unit.js testlist.txt",
     "start": "node index.js"
