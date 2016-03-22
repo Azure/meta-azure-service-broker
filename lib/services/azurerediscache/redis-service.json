@@ -1,0 +1,78 @@
+{
+    "id": "0346088a-d4b2-4478-aa32-f18e295ec1d9",
+    "name": "redisservice",
+    "description": "redis cache Service",
+    "bindable": true,
+    "plans": [
+        {
+            "id": "362b3d1b-5b57-4289-80ad-4a15a760c29c",
+            "name": "c0basic",
+            "description": "The small managed Redis cache plan.",
+            "metadata": {
+                "bullets": [
+                    "Low network bandwidth",
+                    "Shared infrastructure",
+                    "SSL",
+                    "Up to 256 connections"
+                ],
+                "costs": [
+                    {
+                        "amount": {
+                            "usd": 16.37
+                        },
+                        "unit": "monthly estimate"
+                    }
+                ],
+                "displayName": "C0 Basic"
+            }
+        },
+        {
+            "id": "4af8bbd1-962d-4e26-84f1-f72d1d959d87",
+            "name": "c1standard",
+            "description": "The medium managed Redis cache plan.",
+            "metadata": {
+                "bullets": [
+                    "Low network bandwidth",
+                    "Dedicated service",
+                    "SSL",
+                    "Up to 1000 connections",
+                    "Configure Redis (key space notifications, etc)",
+                    "99.9% SLA"
+                ],
+                "costs": [
+                    {
+                        "amount": {
+                            "usd": 102.67
+                        },
+                        "unit": "monthly estimate"
+                    }
+                ],
+                "displayName": "C1 Standard"
+            }
+        },
+        {
+            "id": "b1057a8f-9a01-423a-bc35-e168d5c04cf0",
+            "name": "p1premium",
+            "description": "The large managed Redis cache plan.",
+            "metadata": {
+                "bullets": [
+                    "Moderate network bandwidth",
+                    "All Standard features",
+                    "Data Persistence",
+                    "Virtual Network",
+                    "Redis cluster",
+                    "99.9% SLA"
+                ],
+                "costs": [
+                    {
+                        "amount": {
+                            "usd": 412.92
+                        },
+                        "unit": "monthly estimate per shard"
+                    }
+                ],
+                "displayName": "P1 Premium"
+            }
+        }
+    ]
+}

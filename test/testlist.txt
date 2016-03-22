@@ -1,1 +1,4 @@
 common/utils-tests.js
+services/azurerediscache/provision-spec.js
+services/azurerediscache/deprovision-spec.js
+services/azurerediscache/poll-spec.js
