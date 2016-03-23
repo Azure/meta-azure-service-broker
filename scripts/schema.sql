@@ -1,0 +1,2 @@
+CREATE TABLE instances (instanceId char(36) PRIMARY KEY, serviceId char(36) NOT NULL, planId char(36) NOT NULL, organizationGuid char(36) NOT NULL, spaceGuid char(36) NOT NULL, parameters text, lastOperation text, provisioningResult text);
+CREATE TABLE bindings (bindingId char(36) PRIMARY KEY, instanceId char(36) FOREIGN KEY REFERENCES instances(instanceId), serviceId char(36) NOT NULL, planId char(36) NOT NULL, parameters text, bindingResult text);
