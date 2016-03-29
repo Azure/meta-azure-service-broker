@@ -1,1 +1,7 @@
 common/utils-tests.js
+
+services/azurestorageblob/provision-spec.js
+services/azurestorageblob/poll-spec.js
+services/azurestorageblob/deprovision-spec.js
+services/azurestorageblob/bind-spec.js
+services/azurestorageblob/unbind-spec.js
