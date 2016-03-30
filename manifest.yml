@@ -1,6 +1,7 @@
 ---
 applications:
 - name: meta-azure-service-broker
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
   instances: 1
   env:
     environment: AzureCloud

@@ -1,12 +1,12 @@
 {
     "id": "0346088a-d4b2-4478-aa32-f18e295ec1d9",
-    "name": "redisservice",
-    "description": "redis cache Service",
+    "name": "RedisCacheService",
+    "description": "Redis Cache Service",
     "bindable": true,
     "plans": [
         {
             "id": "362b3d1b-5b57-4289-80ad-4a15a760c29c",
-            "name": "c0basic",
+            "name": "basic",
             "description": "The small managed Redis cache plan.",
             "metadata": {
                 "bullets": [
@@ -23,12 +23,12 @@
                         "unit": "monthly estimate"
                     }
                 ],
-                "displayName": "C0 Basic"
+                "displayName": "Basic"
             }
         },
         {
             "id": "4af8bbd1-962d-4e26-84f1-f72d1d959d87",
-            "name": "c1standard",
+            "name": "standard",
             "description": "The medium managed Redis cache plan.",
             "metadata": {
                 "bullets": [
@@ -47,12 +47,12 @@
                         "unit": "monthly estimate"
                     }
                 ],
-                "displayName": "C1 Standard"
+                "displayName": "Standard"
             }
         },
         {
             "id": "b1057a8f-9a01-423a-bc35-e168d5c04cf0",
-            "name": "p1premium",
+            "name": "premium",
             "description": "The large managed Redis cache plan.",
             "metadata": {
                 "bullets": [
@@ -71,7 +71,7 @@
                         "unit": "monthly estimate per shard"
                     }
                 ],
-                "displayName": "P1 Premium"
+                "displayName": "Premium"
             }
         }
     ]

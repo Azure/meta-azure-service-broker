@@ -7,13 +7,13 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var should = require('should');
-var cmdPoll = require('../../../lib/services/azurerediscache/cmd-poll');
-var logule = require('logule');
-var common = require('../../../lib/common');
 var _ = require('underscore');
-var redisClient = require('../../../lib/services/azurerediscache/redis-client');
+var logule = require('logule');
+var should = require('should');
 var sinon = require('sinon');
+var common = require('../../../lib/common');
+var cmdPoll = require('../../../lib/services/azurerediscache/cmd-poll');
+var redisClient = require('../../../lib/services/azurerediscache/client');
 
 var log = logule.init(module, 'RedisCache-Mocha');
 
@@ -29,7 +29,8 @@ describe('RedisCache - Poll - PreConditions', function() {
                 resourceGroup: 'redisResourceGroup',
                 cacheName: 'C0CacheNC'
             },
-            provisioning_result: '{\"provisioningState\":\"Creating\"}'
+            provisioning_result: '{\"provisioningState\":\"Creating\"}',
+            last_operation : "provision",
         };
         validParams.azure = common.getCredentialsAndSubscriptionId();
     });
@@ -59,6 +60,10 @@ describe('RedisCache - Poll - Execution - Cache that exists', function() {
         validParams.azure = common.getCredentialsAndSubscriptionId();
     });
     
+    after(function() {
+        redisClient.poll.restore();
+    });
+    
     describe('Poll operation outcomes should be...', function() {
         it('should output provisioningState = Succeeded', function(done) {
 
@@ -68,7 +73,7 @@ describe('RedisCache - Poll - Execution - Cache that exists', function() {
             sinon.stub(redisClient, 'poll').yields(null, {provisioningState : 'Succeeded'});
             cp.poll(redisClient, function(err, result) {
                 should.not.exist(err);
-                (result.provisioningState).should.equal('Succeeded');
+                result.statusCode.should.equal(200);
                 done();        
             });
             

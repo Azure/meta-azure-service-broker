@@ -12,7 +12,7 @@ var should = require('should');
 var sinon = require('sinon');
 var common = require('../../../lib/common');
 var cmdDeprovision = require('../../../lib/services/azurerediscache/cmd-deprovision');
-var redisClient = require('../../../lib/services/azurerediscache/redis-client');
+var redisClient = require('../../../lib/services/azurerediscache/client');
 
 var log = logule.init(module, 'RedisCache-Mocha');
 

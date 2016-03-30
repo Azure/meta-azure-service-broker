@@ -13,8 +13,8 @@ var should = require('should');
 var sinon = require('sinon');
 var common = require('../../../lib/common');
 var cmdProvision = require('../../../lib/services/azurerediscache/cmd-provision');
-var redisClient = require('../../../lib/services/azurerediscache/redis-client');
-var resourceGroupClient = require('../../../lib/services/azurerediscache/resourceGroup-client');
+var redisClient = require('../../../lib/services/azurerediscache/client');
+var resourceGroupClient = require('../../../lib/common/resourceGroup-client');
 
 var log = logule.init(module, 'RedisCache-Mocha');
 
@@ -78,6 +78,12 @@ describe('RedisCache - Provision - Execution - Cache that doesn\'t previsouly ex
             provisioning_result: '{\"provisioningState\":\"Creating\"}'
         };
         cp = new cmdProvision(log, validParams);
+    });
+    
+    after(function() {
+        resourceGroupClient.checkExistence.restore();
+        resourceGroupClient.createOrUpdate.restore();
+        redisClient.provision.restore();
     });
     
     describe('Provision operation outcomes should be...', function() {

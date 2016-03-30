@@ -2,8 +2,12 @@
   "name": "meta-azure-service-broker",
   "author": "Microsoft Corporation",
   "contributors": [
-    "Bin Xia <binxi@microsoft.com>"
+    "Bin Xia <binxi@microsoft.com>",
+    "Greg Oliver <golive@microsoft.com>"
   ],
+  "engines":{
+      "node":"5.10.0"
+  },
   "version": "0.0.1",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
   "tags": [
@@ -11,7 +15,7 @@
   ],
   "keywords": [
     "cloud foundry",
-    "servie broker"
+    "service broker"
   ],
   "main": "index.js",
   "license": "Apache License, Version 2.0",
@@ -21,6 +25,7 @@
     "azure-arm-resource": "~1.0.0-preview",
     "azure-arm-storage": "~0.12.2-preview",
     "azure-storage": "~0.9.0",
+    "documentdb": "^1.6.0",
     "logule": "^2.1.0",
     "ms-rest-azure": "^1.10.0",
     "mssql": "~3.1.2",
@@ -31,6 +36,7 @@
   "devDependencies": {
     "jshint": "~2.9.1",
     "mocha": "^2.4.5",
+    "node-uuid": "^1.4.7",
     "should": "^8.3.0",
     "sinon": "^1.17.3"
   },
