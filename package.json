@@ -16,20 +16,23 @@
   "main": "index.js",
   "license": "Apache License, Version 2.0",
   "dependencies": {
+    "async": "^1.5.2",
+    "azure-arm-rediscache": "^0.2.1",
+    "azure-arm-resource": "~1.0.0-preview",
+    "azure-arm-storage": "~0.12.2-preview",
+    "azure-storage": "~0.9.0",
+    "logule": "^2.1.0",
+    "ms-rest-azure": "^1.10.0",
+    "mssql": "~3.1.2",
     "restify": "~4.0.4",
     "semver": "~5.1.0",
-    "logule": "~2.1.0",
-    "azure-storage": "~0.9.0",
-    "azure-arm-storage": "~0.12.2-preview",
-    "ms-rest-azure": "~1.10.0",
-    "azure-arm-resource": "~1.0.0-preview",
-    "async": "~1.5.2",
-    "mssql": "~3.1.2"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "jshint": "~2.9.1",
-    "mocha": "~2.4.5",
-    "should": "^8.2.2"
+    "mocha": "^2.4.5",
+    "should": "^8.3.0",
+    "sinon": "^1.17.3"
   },
   "repository": {
     "type": "git",
