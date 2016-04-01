@@ -2,7 +2,8 @@
   "name": "meta-azure-service-broker",
   "author": "Microsoft Corporation",
   "contributors": [
-    "Bin Xia <binxi@microsoft.com>"
+    "Bin Xia <binxi@microsoft.com>",
+    "Greg Oliver <golive@microsoft.com>"
   ],
   "version": "0.0.1",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
