@@ -4,6 +4,8 @@
 
 [Cloud Foundry on Azure is generally available.](https://azure.microsoft.com/en-us/blog/general-availability-of-cloud-foundry-and-preview-access-of-pivotal-cloud-foundry/) If you want to try it, please follow [the guidance](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md).
 
+>NOTE: This repository is just for test for now. **DO NOT USE IT**.
+
 ## The provided services
 
 * [Azure Storage Blob Service](./services/azurestorageblob/)
