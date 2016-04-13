@@ -1,16 +1,21 @@
 {
   "id": "2e2fc314-37b6-4587-8127-8f9ee8b33fea",
   "name": "azurestorageblob",
-  "description": "Provides Azure Storage Blob Service, including storage account creation, container creation, access key generation",
+  "description": "Azure Storage Blob Service",
   "bindable": true,
   "tags": [
     "Azure",
     "Storage",
     "Blob"
   ],
+  "metadata": {
+    "displayName": "Azure Storage Blob",
+    "longDescription": "an Azure storage blob service including storage account creation, container creation and access key generation",
+    "providerDisplayName": "Microsoft"
+  },
   "plans": [{
     "id": "6ddf6b41-fb60-4b70-af99-8ecc4896b3cf",
     "name": "default",
-    "description": "An Azure Storage Blob Service plan providing a single container with unlimited storage."
+    "description": "Your total cost depends on how much you store, the volume of storage transactions and outbound data transfers, and which data redundancy option you choose. https://azure.microsoft.com/en-us/pricing/details/storage/"
   }]
 }
