@@ -35,7 +35,7 @@
     "storage_account_name": "<storage-account-name>",
     {
       "location": "<location>",
-      "accountType": "<account-type>"
+      "account_type": "<account-type>"
     }
   }
   ```
@@ -48,7 +48,7 @@
     "storage_account_name": "mystorageaccount",
     {
       "location": "eastus",
-      "accountType": "Standard_LRS"
+      "account_type": "Standard_LRS"
     }
   }
   ```
