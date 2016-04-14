@@ -18,9 +18,9 @@
   ],
   "main": "index.js",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": "4.2.2"
   },
-  "license":  [
+  "license": [
     {
       "type": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0"
@@ -33,7 +33,7 @@
     "azure-arm-storage": "~0.12.2-preview",
     "azure-storage": "~0.9.0",
     "logule": "^2.1.0",
-    "ms-rest-azure": "^1.10.0",
+    "ms-rest-azure": "^1.12.0",
     "mssql": "~3.1.2",
     "restify": "~4.0.4",
     "semver": "~5.1.0",
