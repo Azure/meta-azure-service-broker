@@ -5,17 +5,27 @@
     "Bin Xia <binxi@microsoft.com>",
     "Greg Oliver <golive@microsoft.com>"
   ],
-  "version": "0.0.1",
+  "version": "0.1.0-preview",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
   "tags": [
+    "servie broker",
     "azure"
   ],
   "keywords": [
     "cloud foundry",
-    "servie broker"
+    "servie broker",
+    "azure"
   ],
   "main": "index.js",
-  "license": "Apache License, Version 2.0",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "license":  [
+    {
+      "type": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
   "dependencies": {
     "async": "^1.5.2",
     "azure-arm-rediscache": "^0.2.1",
@@ -35,9 +45,10 @@
     "should": "^8.3.0",
     "sinon": "^1.17.3"
   },
+  "homepage": "https://github.com/bingosummer/meta-azure-service-broker",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bingosummer/meta-azure-service-broker"
+    "url": "git@github.com:bingosummer/meta-azure-service-broker.git"
   },
   "bugs": {
     "url": "https://github.com/bingosummer/meta-azure-service-broker/issues"
