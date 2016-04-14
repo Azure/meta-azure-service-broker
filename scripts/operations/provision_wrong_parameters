@@ -13,9 +13,7 @@ curl http://localhost:5001/v2/service_instances/$instance_id?accepts_incomplete=
   "service_id":         "2e2fc314-37b6-4587-8127-8f9ee8b33fea",
   "space_guid":         "4",
   "parameters":         {
-    "resource_group_name": "binxi0413",
-    "storage_account_name": "binxi041301sa",
-    "location": "eastasia",
-    "account_type": "Standard_RAGRS"
+    "resource_group_name": "binxi031702",
+    "storage_account_name": "binxi031702-sa"
   }
 }' -X PUT -H "X-Broker-API-Version: 2.8" -H "Content-Type: application/json" -v

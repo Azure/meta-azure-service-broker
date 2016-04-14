@@ -8,17 +8,19 @@
   "engines":{
       "node":"5.10.0"
   },
-  "version": "0.0.1",
+  "version": "0.1.0-preview",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
   "tags": [
+    "service broker",
     "azure"
   ],
   "keywords": [
     "cloud foundry",
-    "service broker"
+    "service broker",
+    "azure"
   ],
   "main": "index.js",
-  "license": "Apache License, Version 2.0",
+  "license" : "Apache-2.0",
   "dependencies": {
     "async": "^1.5.2",
     "azure-arm-rediscache": "^0.2.1",
@@ -27,7 +29,7 @@
     "azure-storage": "~0.9.0",
     "documentdb": "^1.6.0",
     "logule": "^2.1.0",
-    "ms-rest-azure": "^1.10.0",
+    "ms-rest-azure": "^1.12.0",
     "mssql": "~3.1.2",
     "restify": "~4.0.4",
     "semver": "~5.1.0",
@@ -40,9 +42,10 @@
     "should": "^8.3.0",
     "sinon": "^1.17.3"
   },
+  "homepage": "https://github.com/bingosummer/meta-azure-service-broker",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bingosummer/meta-azure-service-broker"
+    "url": "git@github.com:bingosummer/meta-azure-service-broker.git"
   },
   "bugs": {
     "url": "https://github.com/bingosummer/meta-azure-service-broker/issues"
