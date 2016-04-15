@@ -7,13 +7,19 @@ var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var uuid = require('node-uuid');
-var common = require('../../../lib/common');
 var service = require('../../../lib/services/azuredocdb/service.json');
 var handlers = require('../../../lib/services/azuredocdb/index');
 var docDbClient = require('../../../lib/services/azuredocdb/client');
 var resourceGroupClient = require('../../../lib/common/resourceGroup-client');
 
-var azure = common.getCredentialsAndSubscriptionId();
+var azure = {
+    environment: 'AzureCloud',
+    subscription_id: '743fxxxx-83xx-46xx-xx2d-xxxxb953952d',
+    tenant_id: '72xxxxbf-8xxx-xxxf-9xxb-2d7cxxxxdb47',
+    client_id: 'd8xxxx18-xx4a-4xx9-89xx-9be0bfecxxxx',
+    client_secret: '2/DzYYYYYYYYYYsAvXXXXXXXXXXQ0EL7WPxEXX115Go=',
+};
+
 var log = logule.init(module, 'DocumentDb-Tests');
 var generatedValidInstanceId = uuid.v4();
 var provisioningResult = '{"id":"eDocDb","_rid":"77UyAA==","_self":"dbs/77UyAA==/","_etag":"00000700-0000-0000-0000-5706ce870000","_ts":1460063879,"_colls":"colls/","_users":"users/"}';
