@@ -6,7 +6,6 @@ var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var common = require('../../../lib/common');
 var cmdDeprovision = require('../../../lib/services/azuredocdb/cmd-deprovision');
 var redisClient = require('../../../lib/services/azuredocdb/client');
 
