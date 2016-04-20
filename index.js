@@ -8,6 +8,7 @@ var config = require('./config/meta-service-broker');
 var echo = require('./lib/services/echo');
 var azurestorageblob = require('./lib/services/azurestorageblob');
 var azurerediscache = require('./lib/services/azurerediscache');
+var azuredocdb = require('./lib/services/azuredocdb');
 
 var broker = new Broker(config);
 
@@ -49,6 +50,16 @@ async.parallel([
           callback(err);
         } else {
           addListeners(result.id, azurerediscache);
+          callback(null, result);
+        }
+      });
+    },
+    function(callback) {
+      azuredocdb.catalog(broker.log, params, function(err, result) {
+        if (err) {
+          callback(err);
+        } else {
+          addListeners(result.id, azuredocdb);
           callback(null, result);
         }
       });

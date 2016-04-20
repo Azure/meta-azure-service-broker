@@ -1,11 +1,17 @@
 common/utils-tests.js
 
+services/azurerediscache/index-spec.js
+services/azurerediscache/provision-spec.js
+services/azurerediscache/deprovision-spec.js
+services/azurerediscache/poll-spec.js
+
+services/azuredocdb/provision-spec.js
+services/azuredocdb/deprovision-spec.js
+services/azuredocdb/poll-spec.js
+services/azuredocdb/index-spec.js
+
 services/azurestorageblob/provision-spec.js
 services/azurestorageblob/poll-spec.js
 services/azurestorageblob/deprovision-spec.js
 services/azurestorageblob/bind-spec.js
 services/azurestorageblob/unbind-spec.js
-
-services/azurerediscache/provision-spec.js
-services/azurerediscache/deprovision-spec.js
-services/azurerediscache/poll-spec.js

@@ -1,6 +1,7 @@
 ---
 applications:
 - name: meta-azure-service-broker
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
   instances: 1
   env:
     environment: AzureCloud
@@ -8,3 +9,5 @@ applications:
     tenant_id: REPLACE-ME
     client_id: REPLACE-ME
     client_secret: REPLACE-ME
+    docDb_hostEndPoint: REPLACE-ME
+    docDb_masterKey: REPLACE-ME 

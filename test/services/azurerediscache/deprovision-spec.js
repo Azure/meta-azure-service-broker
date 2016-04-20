@@ -10,9 +10,16 @@ var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var common = require('../../../lib/common');
 var cmdDeprovision = require('../../../lib/services/azurerediscache/cmd-deprovision');
-var redisClient = require('../../../lib/services/azurerediscache/redis-client');
+var redisClient = require('../../../lib/services/azurerediscache/client');
+
+var azure = {
+    environment: 'AzureCloud',
+    subscription_id: '743fxxxx-83xx-46xx-xx2d-xxxxb953952d',
+    tenant_id: '72xxxxbf-8xxx-xxxf-9xxb-2d7cxxxxdb47',
+    client_id: 'd8xxxx18-xx4a-4xx9-89xx-9be0bfecxxxx',
+    client_secret: '2/DzYYYYYYYYYYsAvXXXXXXXXXXQ0EL7WPxEXX115Go=',
+};
 
 var log = logule.init(module, 'RedisCache-Mocha');
 
@@ -24,7 +31,7 @@ describe('RedisCache - Deprovision - PreConditions', function() {
             instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',
             provisioning_result: '{\"id\":\"/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheNC\",\"name\":\"C0CacheNC\"}'
         };
-        validParams.azure = common.getCredentialsAndSubscriptionId();
+        validParams.azure = azure;
         cp = new cmdDeprovision(log, validParams);
     });
     
@@ -45,7 +52,7 @@ describe('RedisCache - Deprovision - Execution', function() {
             instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',
             provisioning_result: '{\"id\":\"/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheNC\",\"name\":\"C0CacheNC\"}'
         };
-        validParams.azure = common.getCredentialsAndSubscriptionId();
+        validParams.azure = azure;
         cp = new cmdDeprovision(log, validParams);
     });
     

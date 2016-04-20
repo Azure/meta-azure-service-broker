@@ -5,33 +5,29 @@
     "Bin Xia <binxi@microsoft.com>",
     "Greg Oliver <golive@microsoft.com>"
   ],
+  "engines":{
+      "node":"5.10.0"
+  },
   "version": "0.1.0-preview",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
   "tags": [
-    "servie broker",
+    "service broker",
     "azure"
   ],
   "keywords": [
     "cloud foundry",
-    "servie broker",
+    "service broker",
     "azure"
   ],
   "main": "index.js",
-  "engines": {
-    "node": "4.2.2"
-  },
-  "license": [
-    {
-      "type": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0"
-    }
-  ],
+  "license" : "Apache-2.0",
   "dependencies": {
     "async": "^1.5.2",
     "azure-arm-rediscache": "^0.2.1",
     "azure-arm-resource": "~1.0.0-preview",
     "azure-arm-storage": "~0.12.2-preview",
     "azure-storage": "~0.9.0",
+    "documentdb": "^1.6.0",
     "logule": "^2.1.0",
     "ms-rest-azure": "^1.12.0",
     "mssql": "~3.1.2",
@@ -42,6 +38,7 @@
   "devDependencies": {
     "jshint": "~2.9.1",
     "mocha": "^2.4.5",
+    "node-uuid": "^1.4.7",
     "should": "^8.3.0",
     "sinon": "^1.17.3"
   },

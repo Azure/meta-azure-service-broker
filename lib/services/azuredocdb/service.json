@@ -1,0 +1,26 @@
+{
+    "id": "3befc561-4f0c-4df3-ab26-48ac4e366b1c",
+    "name": "documentdb",
+    "description": "DocumentDb Service",
+    "bindable": true,
+    "plans": [
+        {
+            "id": "1abb29ae-fa1c-4f8d-a07b-b363544c3586",
+            "name": "standard",
+            "description": "The standard DocumentDb plan.",
+            "metadata": {
+                "bullets": [
+                ],
+                "costs": [
+                    {
+                        "amount": {
+                            "usd": 16.37
+                        },
+                        "unit": "monthly estimate"
+                    }
+                ],
+                "displayName": "Standard"
+            }
+        }
+    ]
+}
