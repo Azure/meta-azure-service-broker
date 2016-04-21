@@ -13,7 +13,7 @@
 2. Create a service instance
 
   ```
-  cf create-service azurestorageblob default <service-instance-name>
+  cf create-service azurestorageblob default $service-instance-name
   ```
 
   For example:
@@ -25,18 +25,16 @@
   Additional configuration parameters are supported with the provision request. These parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
 
   ```
-  cf create-service azurestorageblob default <service-instance-name> -c /tmp/config.json
+  cf create-service azurestorageblob default $service-instance-name -c /tmp/config.json
   ```
 
   Supported configuration parameters:
   ```
   {
-    "resource_group_name": "<resource-group-name>",
-    "storage_account_name": "<storage-account-name>",
-    {
-      "location": "<location>",
-      "account_type": "<account-type>"
-    }
+    "resource_group_name": "$resource-group-name",
+    "storage_account_name": "$storage-account-name",
+    "location": "$location",
+    "account_type": "$account-type"
   }
   ```
 
@@ -46,10 +44,8 @@
   {
     "resource_group_name": "myResourceGroup",
     "storage_account_name": "mystorageaccount",
-    {
-      "location": "eastus",
-      "account_type": "Standard_LRS"
-    }
+    "location": "eastus",
+    "account_type": "Standard_LRS"
   }
   ```
 
@@ -84,12 +80,25 @@ The credentials provided in a bind call have the following format:
 
 In the application, you can use Azure SDK for Python to operate your storage account (e.g. put or get your blobs).
 
-```
-from azure.storage import BlobService
-account_name = vcap_services[service_name][0]['credentials']['storage_account_name']
-account_key = vcap_services[service_name][0]['credentials']['primary_access_key']
-blob_service = BlobService(account_name, account_key)
-```
+1. Get the credentials from the environment variables
+
+  ```
+  service_name = 'azurestorageblob'
+  vcap_services = json.loads(os.environ['VCAP_SERVICES'])
+  account_name = vcap_services[service_name][0]['credentials']['storage_account_name']
+  account_key = vcap_services[service_name][0]['credentials']['primary_access_key']
+  ```
+
+2. Create the blob service using the credentials
+
+  ```
+  from azure.storage import BlobService
+  blob_service = BlobService(account_name, account_key)
+  ```
+
+  If you would like to create a blob service in Azure China Cloud, you need to specify `host_base` in `BlobService`.
+
+>**NOTE:** The demo is based on `azure==0.11.1`. If you would like to use the lastest `azure-storage-python`, please refer to [azure-storage-python](https://github.com/Azure/azure-storage-python).
 
 ### Binding
 
