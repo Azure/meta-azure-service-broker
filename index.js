@@ -5,7 +5,6 @@ var async = require('async');
 var common = require('./lib/common');
 var Broker = require('./lib/broker');
 var config = require('./config/meta-service-broker');
-var echo = require('./lib/services/echo');
 var azurestorageblob = require('./lib/services/azurestorageblob');
 var azurerediscache = require('./lib/services/azurerediscache');
 var azuredocdb = require('./lib/services/azuredocdb');
@@ -33,17 +32,6 @@ var params = {};
 params.azure = common.getCredentialsAndSubscriptionId();
 
 async.parallel([
-    function(callback) {
-      echo.catalog(broker.log, params, function(err,
-        result) {
-        if (err) {
-          callback(err);
-        } else {
-          addListeners(result.id, echo);
-          callback(null, result);
-        }
-      });
-    },
     function(callback) {
       azurerediscache.catalog(broker.log, params, function(err, result) {
         if (err) {
