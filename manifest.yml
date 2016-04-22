@@ -4,7 +4,7 @@ applications:
   buildpack: https://github.com/cloudfoundry/nodejs-buildpack
   instances: 1
   env:
-    environment: AzureCloud
+    environment: REPLACE-ME
     subscription_id: REPLACE-ME
     tenant_id: REPLACE-ME
     client_id: REPLACE-ME
