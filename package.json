@@ -42,13 +42,13 @@
     "should": "^8.3.0",
     "sinon": "^1.17.3"
   },
-  "homepage": "https://github.com/bingosummer/meta-azure-service-broker",
+  "homepage": "https://github.com/Azure/meta-azure-service-broker",
   "repository": {
     "type": "git",
-    "url": "git@github.com:bingosummer/meta-azure-service-broker.git"
+    "url": "git@github.com:Azure/meta-azure-service-broker.git"
   },
   "bugs": {
-    "url": "https://github.com/bingosummer/meta-azure-service-broker/issues"
+    "url": "https://github.com/Azure/meta-azure-service-broker/issues"
   },
   "scripts": {
     "test": "npm -s run-script jshint && npm -s run-script unit",

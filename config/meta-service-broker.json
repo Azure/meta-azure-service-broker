@@ -1,7 +1,7 @@
 {
     "apiVersion": "2.8.0",
-    "authUser": "demouser",
-    "authPassword": "demopassword",
+    "authUser": "<REPLACE-WITH-YOUR-USERNAME>",
+    "authPassword": "<REPLACE-WITH-YOUR-PASSWORD>",
     "name": "Meta Azure Service Broker",
     "port": 5001,
     "debug": true,
