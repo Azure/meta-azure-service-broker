@@ -33,26 +33,26 @@ params.azure = common.getCredentialsAndSubscriptionId();
 var servicesPath = "./lib/services"
 var services = [];
 
-fs.readdir(servicesPath, function (err, files) {
-    if (err) {
-      throw err;
-    }
+fs.readdir(servicesPath, function(err, files) {
+  if (err) {
+    throw err;
+  }
 
-    files.map(function (file) {
-      return path.join(servicesPath, file);
-    }).filter(function (file) {
-      return fs.statSync(file).isDirectory();
-    }).forEach(function (file) {
-      var serviceModule = require('./' + file);
-      serviceModule.catalog(broker.log, params, function(err, service) {
-        if (err) {
-          throw err;
-        } else {
-          addListeners(service.id, serviceModule);
-          services.push(service);
-        }
-      });
+  files.map(function(file) {
+    return path.join(servicesPath, file);
+  }).filter(function(file) {
+    return fs.statSync(file).isDirectory();
+  }).forEach(function(file) {
+    var serviceModule = require('./' + file);
+    serviceModule.catalog(broker.log, params, function(err, service) {
+      if (err) {
+        throw err;
+      } else {
+        addListeners(service.id, serviceModule);
+        services.push(service);
+      }
     });
+  });
 });
 
 broker.on('catalog', function(next) {
