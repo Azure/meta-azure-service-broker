@@ -1,14 +1,12 @@
 'use strict';
 
 var async = require('async');
+var fs = require("fs");
+var path = require("path");
 
 var common = require('./lib/common');
 var Broker = require('./lib/broker');
 var config = require('./config/meta-service-broker');
-var echo = require('./lib/services/echo');
-var azurestorageblob = require('./lib/services/azurestorageblob');
-var azurerediscache = require('./lib/services/azurerediscache');
-var azuredocdb = require('./lib/services/azuredocdb');
 
 var broker = new Broker(config);
 
@@ -32,61 +30,35 @@ broker.log.info(
 var params = {};
 params.azure = common.getCredentialsAndSubscriptionId();
 
-async.parallel([
-    function(callback) {
-      echo.catalog(broker.log, params, function(err,
-        result) {
-        if (err) {
-          callback(err);
-        } else {
-          addListeners(result.id, echo);
-          callback(null, result);
-        }
-      });
-    },
-    function(callback) {
-      azurerediscache.catalog(broker.log, params, function(err, result) {
-        if (err) {
-          callback(err);
-        } else {
-          addListeners(result.id, azurerediscache);
-          callback(null, result);
-        }
-      });
-    },
-    function(callback) {
-      azuredocdb.catalog(broker.log, params, function(err, result) {
-        if (err) {
-          callback(err);
-        } else {
-          addListeners(result.id, azuredocdb);
-          callback(null, result);
-        }
-      });
-    },
-    function(callback) {
-      azurestorageblob.catalog(broker.log, params,
-        function(err, result) {
-          if (err) {
-            callback(err);
-          } else {
-            addListeners(result.id, azurestorageblob);
-            callback(null, result);
-          }
-        });
-    }
-  ],
-  function(err, results) {
-    if (err) {
-      broker.log.error(err);
-    } else {
-      broker.log.info('All the service offerings and plans are collected.');
-      broker.on('catalog', function(next) {
-        var reply = {};
-        reply.services = results;
-        next(null, reply);
-      });
-    }
+var servicesPath = "./lib/services"
+var services = [];
+
+fs.readdir(servicesPath, function(err, files) {
+  if (err) {
+    throw err;
+  }
+
+  files.map(function(file) {
+    return path.join(servicesPath, file);
+  }).filter(function(file) {
+    return fs.statSync(file).isDirectory();
+  }).forEach(function(file) {
+    var serviceModule = require('./' + file);
+    serviceModule.catalog(broker.log, params, function(err, service) {
+      if (err) {
+        throw err;
+      } else {
+        addListeners(service.id, serviceModule);
+        services.push(service);
+      }
+    });
   });
+});
+
+broker.on('catalog', function(next) {
+  var reply = {};
+  reply.services = services;
+  next(null, reply);
+});
 
 broker.start();
