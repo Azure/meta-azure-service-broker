@@ -1,22 +1,21 @@
 {
-    "apiVersion": "2.8.0",
-    "authUser": "<REPLACE-WITH-YOUR-USERNAME>",
-    "authPassword": "<REPLACE-WITH-YOUR-PASSWORD>",
-    "name": "Meta Azure Service Broker",
-    "port": 5001,
-    "debug": true,
-    "database": {
-        "enabled": true,
-        "allowOrphanedBindings": false,
-        "type": "sqlserver",
-        "config": {
-            "server": "<REPLACE-WITH-SERVER-NAME>.database.windows.net",
-            "user": "<REPLACE-WITH-USERNAME>",
-            "password": "<REPLACE-WITH-PASSWORD>",
-            "database": "<REPLACE-WITH-DATABASE-NAME>",
-            "options": {
-                "encrypt": true
-            }
-        }
+  "apiVersion": "2.8.0",
+  "authUser": "<REPLACE-WITH-YOUR-USERNAME>",
+  "authPassword": "<REPLACE-WITH-YOUR-PASSWORD>",
+  "name": "Meta Azure Service Broker",
+  "port": 5001,
+  "debug": true,
+  "database": {
+    "enabled": true,
+    "type": "sqlserver",
+    "config": {
+      "server": "<REPLACE-WITH-SERVER-NAME>.database.windows.net",
+      "user": "<REPLACE-WITH-USERNAME>",
+      "password": "<REPLACE-WITH-PASSWORD>",
+      "database": "<REPLACE-WITH-DATABASE-NAME>",
+      "options": {
+        "encrypt": true
+      }
     }
+  }
 }
