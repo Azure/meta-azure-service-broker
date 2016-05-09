@@ -15,3 +15,4 @@ services/azurestorageblob/poll-spec.js
 services/azurestorageblob/deprovision-spec.js
 services/azurestorageblob/bind-spec.js
 services/azurestorageblob/unbind-spec.js
+services/azurestorageblob/index-spec.js
