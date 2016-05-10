@@ -3,7 +3,8 @@
   "author": "Microsoft Corporation",
   "contributors": [
     "Bin Xia <binxi@microsoft.com>",
-    "Greg Oliver <golive@microsoft.com>"
+    "Greg Oliver <golive@microsoft.com>",
+    "Zhongyi Zhang <v-zhongz@microsoft.com>"
   ],
   "engines": {
     "node": "5.10.0"
