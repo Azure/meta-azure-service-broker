@@ -10,8 +10,8 @@ var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var cmdDeprovision = require('../../../lib/services/azurerediscache/cmd-deprovision');
-var redisClient = require('../../../lib/services/azurerediscache/client');
+var cmdDeprovision = require('../../../../lib/services/azurerediscache/cmd-deprovision');
+var redisClient = require('../../../../lib/services/azurerediscache/client');
 
 var azure = {
     environment: 'AzureCloud',

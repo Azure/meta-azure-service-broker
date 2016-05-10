@@ -6,8 +6,8 @@ var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var cmdPoll = require('../../../lib/services/azuredocdb/cmd-poll');
-var docDbClient = require('../../../lib/services/azuredocdb/client');
+var cmdPoll = require('../../../../lib/services/azuredocdb/cmd-poll');
+var docDbClient = require('../../../../lib/services/azuredocdb/client');
 
 var log = logule.init(module, 'DocumentDb-Tests');
 

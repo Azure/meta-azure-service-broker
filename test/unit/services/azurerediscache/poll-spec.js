@@ -11,8 +11,8 @@ var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var cmdPoll = require('../../../lib/services/azurerediscache/cmd-poll');
-var redisClient = require('../../../lib/services/azurerediscache/client');
+var cmdPoll = require('../../../../lib/services/azurerediscache/cmd-poll');
+var redisClient = require('../../../../lib/services/azurerediscache/client');
 
 var log = logule.init(module, 'RedisCache-Mocha');
 

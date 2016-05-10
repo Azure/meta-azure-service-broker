@@ -7,9 +7,9 @@ var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var uuid = require('node-uuid');
-var service = require('../../../lib/services/azurestorageblob/service.json');
-var handlers = require('../../../lib/services/azurestorageblob/index');
-var storageBlobClient = require('../../../lib/services/azurestorageblob/storageblobclient');
+var service = require('../../../../lib/services/azurestorageblob/service.json');
+var handlers = require('../../../../lib/services/azurestorageblob/index');
+var storageBlobClient = require('../../../../lib/services/azurestorageblob/storageblobclient');
 
 var azure = {
   environment: 'AzureCloud',

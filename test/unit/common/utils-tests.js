@@ -1,6 +1,6 @@
 var should = require('should');
 
-var utils = require('../../lib/common');
+var utils = require('../../../lib/common');
 
 describe('Util', function() {
 

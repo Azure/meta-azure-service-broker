@@ -11,9 +11,9 @@ var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var cmdProvision = require('../../../lib/services/azurerediscache/cmd-provision');
-var redisClient = require('../../../lib/services/azurerediscache/client');
-var resourceGroupClient = require('../../../lib/common/resourceGroup-client');
+var cmdProvision = require('../../../../lib/services/azurerediscache/cmd-provision');
+var redisClient = require('../../../../lib/services/azurerediscache/client');
+var resourceGroupClient = require('../../../../lib/common/resourceGroup-client');
 
 var azure = {
     environment: 'AzureCloud',

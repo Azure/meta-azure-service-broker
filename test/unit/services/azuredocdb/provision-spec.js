@@ -6,9 +6,9 @@ var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var cmdProvision = require('../../../lib/services/azuredocdb/cmd-provision');
-var docDbClient = require('../../../lib/services/azuredocdb/client');
-var resourceGroupClient = require('../../../lib/common/resourceGroup-client');
+var cmdProvision = require('../../../../lib/services/azuredocdb/cmd-provision');
+var docDbClient = require('../../../../lib/services/azuredocdb/client');
+var resourceGroupClient = require('../../../../lib/common/resourceGroup-client');
 
 var log = logule.init(module, 'DocumentDb-Tests');
 

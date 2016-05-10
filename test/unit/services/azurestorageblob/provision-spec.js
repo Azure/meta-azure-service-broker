@@ -10,10 +10,9 @@
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var common = require('../../../lib/common');
-var azurestorageblob = require('../../../lib/services/azurestorageblob/');
-var storageBlobClient = require(
-  '../../../lib/services/azurestorageblob/storageblobclient');
+var common = require('../../../../lib/common');
+var azurestorageblob = require('../../../../lib/services/azurestorageblob/');
+var storageBlobClient = require('../../../../lib/services/azurestorageblob/storageblobclient');
 
 var log = logule.init(module, 'StorageBlob-Mocha');
 
@@ -26,7 +25,6 @@ describe('StorageBlob', function() {
     });
 
     describe('When no specific parameters are provided', function() {
-      var sandbox;
       var validParams = {};
 
       before(function() {

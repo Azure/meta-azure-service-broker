@@ -7,10 +7,10 @@ var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var uuid = require('node-uuid');
-var service = require('../../../lib/services/azuredocdb/service.json');
-var handlers = require('../../../lib/services/azuredocdb/index');
-var docDbClient = require('../../../lib/services/azuredocdb/client');
-var resourceGroupClient = require('../../../lib/common/resourceGroup-client');
+var service = require('../../../../lib/services/azuredocdb/service.json');
+var handlers = require('../../../../lib/services/azuredocdb/index');
+var docDbClient = require('../../../../lib/services/azuredocdb/client');
+var resourceGroupClient = require('../../../../lib/common/resourceGroup-client');
 
 var azure = {
     environment: 'AzureCloud',
