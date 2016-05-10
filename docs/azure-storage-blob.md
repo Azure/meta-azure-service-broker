@@ -10,10 +10,23 @@
   cf marketplace
   ```
 
+  Sample output:
+
+  ```
+  service                       plans                     description
+  azurestorageblob              default                   Azure Storage Blob Service
+  ```
+
+  If you can not find the service name, please use the following command to make the plans public.
+
+  ```
+  cf enable-service-access azurestorageblob
+  ```
+
 2. Create a service instance
 
   ```
-  cf create-service azurestorageblob default $service-instance-name
+  cf create-service azurestorageblob $service_plan $service_instance_name
   ```
 
   For example:
@@ -25,20 +38,27 @@
   Additional configuration parameters are supported with the provision request. These parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
 
   ```
-  cf create-service azurestorageblob default $service-instance-name -c /tmp/config.json
+  cf create-service azurestorageblob $service_plan $service_instance_name -c $path_to_parameters
   ```
 
   Supported configuration parameters:
+
   ```
   {
-    "resource_group_name": "$resource-group-name",
-    "storage_account_name": "$storage-account-name",
-    "location": "$location",
-    "account_type": "$account-type"
+    "resource_group_name": "<resource-group-name>",
+    "storage_account_name": "<storage-account-name>",
+    "location": "<location>",
+    "account_type": "<account-type>"
   }
   ```
 
   For example:
+
+  ```
+  cf create-service azurestorageblob default myblobservice -c /tmp/config.json
+  ```
+
+  The contents of `/tmp/config.json`:
 
   ```
   {
@@ -52,6 +72,12 @@
 3. Check the operation status of creating the service instance
 
   The creating operation is asynchronous. You can get the operation status after the creating operation.
+
+  ```
+  cf service $service_instance_name
+  ```
+
+  For example:
 
   ```
   cf service myblobservice
