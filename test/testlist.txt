@@ -17,4 +17,10 @@ unit/services/azurestorageblob/bind-spec.js
 unit/services/azurestorageblob/unbind-spec.js
 unit/services/azurestorageblob/index-spec.js
 
+unit/services/azureservicebus/provision-spec.js
+unit/services/azureservicebus/poll-spec.js
+unit/services/azureservicebus/deprovision-spec.js
+unit/services/azureservicebus/bind-spec.js
+unit/services/azureservicebus/unbind-spec.js
+
 #integration/lifecycle.js
