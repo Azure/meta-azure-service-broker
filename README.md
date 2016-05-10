@@ -9,6 +9,7 @@
 ## The provided services
 
 * [Azure Storage Blob Service](./docs/azure-storage-blob.md)
+* [Azure Service Bus Service](./docs/azure-service-bus.md)
 
 ## Contribute
 
