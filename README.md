@@ -8,8 +8,9 @@
 
 ## The provided services
 
-* [Azure Storage Blob Service](./docs/azure-storage-blob.md)
+* [Azure Redis Cache Service](./docs/azure-redis-cache.md)
 * [Azure Service Bus Service](./docs/azure-service-bus.md)
+* [Azure Storage Blob Service](./docs/azure-storage-blob.md)
 
 ## Contribute
 
