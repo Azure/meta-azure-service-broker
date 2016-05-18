@@ -440,7 +440,7 @@ By default, all the logs will be outputted to stdout and stderr. You can get the
 2. Clone the codes and install dependencies.
 
   ```
-  git clone https://github.com/bingosummer/meta-azure-service-broker
+  git clone https://github.com/Azure/meta-azure-service-broker
   cd meta-azure-service-broker
   npm install
   ```

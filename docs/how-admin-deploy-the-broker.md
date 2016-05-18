@@ -5,7 +5,7 @@
 1. Get the source code from Github.
 
   ```
-  git clone https://github.com/bingosummer/meta-azure-service-broker
+  git clone https://github.com/Azure/meta-azure-service-broker
   cd meta-azure-service-broker
   ```
 
