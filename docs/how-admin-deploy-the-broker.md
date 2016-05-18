@@ -11,6 +11,30 @@
 
 2. Update `config/meta-service-broker.json`.
 
+  1. Create a SQL database.
+
+    You have serveral options to create a SQL database.
+
+    * [Create an Azure SQL database](https://azure.microsoft.com/en-us/documentation/articles/sql-database-get-started/)
+    * Create a SQL server VM on Azure
+
+  2. Create tables in the SQL database.
+
+    1. Use your favorate way to connect to the SQL database.
+
+      For example:
+
+      ```
+      sudo npm install -g sql-cli
+      mssql --server "<server-name>.database.windows.net" --database <database> --user <username>@<server-name> --pass <pass> --encrypt
+      ```
+
+    2. Create tables `instances` and `bindings` according to [schema.sql](../scripts/schema.sql).
+
+  2. Update the configurations.
+
+    Update `config/meta-service-broker.json` with the configurations of the SQL database.
+
 3. Update `manifest.yml` with your credentials.
 
   ```
