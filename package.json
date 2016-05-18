@@ -7,7 +7,7 @@
     "Zhongyi Zhang <v-zhongz@microsoft.com>"
   ],
   "engines": {
-    "node": "5.10.0"
+    "node": ">5.10.0"
   },
   "version": "0.1.0-preview",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
