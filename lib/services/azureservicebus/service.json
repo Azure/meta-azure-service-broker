@@ -9,7 +9,8 @@
   ],
   "metadata": {
     "displayName": "Azure Service Bus",
-    "longDescription": "an Azure service bus service including namespace creation and access key generation",
+    "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/ServiceBus.png",
+    "longDescription": "Azure Service Bus is a generic, cloud-based messaging system for connecting just about anything—applications, services, and devices—wherever they are. Connect apps running on Azure, on-premises systems, or both. You can even use Service Bus to connect household appliances, sensors, and other devices like tablets or phones to a central application or to each other.",
     "providerDisplayName": "Microsoft"
   },
   "plans": [{

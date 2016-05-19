@@ -1,78 +1,74 @@
 {
-    "id": "0346088a-d4b2-4478-aa32-f18e295ec1d9",
-    "name": "RedisCacheService",
-    "description": "Redis Cache Service",
-    "bindable": true,
-    "plans": [
-        {
-            "id": "362b3d1b-5b57-4289-80ad-4a15a760c29c",
-            "name": "basic",
-            "description": "The small managed Redis cache plan.",
-            "metadata": {
-                "bullets": [
-                    "Low network bandwidth",
-                    "Shared infrastructure",
-                    "SSL",
-                    "Up to 256 connections"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 16.37
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Basic"
-            }
+  "id": "0346088a-d4b2-4478-aa32-f18e295ec1d9",
+  "name": "RedisCacheService",
+  "description": "Redis Cache Service",
+  "bindable": true,
+  "metadata": {
+    "displayName": "Azure Redis Cache",
+    "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/RedisCache.png",
+    "longDescription": "Azure Redis Cache is based on the popular open-source Redis cache. It gives you access to a secure, dedicated Redis cache, managed by Microsoft and accessible from any application within Azure.",
+    "providerDisplayName": "Microsoft"
+  },
+  "plans": [{
+    "id": "362b3d1b-5b57-4289-80ad-4a15a760c29c",
+    "name": "basic",
+    "description": "The small managed Redis cache plan.",
+    "metadata": {
+      "bullets": [
+        "Low network bandwidth",
+        "Shared infrastructure",
+        "SSL",
+        "Up to 256 connections"
+      ],
+      "costs": [{
+        "amount": {
+          "usd": 16.37
         },
-        {
-            "id": "4af8bbd1-962d-4e26-84f1-f72d1d959d87",
-            "name": "standard",
-            "description": "The medium managed Redis cache plan.",
-            "metadata": {
-                "bullets": [
-                    "Low network bandwidth",
-                    "Dedicated service",
-                    "SSL",
-                    "Up to 1000 connections",
-                    "Configure Redis (key space notifications, etc)",
-                    "99.9% SLA"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 102.67
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Standard"
-            }
+        "unit": "monthly estimate"
+      }],
+      "displayName": "Basic"
+    }
+  }, {
+    "id": "4af8bbd1-962d-4e26-84f1-f72d1d959d87",
+    "name": "standard",
+    "description": "The medium managed Redis cache plan.",
+    "metadata": {
+      "bullets": [
+        "Low network bandwidth",
+        "Dedicated service",
+        "SSL",
+        "Up to 1000 connections",
+        "Configure Redis (key space notifications, etc)",
+        "99.9% SLA"
+      ],
+      "costs": [{
+        "amount": {
+          "usd": 102.67
         },
-        {
-            "id": "b1057a8f-9a01-423a-bc35-e168d5c04cf0",
-            "name": "premium",
-            "description": "The large managed Redis cache plan.",
-            "metadata": {
-                "bullets": [
-                    "Moderate network bandwidth",
-                    "All Standard features",
-                    "Data Persistence",
-                    "Virtual Network",
-                    "Redis cluster",
-                    "99.9% SLA"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 412.92
-                        },
-                        "unit": "monthly estimate per shard"
-                    }
-                ],
-                "displayName": "Premium"
-            }
-        }
-    ]
+        "unit": "monthly estimate"
+      }],
+      "displayName": "Standard"
+    }
+  }, {
+    "id": "b1057a8f-9a01-423a-bc35-e168d5c04cf0",
+    "name": "premium",
+    "description": "The large managed Redis cache plan.",
+    "metadata": {
+      "bullets": [
+        "Moderate network bandwidth",
+        "All Standard features",
+        "Data Persistence",
+        "Virtual Network",
+        "Redis cluster",
+        "99.9% SLA"
+      ],
+      "costs": [{
+        "amount": {
+          "usd": 412.92
+        },
+        "unit": "monthly estimate per shard"
+      }],
+      "displayName": "Premium"
+    }
+  }]
 }

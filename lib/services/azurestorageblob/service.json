@@ -10,6 +10,7 @@
   ],
   "metadata": {
     "displayName": "Azure Storage Blob",
+    "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/StorageAccount.png",
     "longDescription": "an Azure storage blob service including storage account creation, container creation and access key generation",
     "providerDisplayName": "Microsoft"
   },
