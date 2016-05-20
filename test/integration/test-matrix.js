@@ -130,4 +130,29 @@ var azurerediscache = {
 }
 testMatrix.push(azurerediscache);
 
+instanceId = uuid.v4();
+bindingId = uuid.v4();
+var azuredocumentdb = {
+  serviceName: 'documentdb',
+  serviceId: '3befc561-4f0c-4df3-ab26-48ac4e366b1c',
+  planId: '1abb29ae-fa1c-4f8d-a07b-b363544c3586',
+  instanceId: instanceId,
+  bindingId: bindingId,
+  provisioningParameters: {
+    "resourceGroup": "binxi052001",
+    "docDbName": "binxitestdb",
+    "parameters": {
+      "location": "westus"
+    }
+  },
+  bindingParameters: {},
+  credentials: {
+    "documentdb_host": "<string>",
+    "documentdb_key": "<string>",
+    "documentdb_database": "<string>",
+    "documentdb_resource_id": "<string>"
+  }
+}
+testMatrix.push(azuredocumentdb);
+
 module.exports = testMatrix;

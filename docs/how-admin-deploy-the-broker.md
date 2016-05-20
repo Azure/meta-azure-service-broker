@@ -49,7 +49,7 @@
 
   A [service principal](https://azure.microsoft.com/en-us/documentation/articles/resource-group-create-service-principal-portal/) is composed of `tenant_id`, `client_id` and `client_secret`.
 
-  If you want to enable the document DB service, you need to specify the following values. Please ignore them if you do not want to enable the document DB service.
+  If you want to enable the document DB service, you need to specify the following values. Please ignore them if you do not want to enable the document DB service. Please read [Azure DocumentDB Service](./docs/azure-document-db.md) for more information.
 
   ```
   docDb_hostEndPoint: REPLACE-ME
