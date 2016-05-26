@@ -456,7 +456,7 @@ By default, all the logs will be outputted to stdout and stderr. You can get the
 
   2. Create tables in the SQL database.
 
-    1. Use your favorate way to connect to the SQL database.
+    1. Use your favorite way to connect to the SQL database.
 
       For example:
 
