@@ -6,11 +6,11 @@
 
 ## Overview
 
-You need an Azure account. With the account, you need to prepare a service principal and SQL Database on Azure which will be used in the deployment of the service broker. For the service offerings and plans, please refer to each specific service.
+You need an Azure [account](https://azure.microsoft.com/account/). With the account, you need to prepare a service principal and SQL Database on Azure which will be used in the deployment of the service broker. For the service offerings and plans, please refer to each specific service.
 
 ## How to deploy and use
 
-* [How Cloud Foundry Admin deploy the meta Azure service broker](docs/how-admin-deploy-the-broker.md)
+* [How a Cloud Foundry admin deploys the meta Azure service broker](docs/how-admin-deploy-the-broker.md)
 
 ## The provided services
 

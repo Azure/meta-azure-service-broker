@@ -1,4 +1,4 @@
-# How Cloud Foundry Admin manage the meta Azure service broker
+# How a Cloud Foundry Admin manages the meta Azure service broker
 
 ## Deploy the meta Azure service broker as an application in Cloud Foundry
 
@@ -13,14 +13,14 @@
 
   1. Create a SQL database.
 
-    You have serveral options to create a SQL database.
+    You have several options to create a SQL database.
 
     * [Create an Azure SQL database](https://azure.microsoft.com/en-us/documentation/articles/sql-database-get-started/)
     * Create a SQL server VM on Azure
 
   2. Create tables in the SQL database.
 
-    1. Use your favorate way to connect to the SQL database.
+    1. Use your favorite way to connect to the SQL database.
 
       For example:
 
@@ -49,7 +49,7 @@
 
   A [service principal](https://azure.microsoft.com/en-us/documentation/articles/resource-group-create-service-principal-portal/) is composed of `tenant_id`, `client_id` and `client_secret`.
 
-  If you want to enable the document DB service, you need to specify the following values. Please ignore them if you do not want to enable the document DB service. Please read [Azure DocumentDB Service](./docs/azure-document-db.md) for more information.
+  If you want to enable the DocumentDB service, you need to specify the following values. Please ignore them if you do not want to enable the DocumentDB service. Please read [Azure DocumentDB Service](./docs/azure-document-db.md) for more information.
 
   ```
   docDb_hostEndPoint: REPLACE-ME
