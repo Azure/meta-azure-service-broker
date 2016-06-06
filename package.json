@@ -4,7 +4,8 @@
   "contributors": [
     "Bin Xia <binxi@microsoft.com>",
     "Greg Oliver <golive@microsoft.com>",
-    "Zhongyi Zhang <v-zhongz@microsoft.com>"
+    "Zhongyi Zhang <v-zhongz@microsoft.com>",
+    "Guoxun Wei <guwe@microsoft.com>"
   ],
   "engines": {
     "node": ">5.10.0"
@@ -39,11 +40,13 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "azure": "^0.10.6",
     "chai": "^3.5.0",
     "chai-http": "^2.0.1",
     "jshint": "~2.9.1",
     "mocha": "^2.4.5",
     "node-uuid": "^1.4.7",
+    "redis": "^2.6.1",
     "should": "^8.3.0",
     "sinon": "^1.17.3"
   },

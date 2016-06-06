@@ -10,6 +10,8 @@ var testMatrix = require('./test-matrix');
 
 var broker = require('../../brokerserver')
 var server = broker.restServer;
+var clients = require('../utils/clients');
+var statusCode = require('../utils/statusCode');
 
 var lifecycle = function(service) {
   var serviceName = service.serviceName;
@@ -93,7 +95,7 @@ var lifecycle = function(service) {
         );
       });
   
-      it('should get the credentials by the binding operation', function(done) {
+      it('should get the credentials by the binding operation and the credentials should be workable', function(done) {
         this.timeout(60000);
   
         setTimeout(function() {
@@ -123,7 +125,16 @@ var lifecycle = function(service) {
                   res.body.credentials.should.have.property(key, value);
                 }
               }); 
-              done();
+              client = clients[serviceName];
+              if(client) {
+                client.validateCredential(actualCredentials, function(result) {
+                  result.should.equal(statusCode.PASS);
+                  done();
+                });
+              } else {
+                console.warn("Credential not yet verified!");
+                done();
+              }
             });
         }, 10000);
       });
