@@ -25,23 +25,14 @@
 
 2. Create a service instance
 
-  ```
-  cf create-service RedisCacheService $service_plan $service_instance_name
-  ```
-
-  For example:
-
-  ```
-  cf create-service RedisCacheService basic myrediscache
-  ```
-
-  Additional configuration parameters are supported with the provision request. These parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file.
+  Configuration parameters are supported with the provision request. These parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file.
 
   ```
   cf create-service RedisCacheService $service_plan $service_instance_name -c $path_to_parameters
   ```
 
   Supported configuration parameters:
+
   ```
   {
     "resourceGroup": "<resource-group-name>",
