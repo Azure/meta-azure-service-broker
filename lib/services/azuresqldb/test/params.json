@@ -1,0 +1,21 @@
+{
+    "instance_id": "e2778b98-0b6b-11e6-9db3-000d3a002ed5",
+    "accepts_incomplete": "true",
+    "organization_guid": "1",
+    "plan_id": "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+    "service_id": "fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5",
+    "space_guid": "4",
+    "parameters": {
+        "resourceGroup": "guwe-work",
+        "parameters": {
+            "location": "southeastasia"
+        }
+    },
+    "azure": {
+        "environment": "AzureCloud",
+        "subscription_id": "4be8920b-2978-43d7-ab14-04d8549c1d05",
+        "tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+        "client_id": "1279a111-5906-4cf7-b3dd-92d20196978c",
+        "client_secret": ""
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "id": "fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5",
+    "name": "azuresqldb",
+    "description": "Azure SQL DB Service",
+    "bindable": true,
+    "plans": [
+        {
+            "id": "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+            "name": "standard plan",
+            "description": "The standard Azure SQL Database plan.",
+            "metadata": {
+                "bullets": [
+                ],
+                "costs": [
+                    {
+                        "amount": {
+                            "usd": 0
+                        },
+                        "unit": "monthly estimate"
+                    }
+                ],
+                "displayName": "Standard"
+            }
+        }     
+    ]
+}
