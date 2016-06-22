@@ -60,6 +60,27 @@ describe('RedisCache - Provision - PreConditions', function() {
     });
 });
 
+describe('RedisCache - Provision - PreConditions incorrect', function() {
+    var validParams = {};
+    var cp;
+        
+    before(function() {
+        validParams = {  /* missing parameters!! */
+            instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',            
+            azure : azure,
+            provisioning_result: '{\"provisioningState\":\"Creating\"}'
+        };
+        cp = new cmdProvision(log, validParams);
+    });
+    
+    describe('Provision should fail if ...', function() {
+        it('parameters are missing.', function(done) {
+            (cp.allValidatorsSucceed()).should.equal(false);
+            done();        
+        });        
+    });
+});
+
 describe('RedisCache - Provision - Execution - Cache that doesn\'t previsouly exist', function() {
     var validParams = {};
     var cp;
