@@ -47,6 +47,26 @@ describe('DocumentDb - Provision - PreConditions', function() {
     });
 });
 
+describe('DocumentDb - Provision - PreConditions incorrect', function() {
+    var validParams = {};
+    var cp;
+        
+    before(function() { /* no parameters!! */
+        invalidParams = {
+            instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',            
+            azure : azure
+        };
+        cp = new cmdProvision(log, invalidParams);
+    });
+    
+    describe('Provision should fail if ...', function() {
+        it('parameters were not provided', function(done) {
+            (cp.allValidatorsSucceed()).should.equal(false);
+            done();        
+        });        
+    });
+});
+
 describe('DocumentDb - Provision - Execution - DocDb that doesn\'t previsouly exist', function() {
     var validParams = {};
     var cp;
