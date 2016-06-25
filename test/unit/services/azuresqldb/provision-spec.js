@@ -50,9 +50,9 @@ describe('SqlDb - Provision - PreConditions', function() {
                     properties: {
                         createMode:'Default',
                         edition:'Basic',
-                        collation:'SQL_Latin1_General_CP1_Cl_AS',
+                        collation:'SQL_Latin1_General_CP1_CI_AS',
                         maxSizeBytes:'2147483648',
-                        requestedServiceObjectName:'Basic'
+                        requestedServiceObjectiveName:'Basic'
                     }
                 }
             },
