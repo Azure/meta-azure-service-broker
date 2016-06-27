@@ -469,7 +469,7 @@ By default, all the logs will be outputted to stdout and stderr. You can get the
 
   2. Update the configurations.
 
-    Update `config/meta-service-broker.json` with the configurations of the SQL database.
+    Update `config/default.json` with the configurations of the SQL database.
 
   3. Start the server.
 
