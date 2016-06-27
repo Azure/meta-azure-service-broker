@@ -60,9 +60,10 @@
     "url": "https://github.com/Azure/meta-azure-service-broker/issues"
   },
   "scripts": {
-    "test": "npm -s run-script jshint && npm -s run-script ci",
+    "test": "npm -s run-script jshint && npm -s run-script unit && npm -s run-script integration",
     "jshint": "jshint lib --reporter=jslint",
-    "ci": "node scripts/test.js testlist.txt",
+    "unit": "node scripts/test.js unittestlist.txt",
+    "integration": "node scripts/test.js integrationtestlist.txt",
     "start": "node index.js"
   }
 }
