@@ -27,7 +27,7 @@
     "nesting"   : 3,
     "mutable"   : true,
     "timestamp" : "toLocaleTimeString",
-    "suppress"  : []
+    "suppress"  : ["debug"]
   },
 
   "filestream": {
