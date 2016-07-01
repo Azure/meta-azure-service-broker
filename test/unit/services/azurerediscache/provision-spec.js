@@ -46,8 +46,7 @@ describe('RedisCache - Provision - PreConditions', function() {
                     }
                 }
             },
-            azure : azure,
-            provisioning_result: '{\"provisioningState\":\"Creating\"}'
+            azure : azure
         };
         cp = new cmdProvision(log, validParams);
     });
@@ -67,8 +66,7 @@ describe('RedisCache - Provision - PreConditions incorrect', function() {
     before(function() {
         validParams = {  /* missing parameters!! */
             instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',            
-            azure : azure,
-            provisioning_result: '{\"provisioningState\":\"Creating\"}'
+            azure : azure
         };
         cp = new cmdProvision(log, validParams);
     });
