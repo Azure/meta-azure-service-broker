@@ -94,6 +94,21 @@ cf marketplace
 cf delete-service-broker demo-service-broker -f
 ```
 
+## Debug logging
+
+By default, the debug logging is disabled. If you want to enable the debug logging, please remove `debug` from the `suppress` list in `.logule.json`. Here is the [reference](https://github.com/clux/logule#configuration).
+
+```
+"stdout"    : {
+  "pad"       : 0,
+  "delimiter" : " - ",
+  "nesting"   : 3,
+  "mutable"   : true,
+  "timestamp" : "toLocaleTimeString",
+  "suppress"  : ["debug"]
+},
+```
+
 ## More information
 
 [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html)
