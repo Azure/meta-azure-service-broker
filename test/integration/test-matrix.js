@@ -140,7 +140,7 @@ var azuredocumentdb = {
   bindingId: bindingId,
   provisioningParameters: {
     "resourceGroup": "azure-service-broker-docdb-test",
-    "docDbName": "testdb",
+    "docDbName": instanceId,
     "parameters": {
       "location": "eastus"
     }
