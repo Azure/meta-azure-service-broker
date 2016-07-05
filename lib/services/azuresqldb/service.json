@@ -1,0 +1,74 @@
+{
+    "id": "fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5",
+    "name": "azuresqldb",
+    "description": "Azure SQL Database Service",
+    "bindable": true,
+    "metadata": {
+        "displayName": "Azure SQL Database Service",
+        "imageUrl": null,
+        "longDescription": "SQL Database is a cloud relational database service that helps you focus on rapid app development, accelerating your time to market instead of managing virtual machines and infrastructure.",
+        "providerDisplayName": "Microsoft"
+    },
+    "plans": [
+        {
+            "id": "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+            "name": "basic",
+            "description": "Basic pricing tier. Best suited for a small database, supporting typically one single active operation at a given time.",
+            "metadata": {
+                "bullets": [
+                    "Up to 2GB of data",
+                    "5 database throughput units",
+                    "Active Geo-replication (optional)",
+                    "Point-in-Time restore, 7 days",
+                    "Auditing",
+                    "Pricing based on 744 hours per month of usage"
+                ],
+                "costs": [
+                    {
+                        "amount": {
+                            "usd": 5.00
+                        },
+                        "unit": "monthly estimate"
+                    }
+                ],
+                "displayName": "Basic",
+                "details": {
+                    "createMode": "Default",
+                    "edition": "Basic",
+                    "maxSizeBytes": "2147483648",
+                    "requestedServiceObjectiveName": "Basic"
+                }
+            }
+        },
+        {
+            "id": "2497b7f3-341b-4ac6-82fb-d4a48c005e19",
+            "name": "StandardS0",
+            "description": "Standard S0 pricing tier. Best suited for a small database, supporting typically one single active operation at a given time.",
+            "metadata": {
+                "bullets": [
+                    "Up to 250GB of data",
+                    "10 database throughput units",
+                    "Active Geo-replication (optional)",
+                    "Point-in-Time restore, 14 days",
+                    "Auditing",
+                    "Pricing based on 744 hours per month of usage"
+                ],
+                "costs": [
+                    {
+                        "amount": {
+                            "usd": 15.00
+                        },
+                        "unit": "monthly estimate"
+                    }
+                ],
+                "displayName": "Standard S0",
+                "details": {
+                    "createMode": "Default",
+                    "edition": "Standard",
+                    "maxSizeBytes": "268435456000",
+                    "requestedServiceObjectiveName": "S0"
+                }
+            }
+        }
+    ]
+}
