@@ -1,0 +1,12 @@
+{
+    "resourceGroup": "sqldbResourceGroup",
+    "sqlServerName": "golive4",
+    "sqlServerCreateIfNotExist": false,
+    "sqldbName": "standards0",
+    "sqldbParameters": {
+        "location": "westus",
+        "properties": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+        }
+    }
+}

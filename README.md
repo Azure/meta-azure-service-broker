@@ -18,6 +18,7 @@ You need an Azure [account](https://azure.microsoft.com/account/). With the acco
 * [Azure Redis Cache Service](./docs/azure-redis-cache.md)
 * [Azure DocumentDB Service](./docs/azure-document-db.md)
 * [Azure Service Bus and Event Hub Service](./docs/azure-service-bus.md)
+* [Azure SQL Database Service](./docs/azure-sql-db.md)
 
 ## Contribute
 
