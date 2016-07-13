@@ -53,7 +53,7 @@
   ```
 
   * **type**: Possible values are `Messaging`, `EventHub` and `NotificationHub`.
-  * **messaging-tier**: Possible values are `Standard`.
+  * **messaging-tier**: Possible values are `Basic`, `Standard` and `Premium` for type `Messaging`, `Basic` and `Standard` for type `EventHub`, `Standard` for type `NotificationHub`.
 
   For example:
 
