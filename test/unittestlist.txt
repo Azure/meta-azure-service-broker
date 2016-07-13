@@ -22,6 +22,3 @@ unit/services/azureservicebus/poll-spec.js
 unit/services/azureservicebus/deprovision-spec.js
 unit/services/azureservicebus/bind-spec.js
 unit/services/azureservicebus/unbind-spec.js
-
-#integration/catalog.js
-#integration/lifecycle.js

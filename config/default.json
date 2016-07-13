@@ -1,0 +1,13 @@
+{
+  "apiVersion": "2.8.0",
+  "authUser": "<REPLACE-WITH-AZURE_SERVICE_BROKER_AUTH_USER>",
+  "authPassword": "<REPLACE-WITH-AZURE_SERVICE_BROKER_AUTH_PASSWORD>",
+  "name": "Meta Azure Service Broker",
+  "port": 5001,
+  "database": {
+    "server": "<REPLACE-WITH-AZURE_SERVICE_BROKER_DATABASE_SERVER>",
+    "user": "<REPLACE-WITH-AZURE_SERVICE_BROKER_DATABASE_USER>",
+    "password": "<REPLACE-WITH-AZURE_SERVICE_BROKER_DATABASE_PASSWORD>",
+    "database": "<REPLACE-WITH-AZURE_SERVICE_BROKER_DATABASE_NAME>"
+  }
+}

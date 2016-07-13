@@ -139,10 +139,10 @@ var azuredocumentdb = {
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
-    "resourceGroup": "binxi052001",
-    "docDbName": "binxitestdb",
+    "resourceGroup": "azure-service-broker-docdb-test",
+    "docDbName": instanceId,
     "parameters": {
-      "location": "westus"
+      "location": "eastus"
     }
   },
   bindingParameters: {},
