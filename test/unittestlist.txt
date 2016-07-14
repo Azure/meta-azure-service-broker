@@ -22,7 +22,6 @@ unit/services/azureservicebus/poll-spec.js
 unit/services/azureservicebus/deprovision-spec.js
 unit/services/azureservicebus/bind-spec.js
 unit/services/azureservicebus/unbind-spec.js
-<<<<<<< HEAD:test/testlist.txt
 
 unit/services/azuresqldb/provision-spec.js
 unit/services/azuresqldb/poll-spec.js
