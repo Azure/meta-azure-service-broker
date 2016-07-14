@@ -96,7 +96,7 @@ var lifecycle = function(service) {
       });
   
       it('should get the credentials by the binding operation and the credentials should be workable', function(done) {
-        this.timeout(60000);
+        this.timeout(300000);
   
         setTimeout(function() {
           chai.request(server)
