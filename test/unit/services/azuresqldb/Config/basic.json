@@ -1,0 +1,18 @@
+{
+    "resourceGroup": "sqldbResourceGroup",
+    "sqlServerName": "golive4",
+    "sqlServerParameters": {
+        "allowSqlServerFirewallRule": {
+            "ruleName": "new rule",
+            "startIpAddress": "131.107.159.102",
+            "endIpAddress": "131.107.159.102"
+        }
+    },
+    "sqldbName": "basic",
+    "sqldbParameters": {
+        "location": "westus",
+        "properties": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+        }
+    }
+}
