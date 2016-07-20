@@ -6,7 +6,7 @@
 
 Instructions to create a DocumentDB account using ARM and CLI are [here](https://azure.microsoft.com/documentation/articles/documentdb-automation-resource-manager-cli/).
 
-After the DocumentDB account is created, you need to specify the following values in the manifest of `meta-azure-service-broker`. **NOTE: In future, these values may be depreciated.**
+After the DocumentDB account is created, you need to specify the following values in the manifest of `meta-azure-service-broker`. **NOTE: In future, these values may be deprecated.**
 
   ```
   docDb_hostEndPoint: REPLACE-ME
@@ -24,14 +24,15 @@ After the DocumentDB account is created, you need to specify the following value
   Sample output:
 
   ```
-  service      plans      description
-  documentdb   standard   DocumentDb Service
+  service           plans       description
+  azure-documentdb   standard*   Azure DocumentDb Service
   ```
+  \* These service plans have an associated cost. Creating a service instance will incur this cost.
 
   If you can not find the service name, please use the following command to make the plans public.
 
   ```
-  cf enable-service-access documentdb
+  cf enable-service-access azure-documentdb
   ```
 
 2. Create a service instance
@@ -39,7 +40,7 @@ After the DocumentDB account is created, you need to specify the following value
   Configuration parameters are supported with the provision request. These parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file.
 
   ```
-  cf create-service documentdb $service_plan $service_instance_name -c $path_to_parameters
+  cf create-service azure-documentdb $service_plan $service_instance_name -c $path_to_parameters
   ```
 
   Supported configuration parameters:
@@ -57,7 +58,7 @@ After the DocumentDB account is created, you need to specify the following value
   For example:
 
   ```
-  cf create-service documentdb standard mydocdb -c /tmp/config.json
+  cf create-service azure-documentdb standard mydocdb -c /tmp/config.json
   ```
 
   ```

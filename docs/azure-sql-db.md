@@ -13,14 +13,15 @@
   Sample output:
 
   ```
-  service                       plans                     description
-  azuresqldb                    basic, StandardS0         Azure SQL Database Service
+  service      plans                                                                                                                      description
+  azure-sqldb   basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, PremiumP1*, PremiumP2*, PremiumP4*, PremiumP6*, PremiumP11*    Azure SQL Database Service
   ```
+  \* These service plans have an associated cost. Creating a service instance will incur this cost.
 
   If you can not find the service name, please use the following command to make the plans public.
 
   ```
-  cf enable-service-access azuresqldb
+  cf enable-service-access azure-sqldb
   ```
 
 2. Create a service instance
@@ -28,7 +29,7 @@
   Configuration parameters are supported with the provision request. These parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file.
 
   ```
-  cf create-service azuresqldb $service_plan $service_instance_name -c $path_to_parameters
+  cf create-service azure-sqldb $service_plan $service_instance_name -c $path_to_parameters
   ```
 
   Supported configuration parameters:
@@ -63,7 +64,7 @@
   For example:
 
   ```
-  cf create-service azuresqldb basic mysqldb -c /tmp/config.json
+  cf create-service azure-sqldb basic mysqldb -c /tmp/config.json
   ```
 
   ```
