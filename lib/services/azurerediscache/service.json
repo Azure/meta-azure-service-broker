@@ -1,7 +1,7 @@
 {
   "id": "0346088a-d4b2-4478-aa32-f18e295ec1d9",
-  "name": "RedisCacheService",
-  "description": "Redis Cache Service",
+  "name": "azure-rediscache",
+  "description": "Azure Redis Cache Service",
   "bindable": true,
   "metadata": {
     "displayName": "Azure Redis Cache",
@@ -12,7 +12,8 @@
   "plans": [{
     "id": "362b3d1b-5b57-4289-80ad-4a15a760c29c",
     "name": "basic",
-    "description": "The small managed Redis cache plan.",
+    "free":false,
+    "description": "Low network bandwidth, shared infrastructure, up to 256 connections, SSL.",
     "metadata": {
       "bullets": [
         "Low network bandwidth",
@@ -31,7 +32,8 @@
   }, {
     "id": "4af8bbd1-962d-4e26-84f1-f72d1d959d87",
     "name": "standard",
-    "description": "The medium managed Redis cache plan.",
+    "free":false,
+    "description": "Low network bandwidth, dedicated infrastructure, up to 1000 connections, redis config, SSL.",
     "metadata": {
       "bullets": [
         "Low network bandwidth",
@@ -52,7 +54,8 @@
   }, {
     "id": "b1057a8f-9a01-423a-bc35-e168d5c04cf0",
     "name": "premium",
-    "description": "The large managed Redis cache plan.",
+    "free":false,
+    "description": "Moderate network bandwidth, all standard features, data persistence, virtual network, redis cluster, SSL.",
     "metadata": {
       "bullets": [
         "Moderate network bandwidth",

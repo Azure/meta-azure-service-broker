@@ -1,6 +1,6 @@
 {
     "id": "fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5",
-    "name": "azuresqldb",
+    "name": "azure-sqldb",
     "description": "Azure SQL Database Service",
     "bindable": true,
     "metadata": {

@@ -181,6 +181,11 @@ describe('SqlDb - Provision - Execution - server & Database that does not previo
                 sqlServerName: 'golive',
                 sqlServerCreateIfNotExist: true,
                 sqlServerParameters: {
+                    allowSqlServerFirewallRule: {
+                        ruleName: 'new rule',
+                        startIpAddress: '131.107.159.102',
+                        endIpAddress: '131.107.159.102'
+                    },
                     location: 'westus',
                     properties: {
                         administratorLogin: 'greg',
