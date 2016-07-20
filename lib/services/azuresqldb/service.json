@@ -45,13 +45,13 @@
             "id": "2497b7f3-341b-4ac6-82fb-d4a48c005e19",
             "name": "StandardS0",
             "free": false,
-            "description": "Standard S0, 10 DTU, 250GB, 14 days point-in-time restore, auditing, optional active geo-replication.",
+            "description": "Standard S0, 10 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
             "metadata": {
                 "bullets": [
                     "Up to 250GB of data",
                     "10 DTU (database throughput units)",
                     "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 14 days",
+                    "Point-in-Time restore, 35 days",
                     "Auditing",
                     "Pricing based on 744 hours per month of usage"
                 ],
@@ -76,13 +76,13 @@
             "id":"17725188-76a2-4d6c-8e86-49f146766eeb",
             "name": "StandardS1",
             "free": false,
-            "description": "Standard S1, 20 DTU, 250GB, 14 days point-in-time restore, auditing, optional active geo-replication.",
+            "description": "Standard S1, 20 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
             "metadata": {
                 "bullets": [
                     "Up to 250GB of data",
                     "20 DTU (database throughput units)",
                     "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 14 days",
+                    "Point-in-Time restore, 35 days",
                     "Auditing",
                     "Pricing based on 744 hours per month of usage"
                 ],
@@ -107,13 +107,13 @@
             "id":"a5537f8e-d816-4b0e-9546-a13811944bdd",
             "name": "StandardS2",
             "free": false,
-            "description": "Standard S2, 50 DTU, 250GB, 14 days point-in-time restore, auditing, optional active geo-replication.",
+            "description": "Standard S2, 50 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
             "metadata": {
                 "bullets": [
                     "Up to 250GB of data",
                     "50 DTU (database throughput units)",
                     "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 14 days",
+                    "Point-in-Time restore, 35 days",
                     "Auditing",
                     "Pricing based on 744 hours per month of usage"
                 ],
@@ -137,13 +137,13 @@
             "id":"26cf84bf-f700-4e65-8048-cbfa9c319d5f",
             "name": "StandardS3",
             "free": false,
-            "description": "Standard S3, 100 DTU, 250GB, 14 days point-in-time restore, auditing, optional active geo-replication.",
+            "description": "Standard S3, 100 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
             "metadata": {
                 "bullets": [
                     "Up to 250GB of data",
                     "100 DTU (database throughput units)",
                     "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 14 days",
+                    "Point-in-Time restore, 35 days",
                     "Auditing",
                     "Pricing based on 744 hours per month of usage"
                 ],
