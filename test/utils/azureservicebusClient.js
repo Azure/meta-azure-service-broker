@@ -6,7 +6,8 @@ var statusCode = require('./statusCode');
 module.exports = function() {
   var clientName = 'azureservicebusClient';
   var log = logule.init(module, clientName);
-  var validate = function(credential, next) {
+
+  this.validateCredential = function(credential, next) {
     var connectionString = 'Endpoint=sb://' + credential.namespace_name + '.servicebus.windows.net/;SharedAccessKeyName=' + credential.shared_access_key_name + ';SharedAccessKey=' + credential.shared_access_key_value; 
     log.debug('connectionString: ' + connectionString);
     var queueName = 'azureservicebus' + Math.floor(Math.random()*1000);
@@ -40,6 +41,7 @@ module.exports = function() {
           serviceBusService.receiveQueueMessage(queueName, function(error, receivedMessage){
             if(!error){
               if(receivedMessage.body == 'servicebus test message') {
+                log.debug('message received');
                 callback(null, statusCode.PASS);
               } else {
                 log.error('Message does not match. Sent: ' + message + ' Received: ' + receivedMessage);
@@ -53,7 +55,7 @@ module.exports = function() {
         }
       ],
       function(err, result) {
-        if(err || !result) {
+        if (err || result != statusCode.PASS) {
           next(statusCode.FAIL);
         } else {
           next(statusCode.PASS)
@@ -63,12 +65,5 @@ module.exports = function() {
       log.error('Got exception: ' + ex);
       next(statusCode.FAIL);
     }   
-  }
-
-  this.validateCredential = function(credential, next) {
-    var sleepTime = 1; //if sleep for 30 seconds(30000), the test will pass
-    setTimeout(function(){
-      validate(credential, next)
-    }, sleepTime);
   }
 }

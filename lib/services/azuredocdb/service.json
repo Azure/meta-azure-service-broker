@@ -1,6 +1,6 @@
 {
   "id": "3befc561-4f0c-4df3-ab26-48ac4e366b1c",
-  "name": "documentdb",
+  "name": "azure-documentdb",
   "description": "Azure DocumentDb Service",
   "bindable": true,
   "metadata": {
@@ -12,6 +12,7 @@
   "plans": [{
     "id": "1abb29ae-fa1c-4f8d-a07b-b363544c3586",
     "name": "standard",
+    "free":false,
     "description": "The standard Azure DocumentDb plan.",
     "metadata": {
       "bullets": [],

@@ -6,7 +6,7 @@ var path = require("path");
 
 var common = require('./lib/common');
 var Broker = require('./lib/broker');
-var config = require('./config/meta-service-broker');
+var config = require('config');
 
 var broker = new Broker(config);
 

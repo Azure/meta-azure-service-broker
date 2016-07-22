@@ -9,7 +9,7 @@
   cd meta-azure-service-broker
   ```
 
-2. Update `config/meta-service-broker.json`.
+2. Update `config/default.json`.
 
   1. Create a SQL database.
 
@@ -33,7 +33,7 @@
 
   2. Update the configurations.
 
-    Update `config/meta-service-broker.json` with the configurations of the SQL database.
+    Update `config/default.json` with the configurations of the SQL database.
 
 3. Update `manifest.yml` with your credentials.
 
@@ -68,7 +68,7 @@
 cf create-service-broker demo-service-broker $authUser $authPassword <URL of the app meta-azure-service-broker>
 ```
 
-`$authUser` and `$authPassword` should be same as the ones in `config/meta-service-broker.json`.
+`$authUser` and `$authPassword` should be same as the ones in `config/default.json`.
 
 ## Make the plans public
 

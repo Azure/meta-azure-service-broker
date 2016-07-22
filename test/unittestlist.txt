@@ -23,5 +23,6 @@ unit/services/azureservicebus/deprovision-spec.js
 unit/services/azureservicebus/bind-spec.js
 unit/services/azureservicebus/unbind-spec.js
 
-#integration/catalog.js
-#integration/lifecycle.js
+unit/services/azuresqldb/provision-spec.js
+unit/services/azuresqldb/poll-spec.js
+unit/services/azuresqldb/deprovision-spec.js
