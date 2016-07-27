@@ -37,6 +37,7 @@
   ```
   {
       "resourceGroup": "<resource-group>",
+      "location": "<resource-group-location>",
       "sqlServerName": "<sql-server-name>",
       "sqlServerCreateIfNotExist": true | false,
       "sqlServerParameters": {
@@ -70,6 +71,7 @@
   ```
   {
     "resourceGroup": "sqldbResourceGroup",
+    "location": "westus",
     "sqlServerName": "sqlservera",
     "sqlServerCreateIfNotExist": true,
     "sqlServerParameters": {
