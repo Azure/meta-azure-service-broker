@@ -1,0 +1,17 @@
+ /*
+{
+  "resource_group_name": "example-servicebus", // Only allow up to 90 characters
+  "namespace_name": "example-servicebus", // Between 6 and 50 characters long
+  "location": "westus",
+  "type": "Messaging", // Possible values are `Messaging`, `EventHub` and `NotificationHub`
+  "messaging_tier": "Standard" // Possible values are `Basic`, `Standard` and `Premium` for type `Messaging`, `Basic` and `Standard` for type `EventHub`, `Standard` for type `NotificationHub`.
+}
+*/
+// Please delete all the comments before using this .json to create service instance.
+{
+  "resource_group_name": "example-servicebus",
+  "namespace_name": "example-servicebus",
+  "location": "westus",
+  "type": "Messaging",
+  "messaging_tier": "Standard"
+}

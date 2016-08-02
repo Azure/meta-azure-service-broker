@@ -44,26 +44,51 @@ describe('ServiceBus', function() {
         utils.createNamespace.restore();
       });
 
-      it('should create the namespace', function(done) {
+      it('should return missing parameter error', function(done) {
         azureservicebus.provision(log, validParams, function(
           err, reply, result) {
-          should.not.exist(err);
-          var replyExpected = {
-            statusCode: 202,
-            code: 'Accepted',
-            value: {}
-          };
-          reply.should.eql(replyExpected);
-          var resultExpected = {
-            'resourceGroupName': 'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-            'namespaceName': 'cfe77a25d2-f58c-11e5-b933-000d3a80e5f5'
-          };
-          result.should.eql(resultExpected);
-
+          err.should.have.property('message',
+            'resource_group_name in configuration needed.');
           done();
         });
       });
     });
+
+    describe('When specific parameters are provided and but incompleted',
+      function() {
+        var validParams = {};
+
+        before(function() {
+          validParams = {
+            instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
+            azure: common.getCredentialsAndSubscriptionId(),
+            parameters: {
+              resource_group_name: 'zhongyisbtest',
+              namespace_name: 'zhongyisb',
+              location: 'westus',
+              messaging_tier: 'Standard'
+            }
+          };
+          sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
+          sinon.stub(utils, 'createResourceGroup').yields(null, 'fake-access-token');
+          sinon.stub(utils, 'createNamespace').yields(null, 'zhongyisbtest', 'zhongyisb');
+        });
+
+        after(function() {
+          utils.getToken.restore();
+          utils.createResourceGroup.restore();
+          utils.createNamespace.restore();
+        });
+
+        it('should return missing parameter error', function(done) {
+          azureservicebus.provision(log, validParams, function(
+            err, reply, result) {
+            err.should.have.property('message',
+              'type in configuration needed.');
+            done();
+          });
+        });
+      });
 
     describe('When specific parameters are provided and valid',
       function() {
@@ -75,7 +100,10 @@ describe('ServiceBus', function() {
             azure: common.getCredentialsAndSubscriptionId(),
             parameters: {
               resource_group_name: 'zhongyisbtest',
-              namespace_name: 'zhongyisb'
+              namespace_name: 'zhongyisb',
+              location: 'westus',
+              type: 'Messaging',
+              messaging_tier: 'Standard'
             }
           };
           sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');

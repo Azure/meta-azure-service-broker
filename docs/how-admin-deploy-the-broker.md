@@ -17,6 +17,8 @@
 
     * [Create an Azure SQL database](https://azure.microsoft.com/en-us/documentation/articles/sql-database-get-started/)
     * Create a SQL server VM on Azure
+    
+    **Please ensure you've created a server-level firewall rule.**
 
   2. Create tables in the SQL database.
 
