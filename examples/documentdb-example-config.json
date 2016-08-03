@@ -1,0 +1,17 @@
+ /*
+{
+  "resourceGroup": "<resource-group-name>", // Only allow up to 90 characters
+  "docDbName": "<DocumentDB-database-name>",
+  "parameters": {
+    "location": "<location>"
+  }
+}
+*/
+// Please delete all the comments before using this .json to create service instance.
+{
+  "resourceGroup": "my-resource-group-name",
+  "docDbName": "docdbname123",
+  "parameters": {
+    "location": "westus"
+  }
+}

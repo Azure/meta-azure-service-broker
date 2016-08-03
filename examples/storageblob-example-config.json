@@ -1,0 +1,15 @@
+ /*
+{
+  "resource_group_name": "<resource-group-name>", // Only allow up to 90 characters
+  "storage_account_name": "<storage-account-name>", // Can contain only lowercase letters and numbers. Name must be between 3 and 24 characters.
+  "location": "<location>",
+  "account_type": "Standard_LRS | <other-account-type>"
+}
+*/
+// Please delete all the comments before using this .json to create service instance.
+{
+  "resource_group_name": "myResourceGroup",
+  "storage_account_name": "mystorageaccount",
+  "location": "eastus",
+  "account_type": "Standard_LRS"
+}

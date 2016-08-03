@@ -1,0 +1,53 @@
+ /*
+{
+    "resourceGroup": "<resource-group>",: "<resource-group>", // Only allow up to 90 characters
+    "location": "<azure-region-name>", 
+    "sqlServerName": "<sql-server-name>", // Servername cannot be empty or null. It can only be made up of lowercase letters 'a'-'z', the numbers 0-9 and the hyphen. The hyphen may not lead or trail in the name.
+    "sqlServerCreateIfNotExist": true | false, // If false, location and properties below are optional.
+    "sqlServerParameters": {
+        "allowSqlServerFirewallRule": { // Optional. If present, ruleName and startIpAddress are mandatory.  If endIpAddress is absent, it is assumed to be equal to startIpAddress.
+            "ruleName": "<rule-name>",
+            "startIpAddress": "xx.xx.xx.xx",
+            "endIpAddress": "xx.xx.xx.xx"
+        },
+        "location": "<azure-region-name>",
+        "properties": {
+            "administratorLogin": "<sql-server-admin-name>",
+            "administratorLoginPassword": "<sql-server-admin-password>"
+        }
+    },
+    "sqldbName": "<sql-database-name>",
+    "sqldbParameters": {
+        "location": "<azure-region-name>",
+        "properties": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
+        }
+    }
+}
+*/
+// Please delete all the comments before using this .json to create service instance.
+{
+    "resourceGroup": "sqldbResourceGroup",
+    "location": "westus",
+    "sqlServerName": "sqlservera",
+    "sqlServerCreateIfNotExist": true,
+    "sqlServerParameters": {
+        "allowSqlServerFirewallRule": {
+            "ruleName": "new rule",
+            "startIpAddress": "131.107.159.102",
+            "endIpAddress": "131.107.159.102"
+        },
+        "location": "westus",
+        "properties": {
+            "administratorLogin": "ulrich",
+            "administratorLoginPassword": "u1r8chP@ss"
+        }
+    },
+    "sqldbName": "sqlDbA",
+    "sqldbParameters": {
+        "location": "westus",
+        "properties": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+        }
+    }
+}

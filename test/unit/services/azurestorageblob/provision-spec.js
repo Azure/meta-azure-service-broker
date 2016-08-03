@@ -50,33 +50,11 @@ describe('StorageBlob', function() {
         storageBlobClient.provision.restore();
       });
 
-      it('should create the storage blob', function(done) {
-        azurestorageblob.provision(log, validParams, function(
+      it('should return missing parameter error', function(done) {
+        azureservicebus.provision(log, validParams, function(
           err, reply, result) {
-          should.not.exist(err);
-          var replyExpected = {
-            statusCode: 202,
-            code: 'Accepted',
-            value: {}
-          };
-          reply.should.eql(replyExpected);
-          var resultExpected = {
-            resourceGroupResult: {
-              'resourceGroupName': 'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-              'groupParameters': {
-                'location': 'eastus'
-              }
-            },
-            storageAccountResult: {
-              'storageAccountName': 'cfe77a25d2f58c11e5b93300',
-              'accountParameters': {
-                'location': 'eastus',
-                'accountType': 'Standard_LRS'
-              }
-            }
-          };
-          result.should.eql(resultExpected);
-
+          err.should.have.property('message',
+            'resource_group_name in configuration needed.');
           done();
         });
       });
@@ -92,7 +70,9 @@ describe('StorageBlob', function() {
             azure: common.getCredentialsAndSubscriptionId(),
             parameters: {
               resource_group_name: 'binxi031702',
-              storage_account_name: 'binxi031702sa'
+              storage_account_name: 'binxi031702sa',
+              location: 'westus',
+              account_type: 'Standard_LRS'
             }
           };
           sinon.stub(storageBlobClient, 'provision').yields(null, [{
@@ -155,7 +135,9 @@ describe('StorageBlob', function() {
             azure: common.getCredentialsAndSubscriptionId(),
             parameters: {
               resource_group_name: 'binxi031702',
-              storage_account_name: 'binxi031702-sa'
+              storage_account_name: 'binxi031702-sa',
+              location: 'westus',
+              account_type: 'Standard_LRS'
             }
           };
           sinon.stub(storageBlobClient, 'provision').yields({

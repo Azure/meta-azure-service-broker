@@ -25,7 +25,6 @@ describe('ServiceBus', function() {
     });
 
     describe('When no specific parameters are provided', function() {
-      var sandbox;
       var validParams = {};
 
       before(function() {

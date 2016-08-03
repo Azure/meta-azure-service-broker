@@ -1,0 +1,31 @@
+/*
+{
+  "resourceGroup": "<resource-group-name>", // Only allow up to 90 characters
+  "cacheName": "<cache-name>",
+  "parameters": {
+    "location": "<location>",
+    "redisVersion": "<redis-version>", // Only 3.0 is available
+    "enableNonSslPort": true | false,
+    "sku": {
+      "name": "<sku-name>",
+      "family": "<sku-family>",
+      "capacity": <capacity>
+    }
+  }
+}
+*/
+// Please delete all the comments before using this .json to create service instance.
+{
+  "resourceGroup": "redisResourceGroup",
+  "cacheName": "C0CacheE",
+  "parameters": {
+    "location": "eastus",
+    "redisVersion": "3.0",
+    "enableNonSslPort": false,
+    "sku": {
+      "name": "Basic",
+      "family": "C",
+      "capacity": 0
+    }
+  }
+}
