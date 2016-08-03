@@ -64,8 +64,8 @@
   ```
   {
     "resource_group_name": "myResourceGroup",
-    "storage_account_name": "myStorageAccount",
-    "container_name": "myContainer",
+    "storage_account_name": "mystorageaccount",
+    "container_name": "mycontainer",
     "location": "eastus",
     "account_type": "Standard_LRS"
   }

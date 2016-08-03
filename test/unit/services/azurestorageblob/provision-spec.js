@@ -51,7 +51,7 @@ describe('StorageBlob', function() {
       });
 
       it('should return missing parameter error', function(done) {
-        azureservicebus.provision(log, validParams, function(
+        azurestorageblob.provision(log, validParams, function(
           err, reply, result) {
           err.should.have.property('message',
             'resource_group_name in configuration needed.');
@@ -71,6 +71,7 @@ describe('StorageBlob', function() {
             parameters: {
               resource_group_name: 'binxi031702',
               storage_account_name: 'binxi031702sa',
+              container_name: 'binxi031702cn',
               location: 'westus',
               account_type: 'Standard_LRS'
             }
@@ -136,6 +137,7 @@ describe('StorageBlob', function() {
             parameters: {
               resource_group_name: 'binxi031702',
               storage_account_name: 'binxi031702-sa',
+              container_name: 'binxi031702cn',
               location: 'westus',
               account_type: 'Standard_LRS'
             }
