@@ -1,7 +1,7 @@
 /*
 {
-  "resourceGroup": "<resource-group-name>", // Only allow up to 90 characters
-  "cacheName": "<cache-name>",
+  "resourceGroup": "<resource-group-name>", // Unique. Only allow up to 90 characters
+  "cacheName": "<cache-name>", // Unique. Must be between 3 and 63 characters long. Can only contain numbers, letters, and the - character. The cache name cannot start or end with the - character, and consecutive - characters are not valid.
   "parameters": {
     "location": "<location>",
     "redisVersion": "<redis-version>", // Only 3.0 is available

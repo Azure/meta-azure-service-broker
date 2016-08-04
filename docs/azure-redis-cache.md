@@ -54,8 +54,10 @@
   For example:
 
   ```
-  cf create-service azure-rediscache basic myrediscache -c /tmp/config.json
+  cf create-service azure-rediscache basic myrediscache -c examples/rediscache-example-config.json
   ```
+
+  The contents of `examples/rediscache-example-config.json`:
 
   ```
   {
@@ -73,6 +75,8 @@
     }
   }
   ```
+  
+  **Please remove the comments in the JSON file before you use it.**
 
 3. Check the operation status of creating the service instance
 

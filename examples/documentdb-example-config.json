@@ -1,7 +1,7 @@
  /*
 {
-  "resourceGroup": "<resource-group-name>", // Only allow up to 90 characters
-  "docDbName": "<DocumentDB-database-name>",
+  "resourceGroup": "<resource-group-name>", // Unique. Only allow up to 90 characters
+  "docDbName": "<DocumentDB-database-name>", // Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
   "parameters": {
     "location": "<location>"
   }

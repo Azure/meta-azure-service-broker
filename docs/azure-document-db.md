@@ -58,8 +58,10 @@ After the DocumentDB account is created, you need to specify the following value
   For example:
 
   ```
-  cf create-service azure-documentdb standard mydocdb -c /tmp/config.json
+  cf create-service azure-documentdb standard mydocdb -c examples/documentdb-example-config.json
   ```
+
+  The contents of `examples/documentdb-example-config.json`:
 
   ```
   {
@@ -70,6 +72,8 @@ After the DocumentDB account is created, you need to specify the following value
     }
   }
   ```
+
+  **Please remove the comments in the JSON file before you use it.**
 
 3. Check the operation status of creating the service instance
 

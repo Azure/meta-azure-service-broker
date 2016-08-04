@@ -1,7 +1,7 @@
  /*
 {
-  "resource_group_name": "<resource-group-name>", // Only allow up to 90 characters
-  "storage_account_name": "<storage-account-name>", // Can contain only lowercase letters and numbers. Name must be between 3 and 24 characters.
+  "resource_group_name": "<resource-group-name>", // Unique. Only allow up to 90 characters
+  "storage_account_name": "<storage-account-name>", // Unique. Can contain only lowercase letters and numbers. Name must be between 3 and 24 characters.
   "container_name": "<container-name>", // Can only contain lowercase letters, numbers, and hyphens, and must begin with a letter or a number. Can not contain two consecutive hyphens. Must be between 3 and 63 characters long.
   "location": "<location>",
   "account_type": "Standard_LRS | <other-account-type>"

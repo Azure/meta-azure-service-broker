@@ -56,10 +56,10 @@
   For example:
 
   ```
-  cf create-service azurestorageblob default myblobservice -c /tmp/config.json
+  cf create-service azurestorageblob default myblobservice -c examples/storageblob-example-config.json
   ```
 
-  The contents of `/tmp/config.json`:
+  The contents of `examples/storageblob-example-config.json`:
 
   ```
   {
@@ -70,6 +70,8 @@
     "account_type": "Standard_LRS"
   }
   ```
+
+  **Please remove the comments in the JSON file before you use it.**
 
 3. Check the operation status of creating the service instance
 

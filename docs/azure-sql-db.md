@@ -65,8 +65,10 @@
   For example:
 
   ```
-  cf create-service azure-sqldb basic mysqldb -c /tmp/config.json
+  cf create-service azure-sqldb basic mysqldb -c examples/sqldb-example-config.json
   ```
+
+  The contents of `examples/sqldb-example-config.json`:
 
   ```
   {
@@ -100,6 +102,9 @@ NOTE: Servername cannot be empty or null. It can only be made up of lowercase le
 NOTE: The 'allowSqlServerFirewallRule' object is optional. If present, ruleName and startIpAddress are mandatory.  If endIpAddress is absent, it is assumed to be equal to startIpAddress.  If sqlServerCreateIfNotExist is false, location and properties are optional.
 
 NOTE: To see a list of collation values valid for use with Azure SQL Database, use this query:
+
+  **Please remove the comments in the JSON file before you use it.**
+
 
 SELECT name, description
 FROM fn_helpCollations()

@@ -48,8 +48,10 @@
   For example:
 
   ```
-  cf create-service azureservicebus default myservicebus -c /tmp/config.json
+  cf create-service azureservicebus default myservicebus -c examples/servicebus-example-config.json
   ```
+
+  The contents of `examples/servicebus-example-config.json`:
 
   ```
   {
@@ -60,6 +62,8 @@
     "messaging_tier": "Standard"
   }
   ```
+
+  **Please remove the comments in the JSON file before you use it.**
 
 3. Check the operation status of creating the service instance
 
