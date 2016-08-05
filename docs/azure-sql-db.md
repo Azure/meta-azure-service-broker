@@ -36,29 +36,29 @@
 
   ```
   {
-      "resourceGroup": "<resource-group>",
-      "location": "<resource-group-location>",
-      "sqlServerName": "<sql-server-name>",
-      "sqlServerCreateIfNotExist": true | false,
-      "sqlServerParameters": {
-          "allowSqlServerFirewallRule": {
+    "resourceGroup": "<resource-group>",: "<resource-group>", // [Required] Unique. Only allow up to 90 characters
+    "location": "<azure-region-name>",         // [Required]
+    "sqlServerName": "<sql-server-name>",      // [Required] Unique. Servername cannot be empty or null. It can only be made up of lowercase letters 'a'-'z', the numbers 0-9 and the hyphen. The hyphen may not lead or trail in the name.
+    "sqlServerCreateIfNotExist": true | false, // If false, location and properties below are optional.
+    "sqlServerParameters": {
+        "allowSqlServerFirewallRule": {        // [Optional] If present, ruleName and startIpAddress are mandatory.  If endIpAddress is absent, it is assumed to be equal to startIpAddress.
             "ruleName": "<rule-name>",
             "startIpAddress": "xx.xx.xx.xx",
             "endIpAddress": "xx.xx.xx.xx"
-          },
-          "location": "<azure-region-name>",
-          "properties": {
-              "administratorLogin": "<sql-server-admin-name>",
-              "administratorLoginPassword": "<sql-server-admin-password>"
-          }
-      },
-      "sqldbName": "<sql-database-name>",
-      "sqldbParameters": {
-          "location": "<azure-region-name>",
-          "properties": {
-              "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
-          }
-      }
+        },
+        "location": "<azure-region-name>",
+        "properties": {
+            "administratorLogin": "<sql-server-admin-name>",
+            "administratorLoginPassword": "<sql-server-admin-password>"
+        }
+    },
+    "sqldbName": "<sql-database-name>",    // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
+    "sqldbParameters": {                   // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+        "location": "<azure-region-name>",
+        "properties": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
+        }
+    }
   }
   ```
 
@@ -103,11 +103,12 @@ NOTE: The 'allowSqlServerFirewallRule' object is optional. If present, ruleName 
 
 NOTE: To see a list of collation values valid for use with Azure SQL Database, use this query:
 
-  **Please remove the comments in the JSON file before you use it.**
-
-
 SELECT name, description
 FROM fn_helpCollations()
+
+NOTE: If you want to set more child parameters in sqldbParameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+
+**Please remove the comments in the JSON file before you use it.**
 
 3. Check the operation status of creating the service instance
 

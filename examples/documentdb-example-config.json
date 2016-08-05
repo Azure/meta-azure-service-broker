@@ -1,9 +1,9 @@
  /*
 {
-  "resourceGroup": "<resource-group-name>", // Unique. Only allow up to 90 characters
-  "docDbName": "<DocumentDB-database-name>", // Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
+  "resourceGroup": "<resource-group-name>",  // [Required] Unique. Only allow up to 90 characters
+  "docDbName": "<DocumentDB-database-name>", // [Required] Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
   "parameters": {
-    "location": "<location>"
+    "location": "<location>"                 // [Required]
   }
 }
 */

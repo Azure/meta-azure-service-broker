@@ -1,10 +1,10 @@
  /*
 {
-  "resource_group_name": "<resource-group-name>", // Only allow up to 90 characters
-  "namespace_name": "<namespace-name>", // Between 6 and 50 characters long
-  "location": "<location>",
-  "type": "<type>", // Possible values are `Messaging`, `EventHub` and `NotificationHub`
-  "messaging_tier": "<messaging-tier>" // Possible values are `Basic`, `Standard` and `Premium` for type `Messaging`, `Basic` and `Standard` for type `EventHub`, `Standard` for type `NotificationHub`.
+  "resource_group_name": "<resource-group-name>", // [Required] Only allow up to 90 characters
+  "namespace_name": "<namespace-name>", // [Required] Between 6 and 50 characters long
+  "location": "<location>",             // [Required]
+  "type": "<type>",                     // [Required] Possible values are `Messaging`, `EventHub` and `NotificationHub`
+  "messaging_tier": "<messaging-tier>"  // [Required] Possible values are `Basic`, `Standard` and `Premium` for type `Messaging`, `Basic` and `Standard` for type `EventHub`, `Standard` for type `NotificationHub`.
 }
 */
 // Please delete all the comments before using this .json to create service instance.

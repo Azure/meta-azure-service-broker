@@ -34,11 +34,11 @@
   Supported configuration parameters:
   ```
   {
-    "resource_group_name": "<resource-group-name>",
-    "namespace_name": "<namespace-name>",
-    "location": "<location>",
-    "type": "<type>",
-    "messaging_tier": "<messaging-tier>"
+    "resource_group_name": "<resource-group-name>", // [Required] Only allow up to 90 characters
+    "namespace_name": "<namespace-name>", // [Required] Between 6 and 50 characters long
+    "location": "<location>",             // [Required]
+    "type": "<type>",                     // [Required] Possible values are `Messaging`, `EventHub` and `NotificationHub`
+    "messaging_tier": "<messaging-tier>"  // [Required] Possible values are `Basic`, `Standard` and `Premium` for type `Messaging`, `Basic` and `Standard` for type `EventHub`, `Standard` for type `NotificationHub`.
   }
   ```
 

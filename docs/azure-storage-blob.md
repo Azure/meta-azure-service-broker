@@ -45,11 +45,11 @@
 
   ```
   {
-    "resource_group_name": "<resource-group-name>",
-    "storage_account_name": "<storage-account-name>",
-    "container_name": "<container-name>",
-    "location": "<location>",
-    "account_type": "<account-type>"
+    "resource_group_name": "<resource-group-name>",   // [Required] Unique. Only allow up to 90 characters
+    "storage_account_name": "<storage-account-name>", // [Required] Unique. Can contain only lowercase letters and numbers. Name must be between 3 and 24 characters.
+    "container_name": "<container-name>",             // [Required] Can only contain lowercase letters, numbers, and hyphens, and must begin with a letter or a number. Can not contain two consecutive hyphens. Must be between 3 and 63 characters long.
+    "location": "<location>",                         // [Required]
+    "account_type": "Standard_LRS | <other-account-type>"  // [Required] Possible value: Standard_LRS | Standard_ZRS | Standard_GRS | Standard_RAGRS | Premium_LRS . See more details: https://azure.microsoft.com/en-us/pricing/details/storage/
   }
   ```
 
