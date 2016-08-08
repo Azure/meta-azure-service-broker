@@ -1,22 +1,19 @@
 var should = require('should');
+var AzureEnvironment = require('ms-rest-azure').AzureEnvironment;
 
-var utils = require('../../../lib/common');
+var Common = require('../../../lib/common');
 
 describe('Util', function() {
 
-  describe('extend()', function() {
-    it('should extend an object\'s properties with another\'s',
-      function() {
-        var target = {
-          test: 'example'
-        };
-        var source = {
-          foo: 'bar'
-        };
-        var extendedTarget = utils.extend(target, source);
-        extendedTarget.should.have.property('test', 'example');
-        extendedTarget.should.have.property('foo', 'bar');
-      });
+  describe('getEnvironment()', function() {
+    it('should get the environment by the name', function() {
+      var envName = 'AzureCloud';
+      var env = Common.getEnvironment(envName);
+      env.should.be.exactly(AzureEnvironment.Azure);
+      envName = 'AzureChinaCloud';
+      var env = Common.getEnvironment(envName);
+      env.should.be.exactly(AzureEnvironment.AzureChina);
+    });
   });
 
 });
