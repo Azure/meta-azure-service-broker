@@ -37,7 +37,7 @@
   ```
   {
     "resourceGroup": "<resource-group>",: "<resource-group>", // [Required] Unique. Only allow up to 90 characters
-    "location": "<azure-region-name>",         // [Required]
+    "location": "<azure-region-name>",         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
     "sqlServerName": "<sql-server-name>",      // [Required] Unique. Servername cannot be empty or null. It can only be made up of lowercase letters 'a'-'z', the numbers 0-9 and the hyphen. The hyphen may not lead or trail in the name.
     "sqlServerCreateIfNotExist": true | false, // If false, location and properties below are optional.
     "sqlServerParameters": {

@@ -36,7 +36,7 @@
   {
     "resource_group_name": "<resource-group-name>", // [Required] Only allow up to 90 characters
     "namespace_name": "<namespace-name>", // [Required] Between 6 and 50 characters long
-    "location": "<location>",             // [Required]
+    "location": "<location>",             // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
     "type": "<type>",                     // [Required] Possible values are `Messaging`, `EventHub` and `NotificationHub`
     "messaging_tier": "<messaging-tier>"  // [Required] Possible values are `Basic`, `Standard` and `Premium` for type `Messaging`, `Basic` and `Standard` for type `EventHub`, `Standard` for type `NotificationHub`.
   }
