@@ -18,37 +18,19 @@ var azurestorageblob = {
   provisioningParameters: {
     "resource_group_name": resourceGroupName,
     "storage_account_name": storageAccountName,
+    "container_name": "mycontainer",
     "location": "eastasia",
     "account_type": "Standard_RAGRS"
   },
   bindingParameters: {},
   credentials: {
     "storage_account_name": storageAccountName,
-    "container_name": "<string>",
+    "container_name": "mycontainer",
     "primary_access_key": "<string>",
     "secondary_access_key": "<string>"
   }
 }
 testMatrix.push(azurestorageblob);
-
-instanceId = uuid.v4();
-bindingId = uuid.v4();
-var azurestorageblobWithoutParameters = {
-  serviceName: 'azurestorageblob',
-  serviceId: '2e2fc314-37b6-4587-8127-8f9ee8b33fea',
-  planId: '6ddf6b41-fb60-4b70-af99-8ecc4896b3cf',
-  instanceId: instanceId,
-  bindingId: bindingId,
-  provisioningParameters: {},
-  bindingParameters: {},
-  credentials: {
-    "storage_account_name": "<string>",
-    "container_name": "<string>",
-    "primary_access_key": "<string>",
-    "secondary_access_key": "<string>"
-  }
-}
-testMatrix.push(azurestorageblobWithoutParameters);
 
 instanceId = uuid.v4();
 bindingId = uuid.v4();
@@ -78,24 +60,6 @@ testMatrix.push(azureservicebus);
 
 instanceId = uuid.v4();
 bindingId = uuid.v4();
-var azureservicebusWithoutParameters = {
-  serviceName: 'azureservicebus',
-  serviceId: '6dc44338-2f13-4bc5-9247-5b1b3c5462d3',
-  planId: '6be0d8b5-381f-4d68-bdfd-a131425d3835',
-  instanceId: instanceId,
-  bindingId: bindingId,
-  provisioningParameters: {},
-  bindingParameters: {},
-  credentials: {
-    "namespace_name": "<string>",
-    "shared_access_key_name": "<string>",
-    "shared_access_key_value": "<string>",
-  }
-}
-testMatrix.push(azureservicebusWithoutParameters);
-
-instanceId = uuid.v4();
-bindingId = uuid.v4();
 resourceGroupName = 'cloud-foundry-' + instanceId;
 var cacheName = 'cf' + instanceId;
 var azurerediscache = {
@@ -109,7 +73,6 @@ var azurerediscache = {
     "cacheName": cacheName,
     "parameters": {
       "location": "eastus",
-      "redisVersion": "3.0",
       "enableNonSslPort": false,
       "sku": {
         "name": "Basic",
