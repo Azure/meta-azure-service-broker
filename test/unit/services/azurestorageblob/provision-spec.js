@@ -69,20 +69,20 @@ describe('StorageBlob', function() {
             instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
             azure: common.getCredentialsAndSubscriptionId(),
             parameters: {
-              resource_group_name: 'binxi031702',
-              storage_account_name: 'binxi031702sa',
-              container_name: 'binxi031702cn',
+              resource_group_name: 'test031702',
+              storage_account_name: 'test031702sa',
+              container_name: 'test031702cn',
               location: 'westus',
               account_type: 'Standard_LRS'
             }
           };
           sinon.stub(storageBlobClient, 'provision').yields(null, [{
-            'resourceGroupName': 'binxi031702',
+            'resourceGroupName': 'test031702',
             'groupParameters': {
               'location': 'eastus'
             }
           }, {
-            'storageAccountName': 'binxi031702sa',
+            'storageAccountName': 'test031702sa',
             'accountParameters': {
               'location': 'eastus',
               'accountType': 'Standard_LRS'
@@ -106,13 +106,13 @@ describe('StorageBlob', function() {
             reply.should.eql(replyExpected);
             var resultExpected = {
               resourceGroupResult: {
-                'resourceGroupName': 'binxi031702',
+                'resourceGroupName': 'test031702',
                 'groupParameters': {
                   'location': 'eastus'
                 }
               },
               storageAccountResult: {
-                'storageAccountName': 'binxi031702sa',
+                'storageAccountName': 'test031702sa',
                 'accountParameters': {
                   'location': 'eastus',
                   'accountType': 'Standard_LRS'
@@ -135,9 +135,9 @@ describe('StorageBlob', function() {
             instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
             azure: common.getCredentialsAndSubscriptionId(),
             parameters: {
-              resource_group_name: 'binxi031702',
-              storage_account_name: 'binxi031702-sa',
-              container_name: 'binxi031702cn',
+              resource_group_name: 'test031702',
+              storage_account_name: 'test031702-sa',
+              container_name: 'test031702cn',
               location: 'westus',
               account_type: 'Standard_LRS'
             }

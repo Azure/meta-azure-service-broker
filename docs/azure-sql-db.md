@@ -84,8 +84,8 @@
         },
         "location": "westus",
         "properties": {
-            "administratorLogin": "ulrich",
-            "administratorLoginPassword": "u1r8chP@ss"
+            "administratorLogin": "myusername",
+            "administratorLoginPassword": "mypassword"
         }
     },
     "sqldbName": "sqlDbA",

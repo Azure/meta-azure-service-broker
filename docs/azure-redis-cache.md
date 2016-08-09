@@ -61,7 +61,7 @@
   ```
   {
     "resourceGroup": "redisResourceGroup",
-    "cacheName": "C0CacheE",
+    "cacheName": "mycache",
     "parameters": {
       "location": "eastus",
       "enableNonSslPort": false,

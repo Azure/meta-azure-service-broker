@@ -62,15 +62,15 @@ describe('ServiceBus', function() {
             instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
             azure: common.getCredentialsAndSubscriptionId(),
             parameters: {
-              resource_group_name: 'zhongyisbtest',
-              namespace_name: 'zhongyisb',
+              resource_group_name: 'mysbtest',
+              namespace_name: 'mysb',
               location: 'westus',
               messaging_tier: 'Standard'
             }
           };
           sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
           sinon.stub(utils, 'createResourceGroup').yields(null, 'fake-access-token');
-          sinon.stub(utils, 'createNamespace').yields(null, 'zhongyisbtest', 'zhongyisb');
+          sinon.stub(utils, 'createNamespace').yields(null, 'mysbtest', 'mysb');
         });
 
         after(function() {
@@ -98,8 +98,8 @@ describe('ServiceBus', function() {
             instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
             azure: common.getCredentialsAndSubscriptionId(),
             parameters: {
-              resource_group_name: 'zhongyisbtest',
-              namespace_name: 'zhongyisb',
+              resource_group_name: 'mysbtest',
+              namespace_name: 'mysb',
               location: 'westus',
               type: 'Messaging',
               messaging_tier: 'Standard'
@@ -107,7 +107,7 @@ describe('ServiceBus', function() {
           };
           sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
           sinon.stub(utils, 'createResourceGroup').yields(null, 'fake-access-token');
-          sinon.stub(utils, 'createNamespace').yields(null, 'zhongyisbtest', 'zhongyisb');
+          sinon.stub(utils, 'createNamespace').yields(null, 'mysbtest', 'mysb');
         });
 
         after(function() {
@@ -127,8 +127,8 @@ describe('ServiceBus', function() {
             };
             reply.should.eql(replyExpected);
             var resultExpected = {
-                'resourceGroupName': 'zhongyisbtest',
-                'namespaceName': 'zhongyisb',
+                'resourceGroupName': 'mysbtest',
+                'namespaceName': 'mysb',
             };
             result.should.eql(resultExpected);
 
