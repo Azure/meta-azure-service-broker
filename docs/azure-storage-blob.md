@@ -25,17 +25,7 @@
 
 2. Create a service instance
 
-  ```
-  cf create-service azurestorageblob $service_plan $service_instance_name
-  ```
-
-  For example:
-
-  ```
-  cf create-service azurestorageblob default myblobservice
-  ```
-
-  Additional configuration parameters are supported with the provision request. These parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
+  Configuration parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
 
   ```
   cf create-service azurestorageblob $service_plan $service_instance_name -c $path_to_parameters
