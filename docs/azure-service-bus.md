@@ -25,17 +25,7 @@
 
 2. Create a service instance
 
-  ```
-  cf create-service azureservicebus $service_plan $service_instance_name
-  ```
-
-  For example:
-
-  ```
-  cf create-service azureservicebus default myservicebus
-  ```
-
-  Additional configuration parameters are supported with the provision request. These parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
+  Configuration parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
 
   ```
   cf create-service azureservicebus $service_plan $service_instance_name -c $path_to_parameters
@@ -44,11 +34,11 @@
   Supported configuration parameters:
   ```
   {
-    "resource_group_name": "<resource-group-name>",
-    "namespace_name": "<namespace-name>",
-    "location": "<location>",
-    "type": "<type>",
-    "messaging_tier": "<messaging-tier>"
+    "resource_group_name": "<resource-group-name>", // [Required] Only allow up to 90 characters
+    "namespace_name": "<namespace-name>", // [Required] Between 6 and 50 characters long
+    "location": "<location>",             // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
+    "type": "<type>",                     // [Required] Possible values are `Messaging`, `EventHub` and `NotificationHub`
+    "messaging_tier": "<messaging-tier>"  // [Required] Possible values are `Basic`, `Standard` and `Premium` for type `Messaging`, `Basic` and `Standard` for type `EventHub`, `Standard` for type `NotificationHub`.
   }
   ```
 
@@ -58,8 +48,10 @@
   For example:
 
   ```
-  cf create-service azureservicebus default myservicebus -c /tmp/config.json
+  cf create-service azureservicebus default myservicebus -c examples/servicebus-example-config.json
   ```
+
+  The contents of `examples/servicebus-example-config.json`:
 
   ```
   {
@@ -70,6 +62,8 @@
     "messaging_tier": "Standard"
   }
   ```
+
+  **Please remove the comments in the JSON file before you use it.**
 
 3. Check the operation status of creating the service instance
 

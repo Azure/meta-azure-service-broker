@@ -47,10 +47,10 @@ After the DocumentDB account is created, you need to specify the following value
 
   ```
   {
-    "resourceGroup": "<resource-group-name>",
-    "docDbName": "<DocumentDB-database-name>",
+    "resourceGroup": "<resource-group-name>",  // [Required] Unique. Only allow up to 90 characters
+    "docDbName": "<DocumentDB-database-name>", // [Required] Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
     "parameters": {
-      "location": "<location>"
+      "location": "<location>"                 // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
     }
   }
   ```
@@ -58,8 +58,10 @@ After the DocumentDB account is created, you need to specify the following value
   For example:
 
   ```
-  cf create-service azure-documentdb standard mydocdb -c /tmp/config.json
+  cf create-service azure-documentdb standard mydocdb -c examples/documentdb-example-config.json
   ```
+
+  The contents of `examples/documentdb-example-config.json`:
 
   ```
   {
@@ -70,6 +72,8 @@ After the DocumentDB account is created, you need to specify the following value
     }
   }
   ```
+
+  **Please remove the comments in the JSON file before you use it.**
 
 3. Check the operation status of creating the service instance
 

@@ -1,0 +1,17 @@
+ /*
+{
+  "resource_group_name": "<resource-group-name>",   // [Required] Unique. Only allow up to 90 characters
+  "storage_account_name": "<storage-account-name>", // [Required] Unique. Can contain only lowercase letters and numbers. Name must be between 3 and 24 characters.
+  "container_name": "<container-name>",             // [Required] Can only contain lowercase letters, numbers, and hyphens, and must begin with a letter or a number. Can not contain two consecutive hyphens. Must be between 3 and 63 characters long.
+  "location": "<location>",                         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
+  "account_type": "Standard_LRS | <other-account-type>"  // [Required] Possible value: Standard_LRS | Standard_ZRS | Standard_GRS | Standard_RAGRS | Premium_LRS . See more details: https://azure.microsoft.com/en-us/pricing/details/storage/
+}
+*/
+// Please delete all the comments before using this .json to create service instance.
+{
+  "resource_group_name": "myResourceGroup",
+  "storage_account_name": "mystorageaccount",
+  "container_name": "mycontainer",
+  "location": "eastus",
+  "account_type": "Standard_LRS"
+}

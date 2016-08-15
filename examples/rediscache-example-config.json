@@ -1,0 +1,29 @@
+/*
+{
+  "resourceGroup": "<resource-group-name>", // [Required] Unique. Only allow up to 90 characters
+  "cacheName": "<cache-name>",              // [Required] Unique. Must be between 3 and 63 characters long. Can only contain numbers, letters, and the - character. The cache name cannot start or end with the - character, and consecutive - characters are not valid.
+  "parameters": {
+    "location": "<location>",               // [Required  e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
+    "enableNonSslPort": true | false,
+    "sku": {                                // [Required] e.g. Basic C 0 for cache size 250MB, low network performance and 256 client connections. See more skus: https://azure.microsoft.com/en-us/pricing/details/cache/
+      "name": "<sku-name>",
+      "family": "<sku-family>",
+      "capacity": <capacity>
+    }
+  }
+}
+*/
+// Please delete all the comments before using this .json to create service instance.
+{
+  "resourceGroup": "redisResourceGroup",
+  "cacheName": "mycache",
+  "parameters": {
+    "location": "eastus",
+    "enableNonSslPort": false,
+    "sku": {
+      "name": "Basic",
+      "family": "C",
+      "capacity": 0
+    }
+  }
+}

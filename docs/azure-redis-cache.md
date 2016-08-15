@@ -36,13 +36,12 @@
 
   ```
   {
-    "resourceGroup": "<resource-group-name>",
-    "cacheName": "<cache-name>",
+    "resourceGroup": "<resource-group-name>", // [Required] Unique. Only allow up to 90 characters
+    "cacheName": "<cache-name>",              // [Required] Unique. Must be between 3 and 63 characters long. Can only contain numbers, letters, and the - character. The cache name cannot start or end with the - character, and consecutive - characters are not valid.
     "parameters": {
-      "location": "<location>",
-      "redisVersion": "<redis-version>",
+      "location": "<location>",               // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
       "enableNonSslPort": true | false,
-      "sku": {
+      "sku": {                                // [Required] EXAMPLE: Basic C 0 for cache size 250MB, low network performance and 256 client connections. See more skus: https://azure.microsoft.com/en-us/pricing/details/cache/
         "name": "<sku-name>",
         "family": "<sku-family>",
         "capacity": <capacity>
@@ -54,16 +53,17 @@
   For example:
 
   ```
-  cf create-service azure-rediscache basic myrediscache -c /tmp/config.json
+  cf create-service azure-rediscache basic myrediscache -c examples/rediscache-example-config.json
   ```
+
+  The contents of `examples/rediscache-example-config.json`:
 
   ```
   {
     "resourceGroup": "redisResourceGroup",
-    "cacheName": "C0CacheE",
+    "cacheName": "mycache",
     "parameters": {
       "location": "eastus",
-      "redisVersion": "3.0",
       "enableNonSslPort": false,
       "sku": {
         "name": "Basic",
@@ -73,6 +73,8 @@
     }
   }
   ```
+  
+  **Please remove the comments in the JSON file before you use it.**
 
 3. Check the operation status of creating the service instance
 

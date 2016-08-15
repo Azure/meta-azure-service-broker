@@ -25,17 +25,7 @@
 
 2. Create a service instance
 
-  ```
-  cf create-service azurestorageblob $service_plan $service_instance_name
-  ```
-
-  For example:
-
-  ```
-  cf create-service azurestorageblob default myblobservice
-  ```
-
-  Additional configuration parameters are supported with the provision request. These parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
+  Configuration parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
 
   ```
   cf create-service azurestorageblob $service_plan $service_instance_name -c $path_to_parameters
@@ -45,29 +35,33 @@
 
   ```
   {
-    "resource_group_name": "<resource-group-name>",
-    "storage_account_name": "<storage-account-name>",
-    "location": "<location>",
-    "account_type": "<account-type>"
+    "resource_group_name": "<resource-group-name>",   // [Required] Unique. Only allow up to 90 characters
+    "storage_account_name": "<storage-account-name>", // [Required] Unique. Can contain only lowercase letters and numbers. Name must be between 3 and 24 characters.
+    "container_name": "<container-name>",             // [Required] Can only contain lowercase letters, numbers, and hyphens, and must begin with a letter or a number. Can not contain two consecutive hyphens. Must be between 3 and 63 characters long.
+    "location": "<location>",                         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
+    "account_type": "Standard_LRS | <other-account-type>"  // [Required] Possible value: Standard_LRS | Standard_ZRS | Standard_GRS | Standard_RAGRS | Premium_LRS . See more details: https://azure.microsoft.com/en-us/pricing/details/storage/
   }
   ```
 
   For example:
 
   ```
-  cf create-service azurestorageblob default myblobservice -c /tmp/config.json
+  cf create-service azurestorageblob default myblobservice -c examples/storageblob-example-config.json
   ```
 
-  The contents of `/tmp/config.json`:
+  The contents of `examples/storageblob-example-config.json`:
 
   ```
   {
     "resource_group_name": "myResourceGroup",
     "storage_account_name": "mystorageaccount",
+    "container_name": "mycontainer",
     "location": "eastus",
     "account_type": "Standard_LRS"
   }
   ```
+
+  **Please remove the comments in the JSON file before you use it.**
 
 3. Check the operation status of creating the service instance
 

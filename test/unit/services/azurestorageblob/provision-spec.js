@@ -50,33 +50,11 @@ describe('StorageBlob', function() {
         storageBlobClient.provision.restore();
       });
 
-      it('should create the storage blob', function(done) {
+      it('should return missing parameter error', function(done) {
         azurestorageblob.provision(log, validParams, function(
           err, reply, result) {
-          should.not.exist(err);
-          var replyExpected = {
-            statusCode: 202,
-            code: 'Accepted',
-            value: {}
-          };
-          reply.should.eql(replyExpected);
-          var resultExpected = {
-            resourceGroupResult: {
-              'resourceGroupName': 'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-              'groupParameters': {
-                'location': 'eastus'
-              }
-            },
-            storageAccountResult: {
-              'storageAccountName': 'cfe77a25d2f58c11e5b93300',
-              'accountParameters': {
-                'location': 'eastus',
-                'accountType': 'Standard_LRS'
-              }
-            }
-          };
-          result.should.eql(resultExpected);
-
+          err.should.have.property('message',
+            'resource_group_name in configuration needed.');
           done();
         });
       });
@@ -91,17 +69,20 @@ describe('StorageBlob', function() {
             instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
             azure: common.getCredentialsAndSubscriptionId(),
             parameters: {
-              resource_group_name: 'binxi031702',
-              storage_account_name: 'binxi031702sa'
+              resource_group_name: 'test031702',
+              storage_account_name: 'test031702sa',
+              container_name: 'test031702cn',
+              location: 'westus',
+              account_type: 'Standard_LRS'
             }
           };
           sinon.stub(storageBlobClient, 'provision').yields(null, [{
-            'resourceGroupName': 'binxi031702',
+            'resourceGroupName': 'test031702',
             'groupParameters': {
               'location': 'eastus'
             }
           }, {
-            'storageAccountName': 'binxi031702sa',
+            'storageAccountName': 'test031702sa',
             'accountParameters': {
               'location': 'eastus',
               'accountType': 'Standard_LRS'
@@ -125,13 +106,13 @@ describe('StorageBlob', function() {
             reply.should.eql(replyExpected);
             var resultExpected = {
               resourceGroupResult: {
-                'resourceGroupName': 'binxi031702',
+                'resourceGroupName': 'test031702',
                 'groupParameters': {
                   'location': 'eastus'
                 }
               },
               storageAccountResult: {
-                'storageAccountName': 'binxi031702sa',
+                'storageAccountName': 'test031702sa',
                 'accountParameters': {
                   'location': 'eastus',
                   'accountType': 'Standard_LRS'
@@ -154,8 +135,11 @@ describe('StorageBlob', function() {
             instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
             azure: common.getCredentialsAndSubscriptionId(),
             parameters: {
-              resource_group_name: 'binxi031702',
-              storage_account_name: 'binxi031702-sa'
+              resource_group_name: 'test031702',
+              storage_account_name: 'test031702-sa',
+              container_name: 'test031702cn',
+              location: 'westus',
+              account_type: 'Standard_LRS'
             }
           };
           sinon.stub(storageBlobClient, 'provision').yields({
