@@ -14,13 +14,13 @@
 
   ```
   service                       plans                     description
-  azureservicebus               default                   Azure Service Bus Service
+  azure-servicebus              standard                  Azure Service Bus Service
   ```
 
   If you can not find the service name, please use the following command to make the plans public.
 
   ```
-  cf enable-service-access azureservicebus
+  cf enable-service-access azure-servicebus
   ```
 
 2. Create a service instance
@@ -28,7 +28,7 @@
   Configuration parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
 
   ```
-  cf create-service azureservicebus $service_plan $service_instance_name -c $path_to_parameters
+  cf create-service azure-servicebus $service_plan $service_instance_name -c $path_to_parameters
   ```
 
   Supported configuration parameters:

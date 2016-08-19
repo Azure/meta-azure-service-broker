@@ -1,6 +1,6 @@
 {
   "id": "6dc44338-2f13-4bc5-9247-5b1b3c5462d3",
-  "name": "azureservicebus",
+  "name": "azure-servicebus",
   "description": "Azure Service Bus Service",
   "bindable": true,
   "tags": [
@@ -15,9 +15,8 @@
   },
   "plans": [{
     "id": "6be0d8b5-381f-4d68-bdfd-a131425d3835",
-    "name": "default",
+    "name": "standard",
+    "free": false,
     "description": "Your cost depends on your operations. See details: https://azure.microsoft.com/en-us/pricing/details/service-bus/"
   }]
 }
-
-

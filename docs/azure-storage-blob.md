@@ -14,13 +14,13 @@
 
   ```
   service                       plans                     description
-  azurestorageblob              default                   Azure Storage Blob Service
+  azure-storageblob             standard                  Azure Storage Blob Service
   ```
 
   If you can not find the service name, please use the following command to make the plans public.
 
   ```
-  cf enable-service-access azurestorageblob
+  cf enable-service-access azure-storageblob
   ```
 
 2. Create a service instance
@@ -28,7 +28,7 @@
   Configuration parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
 
   ```
-  cf create-service azurestorageblob $service_plan $service_instance_name -c $path_to_parameters
+  cf create-service azure-storageblob $service_plan $service_instance_name -c $path_to_parameters
   ```
 
   Supported configuration parameters:
@@ -103,7 +103,7 @@ In the application, you can use Azure SDK for Python to operate your storage acc
 1. Get the credentials from the environment variables
 
   ```
-  service_name = 'azurestorageblob'
+  service_name = 'azure-storageblob'
   vcap_services = json.loads(os.environ['VCAP_SERVICES'])
   account_name = vcap_services[service_name][0]['credentials']['storage_account_name']
   account_key = vcap_services[service_name][0]['credentials']['primary_access_key']
