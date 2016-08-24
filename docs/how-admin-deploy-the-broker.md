@@ -136,7 +136,7 @@ cf enable-service-access $service-name
 For example:
 
 ```
-cf enable-service-access azurestorageblob
+cf enable-service-access azure-storageblob
 ```
 
 Show the services in the marketplace to verify they are ready.
