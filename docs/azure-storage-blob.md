@@ -46,7 +46,7 @@
   For example:
 
   ```
-  cf create-service azurestorageblob default myblobservice -c examples/storageblob-example-config.json
+  cf create-service azure-storageblob standard myblobservice -c examples/storageblob-example-config.json
   ```
 
   The contents of `examples/storageblob-example-config.json`:
