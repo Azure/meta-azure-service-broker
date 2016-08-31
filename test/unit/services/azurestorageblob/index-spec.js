@@ -27,6 +27,9 @@ var storageAccountName = 'fakestorageaccountname';
 var containerName = 'fakecontainername';
 var location = 'East Asia';
 var accountType = 'Standard_LRS';
+var tags = {
+  'foo': 'bar'
+};
 
 var groupParameters = {
   location: location
@@ -34,6 +37,7 @@ var groupParameters = {
 var accountParameters = {
   location: location,
   accountType: accountType,
+  tags: tags,
 };
 
 var provisioningResult = {
@@ -47,7 +51,8 @@ var provisioningResult = {
     storageAccountName: storageAccountName,
     accountParameters: {
       location: location,
-      accountType: accountType
+      accountType: accountType,
+      tags: tags
     }
   }
 };

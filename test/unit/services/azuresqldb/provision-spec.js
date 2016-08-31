@@ -39,19 +39,25 @@ describe('SqlDb - Provision - PreConditions', function () {
             plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
             parameters: {      // developer's input parameters file
                 resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'golive',
+                sqlServerName: 'azureuser',
                 sqlServerCreateIfNotExist: true,
                 sqlServerParameters: {
                     location: 'westus',
                     properties: {
-                        administratorLogin: 'greg',
-                        administratorLoginPassword: 'P@ssw0rd!'
+                        administratorLogin: 'azureuser',
+                        administratorLoginPassword: 'c1oudc0w'
+                    },
+                    tags: {
+                        foo: 'bar'
                     }
                 },
-                sqldbName: 'goliveSqlDb',
+                sqldbName: 'azureuserSqlDb',
                 sqldbParameters: {
                     properties: {
                         collation: 'SQL_Latin1_General_CP1_CI_AS'
+                    },
+                    tags: {
+                        foo: 'bar'
                     }
                 }
             },
@@ -79,15 +85,15 @@ describe('SqlDb - Provision - PreConditions', function () {
             plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
             parameters: {      // developer's input parameters file
                 resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'golive',
+                sqlServerName: 'azureuser',
                 sqlServerCreateIfNotExist: true,
                 sqlServerParameters: {
                     location: 'westus',
                     properties: {
-                        administratorLogin: 'greg'
+                        administratorLogin: 'azureuser'
                     }
                 },
-                sqldbName: 'goliveSqlDb',
+                sqldbName: 'azureuserSqlDb',
                 sqldbParameters: {
                     properties: {
                         collation: 'SQL_Latin1_General_CP1_CI_AS'
@@ -118,15 +124,15 @@ describe('SqlDb - Provision - PreConditions testing', function () {
             plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
             parameters: {      // developer's input parameters file
                 resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'golive',
+                sqlServerName: 'azureuser',
                 sqlServerCreateIfNotExist: true,
                 sqlServerParameters: {
                     location: 'westus',
                     properties: {
-                        administratorLoginPassword: 'P@ssw0rd!'
+                        administratorLoginPassword: 'c1oudc0w'
                     }
                 },
-                sqldbName: 'goliveSqlDb',
+                sqldbName: 'azureuserSqlDb',
                 sqldbParameters: {
                     properties: {
                         collation: 'SQL_Latin1_General_CP1_CI_AS'
@@ -178,21 +184,21 @@ describe('SqlDb - Provision - Execution - server & Database that does not previo
             plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
             parameters: {      // developer's input parameters file
                 resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'golive',
+                sqlServerName: 'azureuser',
                 sqlServerCreateIfNotExist: true,
                 sqlServerParameters: {
                     allowSqlServerFirewallRule: {
                         ruleName: 'new rule',
-                        startIpAddress: '131.107.159.102',
-                        endIpAddress: '131.107.159.102'
+                        startIpAddress: '0.0.0.0',
+                        endIpAddress: '255.255.255.255'
                     },
                     location: 'westus',
                     properties: {
-                        administratorLogin: 'greg',
-                        administratorLoginPassword: 'P@ssw0rd!'
+                        administratorLogin: 'azureuser',
+                        administratorLoginPassword: 'c1oudc0w'
                     }
                 },
-                sqldbName: 'goliveSqlDb',
+                sqldbName: 'azureuserSqlDb',
                 sqldbParameters: {
                     properties: {
                         collation: 'SQL_Latin1_General_CP1_CI_AS'
@@ -249,8 +255,8 @@ describe('SqlDb - Provision - Execution - Basic plan, no sql server parameters, 
             plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
             parameters: {      // developer's input parameters file
                 resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'golive',
-                sqldbName: 'goliveSqlDb',
+                sqlServerName: 'azureuser',
+                sqldbName: 'azureuserSqlDb',
                 sqldbParameters: {
                     properties: {
                         collation: 'SQL_Latin1_General_CP1_CI_AS'
@@ -301,8 +307,8 @@ describe('SqlDb - Provision - Execution - StandardS0 plan, no sql server paramet
             plan_id: "2497b7f3-341b-4ac6-82fb-d4a48c005e19",
             parameters: {      // developer's input parameters file
                 resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'golive',
-                sqldbName: 'goliveSqlDb',
+                sqlServerName: 'azureuser',
+                sqldbName: 'azureuserSqlDb',
                 sqldbParameters: {
                     properties: {
                         collation: 'SQL_Latin1_General_CP1_CI_AS'
@@ -354,21 +360,21 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'sqldbResourceGroup',
-                    sqlServerName: 'golive',
+                    sqlServerName: 'azureuser',
                     sqlServerCreateIfNotExist: true,
                     sqlServerParameters: {
                         allowSqlServerFirewallRule: {
                             ruleName: 'new rule',
-                            startIpAddress: '131.107.159.102',
-                            endIpAddress: '131.107.159.102'
+                            startIpAddress: '0.0.0.0',
+                            endIpAddress: '255.255.255.255'
                         },
                         location: 'westus',
                         properties: {
-                            administratorLogin: 'greg',
-                            administratorLoginPassword: 'P@ssw0rd!'
+                            administratorLogin: 'azureuser',
+                            administratorLoginPassword: 'c1oudc0w'
                         }
                     },
-                    sqldbName: 'goliveSqlDb',
+                    sqldbName: 'azureuserSqlDb',
                     sqldbParameters: {
                         properties: {
                             collation: 'SQL_Latin1_General_CP1_CI_AS'
@@ -394,20 +400,20 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'sqldbResourceGroup',
-                    sqlServerName: 'golive',
+                    sqlServerName: 'azureuser',
                     sqlServerCreateIfNotExist: true,
                     sqlServerParameters: {
                         allowSqlServerFirewallRule: {
-                            startIpAddress: '131.107.159.102',
-                            endIpAddress: '131.107.159.102'
+                            startIpAddress: '0.0.0.0',
+                            endIpAddress: '255.255.255.255'
                         },
                         location: 'westus',
                         properties: {
-                            administratorLogin: 'greg',
-                            administratorLoginPassword: 'P@ssw0rd!'
+                            administratorLogin: 'azureuser',
+                            administratorLoginPassword: 'c1oudc0w'
                         }
                     },
-                    sqldbName: 'goliveSqlDb',
+                    sqldbName: 'azureuserSqlDb',
                     sqldbParameters: {
                         properties: {
                             collation: 'SQL_Latin1_General_CP1_CI_AS'
@@ -433,20 +439,20 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'sqldbResourceGroup',
-                    sqlServerName: 'golive',
+                    sqlServerName: 'azureuser',
                     sqlServerCreateIfNotExist: true,
                     sqlServerParameters: {
                         allowSqlServerFirewallRule: {
                             ruleName: 'new rule',
-                            endIpAddress: '131.107.159.102'
+                            endIpAddress: '255.255.255.255'
                         },
                         location: 'westus',
                         properties: {
-                            administratorLogin: 'greg',
-                            administratorLoginPassword: 'P@ssw0rd!'
+                            administratorLogin: 'azureuser',
+                            administratorLoginPassword: 'c1oudc0w'
                         }
                     },
-                    sqldbName: 'goliveSqlDb',
+                    sqldbName: 'azureuserSqlDb',
                     sqldbParameters: {
                         properties: {
                             collation: 'SQL_Latin1_General_CP1_CI_AS'
@@ -472,20 +478,20 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'sqldbResourceGroup',
-                    sqlServerName: 'golive',
+                    sqlServerName: 'azureuser',
                     sqlServerCreateIfNotExist: true,
                     sqlServerParameters: {
                         allowSqlServerFirewallRule: {
                             ruleName: 'new rule',
-                            startIpAddress: '131.107.159.102'
+                            startIpAddress: '0.0.0.0'
                         },
                         location: 'westus',
                         properties: {
-                            administratorLogin: 'greg',
-                            administratorLoginPassword: 'P@ssw0rd!'
+                            administratorLogin: 'azureuser',
+                            administratorLoginPassword: 'c1oudc0w'
                         }
                     },
-                    sqldbName: 'goliveSqlDb',
+                    sqldbName: 'azureuserSqlDb',
                     sqldbParameters: {
                         properties: {
                             collation: 'SQL_Latin1_General_CP1_CI_AS'

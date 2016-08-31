@@ -20,7 +20,10 @@ var azurestorageblob = {
     "storage_account_name": storageAccountName,
     "container_name": "mycontainer",
     "location": "eastasia",
-    "account_type": "Standard_RAGRS"
+    "account_type": "Standard_RAGRS",
+    "tags": {
+      "foo": "bar"
+    }
   },
   bindingParameters: {},
   credentials: {
@@ -47,7 +50,10 @@ var azureservicebus = {
     "namespace_name": namespaceName,
     "location": "eastasia",
     "type": "Messaging",
-    "messaging_tier": "Standard"
+    "messaging_tier": "Standard",
+    "tags": {
+      "foo": "bar"
+    }
   },
   bindingParameters: {},
   credentials: {
@@ -78,6 +84,9 @@ var azurerediscache = {
         "name": "Basic",
         "family": "C",
         "capacity": 0
+      },
+      "tags": {
+        "foo": "bar"
       }
     }
   },
@@ -135,23 +144,29 @@ var azuresqldb = {
     "sqlServerName": sqlServerName,
     "sqlServerCreateIfNotExist": true,
     "sqlServerParameters": {
-        "allowSqlServerFirewallRule": {
-            "ruleName": "all",
-            "startIpAddress": "0.0.0.0",
-            "endIpAddress": "255.255.255.255"
-        },
-        "location": "eastus",
-        "properties": {
-            "administratorLogin": "azureuser",
-            "administratorLoginPassword": "c1oudc0w!@#"
-        }
+      "allowSqlServerFirewallRule": {
+        "ruleName": "all",
+        "startIpAddress": "0.0.0.0",
+        "endIpAddress": "255.255.255.255"
+      },
+      "location": "eastus",
+      "properties": {
+        "administratorLogin": "azureuser",
+        "administratorLoginPassword": "c1oudc0w!@#"
+      },
+      "tags": {
+        "foo": "bar"
+      }
     },
     "sqldbName": sqldbName,
     "sqldbParameters": {
-        "location": "eastus",
-        "properties": {
-            "collation": "SQL_Latin1_General_CP1_CI_AS"
-        }
+      "location": "eastus",
+      "properties": {
+        "collation": "SQL_Latin1_General_CP1_CI_AS"
+      },
+      "tags": {
+        "foo": "bar"
+      }
     }
   },
   bindingParameters: {},
