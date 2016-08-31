@@ -4,8 +4,8 @@ var azurerediscacheClient = require('./azurerediscacheClient');
 var azuredocdbClient = require('./azuredocdbClient');
 
 module.exports = {
-  'azurestorageblob': new azurestorageblobClient(), 
-  'azureservicebus': new azureservicebusClient(),
-  'RedisCacheService': new azurerediscacheClient(),
-  'documentdb': new azuredocdbClient()
+  'azure-storageblob': new azurestorageblobClient(), 
+  'azure-servicebus': new azureservicebusClient(),
+  'azure-rediscache': new azurerediscacheClient(),
+  'azure-documentdb': new azuredocdbClient()
 }
