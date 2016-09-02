@@ -104,6 +104,14 @@
 
     * A [service principal](https://azure.microsoft.com/en-us/documentation/articles/resource-group-create-service-principal-portal/) is composed of `tenant_id`, `client_id` and `client_secret`.
 
+    * About the roles of the service principal.
+
+      In [Azure CPI guidance](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs), the roles `Virtual Machine Contributor` and `Network Contributor` are recommended to deploy Cloud Foundry on Azure. However, for the service broker, these two roles are not enough. You can follow [RBAC: Built-in roles](https://azure.microsoft.com/en-us/documentation/articles/role-based-access-built-in-roles/) to get the appropriate roles.
+
+      For example, you can use `Storage Account Contributor` if you only use the service broker to create a storage account.
+
+      If you want to create all the services, you may need the role `Contributor`.
+
   * DocumentDB related configurations
 
     If you want to enable the DocumentDB service, you need to specify the following values. Please ignore them if you do not want to enable the DocumentDB service. Please read [Azure DocumentDB Service](./docs/azure-document-db.md) for more information.
