@@ -53,7 +53,9 @@
 
     * environment
 
-      Two options `AzureCloud` and `AzureChinaCloud` are supported.
+      Two options `AzureCloud` and `AzureChinaCloud` are supported as an `environment`. For example, if you want to create services in `AzureChinaCloud`, you should specify `AzureChinaCloud` as the `environment`.
+
+      The following table is about the support for each service in different environments.
 
       | Service Name | AzureCloud | AzureChinaCloud |
       |:---|:---|:---|
