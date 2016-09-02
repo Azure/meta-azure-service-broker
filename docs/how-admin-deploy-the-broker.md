@@ -166,6 +166,18 @@ By default, the debug logging is disabled. If you want to enable the debug loggi
 },
 ```
 
+You can enable the debug logging when you deploy the service broker at the first time. Then you will get the debug messages. On the other hand, you can also enable it after the service broker is registered, but you need to update the service broker. The steps:
+
+1. Enable debug logging in `.logule.json`.
+
+2. Re-push the broker to Cloud Foundry.
+
+3. Update the service broker.
+
+  ```
+  cf update-service-broker demo-service-broker $authUser $authPassword <URL of the app meta-azure-service-broker>
+  ```
+
 ## More information
 
 [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html)
