@@ -48,7 +48,7 @@
   For example:
 
   ```
-  cf create-service azureservicebus default myservicebus -c examples/servicebus-example-config.json
+  cf create-service azure-servicebus standard myservicebus -c examples/servicebus-example-config.json
   ```
 
   The contents of `examples/servicebus-example-config.json`:
