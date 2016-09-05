@@ -118,4 +118,50 @@ var azuredocumentdb = {
 }
 testMatrix.push(azuredocumentdb);
 
+instanceId = uuid.v4();
+bindingId = uuid.v4();
+resourceGroupName = 'cloud-foundry-' + instanceId;
+var sqlServerName = 'cf' + instanceId;
+var sqldbName = 'cf' + instanceId;
+var azuresqldb = {
+  serviceName: 'azure-sqldb',
+  serviceId: 'fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5',
+  planId: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
+  instanceId: instanceId,
+  bindingId: bindingId,
+  provisioningParameters: {
+    "resourceGroup": resourceGroupName,
+    "location": "eastus",
+    "sqlServerName": sqlServerName,
+    "sqlServerCreateIfNotExist": true,
+    "sqlServerParameters": {
+        "allowSqlServerFirewallRule": {
+            "ruleName": "all",
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "255.255.255.255"
+        },
+        "location": "eastus",
+        "properties": {
+            "administratorLogin": "azureuser",
+            "administratorLoginPassword": "c1oudc0w!@#"
+        }
+    },
+    "sqldbName": sqldbName,
+    "sqldbParameters": {
+        "location": "eastus",
+        "properties": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+        }
+    }
+  },
+  bindingParameters: {},
+  credentials: {
+    "administratorLogin": "<string>",
+    "administratorLoginPassword": "<string>",
+    "sqlServerName": sqlServerName,
+    "sqldbName": sqldbName
+  }
+}
+testMatrix.push(azuresqldb);
+
 module.exports = testMatrix;
