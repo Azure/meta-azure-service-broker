@@ -104,7 +104,7 @@ describe('SqlDb - Poll - polling database immediately after creation is started'
         statusCode: 404,
         value:
         {
-            state: 'creating',
+            state: 'in progress',
             description: 'Creating logical database sqldb on logical server golive4.'
         }
     };
@@ -124,7 +124,7 @@ describe('SqlDb - Poll - polling database immediately after creation is started'
             sinon.stub(sqldbOps, 'getDatabase').yields(null, sqldbOpsGetDatabaseResult);
             cp.poll(sqldbOps, function (err, result) {
                 should.not.exist(err);
-                result.value.state.should.equal('creating');
+                result.value.state.should.equal('in progress');
                 result.value.description.should.equal('Creating logical database sqldb on logical server golive4.');
                 done();
             });
