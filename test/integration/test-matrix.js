@@ -63,7 +63,7 @@ bindingId = uuid.v4();
 resourceGroupName = 'cloud-foundry-' + instanceId;
 var cacheName = 'cf' + instanceId;
 var azurerediscache = {
-  serviceName: 'RedisCacheService',
+  serviceName: 'azure-rediscache',
   serviceId: '0346088a-d4b2-4478-aa32-f18e295ec1d9',
   planId: '362b3d1b-5b57-4289-80ad-4a15a760c29c',
   instanceId: instanceId,
@@ -96,7 +96,7 @@ testMatrix.push(azurerediscache);
 instanceId = uuid.v4();
 bindingId = uuid.v4();
 var azuredocumentdb = {
-  serviceName: 'documentdb',
+  serviceName: 'azure-documentdb',
   serviceId: '3befc561-4f0c-4df3-ab26-48ac4e366b1c',
   planId: '1abb29ae-fa1c-4f8d-a07b-b363544c3586',
   instanceId: instanceId,
@@ -117,5 +117,51 @@ var azuredocumentdb = {
   }
 }
 testMatrix.push(azuredocumentdb);
+
+instanceId = uuid.v4();
+bindingId = uuid.v4();
+resourceGroupName = 'cloud-foundry-' + instanceId;
+var sqlServerName = 'cf' + instanceId;
+var sqldbName = 'cf' + instanceId;
+var azuresqldb = {
+  serviceName: 'azure-sqldb',
+  serviceId: 'fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5',
+  planId: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
+  instanceId: instanceId,
+  bindingId: bindingId,
+  provisioningParameters: {
+    "resourceGroup": resourceGroupName,
+    "location": "eastus",
+    "sqlServerName": sqlServerName,
+    "sqlServerCreateIfNotExist": true,
+    "sqlServerParameters": {
+        "allowSqlServerFirewallRule": {
+            "ruleName": "all",
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "255.255.255.255"
+        },
+        "location": "eastus",
+        "properties": {
+            "administratorLogin": "azureuser",
+            "administratorLoginPassword": "c1oudc0w!@#"
+        }
+    },
+    "sqldbName": sqldbName,
+    "sqldbParameters": {
+        "location": "eastus",
+        "properties": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+        }
+    }
+  },
+  bindingParameters: {},
+  credentials: {
+    "administratorLogin": "<string>",
+    "administratorLoginPassword": "<string>",
+    "sqlServerName": sqlServerName,
+    "sqldbName": sqldbName
+  }
+}
+testMatrix.push(azuresqldb);
 
 module.exports = testMatrix;

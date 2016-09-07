@@ -50,7 +50,8 @@
     "node-uuid": "1.4.7",
     "redis": "2.6.1",
     "should": "8.3.0",
-    "sinon": "1.17.3"
+    "sinon": "1.17.3",
+    "tedious": "^1.14.0"
   },
   "homepage": "https://github.com/Azure/meta-azure-service-broker",
   "repository": {
