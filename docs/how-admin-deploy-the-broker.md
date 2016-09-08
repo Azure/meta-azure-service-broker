@@ -53,7 +53,9 @@
 
     * environment
 
-      Two options `AzureCloud` and `AzureChinaCloud` are supported.
+      Two options `AzureCloud` and `AzureChinaCloud` are supported as an `environment`. For example, if you want to create services in `AzureChinaCloud`, you should specify `AzureChinaCloud` as the `environment`.
+
+      The following table is about the support for each service in different environments.
 
       | Service Name | AzureCloud | AzureChinaCloud |
       |:---|:---|:---|
@@ -103,6 +105,14 @@
       ```
 
     * A [service principal](https://azure.microsoft.com/en-us/documentation/articles/resource-group-create-service-principal-portal/) is composed of `tenant_id`, `client_id` and `client_secret`.
+
+    * About the roles of the service principal.
+
+      In [Azure CPI guidance](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs), the roles `Virtual Machine Contributor` and `Network Contributor` are recommended to deploy Cloud Foundry on Azure. However, for the service broker, these two roles are not enough. You can follow [RBAC: Built-in roles](https://azure.microsoft.com/en-us/documentation/articles/role-based-access-built-in-roles/) to get the appropriate roles.
+
+      For example, you can use `Storage Account Contributor` if you only use the service broker to create a storage account.
+
+      If you want to create all the services, you may need the role `Contributor`.
 
   * DocumentDB related configurations
 
@@ -165,6 +175,18 @@ By default, the debug logging is disabled. If you want to enable the debug loggi
   "suppress"  : ["debug"]
 },
 ```
+
+You can enable the debug logging when you deploy the service broker at the first time. Then you will get the debug messages. On the other hand, you can also enable it after the service broker is registered, but you need to update the service broker. The steps:
+
+1. Enable debug logging in `.logule.json`.
+
+2. Re-push the broker to Cloud Foundry.
+
+3. Update the service broker.
+
+  ```
+  cf update-service-broker demo-service-broker $authUser $authPassword <URL of the app meta-azure-service-broker>
+  ```
 
 ## More information
 

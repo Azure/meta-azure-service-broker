@@ -132,7 +132,7 @@ var lifecycle = function(service) {
                   done();
                 });
               } else {
-                console.warn("Credential not yet verified!");
+                console.warn("E2E tests for %s are skipped because the client to validate credentials is not implemented.", serviceName);
                 done();
               }
             });
