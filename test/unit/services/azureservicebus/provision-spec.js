@@ -82,8 +82,7 @@ describe('ServiceBus', function() {
         it('should return missing parameter error', function(done) {
           azureservicebus.provision(log, validParams, function(
             err, reply, result) {
-            err.should.have.property('message',
-              'type in configuration needed.');
+            err.should.have.property('message', 'type in configuration needed.');
             done();
           });
         });
@@ -102,7 +101,10 @@ describe('ServiceBus', function() {
               namespace_name: 'mysb',
               location: 'westus',
               type: 'Messaging',
-              messaging_tier: 'Standard'
+              messaging_tier: 'Standard',
+              tags: {
+                foo: 'bar'
+              }
             }
           };
           sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
