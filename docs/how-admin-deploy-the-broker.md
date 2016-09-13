@@ -42,18 +42,18 @@
   * Common Configurations
 
     ```
-    environment: REPLACE-ME
-    subscription_id: REPLACE-ME
-    tenant_id: REPLACE-ME
-    client_id: REPLACE-ME
-    client_secret: REPLACE-ME
+    ENVIRONMENT: REPLACE-ME
+    SUBSCRIPTION_ID: REPLACE-ME
+    TENANT_ID: REPLACE-ME
+    CLIENT_ID: REPLACE-ME
+    CLIENT_SECRET: REPLACE-ME
     ```
 
     These configurations should be matched:
 
-    * environment
+    * ENVIRONMENT
 
-      Two options `AzureCloud` and `AzureChinaCloud` are supported as an `environment`. For example, if you want to create services in `AzureChinaCloud`, you should specify `AzureChinaCloud` as the `environment`.
+      Two options `AzureCloud` and `AzureChinaCloud` are supported as an `ENVIRONMENT`. For example, if you want to create services in `AzureChinaCloud`, you should specify `AzureChinaCloud` as the `ENVIRONMENT`.
 
       The following table is about the support for each service in different environments.
 
@@ -66,7 +66,7 @@
       | Storage Blob Service | yes | yes |
       | SQL Database Service | yes | yes |
 
-    * subscription_id
+    * SUBSCRIPTION_ID
 
       You can list the providers in the subscription, and make sure that the namespace is registered. For example, if you want to enable Service Bus service, `Microsoft.ServiceBus` should be registered. If the specific provider is not registered, you need to run `azure provider register <PROVIDER-NAME>` to register it.
 
@@ -104,7 +104,7 @@
       info:    provider list command OK
       ```
 
-    * A [service principal](https://azure.microsoft.com/en-us/documentation/articles/resource-group-create-service-principal-portal/) is composed of `tenant_id`, `client_id` and `client_secret`.
+    * A [service principal](https://azure.microsoft.com/en-us/documentation/articles/resource-group-create-service-principal-portal/) is composed of `TENANT_ID`, `CLIENT_ID` and `CLIENT_SECRET`.
 
     * About the roles of the service principal.
 
@@ -119,8 +119,8 @@
     If you want to enable the DocumentDB service, you need to specify the following values. Please ignore them if you do not want to enable the DocumentDB service. Please read [Azure DocumentDB Service](./docs/azure-document-db.md) for more information.
 
     ```
-    docDb_hostEndPoint: REPLACE-ME
-    docDb_masterKey: REPLACE-ME
+    DOCDB_HOSTENDPOINT: REPLACE-ME
+    DOCDB_MASTERKEY: REPLACE-ME
     ```
 
 4. Push the broker to Cloud Foundry

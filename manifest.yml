@@ -4,10 +4,10 @@ applications:
   buildpack: https://github.com/cloudfoundry/nodejs-buildpack
   instances: 1
   env:
-    environment: REPLACE-ME
-    subscription_id: REPLACE-ME
-    tenant_id: REPLACE-ME
-    client_id: REPLACE-ME
-    client_secret: REPLACE-ME
-    docDb_hostEndPoint: REPLACE-ME
-    docDb_masterKey: REPLACE-ME 
+    ENVIRONMENT: REPLACE-ME
+    SUBSCRIPTION_ID: REPLACE-ME
+    TENANT_ID: REPLACE-ME
+    CLIENT_ID: REPLACE-ME
+    CLIENT_SECRET: REPLACE-ME
+    DOCDB_HOSTENDPOINT: REPLACE-ME
+    DOCDB_MASTERKEY: REPLACE-ME
