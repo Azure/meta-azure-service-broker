@@ -9,8 +9,8 @@ Instructions to create a DocumentDB account using ARM and CLI are [here](https:/
 After the DocumentDB account is created, you need to specify the following values in the manifest of `meta-azure-service-broker`. **NOTE: In future, these values may be deprecated.**
 
   ```
-  docDb_hostEndPoint: REPLACE-ME
-  docDb_masterKey: REPLACE-ME
+  DOCDB_HOSTENDPOINT: REPLACE-ME
+  DOCDB_MASTERKEY: REPLACE-ME
   ```
 
 ## Create an Azure DocumentDB service

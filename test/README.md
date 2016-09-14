@@ -39,11 +39,11 @@
   1. Export the service principal related environment variables.
 
     ```
-    export environment="REPLACE-ME"
-    export client_id="REPLACE-ME"
-    export client_secret="REPLACE-ME"
-    export subscription_id="REPLACE-ME"
-    export tenant_id="REPLACE-ME"
+    export ENVIRONMENT="REPLACE-ME"
+    export CLIENT_ID="REPLACE-ME"
+    export CLIENT_SECRET="REPLACE-ME"
+    export SUBSCRIPTION_ID="REPLACE-ME"
+    export TENANT_ID="REPLACE-ME"
     ```
 
   2. Export the environment variables about the service broker authentication.
@@ -64,8 +64,8 @@
   4. Export the Document DB related environment variables.
 
     ```
-    export docDb_hostEndPoint="REPLACE-ME"
-    export docDb_masterKey="REPLACE-ME"
+    export DOCDB_HOSTENDPOINT="REPLACE-ME"
+    export DOCDB_MASTERKEY="REPLACE-ME"
     ```
 
     To use and test the Document DB service module, you need to specify the above values. Please read [Azure DocumentDB Service](./docs/azure-document-db.md) for more information.
