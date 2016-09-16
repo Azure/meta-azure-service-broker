@@ -17,6 +17,22 @@
     "id": "6be0d8b5-381f-4d68-bdfd-a131425d3835",
     "name": "standard",
     "free": false,
-    "description": "Your cost depends on your operations. See details: https://azure.microsoft.com/en-us/pricing/details/service-bus/"
+    "description": "Your cost depends on your operations. See details: https://azure.microsoft.com/en-us/pricing/details/service-bus/",
+    "metadata": {
+      "bullets": [
+        "No upfront cost",
+        "No termination fees",
+        "Pay only for what you use"
+      ],
+      "costs": [
+        {
+          "amount": {
+            "usd": 0
+          },
+          "unit": "MONTHLY"
+        }
+      ],
+      "displayName": "standard"
+    }
   }]
 }

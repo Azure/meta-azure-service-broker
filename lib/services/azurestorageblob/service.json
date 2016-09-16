@@ -18,6 +18,22 @@
     "id": "6ddf6b41-fb60-4b70-af99-8ecc4896b3cf",
     "name": "standard",
     "free": false,
-    "description": "Your total cost depends on how much you store, the volume of storage transactions and outbound data transfers, and which data redundancy option you choose. https://azure.microsoft.com/en-us/pricing/details/storage/"
+    "description": "Your total cost depends on how much you store, the volume of storage transactions and outbound data transfers, and which data redundancy option you choose. https://azure.microsoft.com/en-us/pricing/details/storage/",
+    "metadata": {
+      "bullets": [
+        "No upfront cost",
+        "No termination fees",
+        "Pay only for what you use"
+      ],
+      "costs": [
+        {
+          "amount": {
+            "usd": 0
+          },
+          "unit": "MONTHLY"
+        }
+      ],
+      "displayName": "standard"
+    }
   }]
 }
