@@ -14,11 +14,17 @@ You need an Azure [account](https://azure.microsoft.com/account/). With the acco
 
 ## The provided services
 
+The services provided by the broker:
+
 * [Azure Storage Blob Service](./docs/azure-storage-blob.md)
 * [Azure Redis Cache Service](./docs/azure-redis-cache.md)
 * [Azure DocumentDB Service](./docs/azure-document-db.md)
 * [Azure Service Bus and Event Hub Service](./docs/azure-service-bus.md)
 * [Azure SQL Database Service](./docs/azure-sql-db.md)
+
+The user-provided services:
+
+* [Azure Key Vault Service](./docs/user-provided-services/How-to-use-Azure-Key-Vault-in-Cloud-Foundry.md)
 
 ## Contribute
 
