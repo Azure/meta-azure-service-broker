@@ -95,7 +95,7 @@
             "collation": "SQL_Latin1_General_CP1_CI_AS"
         }
     }
-}
+  }
   ```
 NOTE: Servername cannot be empty or null. It can only be made up of lowercase letters 'a'-'z', the numbers 0-9 and the hyphen. The hyphen may not lead or trail in the name.
 
