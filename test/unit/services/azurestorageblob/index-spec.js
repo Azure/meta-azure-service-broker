@@ -72,6 +72,7 @@ describe('StorageBlob - Index - Provision', function() {
       instance_id: generatedValidInstanceId,
       service_id: service.id,
       plan_id: service.plans[0].id,
+      last_operation: 'provision',
       azure: azure,
       parameters: parameters
     }
@@ -127,8 +128,9 @@ describe('StorageBlob - Index - Poll existing storage blob', function() {
       sinon.stub(storageBlobClient, 'poll').yields(null, {
         provisioningState: 'Succeeded'
       });
-      handlers.poll(log, validParams, function(err, reply, result) {
+      handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
         should.not.exist(err);
+        lastOperatoin.should.equal('provision');
         reply.statusCode.should.equal(200);
         done();
       });
@@ -235,8 +237,9 @@ describe('StorageBlob - Index - Poll de-provisioned storage blob', function() {
       sinon.stub(storageBlobClient, 'poll').yields(null, {
         statusCode: 404
       });
-      handlers.poll(log, validParams, function(err, reply, result) {
+      handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
         should.not.exist(err);
+        lastOperatoin.should.equal('deprovision');
         reply.statusCode.should.equal(200);
         done();
       });

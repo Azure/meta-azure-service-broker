@@ -48,9 +48,9 @@ describe('ServiceBus', function() {
       });
 
       it('should return the state: succeeded', function(done) {
-        azureservicebus.poll(log, validParams, function(
-          err, reply, result) {
+        azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
+          lastOperation.should.equal('provision');
 
           var replyExpected = {
             statusCode: 200,
@@ -84,9 +84,9 @@ describe('ServiceBus', function() {
       });
 
       it('should return the state: in progress', function(done) {
-        azureservicebus.poll(log, validParams, function(
-          err, reply, result) {
+        azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
+          lastOperation.should.equal('provision');
 
           var replyExpected = {
             statusCode: 200,
@@ -120,9 +120,9 @@ describe('ServiceBus', function() {
       });
 
       it('should return the state: in progress', function(done) {
-        azureservicebus.poll(log, validParams, function(
-          err, reply, result) {
+        azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
+          lastOperation.should.equal('provision');
 
           var replyExpected = {
             statusCode: 200,
@@ -156,9 +156,9 @@ describe('ServiceBus', function() {
       });
 
       it('should return the state: in progress', function(done) {
-        azureservicebus.poll(log, validParams, function(
-          err, reply, result) {
+        azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
+          lastOperation.should.equal('provision');
 
           var replyExpected = {
             statusCode: 200,

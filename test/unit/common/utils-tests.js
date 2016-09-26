@@ -38,7 +38,7 @@ describe('Util', function() {
                                  'x-ms-correlation-request-id': 'bbb',
                                  'x-ms-routing-request-id': 'ccc'
                                },
-                               'body': 'ddd'
+                               'body': {}
                              },
                              operation,
                              true);
@@ -48,7 +48,7 @@ describe('Util', function() {
                                 'x-ms-request-id', 'aaa',
                                 'x-ms-correlation-request-id', 'bbb',
                                 'x-ms-routing-request-id', 'ccc',
-                                'body', 'ddd');
+                                'body', '{}');
       sinon.assert.calledWithMatch(log.debug, 'HTTP Response: %s', message);
     });
 

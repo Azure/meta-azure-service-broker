@@ -108,8 +108,9 @@ describe('RedisCache - Index - Poll existing cache', function() {
         it('should not return an error and statusCode should be 200', function(done) {
             
             sinon.stub(redisClient, 'poll').yields(null, {provisioningState : 'Succeeded'});
-            handlers.poll(log, validParams, function(err, reply, result) {
+            handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
                 should.not.exist(err);
+                lastOperatoin.should.equal('provision');
                 reply.statusCode.should.equal(200);
                 done();
             });
@@ -229,8 +230,9 @@ var validParams;
         it('should not return an error and statusCode should be 200', function(done) {
             
             sinon.stub(redisClient, 'poll').yields(null, {statusCode : 404});
-            handlers.poll(log, validParams, function(err, reply, result) {
+            handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
                 should.not.exist(err);
+                lastOperatoin.should.equal('deprovision');
                 reply.statusCode.should.equal(200);
                 done();
             });
