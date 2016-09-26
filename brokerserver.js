@@ -10,6 +10,8 @@ var config = require('config');
 
 var broker = new Broker(config);
 
+global.modules = {};
+
 broker.log.info(
   'Validating and getting Azure credentials and subscript ID from environment variables...'
 );
@@ -50,15 +52,16 @@ fs.readdir(servicesPath, function(err, files) {
       } else {
         addListeners(service.id, serviceModule);
         services.push(service);
+        global.modules[service.id] = serviceModule;
       }
     });
   });
 });
 
-broker.on('catalog', function(next) {
+broker.on('catalog', function(callback) {
   var reply = {};
   reply.services = services;
-  next(null, reply);
+  callback(reply);
 });
 
 module.exports = broker;
