@@ -95,8 +95,9 @@ describe('DocumentDb - Index - Poll', function() {
     describe('Poll operation should succeed', function() {        
         it('should not return an error and _self should be dbs/77UyAA==/', function(done) {
             sinon.stub(docDbClient, 'poll').yields(null, JSON.parse(provisioningResult));
-            handlers.poll(log, validParams, function(err, reply, result) {
+            handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
                 should.not.exist(err);
+                lastOperatoin.should.equal('provision');
                 result._self.should.equal('dbs/77UyAA==/');
                 done();
             });

@@ -44,15 +44,15 @@ describe('StorageBlob', function() {
       });
 
       it('should return the state: succeeded', function(done) {
-        azurestorageblob.poll(log, validParams, function(
-          err, reply, result) {
+        azurestorageblob.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
+          lastOperation.should.equal('provision');
 
           var replyExpected = {
             statusCode: 200,
             code: 'OK',
             value: {
-              description: 'Creating the storage account, state: Succeeded',
+              description: 'Created the storage account, state: Succeeded',
               state: 'succeeded'
             }
           };
@@ -92,9 +92,9 @@ describe('StorageBlob', function() {
       });
 
       it('should return the state: in progress', function(done) {
-        azurestorageblob.poll(log, validParams, function(
-          err, reply, result) {
+        azurestorageblob.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
+          lastOperation.should.equal('provision');
 
           var replyExpected = {
             statusCode: 200,
@@ -140,9 +140,9 @@ describe('StorageBlob', function() {
       });
 
       it('should return the state: in progress', function(done) {
-        azurestorageblob.poll(log, validParams, function(
-          err, reply, result) {
+        azurestorageblob.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
+          lastOperation.should.equal('provision');
 
           var replyExpected = {
             statusCode: 200,
