@@ -85,13 +85,16 @@ describe('StorageBlob - Index - Provision', function() {
   describe('Provision operation should succeed', function() {
     it('should not return an error and statusCode should be 202', function(done) {
 
-      sinon.stub(storageBlobClient, 'provision').yields(null, [{
-        resourceGroupName: resourceGroupName,
-        groupParameters: groupParameters,
-      }, {
-        storageAccountName: storageAccountName,
-        accountParameters: accountParameters,
-      }]);
+      sinon.stub(storageBlobClient, 'provision').yields(null, {
+        resourceGroupResult: {
+          resourceGroupName: resourceGroupName,
+          groupParameters: groupParameters,
+        },
+        storageAccountResult: {
+          storageAccountName: storageAccountName,
+          accountParameters: accountParameters,
+        }
+      });
       handlers.provision(log, validParams, function(err, reply, result) {
         should.not.exist(err);
         reply.statusCode.should.equal(202);
