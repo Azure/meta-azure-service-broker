@@ -13,6 +13,7 @@ var sinon = require('sinon');
 var common = require('../../../../lib/common');
 var azureservicebus = require('../../../../lib/services/azureservicebus/');
 var utils = require('../../../../lib/services/azureservicebus/utils');
+var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'ServiceBus-Mocha');
 
@@ -30,7 +31,7 @@ describe('ServiceBus', function() {
       before(function() {
         validParams = {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-          azure: common.getCredentialsAndSubscriptionId(),
+          azure: azure,
         };
         sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
         sinon.stub(utils, 'createResourceGroup').yields(null, 'fake-access-token');
@@ -60,7 +61,7 @@ describe('ServiceBus', function() {
         before(function() {
           validParams = {
             instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-            azure: common.getCredentialsAndSubscriptionId(),
+            azure: azure,
             parameters: {
               resource_group_name: 'mysbtest',
               namespace_name: 'mysb',
@@ -95,7 +96,7 @@ describe('ServiceBus', function() {
         before(function() {
           validParams = {
             instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-            azure: common.getCredentialsAndSubscriptionId(),
+            azure: azure,
             parameters: {
               resource_group_name: 'mysbtest',
               namespace_name: 'mysb',

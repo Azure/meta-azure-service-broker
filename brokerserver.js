@@ -3,19 +3,15 @@
 var async = require('async');
 var fs = require("fs");
 var path = require("path");
-
 var common = require('./lib/common');
 var Broker = require('./lib/broker');
-var config = require('config');
 
+var config = common.getConfigurations();
 var broker = new Broker(config);
 
 global.modules = {};
-
-broker.log.info(
-  'Validating and getting Azure credentials and subscript ID from environment variables...'
-);
-common.validateEnvironmentVariables();
+broker.log.info('Validating configurations...');
+common.validateConfigurations(config);
 
 var addListeners = function(serviceId, serviceModule) {
   broker.on('provision-' + serviceId, serviceModule.provision);
@@ -25,12 +21,10 @@ var addListeners = function(serviceId, serviceModule) {
   broker.on('unbind-' + serviceId, serviceModule.unbind);
 };
 
-broker.log.info(
-  'Starting to collect the service offering and plans of each service module...'
-);
+broker.log.info('Starting to collect the service offering and plans of each service module...');
 
 var params = {};
-params.azure = common.getCredentialsAndSubscriptionId();
+params.azure = config.azure;
 
 var servicesPath = "./lib/services"
 var services = [];

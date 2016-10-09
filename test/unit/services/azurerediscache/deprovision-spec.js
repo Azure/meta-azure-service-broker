@@ -12,14 +12,7 @@ var should = require('should');
 var sinon = require('sinon');
 var cmdDeprovision = require('../../../../lib/services/azurerediscache/cmd-deprovision');
 var redisClient = require('../../../../lib/services/azurerediscache/client');
-
-var azure = {
-    environment: 'AzureCloud',
-    subscription_id: '743fxxxx-83xx-46xx-xx2d-xxxxb953952d',
-    tenant_id: '72xxxxbf-8xxx-xxxf-9xxb-2d7cxxxxdb47',
-    client_id: 'd8xxxx18-xx4a-4xx9-89xx-9be0bfecxxxx',
-    client_secret: '2/DzYYYYYYYYYYsAvXXXXXXXXXXQ0EL7WPxEXX115Go=',
-};
+var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'RedisCache-Mocha');
 

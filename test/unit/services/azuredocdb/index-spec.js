@@ -12,13 +12,7 @@ var handlers = require('../../../../lib/services/azuredocdb/index');
 var docDbClient = require('../../../../lib/services/azuredocdb/client');
 var resourceGroupClient = require('../../../../lib/common/resourceGroup-client');
 
-var azure = {
-    environment: 'AzureCloud',
-    subscription_id: '743fxxxx-83xx-46xx-xx2d-xxxxb953952d',
-    tenant_id: '72xxxxbf-8xxx-xxxf-9xxb-2d7cxxxxdb47',
-    client_id: 'd8xxxx18-xx4a-4xx9-89xx-9be0bfecxxxx',
-    client_secret: '2/DzYYYYYYYYYYsAvXXXXXXXXXXQ0EL7WPxEXX115Go=',
-};
+var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'DocumentDb-Tests');
 var generatedValidInstanceId = uuid.v4();

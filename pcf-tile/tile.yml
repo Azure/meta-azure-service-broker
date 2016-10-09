@@ -72,16 +72,16 @@ forms:
       default: true
     - name: AzureChinaCloud
       label: Azure China Cloud
-  - name: subscription_id
+  - name: subscriptionId
     type: string
     label: Your Azure subscription Id
-  - name: tenant_id
+  - name: tenantId
     type: string
     label: Tenant Id of your Azure service principal
-  - name: client_id
+  - name: clientId
     type: string
     label: Client Id of your Azure service principal
-  - name: client_secret
+  - name: clientSecret
     type: string
     label: Client Secret of your Azure service principal
 - name: database-config-form
@@ -102,10 +102,10 @@ forms:
 - name: docdb-config-form
   label: Azure DocumentDb Service Configuration
   properties:
-  - name: docdb_hostendpoint
+  - name: docdbHostendpoint
     type: string
     label: Host EndPoint of your Azure DocumentDB
-  - name: docdb_masterkey
+  - name: docdbMasterkey
     type: string
     label: Master Key of your Azure DocumentDB
 

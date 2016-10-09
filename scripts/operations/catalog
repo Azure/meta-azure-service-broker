@@ -1,3 +1,0 @@
-#!/bin/bash
-
-curl http://localhost:5001/v2/catalog -u demouser:demopassword -X GET -H "X-Broker-API-Version: 2.8" -H "Content-Type: application/json" -v

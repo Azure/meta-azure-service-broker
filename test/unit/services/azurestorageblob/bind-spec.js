@@ -13,6 +13,7 @@ var sinon = require('sinon');
 var common = require('../../../../lib/common');
 var azurestorageblob = require('../../../../lib/services/azurestorageblob/');
 var storageBlobClient = require('../../../../lib/services/azurestorageblob/storageblobclient');
+var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'StorageBlob-Mocha');
 
@@ -37,7 +38,7 @@ describe('StorageBlob', function() {
             container_name: 'myContainer'
           },
           provisioning_result: '{\"resourceGroupResult\":{\"resourceGroupName\":\"cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5\",\"groupParameters\":{\"location\":\"eastus\"}},\"storageAccountResult\":{\"storageAccountName\":\"cfe77a25d2f58c11e5b93300\",\"accountParameters\":{\"location\":\"eastus\",\"accountType\":\"Standard_LRS\"}}}',
-          azure: common.getCredentialsAndSubscriptionId(),
+          azure: azure,
         };
         sinon.stub(storageBlobClient, 'bind').yields(null,
           primaryKey, secondaryKey);

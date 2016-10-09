@@ -13,6 +13,7 @@ var sinon = require('sinon');
 var common = require('../../../../lib/common');
 var azurestorageblob = require('../../../../lib/services/azurestorageblob/');
 var storageBlobClient = require('../../../../lib/services/azurestorageblob/storageblobclient');
+var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'StorageBlob-Mocha');
 
@@ -30,7 +31,7 @@ describe('StorageBlob', function() {
       before(function() {
         validParams = {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-          azure: common.getCredentialsAndSubscriptionId(),
+          azure: azure,
         };
         sinon.stub(storageBlobClient, 'provision').yields(null, [{
           'resourceGroupName': 'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5',
@@ -67,7 +68,7 @@ describe('StorageBlob', function() {
         before(function() {
           validParams = {
             instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-            azure: common.getCredentialsAndSubscriptionId(),
+            azure: azure,
             parameters: {
               resource_group_name: 'test031702',
               storage_account_name: 'test031702sa',
@@ -133,7 +134,7 @@ describe('StorageBlob', function() {
         before(function() {
           validParams = {
             instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-            azure: common.getCredentialsAndSubscriptionId(),
+            azure: azure,
             parameters: {
               resource_group_name: 'test031702',
               storage_account_name: 'test031702-sa',
