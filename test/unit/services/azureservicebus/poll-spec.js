@@ -40,11 +40,11 @@ describe('ServiceBus', function() {
     describe('When the provisioning state is Succeeded', function() {
 
       before(function() {
-        sinon.stub(utils, 'getNamespace').yields(null, 'Succeeded');
+        sinon.stub(utils, 'checkNamespaceStatus').yields(null, 'Succeeded');
       });
 
       after(function() {
-        utils.getNamespace.restore();
+        utils.checkNamespaceStatus.restore();
       });
 
       it('should return the state: succeeded', function(done) {
@@ -76,11 +76,11 @@ describe('ServiceBus', function() {
     describe('When the provisioning state is Creating', function() {
 
       before(function() {
-        sinon.stub(utils, 'getNamespace').yields(null, 'Creating');
+        sinon.stub(utils, 'checkNamespaceStatus').yields(null, 'Creating');
       });
 
       after(function() {
-        utils.getNamespace.restore();
+        utils.checkNamespaceStatus.restore();
       });
 
       it('should return the state: in progress', function(done) {
@@ -112,11 +112,11 @@ describe('ServiceBus', function() {
     describe('When the provisioning state is Activating', function() {
 
       before(function() {
-        sinon.stub(utils, 'getNamespace').yields(null, 'Activating');
+        sinon.stub(utils, 'checkNamespaceStatus').yields(null, 'Activating');
       });
 
       after(function() {
-        utils.getNamespace.restore();
+        utils.checkNamespaceStatus.restore();
       });
 
       it('should return the state: in progress', function(done) {
@@ -148,11 +148,11 @@ describe('ServiceBus', function() {
     describe('When the provisioning state is Enabling', function() {
 
       before(function() {
-        sinon.stub(utils, 'getNamespace').yields(null, 'Enabling');
+        sinon.stub(utils, 'checkNamespaceStatus').yields(null, 'Enabling');
       });
 
       after(function() {
-        utils.getNamespace.restore();
+        utils.checkNamespaceStatus.restore();
       });
 
       it('should return the state: in progress', function(done) {

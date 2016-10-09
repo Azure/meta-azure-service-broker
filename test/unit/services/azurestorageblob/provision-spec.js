@@ -32,22 +32,6 @@ describe('StorageBlob', function() {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
           azure: common.getCredentialsAndSubscriptionId(),
         };
-        sinon.stub(storageBlobClient, 'provision').yields(null, [{
-          'resourceGroupName': 'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-          'groupParameters': {
-            'location': 'eastus'
-          }
-        }, {
-          'storageAccountName': 'cfe77a25d2f58c11e5b93300',
-          'accountParameters': {
-            'location': 'eastus',
-            'accountType': 'Standard_LRS'
-          }
-        }]);
-      });
-
-      after(function() {
-        storageBlobClient.provision.restore();
       });
 
       it('should return missing parameter error', function(done) {
@@ -76,18 +60,21 @@ describe('StorageBlob', function() {
               account_type: 'Standard_LRS'
             }
           };
-          sinon.stub(storageBlobClient, 'provision').yields(null, [{
-            'resourceGroupName': 'test031702',
-            'groupParameters': {
-              'location': 'eastus'
+          sinon.stub(storageBlobClient, 'provision').yields(null, {
+            resourceGroupResult: {
+              'resourceGroupName': 'test031702',
+              'groupParameters': {
+                'location': 'eastus'
+              }
+            }, 
+            storageAccountResult: {
+              'storageAccountName': 'test031702sa',
+              'accountParameters': {
+                'location': 'eastus',
+                'accountType': 'Standard_LRS'
+              }
             }
-          }, {
-            'storageAccountName': 'test031702sa',
-            'accountParameters': {
-              'location': 'eastus',
-              'accountType': 'Standard_LRS'
-            }
-          }]);
+          });
         });
 
         after(function() {
