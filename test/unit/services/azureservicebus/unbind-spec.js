@@ -13,6 +13,7 @@ var sinon = require('sinon');
 var common = require('../../../../lib/common');
 var azureservicebus = require('../../../../lib/services/azureservicebus/');
 var utils = require('../../../../lib/services/azureservicebus/utils');
+var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'ServiceBus-Mocha');
 
@@ -32,7 +33,7 @@ describe('ServiceBus', function() {
         validParams = {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
           provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5\",\"namespaceName\":\"cfe77a25d2f58c11e5b93300\"}',
-          azure: common.getCredentialsAndSubscriptionId(),
+          azure: azure,
         };
       });
 

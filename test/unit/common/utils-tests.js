@@ -9,6 +9,79 @@ var log = logule.init(module, 'ServiceBroker-Mocha');
 
 describe('Util', function() {
 
+  describe('config', function() {
+    context('when configurations are set via environment variables', function() {
+      var keys = [
+        'ENVIRONMENT',
+        'SUBSCRIPTION_ID',
+        'TENANT_ID',
+        'CLIENT_ID',
+        'CLIENT_SECRET',
+        'DOCDB_HOSTENDPOINT',
+        'DOCDB_MASTERKEY',
+        'SECURITY_USER_NAME',
+        'SECURITY_USER_PASSWORD',
+        'AZURE_BROKER_DATABASE_PROVIDER',
+        'AZURE_BROKER_DATABASE_SERVER',
+        'AZURE_BROKER_DATABASE_USER',
+        'AZURE_BROKER_DATABASE_PASSWORD',
+        'AZURE_BROKER_DATABASE_NAME'
+      ];
+
+      var environmentVariablesToBackup = {};
+      keys.forEach(function(key){
+        environmentVariablesToBackup[key] = process.env[key];
+      });
+
+      var environmentVariablesToSet = {};
+      keys.forEach(function(key){
+        environmentVariablesToSet[key] = 'fake-' + key;
+      });
+
+      var expectedConfig = {
+        'azure': {
+          'environment': environmentVariablesToSet['ENVIRONMENT'],
+          'subscriptionId': environmentVariablesToSet['SUBSCRIPTION_ID'],
+          'tenantId': environmentVariablesToSet['TENANT_ID'],
+          'clientId': environmentVariablesToSet['CLIENT_ID'],
+          'clientSecret': environmentVariablesToSet['CLIENT_SECRET'],
+          'docdbHostendpoint': environmentVariablesToSet['DOCDB_HOSTENDPOINT'],
+          'docdbMasterkey': environmentVariablesToSet['DOCDB_MASTERKEY']
+        },
+        'serviceBroker': {
+          'credentials': {
+            'authUser': environmentVariablesToSet['SECURITY_USER_NAME'],
+            'authPassword': environmentVariablesToSet['SECURITY_USER_PASSWORD']
+          }
+        },
+        'database': {
+          'provider': environmentVariablesToSet['AZURE_BROKER_DATABASE_PROVIDER'],
+          'server': environmentVariablesToSet['AZURE_BROKER_DATABASE_SERVER'],
+          'user': environmentVariablesToSet['AZURE_BROKER_DATABASE_USER'],
+          'password': environmentVariablesToSet['AZURE_BROKER_DATABASE_PASSWORD'],
+          'database': environmentVariablesToSet['AZURE_BROKER_DATABASE_NAME']
+        }
+      };
+
+      before(function() {
+        keys.forEach(function(key){
+          process.env[key] = environmentVariablesToSet[key];
+        });
+      });
+
+      after(function() {
+        keys.forEach(function(key){
+          process.env[key] = environmentVariablesToBackup[key];
+        });
+      });
+
+      it('should fetch configurations from environment variables', function() {
+        var actualConfig = Common.getConfigurations();
+        actualConfig.should.eql(expectedConfig);
+      });
+    });
+  });
+
   describe('getEnvironment()', function() {
     it('should get the environment by the name', function() {
       var envName = 'AzureCloud';

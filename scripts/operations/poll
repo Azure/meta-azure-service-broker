@@ -1,9 +1,0 @@
-#!/bin/bash
-
-set -e
-
-bin=$(dirname $0)
-
-instance_id=`cat $bin/instance_id`
-
-curl http://localhost:5001/v2/service_instances/$instance_id/last_operation -u demouser:demopassword -H "X-Broker-API-Version: 2.8" -H "Content-Type: application/json" -v

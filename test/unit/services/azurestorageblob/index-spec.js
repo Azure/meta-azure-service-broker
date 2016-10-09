@@ -13,10 +13,10 @@ var storageBlobClient = require('../../../../lib/services/azurestorageblob/stora
 
 var azure = {
   environment: 'AzureCloud',
-  subscription_id: '743fxxxx-83xx-46xx-xx2d-xxxxb953952d',
-  tenant_id: '72xxxxbf-8xxx-xxxf-9xxb-2d7cxxxxdb47',
-  client_id: 'd8xxxx18-xx4a-4xx9-89xx-9be0bfecxxxx',
-  client_secret: '2/DzYYYYYYYYYYsAvXXXXXXXXXXQ0EL7WPxEXX115Go=',
+  subscriptionId: '743fxxxx-83xx-46xx-xx2d-xxxxb953952d',
+  tenantId: '72xxxxbf-8xxx-xxxf-9xxb-2d7cxxxxdb47',
+  clientId: 'd8xxxx18-xx4a-4xx9-89xx-9be0bfecxxxx',
+  clientSecret: '2/DzYYYYYYYYYYsAvXXXXXXXXXXQ0EL7WPxEXX115Go=',
 };
 
 var log = logule.init(module, 'Storage Blob-Tests');
