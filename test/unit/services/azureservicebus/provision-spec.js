@@ -33,13 +33,15 @@ describe('ServiceBus', function() {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
           azure: azure,
         };
-        sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
-        sinon.stub(utils, 'createResourceGroup').yields(null, 'fake-access-token');
+        sinon.stub(utils, 'getToken').yields(null);
+        sinon.stub(utils, 'checkNamespaceAvailability').yields(null);
+        sinon.stub(utils, 'createResourceGroup').yields(null);
         sinon.stub(utils, 'createNamespace').yields(null, 'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5', 'cfe77a25d2-f58c-11e5-b933-000d3a80e5f5');
       });
 
       after(function() {
         utils.getToken.restore();
+        utils.checkNamespaceAvailability.restore();
         utils.createResourceGroup.restore();
         utils.createNamespace.restore();
       });
@@ -54,91 +56,93 @@ describe('ServiceBus', function() {
       });
     });
 
-    describe('When specific parameters are provided and but incompleted',
-      function() {
-        var validParams = {};
+    describe('When specific parameters are provided and but incompleted', function() {
+      var validParams = {};
 
-        before(function() {
-          validParams = {
-            instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-            azure: azure,
-            parameters: {
-              resource_group_name: 'mysbtest',
-              namespace_name: 'mysb',
-              location: 'westus',
-              messaging_tier: 'Standard'
-            }
-          };
-          sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
-          sinon.stub(utils, 'createResourceGroup').yields(null, 'fake-access-token');
-          sinon.stub(utils, 'createNamespace').yields(null, 'mysbtest', 'mysb');
-        });
-
-        after(function() {
-          utils.getToken.restore();
-          utils.createResourceGroup.restore();
-          utils.createNamespace.restore();
-        });
-
-        it('should return missing parameter error', function(done) {
-          azureservicebus.provision(log, validParams, function(
-            err, reply, result) {
-            err.should.have.property('message', 'type in configuration needed.');
-            done();
-          });
-        });
+      before(function() {
+        validParams = {
+          instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
+          azure: azure,
+          parameters: {
+            resource_group_name: 'mysbtest',
+            namespace_name: 'mysb',
+            location: 'westus',
+            messaging_tier: 'Standard'
+          }
+        };
+        sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
+        sinon.stub(utils, 'checkNamespaceAvailability').yields(null);
+        sinon.stub(utils, 'createResourceGroup').yields(null, 'fake-access-token');
+        sinon.stub(utils, 'createNamespace').yields(null, 'mysbtest', 'mysb');
       });
 
-    describe('When specific parameters are provided and valid',
-      function() {
-        var validParams = {};
+      after(function() {
+        utils.getToken.restore();
+        utils.checkNamespaceAvailability.restore();
+        utils.createResourceGroup.restore();
+        utils.createNamespace.restore();
+      });
 
-        before(function() {
-          validParams = {
-            instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-            azure: azure,
-            parameters: {
-              resource_group_name: 'mysbtest',
-              namespace_name: 'mysb',
-              location: 'westus',
-              type: 'Messaging',
-              messaging_tier: 'Standard',
-              tags: {
-                foo: 'bar'
-              }
-            }
-          };
-          sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
-          sinon.stub(utils, 'createResourceGroup').yields(null, 'fake-access-token');
-          sinon.stub(utils, 'createNamespace').yields(null, 'mysbtest', 'mysb');
-        });
-
-        after(function() {
-          utils.getToken.restore();
-          utils.createResourceGroup.restore();
-          utils.createNamespace.restore();
-        });
-
-        it('should create the namespace', function(done) {
-          azureservicebus.provision(log, validParams, function(
-            err, reply, result) {
-            should.not.exist(err);
-            var replyExpected = {
-              statusCode: 202,
-              code: 'Accepted',
-              value: {}
-            };
-            reply.should.eql(replyExpected);
-            var resultExpected = {
-                'resourceGroupName': 'mysbtest',
-                'namespaceName': 'mysb',
-            };
-            result.should.eql(resultExpected);
-
-            done();
-          });
+      it('should return missing parameter error', function(done) {
+        azureservicebus.provision(log, validParams, function(
+          err, reply, result) {
+          err.should.have.property('message', 'type in configuration needed.');
+          done();
         });
       });
+    });
+
+    describe('When specific parameters are provided and valid', function() {
+      var validParams = {};
+
+      before(function() {
+        validParams = {
+          instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
+          azure: azure,
+          parameters: {
+            resource_group_name: 'mysbtest',
+            namespace_name: 'mysb',
+            location: 'westus',
+            type: 'Messaging',
+            messaging_tier: 'Standard',
+            tags: {
+              foo: 'bar'
+            }
+          }
+        };
+        sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
+        sinon.stub(utils, 'checkNamespaceAvailability').yields(null);
+        sinon.stub(utils, 'createResourceGroup').yields(null, 'fake-access-token');
+        sinon.stub(utils, 'createNamespace').yields(null, 'mysbtest', 'mysb');
+      });
+
+      after(function() {
+        utils.getToken.restore();
+        utils.checkNamespaceAvailability.restore();
+        utils.createResourceGroup.restore();
+        utils.createNamespace.restore();
+      });
+
+      it('should create the namespace', function(done) {
+        azureservicebus.provision(log, validParams, function(
+          err, reply, result) {
+          should.not.exist(err);
+          var replyExpected = {
+            statusCode: 202,
+            code: 'Accepted',
+            value: {}
+          };
+          reply.should.eql(replyExpected);
+          var resultExpected = {
+              'resourceGroupName': 'mysbtest',
+              'namespaceName': 'mysb',
+          };
+          result.should.eql(resultExpected);
+
+          done();
+        });
+      });
+    });
 
   });
 });
