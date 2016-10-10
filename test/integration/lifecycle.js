@@ -66,6 +66,28 @@ var lifecycle = function(service) {
           });
       });
   
+      it('should get a conflict error if the resource name is same', function(done) {
+        // The instance is different because it's a different service instance
+        chai.request(server)
+          .put('/v2/service_instances/' + uuid.v4())
+          .set('X-Broker-API-Version', '2.8')
+          .auth('demouser', 'demopassword')
+          .query({
+            accepts_incomplete: true
+          })
+          .send({
+            "organization_guid": uuid.v4(),
+            "plan_id": planId,
+            "service_id": serviceId,
+            "space_guid": uuid.v4(),
+            "parameters": provisioningParameters
+          })
+          .end(function(err, res) {
+            res.should.have.status(409);
+            done();
+          });
+      });
+
       it('should poll the state of the provisioning operation', function(done) {
         this.timeout(3600000);
         var state = 'in progress';
