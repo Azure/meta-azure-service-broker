@@ -38,8 +38,8 @@ describe('StorageBlob', function() {
       it('should return missing parameter error', function(done) {
         azurestorageblob.provision(log, validParams, function(
           err, reply, result) {
-          err.should.have.property('message',
-            'resource_group_name in configuration needed.');
+          err.should.have.property('description',
+            'The parameters ["resource_group_name","storage_account_name","container_name","location","account_type"] are missing.');
           done();
         });
       });
@@ -132,7 +132,6 @@ describe('StorageBlob', function() {
           };
           sinon.stub(storageBlobClient, 'provision').yields({
             statusCode: 400,
-            code: 'AccountNameInvalid'
           });
         });
 
@@ -145,8 +144,6 @@ describe('StorageBlob', function() {
             err, reply, result) {
             should.exist(err);
             err.should.have.property('statusCode', 400);
-            err.should.have.property('code',
-              'AccountNameInvalid');
             done();
           });
         });
