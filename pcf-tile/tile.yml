@@ -72,33 +72,41 @@ forms:
       default: true
     - name: AzureChinaCloud
       label: Azure China Cloud
-  - name: subscriptionId
+  - name: subscription_id
     type: string
     label: Your Azure subscription Id
-  - name: tenantId
+  - name: tenant_id
     type: string
     label: Tenant Id of your Azure service principal
-  - name: clientId
+  - name: client_id
     type: string
     label: Client Id of your Azure service principal
-  - name: clientSecret
-    type: string
+  - name: client_secret
+    type: secret
     label: Client Secret of your Azure service principal
 - name: database-config-form
   label: Database Configuration
   properties:
-  - name: azure_service_broker_database_server
+  - name: azure_broker_database_provider
+    type: dropdown_select
+    label: Database Provider for Meta Azure Service Broker
+    configurable: true
+    options:
+    - name: sqlserver
+      label: Azure SQL Database
+      default: true
+  - name: azure_broker_database_server
     type: string
     label: Database Server for Meta Azure Service Broker
-  - name: azure_service_broker_database_user
+  - name: azure_broker_database_user
     type: string
     label: Database User for Meta Azure Service Broker
-  - name: azure_service_broker_database_password
-    type: string
+  - name: azure_broker_database_password
+    type: secret
     label: Database Password for Meta Azure Service Broker
-  - name: azure_service_broker_database_name
+  - name: azure_broker_database_name
     type: string
-    label: Database Username for Meta Azure Service Broker
+    label: Database Name for Meta Azure Service Broker
 - name: docdb-config-form
   label: Azure DocumentDb Service Configuration
   properties:
@@ -106,7 +114,7 @@ forms:
     type: string
     label: Host EndPoint of your Azure DocumentDB
   - name: docdbMasterkey
-    type: string
+    type: secret
     label: Master Key of your Azure DocumentDB
 
 # Add any dependencies your tile has on other installed products.

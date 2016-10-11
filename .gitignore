@@ -31,3 +31,8 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# Pivotal Product tiles
+pcf-tile/product
+pcf-tile/release
+pcf-tile/resources/meta-azure-service-broker.zip
