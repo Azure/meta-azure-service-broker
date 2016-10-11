@@ -1,24 +1,14 @@
 # Generate a PCF Tile
-1. Check out the tile-generator repo:
+
+1. Install the tile-generator python package. Note: tile-generator requires Python 2, and will not work with Python 3. We recommend using a virtualenv environment to avoid conflicts with other Python packages:
 
   ```
-  git clone https://github.com/cf-platform-eng/tile-generator
+  virtualenv -p python2 tile-generator
+  source tile-generator/bin/activate
+  pip install tile-generator
   ```
 
-1. Change to the root directory of the tile generator, and pull down the generator's dependencies
-  ```
-  cd tile-generator
-  sudo pip install -r requirements.txt
-  ```
-
-1. Add the bin directory of tile-generator to your path:
-
-  ```
-  export PATH=`pwd`/bin:$PATH
-  ```
-
-  Note:
-    If you expect to frequently use the tile generator, you may want to add this to your shell's startup script, i.e. .profile
+  This will put the tile and pcf commands in your PATH.
 
 1. Install the [BOSH CLI](https://bosh.io/docs/bosh-cli.html)
 
