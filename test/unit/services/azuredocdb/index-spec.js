@@ -16,7 +16,7 @@ var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'DocumentDb-Tests');
 var generatedValidInstanceId = uuid.v4();
-var provisioningResult = '{"id":"eDocDb","_rid":"77UyAA==","_self":"dbs/77UyAA==/","_etag":"00000700-0000-0000-0000-5706ce870000","_ts":1460063879,"_colls":"colls/","_users":"users/"}';
+var provisioningResult = '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }';
 
 log.muteOnly('debug');
 
@@ -31,24 +31,20 @@ describe('DocumentDb - Index - Provision', function() {
             azure: azure,
             parameters: {
                 resourceGroup: 'docDbResourceGroup',
-                docDbName: 'eDocDb',
-                parameters: {
-                    location:'eastus',
-                }
+                docDbAccountName: 'eDocDb',
+                location:'eastus'
             }
         }
     });
     
     after(function() {
         docDbClient.provision.restore();
-        resourceGroupClient.checkExistence.restore();
         resourceGroupClient.createOrUpdate.restore();
     });
     
     describe('Provision operation should succeed', function() {        
         it('should not return an error and statusCode should be 202', function(done) {
 
-            sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
             sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, {provisioningState: 'Succeeded'});
             sinon.stub(docDbClient, 'provision').yields(null, JSON.parse(provisioningResult));
             handlers.provision(log, validParams, function(err, reply, result) {
@@ -74,10 +70,8 @@ describe('DocumentDb - Index - Poll', function() {
             provisioning_result: provisioningResult,
             parameters: {
                 resourceGroup: 'docDbResourceGroup',
-                docDbName: 'eDocDb',
-                parameters: {
-                    location:'eastus',
-                }
+                docDbAccountName: 'eDocDb',
+                location:'eastus'
             }
         }
     });
@@ -92,7 +86,6 @@ describe('DocumentDb - Index - Poll', function() {
             handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
                 should.not.exist(err);
                 lastOperatoin.should.equal('provision');
-                result._self.should.equal('dbs/77UyAA==/');
                 done();
             });
                         
@@ -110,12 +103,16 @@ describe('DocumentDb - Index - Bind', function() {
             plan_id: service.plans[0].id,
             azure: azure,
             provisioning_result: provisioningResult,
-            parameters: {}
+            parameters: {
+              resourceGroupName: "myRG",
+              docDbAccountName: "myaccount"
+            }
         }
     });
     
     describe('Bind operation should succeed', function() {        
         it('should not return an error and statusCode should be 201', function(done) {
+            sinon.stub(docDbClient, 'bind').yields(null, {documentEndpoint: 'abc', masterKey: 'abc'});
             handlers.bind(log, validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(201);
@@ -161,7 +158,11 @@ describe('DocumentDb - Index - De-provision', function() {
             service_id: service.id,
             plan_id: service.plans[0].id,
             azure: azure,
-            provisioning_result: provisioningResult
+            provisioning_result: provisioningResult,
+            parameters: {
+              resourceGroupName: "myRG",
+              docDbAccountName: "myaccount"
+            }
         }
     });
     
@@ -182,4 +183,5 @@ describe('DocumentDb - Index - De-provision', function() {
         });
     });
 });
+
 

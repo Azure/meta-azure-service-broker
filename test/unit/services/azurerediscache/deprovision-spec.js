@@ -16,26 +16,6 @@ var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'RedisCache-Mocha');
 
-describe('RedisCache - Deprovision - PreConditions', function() {
-    var cp;
-        
-    before(function() {
-        var validParams = {
-            instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',
-            provisioning_result: '{\"id\":\"/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheNC\",\"name\":\"C0CacheNC\"}'
-        };
-        validParams.azure = azure;
-        cp = new cmdDeprovision(log, validParams);
-    });
-    
-    describe('Deprovision should succeed if ...', function() {
-        it('all validators succeed', function(done) {
-            (cp.allValidatorsSucceed()).should.equal(true);
-            done();        
-        });        
-    });
-});
-
 describe('RedisCache - Deprovision - Execution', function() {
     var validParams = {};
     var cp;

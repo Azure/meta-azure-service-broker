@@ -34,14 +34,6 @@ describe('RedisCache - Poll - PreConditions', function() {
         validParams.azure = azure;
     });
     
-    describe('Poll should succeed if ...', function() {
-        it('all validators succeed', function(done) {
-            var cp = new cmdPoll(log, validParams);
-            (cp.allValidatorsSucceed()).should.equal(true);
-            done();        
-        });
-        
-    });
 });
 
 describe('RedisCache - Poll - Execution - Cache that exists', function() {
@@ -67,7 +59,6 @@ describe('RedisCache - Poll - Execution - Cache that exists', function() {
         it('should output provisioningState = Succeeded', function(done) {
 
             var cp = new cmdPoll(log, validParams);
-            (cp.allValidatorsSucceed()).should.equal(true);
             
             sinon.stub(redisClient, 'poll').yields(null, {provisioningState : 'Succeeded'});
             cp.poll(redisClient, function(err, result) {

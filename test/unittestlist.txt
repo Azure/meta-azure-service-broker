@@ -6,7 +6,6 @@ unit/services/azurerediscache/deprovision-spec.js
 unit/services/azurerediscache/poll-spec.js
 
 unit/services/azuredocdb/provision-spec.js
-unit/services/azuredocdb/deprovision-spec.js
 unit/services/azuredocdb/poll-spec.js
 unit/services/azuredocdb/index-spec.js
 
@@ -17,7 +16,6 @@ unit/services/azurestorageblob/bind-spec.js
 unit/services/azurestorageblob/unbind-spec.js
 unit/services/azurestorageblob/index-spec.js
 
-unit/services/azureservicebus/provision-spec.js
 unit/services/azureservicebus/poll-spec.js
 unit/services/azureservicebus/deprovision-spec.js
 unit/services/azureservicebus/bind-spec.js

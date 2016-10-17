@@ -24,7 +24,6 @@ var generatedValidInstanceId = uuid.v4();
 
 var resourceGroupName = 'fake-resource-group';
 var storageAccountName = 'fakestorageaccountname';
-var containerName = 'fakecontainername';
 var location = 'East Asia';
 var accountType = 'Standard_LRS';
 var tags = {
@@ -145,8 +144,6 @@ describe('StorageBlob - Index - Poll existing storage blob', function() {
 describe('StorageBlob - Index - Bind existing storage blob', function() {
   var validParams;
 
-  parameters.container_name = containerName;
-
   before(function() {
     validParams = {
       instance_id: generatedValidInstanceId,
@@ -166,7 +163,7 @@ describe('StorageBlob - Index - Bind existing storage blob', function() {
   describe('Bind operation should succeed for existing storage blob', function() {
     it('should not return an error and statusCode should be 201', function(done) {
 
-      sinon.stub(storageBlobClient, 'bind').withArgs(resourceGroupName, storageAccountName, containerName).yields(null, 'fake-key-1', 'fake-key-2');
+      sinon.stub(storageBlobClient, 'bind').withArgs(resourceGroupName, storageAccountName).yields(null, 'fake-key-1', 'fake-key-2');
 
       handlers.bind(log, validParams, function(err, reply, result) {
         should.not.exist(err);
@@ -250,3 +247,4 @@ describe('StorageBlob - Index - Poll de-provisioned storage blob', function() {
     });
   });
 });
+
