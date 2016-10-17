@@ -107,15 +107,6 @@ forms:
   - name: azure_broker_database_name
     type: string
     label: Database Name for Meta Azure Service Broker
-- name: docdb-config-form
-  label: Azure DocumentDb Service Configuration
-  properties:
-  - name: docdbHostendpoint
-    type: string
-    label: Host EndPoint of your Azure DocumentDB
-  - name: docdbMasterkey
-    type: secret
-    label: Master Key of your Azure DocumentDB
 
 # Add any dependencies your tile has on other installed products.
 # This is often appropriate when using automatic service provisioning

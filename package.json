@@ -28,7 +28,6 @@
     "azure-arm-rediscache": "0.2.1",
     "azure-arm-resource": "1.0.0-preview",
     "azure-arm-storage": "0.12.2-preview",
-    "azure-storage": "0.9.0",
     "config": "1.21.0",
     "documentdb": "1.6.0",
     "http-status-codes": "1.0.6",
@@ -44,6 +43,7 @@
   },
   "devDependencies": {
     "azure": "0.10.6",
+    "azure-storage": "0.9.0",
     "chai": "3.5.0",
     "chai-http": "2.0.1",
     "jshint": "2.9.1",
