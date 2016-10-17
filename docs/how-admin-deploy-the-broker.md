@@ -63,7 +63,7 @@
       | Event Hub Service | yes | yes |
       | Redis Cache Service | yes | yes |
       | Service Bus Service | yes | yes |
-      | Storage Blob Service | yes | yes |
+      | Storage Service | yes | yes |
       | SQL Database Service | yes | yes |
 
     * SUBSCRIPTION_ID
@@ -137,7 +137,7 @@ cf enable-service-access $service-name
 For example:
 
 ```
-cf enable-service-access azure-storageblob
+cf enable-service-access azure-storage
 ```
 
 Show the services in the marketplace to verify they are ready.

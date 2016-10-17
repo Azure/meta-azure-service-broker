@@ -9,8 +9,8 @@ instanceId = uuid.v4();
 bindingId = uuid.v4();
 resourceGroupName = 'cloud-foundry-' + instanceId;
 var storageAccountName = 'cf' + instanceId.replace(/-/g, '').slice(0, 22);
-var azurestorageblob = {
-  serviceName: 'azure-storageblob',
+var azurestorage = {
+  serviceName: 'azure-storage',
   serviceId: '2e2fc314-37b6-4587-8127-8f9ee8b33fea',
   planId: '6ddf6b41-fb60-4b70-af99-8ecc4896b3cf',
   instanceId: instanceId,
@@ -31,7 +31,7 @@ var azurestorageblob = {
     "secondary_access_key": "<string>"
   }
 }
-testMatrix.push(azurestorageblob);
+testMatrix.push(azurestorage);
 
 instanceId = uuid.v4();
 bindingId = uuid.v4();

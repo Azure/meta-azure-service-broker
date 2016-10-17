@@ -6,7 +6,7 @@ var statusCode = require('./statusCode');
 var LOCALFILE = __filename;
 
 module.exports = function() {
-  var clientName = 'azurestorageblobClient';
+  var clientName = 'azurestorageClient';
   var log = logule.init(module, clientName);
   var validate = function(accountName, accountKey, callback) {
     var context = {}

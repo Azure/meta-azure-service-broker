@@ -11,18 +11,18 @@ var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var common = require('../../../../lib/common');
-var azurestorageblob = require('../../../../lib/services/azurestorageblob/');
-var storageBlobClient = require('../../../../lib/services/azurestorageblob/storageblobclient');
+var azurestorage = require('../../../../lib/services/azurestorage/');
+var storageClient = require('../../../../lib/services/azurestorage/storageclient');
 var azure = require('../helpers').azure;
 
-var log = logule.init(module, 'StorageBlob-Mocha');
+var log = logule.init(module, 'Storage-Mocha');
 
-describe('StorageBlob', function() {
+describe('Storage', function() {
 
   describe('Provisioning', function() {
 
     before(function() {
-      storageBlobClient.init = sinon.stub();
+      storageClient.init = sinon.stub();
     });
 
     describe('When no specific parameters are provided', function() {
@@ -36,7 +36,7 @@ describe('StorageBlob', function() {
       });
 
       it('should return missing parameter error', function(done) {
-        azurestorageblob.provision(log, validParams, function(
+        azurestorage.provision(log, validParams, function(
           err, reply, result) {
           err.should.have.property('description',
             'The parameters ["resource_group_name","storage_account_name","location","account_type"] are missing.');
@@ -60,7 +60,7 @@ describe('StorageBlob', function() {
               account_type: 'Standard_LRS'
             }
           };
-          sinon.stub(storageBlobClient, 'provision').yields(null, {
+          sinon.stub(storageClient, 'provision').yields(null, {
             resourceGroupResult: {
               'resourceGroupName': 'test031702',
               'groupParameters': {
@@ -78,11 +78,11 @@ describe('StorageBlob', function() {
         });
 
         after(function() {
-          storageBlobClient.provision.restore();
+          storageClient.provision.restore();
         });
 
-        it('should create the storage blob', function(done) {
-          azurestorageblob.provision(log, validParams, function(
+        it('should create the storage', function(done) {
+          azurestorage.provision(log, validParams, function(
             err, reply, result) {
             should.not.exist(err);
             var replyExpected = {
@@ -128,17 +128,17 @@ describe('StorageBlob', function() {
               account_type: 'Standard_LRS'
             }
           };
-          sinon.stub(storageBlobClient, 'provision').yields({
+          sinon.stub(storageClient, 'provision').yields({
             statusCode: 400,
           });
         });
 
         after(function() {
-          storageBlobClient.provision.restore();
+          storageClient.provision.restore();
         });
 
-        it('should create the storage blob', function(done) {
-          azurestorageblob.provision(log, validParams, function(
+        it('should create the storage', function(done) {
+          azurestorage.provision(log, validParams, function(
             err, reply, result) {
             should.exist(err);
             err.should.have.property('statusCode', 400);
