@@ -8,29 +8,22 @@ var LOCALFILE = __filename;
 module.exports = function() {
   var clientName = 'azurestorageblobClient';
   var log = logule.init(module, clientName);
-  var validate = function(accountName, accountKey, containerName, callback) {
+  var validate = function(accountName, accountKey, callback) {
     var context = {}
     context.accountName = accountName;
     context.accountKey = accountKey;
-    context.containerName = containerName;
     context.status = statusCode.FAIL;
-    var destblob = clientName + Math.floor(Math.random()*1000);
+    var destcontainer = 'container' + Math.floor(Math.random()*1000);
     try {
       var blobService = azure.createBlobService(accountName, accountKey);
-      log.debug('Uploading blob: '+ destblob);
-      blobService.createBlockBlobFromLocalFile(containerName, destblob, LOCALFILE, function(error, result, response) {
-        if (!error) {
-          if(response.isSuccessful == true) {
-              context.status = statusCode.PASS
-          } 
-          log.debug('Deleteing blob: '+ destblob);
-          blobService.deleteBlob(containerName, destblob, function(error, response) {
-            if(error) {log.error("Failed to clean test blob: " + destblob);}
-          });
+      log.debug('creating container: '+ destcontainer);
+      blobService.createContainerIfNotExists(destcontainer, function(error, result, response){
+        if(!error){
+          context.status = statusCode.PASS;
           callback(context);
         } else {
-            log.error('Fail to create blob. Error: ' + error);
-            callback(context)
+          log.error('Fail to create container. Error: ' + error);
+          callback(context);
         }
       });
     } catch (ex) {
@@ -42,12 +35,12 @@ module.exports = function() {
   this.validateCredential = function(credential, next) {
     async.parallel([
       function(callback) {
-        validate(credential.storage_account_name, credential.primary_access_key, credential.container_name, function(context) {
+        validate(credential.storage_account_name, credential.primary_access_key, function(context) {
            callback(null, context);
         });
       },
       function(callback) {
-        validate(credential.storage_account_name, credential.secondary_access_key, credential.container_name, function(context) {
+        validate(credential.storage_account_name, credential.secondary_access_key, function(context) {
            callback(null, context);
         });
       }
@@ -64,4 +57,5 @@ module.exports = function() {
     });
   };
 }
+
 

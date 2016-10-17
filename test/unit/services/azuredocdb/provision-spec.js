@@ -6,6 +6,7 @@ var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
+var util = require('util');
 var cmdProvision = require('../../../../lib/services/azuredocdb/cmd-provision');
 var docDbClient = require('../../../../lib/services/azuredocdb/client');
 var resourceGroupClient = require('../../../../lib/common/resourceGroup-client');
@@ -14,90 +15,84 @@ var azure = require('../helpers').azure;
 var log = logule.init(module, 'DocumentDb-Tests');
 
 describe('DocumentDb - Provision - PreConditions', function() {
-    var validParams = {};
-    var cp;
+  var validParams = {};
+  var cp;
         
-    before(function() {
-        validParams = {
-            instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',
-            parameters: {
-                resourceGroup: 'docDbResourceGroup',
-                docDbName: 'goliveDocDb',
-                parameters : {
-                    location: 'westus'
-                }
-            },
-            azure : azure
-        };
-        cp = new cmdProvision(log, validParams);
-    });
+  before(function() {
+    validParams = {
+      instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',
+      parameters: {
+        resourceGroup: 'docDbResourceGroup',
+        docDbAccountName: 'testDocDb',
+        location: 'westus'
+      },
+      azure : azure
+    };
+    cp = new cmdProvision(log, validParams);
+  });
     
-    describe('Provision should succeed if ...', function() {
-        it('all validators succeed', function(done) {
-            (cp.allValidatorsSucceed()).should.equal(true);
-            done();        
-        });        
-    });
+  describe('Provision should succeed if ...', function() {
+    it('verifyParameters returns null', function(done) {
+      (cp.verifyParameters() === null).should.be.true;
+      done();        
+    });        
+  });
 });
 
 describe('DocumentDb - Provision - PreConditions incorrect', function() {
-    var validParams = {};
-    var cp;
+  var validParams = {};
+  var cp;
         
-    before(function() { /* no parameters!! */
-        invalidParams = {
-            instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',            
-            azure : azure
-        };
-        cp = new cmdProvision(log, invalidParams);
-    });
+  before(function() { /* no parameters!! */
+    invalidParams = {
+      instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',            
+      azure : azure
+    };
+    cp = new cmdProvision(log, invalidParams);
+  });
     
-    describe('Provision should fail if ...', function() {
-        it('parameters were not provided', function(done) {
-            (cp.allValidatorsSucceed()).should.equal(false);
-            done();        
-        });        
-    });
+  describe('Provision should fail if ...', function() {
+    it('parameters were not provided', function(done) {
+      (cp.verifyParameters()).should.equal(util.format('The parameters %j are missing.', ['resourceGroup','docDbAccountName','location']));
+      done();        
+    });        
+  });
 });
 
 describe('DocumentDb - Provision - Execution - DocDb that doesn\'t previsouly exist', function() {
-    var validParams = {};
-    var cp;
+  var validParams = {};
+  var cp;
         
-    before(function() {
-        validParams = {
-            instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',
-            parameters: {
-                resourceGroup: 'docDbResourceGroup',
-                docDbName: 'goliveDocDb',
-                parameters : {
-                    location: 'westus'
-                }
-            },
-            azure : azure,
-            provisioning_result: '{\"_self\":\"dbs/a00AAA==/\"}'
-        };
-        cp = new cmdProvision(log, validParams);
-    });
+  before(function() {
+    validParams = {
+      instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',
+      parameters: {
+        resourceGroup: 'docDbResourceGroup',
+        docDbName: 'testDocDbAccount',
+        location: 'westus'
+      },
+      azure : azure,
+    };
+    cp = new cmdProvision(log, validParams);
+  });
     
-    after(function() {
-        resourceGroupClient.checkExistence.restore();
-        resourceGroupClient.createOrUpdate.restore();
-        docDbClient.provision.restore();
-    });
+  after(function() {
+    resourceGroupClient.checkExistence.restore();
+    resourceGroupClient.createOrUpdate.restore();
+    docDbClient.provision.restore();
+  });
     
-    describe('Provision operation outcomes should be...', function() {
-        it('should output _self = dbs/a00AAA==/', function(done) {
+  describe('Provision operation outcomes should be...', function() {
+    it('should not exist error', function(done) {
+      sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
+      sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, {provisioningState: 'Succeeded'});
+      sinon.stub(docDbClient, 'provision').yields(null);
+      cp.provision(docDbClient, resourceGroupClient, function(err, result) {
+        should.not.exist(err);
+        done();        
+      });
             
-            sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
-            sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, {provisioningState: 'Succeeded'});
-            sinon.stub(docDbClient, 'provision').yields(null, {_self : 'dbs/a00AAA==/'});
-            cp.provision(docDbClient, resourceGroupClient, function(err, result) {
-                should.not.exist(err);
-                (result._self).should.equal('dbs/a00AAA==/');
-                done();        
-            });
-            
-        });
     });
+  });
 });
+

@@ -35,7 +35,6 @@ describe('StorageBlob', function() {
         validParams = {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
           parameters: {
-            container_name: 'myContainer'
           },
           provisioning_result: '{\"resourceGroupResult\":{\"resourceGroupName\":\"cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5\",\"groupParameters\":{\"location\":\"eastus\"}},\"storageAccountResult\":{\"storageAccountName\":\"cfe77a25d2f58c11e5b93300\",\"accountParameters\":{\"location\":\"eastus\",\"accountType\":\"Standard_LRS\"}}}',
           azure: azure,
@@ -58,7 +57,6 @@ describe('StorageBlob', function() {
             code: 'Created',
             value: {
               credentials: {
-                container_name: 'myContainer',
                 primary_access_key: 'fake-primary-key',
                 secondary_access_key: 'fake-secondary-key',
                 storage_account_name: 'cfe77a25d2f58c11e5b93300',
@@ -77,3 +75,4 @@ describe('StorageBlob', function() {
 
   });
 });
+

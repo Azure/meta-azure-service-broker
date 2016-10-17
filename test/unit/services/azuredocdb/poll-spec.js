@@ -13,62 +13,45 @@ var azure = require('../helpers').azure;
 var log = logule.init(module, 'DocumentDb-Tests');
 
 describe('DocumentDb - Poll - PreConditions', function() {
-    var validParams;
+  var validParams;
         
-    before(function() {
+  before(function() {
        
-        validParams = {
-            instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',
-            parameters : {
-                resourceGroup: 'docDbResourceGroup',
-                docDbName: 'goliveDocDb'
-            },
-            provisioning_result: '{\"id\":\"goliveDocDb\"}'
-        };
-    });
+    validParams = {
+      instance_id: '2e201389-35ff-4b89-9148-5c08c7325dc8',
+      provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }'
+    };
+  });
     
-    describe('Poll should succeed if ...', function() {
-        it('all validators succeed', function(done) {
-            var cp = new cmdPoll(log, validParams);
-            (cp.allValidatorsSucceed()).should.equal(true);
-            done();        
-        });
-        
-    });
 });
 
 describe('DocumentDb - Poll - Execution - docDb that exists', function() {
-    var validParams;
+  var validParams;
         
-    before(function() {
-        validParams = {
-            instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',
-            parameters : {
-                resourceGroup: 'docDbResourceGroup',
-                docDbName: 'goliveDocDb'
-            },
-            provisioning_result: '{\"id\":\"goliveDocDb\", \"_self\":\"dbs/a00AAA==/\"}',
-            last_operation : "provision",
-        };
-    });
+  before(function() {
+    validParams = {
+      instance_id: '2e201389-35ff-4b89-9148-5c08c7325dc8',
+      provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }',
+      last_operation: "provision"
+    };
+  });
     
-    after(function() {
-        docDbClient.poll.restore();
-    });
+  after(function() {
+    docDbClient.poll.restore();
+  });
     
-    describe('Poll operation outcomes should be...', function() {
-        it('should output state = succeeded', function(done) {
-
-            var cp = new cmdPoll(log, validParams);
-            (cp.allValidatorsSucceed()).should.equal(true);
+  describe('Poll operation outcomes should be...', function() {
+    it('should output state = succeeded', function(done) {
+      var cp = new cmdPoll(log, validParams);
             
-            sinon.stub(docDbClient, 'poll').yields(null, {_self : 'dbs/a00AAA==/'});
-            cp.poll(docDbClient, function(err, reply) {
-                should.not.exist(err);
-                reply.value.state.should.equal('succeeded');
-                done();        
-            });
+      sinon.stub(docDbClient, 'poll').yields(null, 'Succeeded');
+      cp.poll(docDbClient, function(err, reply) {
+        should.not.exist(err);
+        reply.value.state.should.equal('succeeded');
+        done();        
+      });
             
-        });
     });
+  });
 });
+
