@@ -1,15 +1,14 @@
 {
   "id": "2e2fc314-37b6-4587-8127-8f9ee8b33fea",
-  "name": "azure-storageblob",
-  "description": "Azure Storage Blob Service",
+  "name": "azure-storage",
+  "description": "Azure Storage Service",
   "bindable": true,
   "tags": [
     "Azure",
-    "Storage",
-    "Blob"
+    "Storage"
   ],
   "metadata": {
-    "displayName": "Azure Storage Blob",
+    "displayName": "Azure Storage",
     "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/StorageAccount.png",
     "longDescription": "REST-based object storage for unstructured data in the cloud",
     "providerDisplayName": "Microsoft"

@@ -7,9 +7,9 @@ var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var uuid = require('node-uuid');
-var service = require('../../../../lib/services/azurestorageblob/service.json');
-var handlers = require('../../../../lib/services/azurestorageblob/index');
-var storageBlobClient = require('../../../../lib/services/azurestorageblob/storageblobclient');
+var service = require('../../../../lib/services/azurestorage/service.json');
+var handlers = require('../../../../lib/services/azurestorage/index');
+var storageClient = require('../../../../lib/services/azurestorage/storageclient');
 
 var azure = {
   environment: 'AzureCloud',
@@ -19,7 +19,7 @@ var azure = {
   clientSecret: '2/DzYYYYYYYYYYsAvXXXXXXXXXXQ0EL7WPxEXX115Go=',
 };
 
-var log = logule.init(module, 'Storage Blob-Tests');
+var log = logule.init(module, 'Storage-Tests');
 var generatedValidInstanceId = uuid.v4();
 
 var resourceGroupName = 'fake-resource-group';
@@ -63,7 +63,7 @@ var parameters = {
   account_type: accountType
 };
 
-describe('StorageBlob - Index - Provision', function() {
+describe('Storage - Index - Provision', function() {
   var validParams;
 
   before(function() {
@@ -78,13 +78,13 @@ describe('StorageBlob - Index - Provision', function() {
   });
 
   after(function() {
-    storageBlobClient.provision.restore();
+    storageClient.provision.restore();
   });
 
   describe('Provision operation should succeed', function() {
     it('should not return an error and statusCode should be 202', function(done) {
 
-      sinon.stub(storageBlobClient, 'provision').yields(null, {
+      sinon.stub(storageClient, 'provision').yields(null, {
         resourceGroupResult: {
           resourceGroupName: resourceGroupName,
           groupParameters: groupParameters,
@@ -105,7 +105,7 @@ describe('StorageBlob - Index - Provision', function() {
   });
 });
 
-describe('StorageBlob - Index - Poll existing storage blob', function() {
+describe('Storage - Index - Poll existing storage', function() {
   var validParams;
 
   before(function() {
@@ -121,13 +121,13 @@ describe('StorageBlob - Index - Poll existing storage blob', function() {
   });
 
   after(function() {
-    storageBlobClient.poll.restore();
+    storageClient.poll.restore();
   });
 
-  describe('Poll operation should succeed for existing storage blob', function() {
+  describe('Poll operation should succeed for existing storage', function() {
     it('should not return an error and statusCode should be 200', function(done) {
 
-      sinon.stub(storageBlobClient, 'poll').yields(null, {
+      sinon.stub(storageClient, 'poll').yields(null, {
         provisioningState: 'Succeeded'
       });
       handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
@@ -141,7 +141,7 @@ describe('StorageBlob - Index - Poll existing storage blob', function() {
   });
 });
 
-describe('StorageBlob - Index - Bind existing storage blob', function() {
+describe('Storage - Index - Bind existing storage', function() {
   var validParams;
 
   before(function() {
@@ -157,13 +157,13 @@ describe('StorageBlob - Index - Bind existing storage blob', function() {
   });
 
   after(function() {
-    storageBlobClient.bind.restore();
+    storageClient.bind.restore();
   });
 
-  describe('Bind operation should succeed for existing storage blob', function() {
+  describe('Bind operation should succeed for existing storage', function() {
     it('should not return an error and statusCode should be 201', function(done) {
 
-      sinon.stub(storageBlobClient, 'bind').withArgs(resourceGroupName, storageAccountName).yields(null, 'fake-key-1', 'fake-key-2');
+      sinon.stub(storageClient, 'bind').withArgs(resourceGroupName, storageAccountName).yields(null, 'fake-key-1', 'fake-key-2');
 
       handlers.bind(log, validParams, function(err, reply, result) {
         should.not.exist(err);
@@ -178,7 +178,7 @@ describe('StorageBlob - Index - Bind existing storage blob', function() {
   });
 });
 
-describe('StorageBlob - Index - De-provision existing storage blob', function() {
+describe('Storage - Index - De-provision existing storage', function() {
   var validParams;
 
   before(function() {
@@ -193,13 +193,13 @@ describe('StorageBlob - Index - De-provision existing storage blob', function() 
   });
 
   after(function() {
-    storageBlobClient.deprovision.restore();
+    storageClient.deprovision.restore();
   });
 
-  describe('De-Provision operation should succeed for existing storage blob', function() {
+  describe('De-Provision operation should succeed for existing storage', function() {
     it('should not return an error and statusCode should be 202', function(done) {
 
-      sinon.stub(storageBlobClient, 'deprovision').yields(null, {
+      sinon.stub(storageClient, 'deprovision').yields(null, {
         provisioningState: 'Succeeded'
       });
       handlers.deprovision(log, validParams, function(err, reply, result) {
@@ -212,7 +212,7 @@ describe('StorageBlob - Index - De-provision existing storage blob', function() 
   });
 });
 
-describe('StorageBlob - Index - Poll de-provisioned storage blob', function() {
+describe('Storage - Index - Poll de-provisioned storage', function() {
   var validParams;
 
   before(function() {
@@ -228,13 +228,13 @@ describe('StorageBlob - Index - Poll de-provisioned storage blob', function() {
   });
 
   after(function() {
-    storageBlobClient.poll.restore();
+    storageClient.poll.restore();
   });
 
-  describe('Poll operation should succeed for de-provisioned storage blob', function() {
+  describe('Poll operation should succeed for de-provisioned storage', function() {
     it('should not return an error and statusCode should be 200', function(done) {
 
-      sinon.stub(storageBlobClient, 'poll').yields(null, {
+      sinon.stub(storageClient, 'poll').yields(null, {
         statusCode: 404
       });
       handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {

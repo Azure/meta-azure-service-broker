@@ -1,8 +1,8 @@
-# Azure Storage Blob Service
+# Azure Storage Service
 
-[Azure Storage Service](https://azure.microsoft.com/en-us/services/storage/) offers reliable, economical cloud storage for data big and small. This broker currently publishes a single service and plan for provisioning Azure Storage Blob Service.
+[Azure Storage Service](https://azure.microsoft.com/en-us/services/storage/) offers reliable, economical cloud storage for data big and small. This broker currently publishes a single service and plan for provisioning Azure Storage Service.
 
-## Create an Azure storage blob service
+## Create an Azure storage service
 
 1. Get the service name and plans
 
@@ -14,13 +14,13 @@
 
   ```
   service                       plans                     description
-  azure-storageblob             standard                  Azure Storage Blob Service
+  azure-storage                 standard                  Azure Storage Service
   ```
 
   If you can not find the service name, please use the following command to make the plans public.
 
   ```
-  cf enable-service-access azure-storageblob
+  cf enable-service-access azure-storage
   ```
 
 2. Create a service instance
@@ -28,7 +28,7 @@
   Configuration parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file. If these parameters are not provided, the broker will create the resources according to [Naming Conventions](#naming-conventions).
 
   ```
-  cf create-service azure-storageblob $service_plan $service_instance_name -c $path_to_parameters
+  cf create-service azure-storage $service_plan $service_instance_name -c $path_to_parameters
   ```
 
   Supported configuration parameters:
@@ -45,10 +45,10 @@
   For example:
 
   ```
-  cf create-service azure-storageblob standard myblobservice -c examples/storageblob-example-config.json
+  cf create-service azure-storage standard mystorageservice -c examples/storage-example-config.json
   ```
 
-  The contents of `examples/storageblob-example-config.json`:
+  The contents of `examples/storage-example-config.json`:
 
   ```
   {
@@ -72,7 +72,7 @@
   For example:
 
   ```
-  cf service myblobservice
+  cf service mystorageservice
   ```
 
 [More information](http://docs.cloudfoundry.org/devguide/services/managing-services.html#create).
@@ -95,18 +95,18 @@ The credentials provided in a bind call have the following format:
 
 [Azure Storage Consumer](https://github.com/bingosummer/azure-storage-consumer) is a simple example to use the service.
 
-In the application, you can use Azure SDK for Python to operate your storage account (e.g. put or get your blobs).
+In the application, you can use Azure SDK for Python to operate your storage account (e.g. create your containers, and upload blobs).
 
 1. Get the credentials from the environment variables
 
   ```
-  service_name = 'azure-storageblob'
+  service_name = 'azure-storage'
   vcap_services = json.loads(os.environ['VCAP_SERVICES'])
   account_name = vcap_services[service_name][0]['credentials']['storage_account_name']
   account_key = vcap_services[service_name][0]['credentials']['primary_access_key']
   ```
 
-2. Create the blob service using the credentials
+2. Create the storage service using the credentials
 
   ```
   from azure.storage import BlobService
@@ -130,7 +130,7 @@ In the application, you can use Azure SDK for Python to operate your storage acc
 2. Bind the service instance to the application
 
   ```
-  cf bind-service azure-storage-consumer myblobservice
+  cf bind-service azure-storage-consumer mystorageservice
   ```
 
 3. Restart the application
@@ -156,11 +156,11 @@ In the application, you can use Azure SDK for Python to operate your storage acc
 1. Unbind the application from the service instance
 
   ```
-  cf unbind-service azure-storage-consumer myblobservice
+  cf unbind-service azure-storage-consumer mystorageservice
   ```
 
 2. Delete the service instance
 
   ```
-  cf delete-service myblobservice -f
+  cf delete-service mystorageservice -f
   ```
