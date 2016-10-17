@@ -74,7 +74,7 @@
   }
   ```
   
-  **Please remove the comments in the JSON file before you use it.**
+  >**NOTE:** Please remove the comments in the JSON file before you use it.
 
 3. Check the operation status of creating the service instance
 

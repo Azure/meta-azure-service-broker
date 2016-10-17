@@ -114,15 +114,6 @@
 
       If you want to create all the services, you may need the role `Contributor`.
 
-  * DocumentDB related configurations
-
-    If you want to enable the DocumentDB service, you need to specify the following values. Please ignore them if you do not want to enable the DocumentDB service. Please read [Azure DocumentDB Service](./docs/azure-document-db.md) for more information.
-
-    ```
-    DOCDB_HOSTENDPOINT: REPLACE-ME
-    DOCDB_MASTERKEY: REPLACE-ME
-    ```
-
 4. Push the broker to Cloud Foundry
 
   ```
