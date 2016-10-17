@@ -108,7 +108,7 @@ FROM fn_helpCollations()
 
 NOTE: If you want to set more child parameters in sqldbParameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
 
-**Please remove the comments in the JSON file before you use it.**
+>**NOTE:** Please remove the comments in the JSON file before you use it.
 
 3. Check the operation status of creating the service instance
 

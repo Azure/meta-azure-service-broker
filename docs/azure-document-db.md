@@ -2,17 +2,6 @@
 
 [Azure DocumentDB](https://azure.microsoft.com/en-us/services/documentdb/) is a NoSQL document database service designed from the ground up to natively support JSON and JavaScript directly inside the database engine.
 
-## Create a DocumentDB account manually
-
-Instructions to create a DocumentDB account using ARM and CLI are [here](https://azure.microsoft.com/documentation/articles/documentdb-automation-resource-manager-cli/).
-
-After the DocumentDB account is created, you need to specify the following values in the manifest of `meta-azure-service-broker`. **NOTE: In future, these values may be deprecated.**
-
-  ```
-  DOCDB_HOSTENDPOINT: REPLACE-ME
-  DOCDB_MASTERKEY: REPLACE-ME
-  ```
-
 ## Create an Azure DocumentDB service
 
 1. Get the service name and plans
@@ -47,11 +36,9 @@ After the DocumentDB account is created, you need to specify the following value
 
   ```
   {
-    "resourceGroup": "<resource-group-name>",  // [Required] Unique. Only allow up to 90 characters
-    "docDbName": "<DocumentDB-database-name>", // [Required] Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
-    "parameters": {
-      "location": "<location>"                 // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
-    }
+    "resourceGroup": "<resource-group-name>",        // [Required] Unique. Only allow up to 90 characters
+    "docDbAccountName": "<DocumentDB-account-name>", // [Required] Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
+    "location": "<location>"                         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
   }
   ```
 
@@ -66,14 +53,12 @@ After the DocumentDB account is created, you need to specify the following value
   ```
   {
     "resourceGroup": "my-resource-group-name",
-    "docDbName": "docdbname123",
-    "parameters": {
-      "location": "westus"
-    }
+    "docDbAccountName": "docdbaccountname123",
+    "location": "westus"
   }
   ```
 
-  **Please remove the comments in the JSON file before you use it.**
+  >**NOTE:** Please remove the comments in the JSON file before you use it.
 
 3. Check the operation status of creating the service instance
 
@@ -119,11 +104,11 @@ After the DocumentDB account is created, you need to specify the following value
   "credentials": {
     "documentdb_host": "https://YOUR_DOCUMENTDB_NAME.documents.azure.com:443/",
     "documentdb_key": "YOUR_SECRET_KEY_ENDING_IN_==",
-    "documentdb_database": "YOUR_DATABASE_NAME",
-    "documentdb_resource_id": "dbs/ID_ENDING_IN_==/"
   }
   ```
 
+  >**NOTE:** On AzureChinaCloud, "documentdb_host": "https://YOUR_DOCUMENTDB_NAME.documents.azure.cn:443/"
+  
 ## Unbinding
 
   ```

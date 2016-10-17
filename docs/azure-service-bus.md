@@ -63,7 +63,7 @@
   }
   ```
 
-  **Please remove the comments in the JSON file before you use it.**
+  >**NOTE:** Please remove the comments in the JSON file before you use it.
 
 3. Check the operation status of creating the service instance
 
@@ -136,13 +136,3 @@
   ```
   cf delete-service myservicebus -f
   ```
-
-<a name="naming-conventions" />
-## Naming Conventions
-
-The following names are used and can be customized with a prefix:
-
-Resource         | Name is based on     | Custom Prefix Environment Variable  | Default Prefix    | Example Name  
------------------|----------------------|-------------------------------------|-------------------|---------------
-Azure Resource Group | service instance ID | RESOURCE_GROUP_NAME_PREFIX | cloud-foundry- | cloud-foundry-2eac2d52-bfc9-4d0f-af28-c02187689d72
-Azure Namespace | service instance ID | NAMESPACE_NAME_PREFIX | cf | cf2eac2d52-bfc9-4d0f-af28-c02187689d72

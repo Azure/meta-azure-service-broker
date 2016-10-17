@@ -37,7 +37,6 @@
   {
     "resource_group_name": "<resource-group-name>",   // [Required] Unique. Only allow up to 90 characters
     "storage_account_name": "<storage-account-name>", // [Required] Unique. Can contain only lowercase letters and numbers. Name must be between 3 and 24 characters.
-    "container_name": "<container-name>",             // [Required] Can only contain lowercase letters, numbers, and hyphens, and must begin with a letter or a number. Can not contain two consecutive hyphens. Must be between 3 and 63 characters long.
     "location": "<location>",                         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
     "account_type": "Standard_LRS | <other-account-type>"  // [Required] Possible value: Standard_LRS | Standard_ZRS | Standard_GRS | Standard_RAGRS | Premium_LRS . See more details: https://azure.microsoft.com/en-us/pricing/details/storage/
   }
@@ -55,13 +54,12 @@
   {
     "resource_group_name": "myResourceGroup",
     "storage_account_name": "mystorageaccount",
-    "container_name": "mycontainer",
     "location": "eastus",
     "account_type": "Standard_LRS"
   }
   ```
 
-  **Please remove the comments in the JSON file before you use it.**
+  >**NOTE:** Please remove the comments in the JSON file before you use it.
 
 3. Check the operation status of creating the service instance
 
@@ -87,7 +85,6 @@ The credentials provided in a bind call have the following format:
 
 ```
 "credentials":{
-  "container_name": "cloud-foundry-2eac2d52-bfc9-4d0f-af28-c02187689d72",
   "primary_access_key": "PRIMARY-ACCOUNT-KEY",
   "secondary_access_key": "SECONDARY-ACCOUNT-KEY",
   "storage_account_name": "ACCOUNT-NAME"
@@ -167,16 +164,3 @@ In the application, you can use Azure SDK for Python to operate your storage acc
   ```
   cf delete-service myblobservice -f
   ```
-
-<a name="naming-conventions" />
-## Naming Conventions
-
-A service provisioning call will create Azure Storage Account.
-
-The following names are used and can be customized with a prefix:
-
-Resource         | Name is based on     | Custom Prefix Environment Variable  | Default Prefix    | Example Name  
------------------|----------------------|-------------------------------------|-------------------|---------------
-Azure Resource Group | service instance ID | RESOURCE_GROUP_NAME_PREFIX | cloud-foundry- | cloud-foundry-2eac2d52-bfc9-4d0f-af28-c02187689d72
-Azure Storage Account | part of service instance ID | STORAGE_ACCOUNT_NAME_PREFIX | cf | cf2eac2d52bfc94d0faf28c0
-Azure Storage Containers | service instance ID | CONTAINER_NAME_PREFIX | cloud-foundry- | cloud-foundry-2eac2d52-bfc9-4d0f-af28-c02187689d72
