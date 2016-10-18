@@ -14,9 +14,8 @@
 
   ```
   service      plans                                                                                                                      description
-  azure-sqldb   basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, PremiumP1*, PremiumP2*, PremiumP4*, PremiumP6*, PremiumP11*    Azure SQL Database Service
+  azure-sqldb  basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, PremiumP1*, PremiumP2*, PremiumP4*, PremiumP6*, PremiumP11*    Azure SQL Database Service
   ```
-  \* These service plans have an associated cost. Creating a service instance will incur this cost.
 
   If you can not find the service name, please use the following command to make the plans public.
 
