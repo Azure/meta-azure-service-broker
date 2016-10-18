@@ -4,9 +4,7 @@
     "subscriptionId": "",
     "tenantId": "",
     "clientId": "",
-    "clientSecret": "",
-    "docdbHostendpoint": "",
-    "docdbMasterkey": ""
+    "clientSecret": ""
   },
   "serviceBroker": {
     "credentials": {

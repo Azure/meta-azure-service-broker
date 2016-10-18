@@ -39,7 +39,7 @@ describe('StorageBlob', function() {
         azurestorageblob.provision(log, validParams, function(
           err, reply, result) {
           err.should.have.property('description',
-            'The parameters ["resource_group_name","storage_account_name","container_name","location","account_type"] are missing.');
+            'The parameters ["resource_group_name","storage_account_name","location","account_type"] are missing.');
           done();
         });
       });
@@ -56,7 +56,6 @@ describe('StorageBlob', function() {
             parameters: {
               resource_group_name: 'test031702',
               storage_account_name: 'test031702sa',
-              container_name: 'test031702cn',
               location: 'westus',
               account_type: 'Standard_LRS'
             }
@@ -125,7 +124,6 @@ describe('StorageBlob', function() {
             parameters: {
               resource_group_name: 'test031702',
               storage_account_name: 'test031702-sa',
-              container_name: 'test031702cn',
               location: 'westus',
               account_type: 'Standard_LRS'
             }
@@ -151,3 +149,4 @@ describe('StorageBlob', function() {
 
   });
 });
+

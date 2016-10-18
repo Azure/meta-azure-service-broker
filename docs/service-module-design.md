@@ -338,7 +338,6 @@ Handlers.bind = function(log, params, next)
       value: {
         credentials: {
           storage_account_name: storageAccountName,
-          container_name: containerName,
           primary_access_key: primaryAccessKey,
           secondary_access_key: secondaryAccessKey,
         }
@@ -346,7 +345,7 @@ Handlers.bind = function(log, params, next)
     }
     ```
 
-    The contents of the credentials should be determined by your service module. Applications can use these credentials to access the service instance. E.g. For Azure storage blob service, the credentials are storage_account_name, container_name, primary_access_key and secondary_access_key. For SQL server service, the credentials should be the connection string.
+    The contents of the credentials should be determined by your service module. Applications can use these credentials to access the service instance. E.g. For Azure storage blob service, the credentials are storage_account_name, primary_access_key and secondary_access_key. For SQL server service, the credentials should be the connection string.
 
   * result should be a valid JSON object which is determined by the service module.
 

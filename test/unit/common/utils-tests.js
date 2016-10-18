@@ -17,8 +17,6 @@ describe('Util', function() {
         'TENANT_ID',
         'CLIENT_ID',
         'CLIENT_SECRET',
-        'DOCDB_HOSTENDPOINT',
-        'DOCDB_MASTERKEY',
         'SECURITY_USER_NAME',
         'SECURITY_USER_PASSWORD',
         'AZURE_BROKER_DATABASE_PROVIDER',
@@ -45,8 +43,6 @@ describe('Util', function() {
           'tenantId': environmentVariablesToSet['TENANT_ID'],
           'clientId': environmentVariablesToSet['CLIENT_ID'],
           'clientSecret': environmentVariablesToSet['CLIENT_SECRET'],
-          'docdbHostendpoint': environmentVariablesToSet['DOCDB_HOSTENDPOINT'],
-          'docdbMasterkey': environmentVariablesToSet['DOCDB_MASTERKEY']
         },
         'serviceBroker': {
           'credentials': {

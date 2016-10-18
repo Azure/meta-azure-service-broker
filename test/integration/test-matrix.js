@@ -18,7 +18,6 @@ var azurestorageblob = {
   provisioningParameters: {
     "resource_group_name": resourceGroupName,
     "storage_account_name": storageAccountName,
-    "container_name": "mycontainer",
     "location": "eastasia",
     "account_type": "Standard_RAGRS",
     "tags": {
@@ -28,7 +27,6 @@ var azurestorageblob = {
   bindingParameters: {},
   credentials: {
     "storage_account_name": storageAccountName,
-    "container_name": "mycontainer",
     "primary_access_key": "<string>",
     "secondary_access_key": "<string>"
   }
@@ -74,17 +72,13 @@ var azuredocumentdb = {
   bindingId: bindingId,
   provisioningParameters: {
     "resourceGroup": "azure-service-broker-docdb-test",
-    "docDbName": instanceId,
-    "parameters": {
-      "location": "eastus"
-    }
+    "docDbAccountName": instanceId,
+    "location": "eastus"
   },
   bindingParameters: {},
   credentials: {
     "documentdb_host": "<string>",
     "documentdb_key": "<string>",
-    "documentdb_database": "<string>",
-    "documentdb_resource_id": "<string>"
   }
 }
 testMatrix.push(azuredocumentdb);
@@ -181,3 +175,4 @@ var azurerediscache = {
 testMatrix.push(azurerediscache);
 
 module.exports = testMatrix;
+

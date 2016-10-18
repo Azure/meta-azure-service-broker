@@ -61,15 +61,6 @@
     export AZURE_SERVICE_BROKER_DATABASE_NAME="<database-name>"
     ```
 
-  4. Export the Document DB related environment variables.
-
-    ```
-    export DOCDB_HOSTENDPOINT="REPLACE-ME"
-    export DOCDB_MASTERKEY="REPLACE-ME"
-    ```
-
-    To use and test the Document DB service module, you need to specify the above values. Please read [Azure DocumentDB Service](./docs/azure-document-db.md) for more information.
-
 ## Run the test cases
 
 After setting up the environment, you can use the following command to run unit tests and integration tests.
