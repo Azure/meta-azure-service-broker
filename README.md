@@ -16,7 +16,7 @@ You need an Azure [account](https://azure.microsoft.com/account/). With the acco
 
 The services provided by the broker:
 
-* [Azure Storage Blob Service](./docs/azure-storage-blob.md)
+* [Azure Storage Service](./docs/azure-storage.md)
 * [Azure Redis Cache Service](./docs/azure-redis-cache.md)
 * [Azure DocumentDB Service](./docs/azure-document-db.md)
 * [Azure Service Bus and Event Hub Service](./docs/azure-service-bus.md)

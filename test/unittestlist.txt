@@ -9,12 +9,12 @@ unit/services/azuredocdb/provision-spec.js
 unit/services/azuredocdb/poll-spec.js
 unit/services/azuredocdb/index-spec.js
 
-unit/services/azurestorageblob/provision-spec.js
-unit/services/azurestorageblob/poll-spec.js
-unit/services/azurestorageblob/deprovision-spec.js
-unit/services/azurestorageblob/bind-spec.js
-unit/services/azurestorageblob/unbind-spec.js
-unit/services/azurestorageblob/index-spec.js
+unit/services/azurestorage/provision-spec.js
+unit/services/azurestorage/poll-spec.js
+unit/services/azurestorage/deprovision-spec.js
+unit/services/azurestorage/bind-spec.js
+unit/services/azurestorage/unbind-spec.js
+unit/services/azurestorage/index-spec.js
 
 unit/services/azureservicebus/poll-spec.js
 unit/services/azureservicebus/deprovision-spec.js
