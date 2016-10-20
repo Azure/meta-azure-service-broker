@@ -16,7 +16,7 @@ var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'DocumentDb-Tests');
 var generatedValidInstanceId = uuid.v4();
-var provisioningResult = '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }';
+var provisioningResult = '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount", "database": {"id": "abc", "_self": "abc"} }';
 
 log.muteOnly('debug');
 
@@ -31,22 +31,25 @@ describe('DocumentDb - Index - Provision', function() {
             azure: azure,
             parameters: {
                 resourceGroup: 'docDbResourceGroup',
-                docDbAccountName: 'eDocDb',
+                docDbAccountName: 'eDocDbAccount',
+                docDbName: 'eDocDb',
                 location:'eastus'
             }
         }
+        sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null);
+        sinon.stub(docDbClient, 'checkDocDbAccountExistence').yields(null);
+        sinon.stub(docDbClient, 'createDocDbAccount').yields(null);
+        
     });
     
     after(function() {
-        docDbClient.provision.restore();
         resourceGroupClient.createOrUpdate.restore();
+        docDbClient.checkDocDbAccountExistence.restore();
+        docDbClient.createDocDbAccount.restore();
     });
     
     describe('Provision operation should succeed', function() {        
         it('should not return an error and statusCode should be 202', function(done) {
-
-            sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, {provisioningState: 'Succeeded'});
-            sinon.stub(docDbClient, 'provision').yields(null, JSON.parse(provisioningResult));
             handlers.provision(log, validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(202);
@@ -70,19 +73,26 @@ describe('DocumentDb - Index - Poll', function() {
             provisioning_result: provisioningResult,
             parameters: {
                 resourceGroup: 'docDbResourceGroup',
-                docDbAccountName: 'eDocDb',
+                docDbAccountName: 'eDocDbAccount',
+                docDbName: 'eDocDb',
                 location:'eastus'
             }
         }
+        sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: "Succeeded"}});
+        sinon.stub(docDbClient, 'getToken').yields(null);
+        sinon.stub(docDbClient, 'getAccountKey').yields(null);
+        sinon.stub(docDbClient, 'createDocDbDatabase').yields(null);
     });
     
     after(function() {
-        docDbClient.poll.restore();
+        docDbClient.getDocDbAccount.restore();
+        docDbClient.getToken.restore();
+        docDbClient.getAccountKey.restore();
+        docDbClient.createDocDbDatabase.restore();
     });
     
     describe('Poll operation should succeed', function() {        
-        it('should not return an error and _self should be dbs/77UyAA==/', function(done) {
-            sinon.stub(docDbClient, 'poll').yields(null, JSON.parse(provisioningResult));
+        it('should not return an error', function(done) {
             handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
                 should.not.exist(err);
                 lastOperatoin.should.equal('provision');
@@ -105,14 +115,15 @@ describe('DocumentDb - Index - Bind', function() {
             provisioning_result: provisioningResult,
             parameters: {
               resourceGroupName: "myRG",
-              docDbAccountName: "myaccount"
+              docDbAccountName: 'eDocDbAccount',
+              docDbName: 'eDocDb',
+              location:'eastus'
             }
         }
     });
     
     describe('Bind operation should succeed', function() {        
         it('should not return an error and statusCode should be 201', function(done) {
-            sinon.stub(docDbClient, 'bind').yields(null, {documentEndpoint: 'abc', masterKey: 'abc'});
             handlers.bind(log, validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(201);
@@ -161,19 +172,21 @@ describe('DocumentDb - Index - De-provision', function() {
             provisioning_result: provisioningResult,
             parameters: {
               resourceGroupName: "myRG",
-              docDbAccountName: "myaccount"
+              docDbAccountName: 'eDocDbAccount',
+              docDbName: 'eDocDb',
+              location:'eastus'
             }
         }
     });
     
     after(function() {
-        docDbClient.deprovision.restore();
+        docDbClient.deleteDocDbAccount.restore();
     });
     
     describe('De-provision operation should succeed', function() {        
         it('should not return an error, statusCode should be 202.', function(done) {
 
-            sinon.stub(docDbClient, 'deprovision').yields(null, undefined);
+            sinon.stub(docDbClient, 'deleteDocDbAccount').yields(null);
             handlers.deprovision(log, validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(202);

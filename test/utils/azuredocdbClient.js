@@ -9,9 +9,10 @@ module.exports = function() {
   this.validateCredential = function(credential, next) {
     log.debug(credential);
     try {
-      var databaseName = 'docdb' + Math.floor(Math.random()*1000);
-      var documentdbclient = new documentdb.DocumentClient(credential.documentdb_host, {masterKey: credential.documentdb_key});
-      documentdbclient.createDatabase({id:databaseName}, function(error) {
+      var collectionName = 'docdbcol' + Math.floor(Math.random()*1000);
+      var collectionDefinition = { id: collectionName };
+      var documentdbclient = new documentdb.DocumentClient(credential.documentdb_host_endpoint, {masterKey: credential.documentdb_master_key});
+      documentdbclient.createCollection(credential.documentdb_database_link, collectionDefinition, function(error) {
         if (error) {
           next(statusCode.FAIL);
         } else {
