@@ -37,6 +37,7 @@
   {
     "resourceGroup": "<resource-group-name>",        // [Required] Unique. Only allow up to 90 characters
     "docDbAccountName": "<DocumentDB-account-name>", // [Required] Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
+    "docDbName": "<DocumentDB-database-name>",       // [Required] Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
     "location": "<location>"                         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
   }
   ```
@@ -52,7 +53,8 @@
   ```
   {
     "resourceGroup": "my-resource-group-name",
-    "docDbAccountName": "docdbaccountname123",
+    "docDbAccountName": "docdbaccount123",
+    "docDbName": "docdb123",
     "location": "westus"
   }
   ```
@@ -101,8 +103,10 @@
   
   ```
   "credentials": {
-    "documentdb_host": "https://YOUR_DOCUMENTDB_NAME.documents.azure.com:443/",
-    "documentdb_key": "YOUR_SECRET_KEY_ENDING_IN_==",
+    "documentdb_host_endpoint": "https://YOUR_DOCUMENTDB_NAME.documents.azure.com:443/",
+    "documentdb_master_key": "YOUR_SECRET_KEY_ENDING_IN_==",
+    "documentdb_database_id": "YOUR_DOCUMENTDB_NAME",
+    "documentdb_database_link": "dbs/ID_ENDING_IN_==/"
   }
   ```
 

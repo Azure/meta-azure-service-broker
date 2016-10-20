@@ -25,7 +25,7 @@ describe('DocumentDb - Poll - PreConditions', function() {
     
 });
 
-describe('DocumentDb - Poll - Execution - docDb that exists', function() {
+describe('DocumentDb - Poll - Execution', function() {
   var validParams;
         
   before(function() {
@@ -34,23 +34,38 @@ describe('DocumentDb - Poll - Execution - docDb that exists', function() {
       provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }',
       last_operation: "provision"
     };
+    sinon.stub(docDbClient, 'getToken').yields(null);
+    sinon.stub(docDbClient, 'getAccountKey').yields(null);
+    sinon.stub(docDbClient, 'createDocDbDatabase').yields(null, "docdbmasterkey", {id: "abc", _self: "abc"});
   });
     
   after(function() {
-    docDbClient.poll.restore();
+    docDbClient.getToken.restore();
+    docDbClient.getAccountKey.restore();
+    docDbClient.createDocDbDatabase.restore();
   });
     
   describe('Poll operation outcomes should be...', function() {
-    it('should output state = succeeded', function(done) {
+    it('should output state = succeeded, if docdb account is created', function(done) {
       var cp = new cmdPoll(log, validParams);
-            
-      sinon.stub(docDbClient, 'poll').yields(null, 'Succeeded');
+      sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: "Succeeded"}});
       cp.poll(docDbClient, function(err, reply) {
         should.not.exist(err);
         reply.value.state.should.equal('succeeded');
         done();        
       });
-            
+      docDbClient.getDocDbAccount.restore();
+    });
+    
+    it('should output state = in progress, if docdb account is creating', function(done) {
+      var cp = new cmdPoll(log, validParams);
+      sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: "Creating"}});
+      cp.poll(docDbClient, function(err, reply) {
+        should.not.exist(err);
+        reply.value.state.should.equal('in progress');
+        done();        
+      });
+      docDbClient.getDocDbAccount.restore();
     });
   });
 });

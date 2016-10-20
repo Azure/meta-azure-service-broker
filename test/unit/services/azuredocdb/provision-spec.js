@@ -23,7 +23,8 @@ describe('DocumentDb - Provision - PreConditions', function() {
       instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',
       parameters: {
         resourceGroup: 'docDbResourceGroup',
-        docDbAccountName: 'testDocDb',
+        docDbAccountName: 'testDocDbAccount',
+        docDbName: 'testDocDb',
         location: 'westus'
       },
       azure : azure
@@ -53,7 +54,7 @@ describe('DocumentDb - Provision - PreConditions incorrect', function() {
     
   describe('Provision should fail if ...', function() {
     it('parameters were not provided', function(done) {
-      (cp.verifyParameters()).should.equal(util.format('The parameters %j are missing.', ['resourceGroup','docDbAccountName','location']));
+      (cp.verifyParameters()).should.equal(util.format('The parameters %j are missing.', ['resourceGroup','docDbAccountName','docDbName','location']));
       done();        
     });        
   });
@@ -68,7 +69,8 @@ describe('DocumentDb - Provision - Execution - DocDb that doesn\'t previsouly ex
       instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',
       parameters: {
         resourceGroup: 'docDbResourceGroup',
-        docDbName: 'testDocDbAccount',
+        docDbAccountName: 'testDocDbAccount',
+        docDbName: 'testDoc',
         location: 'westus'
       },
       azure : azure,
@@ -77,18 +79,25 @@ describe('DocumentDb - Provision - Execution - DocDb that doesn\'t previsouly ex
   });
     
   after(function() {
-    resourceGroupClient.checkExistence.restore();
     resourceGroupClient.createOrUpdate.restore();
-    docDbClient.provision.restore();
+    docDbClient.checkDocDbAccountExistence.restore();
+    docDbClient.createDocDbAccount.restore();
   });
     
   describe('Provision operation outcomes should be...', function() {
     it('should not exist error', function(done) {
-      sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
-      sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, {provisioningState: 'Succeeded'});
-      sinon.stub(docDbClient, 'provision').yields(null);
+      sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null);
+      sinon.stub(docDbClient, 'checkDocDbAccountExistence').yields(null);
+      sinon.stub(docDbClient, 'createDocDbAccount').yields(null, {
+        resourceGroupName: 'docDbResourceGroup',
+        docDbAccountName: 'testDocDbAccount'
+      });
       cp.provision(docDbClient, resourceGroupClient, function(err, result) {
         should.not.exist(err);
+        result.should.be.eql({
+          resourceGroupName: 'docDbResourceGroup',
+          docDbAccountName: 'testDocDbAccount'
+        });
         done();        
       });
             
