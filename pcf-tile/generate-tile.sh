@@ -1,5 +1,6 @@
 #!/bin/bash
 pushd ..
+  rm -f pcf-tile/resources/meta-azure-service-broker.zip
   zip --exclude=*examples* --exclude=*docs* --exclude=*test* --exclude=*pcf-tile* --exclude=*node_modules* --exclude=README.md  --exclude=manifest.yml -r pcf-tile/resources/meta-azure-service-broker.zip *
 popd
 if [ "$1" = "-major" ]; then
