@@ -2,10 +2,10 @@
 # The high-level description of your tile.
 # Replace these properties with real values.
 #
-name: meta-azure-service-broker # By convention lowercase with dashes
+name: azure-services
 icon_file: resources/icon.png
-label: Meta Azure Service Broker
-description: The Meta Azure Service Broker can be configured as a service broker for multiple Azure services.
+label: Service Broker for Azure
+description: Expose Azure Services to your Cloud Foundry applications
 
 # Global defaults (all optional)
 #
@@ -59,7 +59,7 @@ packages:
 # 
 forms:
 - name: azure-config-form
-  label: Azure Configuration
+  label: Azure Config
   description: Configuration properties for Azure
   properties:
   - name: environment
@@ -74,22 +74,22 @@ forms:
       label: Azure China Cloud
   - name: subscription_id
     type: string
-    label: Your Azure subscription Id
+    label: Subscription Id
   - name: tenant_id
     type: string
-    label: Tenant Id of your Azure service principal
+    label: Tenant Id
   - name: client_id
     type: string
-    label: Client Id of your Azure service principal
+    label: Client Id
   - name: client_secret
     type: secret
-    label: Client Secret of your Azure service principal
-- name: database-config-form
-  label: Database Configuration
+    label: Client Secret
+- name: broker-config-form
+  label: Broker Config
   properties:
   - name: azure_broker_database_provider
     type: dropdown_select
-    label: Database Provider for Meta Azure Service Broker
+    label: Database Provider
     configurable: true
     options:
     - name: sqlserver
@@ -97,16 +97,16 @@ forms:
       default: true
   - name: azure_broker_database_server
     type: string
-    label: Database Server for Meta Azure Service Broker
+    label: Database Server
   - name: azure_broker_database_user
     type: string
-    label: Database User for Meta Azure Service Broker
+    label: Database Username
   - name: azure_broker_database_password
     type: secret
-    label: Database Password for Meta Azure Service Broker
+    label: Database Password
   - name: azure_broker_database_name
     type: string
-    label: Database Name for Meta Azure Service Broker
+    label: Database Name
 
 # Add any dependencies your tile has on other installed products.
 # This is often appropriate when using automatic service provisioning
