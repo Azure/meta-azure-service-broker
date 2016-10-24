@@ -73,12 +73,15 @@ var azuredocumentdb = {
   provisioningParameters: {
     "resourceGroup": "azure-service-broker-docdb-test",
     "docDbAccountName": instanceId,
+    "docDbName": instanceId,
     "location": "eastus"
   },
   bindingParameters: {},
   credentials: {
-    "documentdb_host": "<string>",
-    "documentdb_key": "<string>",
+    "documentdb_host_endpoint": "<string>",
+    "documentdb_master_key": "<string>",
+    "documentdb_database_id": instanceId,
+    "documentdb_database_link": "<string>"
   }
 }
 testMatrix.push(azuredocumentdb);

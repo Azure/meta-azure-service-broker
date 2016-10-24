@@ -2,12 +2,14 @@
 {
   "resourceGroup": "<resource-group-name>",        // [Required] Unique. Only allow up to 90 characters
   "docDbAccountName": "<DocumentDB-account-name>", // [Required] Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
+  "docDbName": "<DocumentDB-database-name>",       // [Required] Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
   "location": "<location>"                         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
 }
 */
 // Please delete all the comments before using this .json to create service instance.
 {
   "resourceGroup": "my-resource-group-name",
-  "docDbAccountName": "docdbaccountname123",
+  "docDbAccountName": "docdbaccount123",
+  "docDbName": "docdb123",
   "location": "westus"
 }
