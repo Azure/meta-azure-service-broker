@@ -131,7 +131,47 @@ The following sections describe common issues you might encounter when attemptin
   Binding service myblobservice to app azure-storage-consumer in org default_organization / space azure as admin...
   OK
   ```
- 
+
+1. If you hit status code 409, which is a Resource Conflict issue...
+
+  1. Type A:
+  
+    ```
+    FAILED
+    Server error, status code: 409, error code: 10001, message: Service broker error: The storage account named teststorage is already taken.
+    ```
+  
+    The resource with the name is already existed on Azure. Please try another resource name according to the message.
+    
+  2. Type B:
+  
+    ```
+    FAILED
+    Server error, status code: 409, error code: 10001, message: Service broker error: Failed in inserting the record for (instanceId: 7fad8e93-f124-48b7-8736-47750d2d7c7c) into the broker database. It is caused by that a record with the same azureInstanceId exists. DB Error: {"name":"RequestError","message":"Violation of UNIQUE KEY constraint 'UQ__instance__78EDBBCE6074808B'. Cannot insert duplicate key in object 'dbo.instances'. The duplicate key value is (azure-storage-teststorage).","code":"EREQUEST","number":2627,"lineNumber":1,"state":1,"class":14,"serverName":"testsql","procName":"","precedingErrors":[]}
+    ```
+
+    Error occurs in the broker database. The same resource name of the service is found in the database. It is because another service instance has taken the resource name.
+    You should try another one.
+  
+    Or a service instance with the resource name was purged by **cf purge-service-instance <service-instance-name>**.
+    If you are sure it is this case, you could use following SQL to delete the invalid record:
+  
+    ```
+    SELECT * FROM instances WHERE parameters LIKE '%"<resource-name-parameter>":"<resource-name>"%'
+    ```
+    
+    for example:
+  
+    ```
+    SELECT * FROM instances WHERE parameters LIKE '%"storage_account_name":"storageil3l080br05no4n1"%'
+    ```
+  
+    If deleting failed because of foreign key, please use following SQL to delete the corresponding record in the table **bindings**:
+  
+    ```
+    SELECT * FROM bindings WHERE parameters LIKE '%"<resource-name-parameter>":"<resource-name>"%'
+    ```
+  
 ## Appendix
 
 * [Troubleshooting Application Deployment and Health](http://docs.cloudfoundry.org/devguide/deploy-apps/troubleshoot-app-health.html)

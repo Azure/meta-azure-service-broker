@@ -26,6 +26,10 @@ The user-provided services:
 
 * [Azure Key Vault Service](./docs/user-provided-services/How-to-use-Azure-Key-Vault-in-Cloud-Foundry.md)
 
+## Troubleshooting 
+
+Have troubles? Check out our [Troubleshooting Doc](./docs/troubleshooting.md)
+
 ## Contribute
 
 * If you would like to become an active contributor to this project please follow the [contribution guidelines](docs/contribution-guide.md).
