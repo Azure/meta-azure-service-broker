@@ -51,8 +51,8 @@ describe('SqlDb - Deprovision', function () {
             sinon.stub(sqldbOps, 'deleteDatabase').yields(null, deleteDatabaseResult);
             cd.deprovision(sqldbOps, function (err, result) {
                 should.not.exist(err);
-                result.value.state.should.equal('succeeded');
-                result.value.description.should.equal('Deleted database');
+                result.state.should.equal('succeeded');
+                result.description.should.equal('Deleted database');
                 done();
             });
         });
