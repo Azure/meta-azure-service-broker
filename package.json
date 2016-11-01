@@ -5,12 +5,13 @@
     "Bin Xia <binxi@microsoft.com>",
     "Greg Oliver <golive@microsoft.com>",
     "Zhongyi Zhang <zhongz@microsoft.com>",
-    "Guoxun Wei <guwe@microsoft.com>"
+    "Guoxun Wei <guwe@microsoft.com>",
+    "Abel Hu <abelch@microsoft.com>"
   ],
   "engines": {
     "node": ">= 4.2.4"
   },
-  "version": "0.1.0-preview",
+  "version": "1.0.0",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
   "tags": [
     "service broker",
