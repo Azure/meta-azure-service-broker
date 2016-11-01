@@ -5,12 +5,13 @@
     "Bin Xia <binxi@microsoft.com>",
     "Greg Oliver <golive@microsoft.com>",
     "Zhongyi Zhang <zhongz@microsoft.com>",
-    "Guoxun Wei <guwe@microsoft.com>"
+    "Guoxun Wei <guwe@microsoft.com>",
+    "Abel Hu <abelch@microsoft.com>"
   ],
   "engines": {
     "node": ">= 4.2.4"
   },
-  "version": "0.1.0-preview",
+  "version": "1.0.0",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
   "tags": [
     "service broker",
@@ -46,6 +47,7 @@
     "azure-storage": "0.9.0",
     "chai": "3.5.0",
     "chai-http": "2.0.1",
+    "istanbul": "^0.4.5",
     "jshint": "2.9.1",
     "mocha": "2.4.5",
     "redis": "2.6.1",
@@ -62,10 +64,11 @@
     "url": "https://github.com/Azure/meta-azure-service-broker/issues"
   },
   "scripts": {
-    "test": "npm -s run-script jshint && npm -s run-script unit",
+    "test": "npm -s run-script jshint && npm -s run-script cover",
     "jshint": "jshint lib --reporter=jslint",
     "unit": "node scripts/test.js unittestlist.txt",
     "integration": "node scripts/test.js integrationtestlist.txt",
+    "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- test/unit/common/ test/unit/services/azurestorage/ test/unit/services/azuredocdb test/unit/services/azurerediscache test/unit/services/azureservicebus test/unit/services/azuresqldb -R spec -t 5000",
     "start": "node index.js"
   }
 }
