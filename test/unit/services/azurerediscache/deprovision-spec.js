@@ -28,7 +28,11 @@ describe('RedisCache - Deprovision - Execution', function() {
         validParams.azure = azure;
         cp = new cmdDeprovision(log, validParams);
     });
-    
+
+    after(function() {
+        redisClient.deprovision.restore();
+    });
+
     describe('Deprovision operation outcomes should be...', function() {
         it('should output err & result null', function(done) {
             
