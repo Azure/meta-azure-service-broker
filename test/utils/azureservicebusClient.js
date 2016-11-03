@@ -2,13 +2,14 @@ var azure = require('azure');
 var async = require('async');
 var logule = require('logule');
 var statusCode = require('./statusCode');
+var supportedEnvironments = require('./supportedEnvironments');
 
-module.exports = function() {
+module.exports = function(environment) {
   var clientName = 'azureservicebusClient';
   var log = logule.init(module, clientName);
 
   this.validateCredential = function(credential, next) {
-    var connectionString = 'Endpoint=sb://' + credential.namespace_name + '.servicebus.windows.net/;SharedAccessKeyName=' + credential.shared_access_key_name + ';SharedAccessKey=' + credential.shared_access_key_value; 
+    var connectionString = 'Endpoint=sb://' + credential.namespace_name + supportedEnvironments[environment]['serviceBusEndpointSuffix'] + '/;SharedAccessKeyName=' + credential.shared_access_key_name + ';SharedAccessKey=' + credential.shared_access_key_value; 
     log.debug('connectionString: ' + connectionString);
     var queueName = 'azureservicebus' + Math.floor(Math.random()*1000);
     var message = {body: 'servicebus test message'};

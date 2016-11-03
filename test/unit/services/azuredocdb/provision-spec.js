@@ -35,7 +35,7 @@ describe('DocumentDb - Provision - PreConditions', function() {
   describe('Provision should succeed if ...', function() {
     it('verifyParameters returns null', function(done) {
       (cp.verifyParameters() === null).should.be.true;
-      done();        
+      done();
     });        
   });
 });
@@ -55,7 +55,7 @@ describe('DocumentDb - Provision - PreConditions incorrect', function() {
   describe('Provision should fail if ...', function() {
     it('parameters were not provided', function(done) {
       (cp.verifyParameters()).should.equal(util.format('The parameters %j are missing.', ['resourceGroup','docDbAccountName','docDbName','location']));
-      done();        
+      done();
     });        
   });
 });
@@ -98,7 +98,7 @@ describe('DocumentDb - Provision - Execution - DocDb that doesn\'t previsouly ex
           resourceGroupName: 'docDbResourceGroup',
           docDbAccountName: 'testDocDbAccount'
         });
-        done();        
+        done();
       });
             
     });

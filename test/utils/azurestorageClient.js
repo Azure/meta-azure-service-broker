@@ -2,10 +2,11 @@ var azure = require('azure-storage');
 var async = require('async');
 var logule = require('logule');
 var statusCode = require('./statusCode');
+var supportedEnvironments = require('./supportedEnvironments');
 
 var LOCALFILE = __filename;
 
-module.exports = function() {
+module.exports = function(environment) {
   var clientName = 'azurestorageClient';
   var log = logule.init(module, clientName);
   var validate = function(accountName, accountKey, callback) {
@@ -13,9 +14,10 @@ module.exports = function() {
     context.accountName = accountName;
     context.accountKey = accountKey;
     context.status = statusCode.FAIL;
+    var host = accountName + '.blob' + supportedEnvironments[environment]['storageEndpointSuffix'];
     var destcontainer = 'container' + Math.floor(Math.random()*1000);
     try {
-      var blobService = azure.createBlobService(accountName, accountKey);
+      var blobService = azure.createBlobService(accountName, accountKey, host);
       log.debug('creating container: '+ destcontainer);
       blobService.createContainerIfNotExists(destcontainer, function(error, result, response){
         if(!error){

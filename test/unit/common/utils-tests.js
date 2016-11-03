@@ -3,8 +3,10 @@ var should = require('should');
 var sinon = require('sinon');
 var util = require('util');
 var AzureEnvironment = require('ms-rest-azure').AzureEnvironment;
+var request = require('request');
 
 var Common = require('../../../lib/common');
+var Token = require('../../../lib/common/token');
 var log = logule.init(module, 'ServiceBroker-Mocha');
 
 describe('Util', function() {
@@ -142,6 +144,42 @@ describe('Util', function() {
                                 'x-ms-routing-request-id', 'ccc',
                                 'response.body cannot be logged because it may contain credentials.');
       sinon.assert.calledWithMatch(log.debug, 'HTTP Response: %s', message);
+    });
+  });
+  
+  describe('getToken()', function() {
+    describe('when the status code of response is 200', function() {
+      before(function() {
+        sinon.stub(request, 'post').yields(null, {statusCode: 200}, '{"access_token": "asdasdasd"}');
+      });
+
+      after(function() {
+        request.post.restore();
+      });
+      
+      it('should get the token', function() {
+        Token.getToken('', '', '', '', function(err, token) {
+          should.not.exist(err);
+          token.should.be.exactly('asdasdasd');
+        });
+      });
+    });
+    
+    describe('when the status code of response is 403', function() {
+      before(function() {
+        sinon.stub(request, 'post').yields(null, {statusCode: 403});
+      });
+
+      after(function() {
+        request.post.restore();
+      });
+      
+      it('should get an error', function() {
+        Token.getToken('', '', '', '', function(err, token) {
+          should.exist(err);
+          err.statusCode.should.equal(403);
+        });
+      });
     });
   });
 });

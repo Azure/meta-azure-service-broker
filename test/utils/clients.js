@@ -4,10 +4,12 @@ var azurerediscacheClient = require('./azurerediscacheClient');
 var azuredocdbClient = require('./azuredocdbClient');
 var azuresqldbClient = require('./azuresqldbClient');
 
+var environment = process.env['ENVIRONMENT'];
+
 module.exports = {
-  'azure-storage': new azurestorageClient(), 
-  'azure-servicebus': new azureservicebusClient(),
+  'azure-storage': new azurestorageClient(environment), 
+  'azure-servicebus': new azureservicebusClient(environment),
   'azure-rediscache': new azurerediscacheClient(),
   'azure-documentdb': new azuredocdbClient(),
-  'azure-sqldb': new azuresqldbClient()
+  'azure-sqldb': new azuresqldbClient(environment)
 }

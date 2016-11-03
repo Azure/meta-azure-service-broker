@@ -1,20 +1,22 @@
 var logule = require('logule');
 var statusCode = require('./statusCode');
+var supportedEnvironments = require('./supportedEnvironments');
 
-module.exports = function() {
+module.exports = function(environment) {
   var clientName = 'azuresqldbClient';
   var log = logule.init(module, clientName);
 
   this.validateCredential = function(credential, next) {
     var Connection = require('tedious').Connection;
+    var serverSuffix = supportedEnvironments[environment]['sqlServerEndpointSuffix'];
     var config = {  
       userName: credential.administratorLogin,
       password: credential.administratorLoginPassword,
-      server: credential.sqlServerName + '.database.windows.net',
+      server: credential.sqlServerName + serverSuffix,
       options: {encrypt: true, database: credential.sqldbName}
     };
     var connection = new Connection(config);
-    log.debug('Connecting to SQL server %s.database.windows.net and database %s', credential.sqlServerName, credential.sqldbName);
+    log.debug('Connecting to SQL server %s%s and database %s', credential.sqlServerName, serverSuffix, credential.sqldbName);
     connection.on('connect', function(err) {
       if(!err){
         log.debug('The SQL Database can be connected.');

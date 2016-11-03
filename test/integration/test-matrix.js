@@ -1,9 +1,19 @@
 var uuid = require('node-uuid');
+var util = require('util');
+var _ = require('underscore');
+var supportedEnvironments = require('../utils/supportedEnvironments');
 
 var testMatrix = [];
 var instanceId;
 var bindingId;
 var resourceGroupName;
+
+var environment = process.env['ENVIRONMENT'];
+if (!_.has(supportedEnvironments, environment)) {
+  throw new Error(util.format('The test does not support %s', environment));
+}
+
+var location = supportedEnvironments[environment]['location'];
 
 instanceId = uuid.v4();
 bindingId = uuid.v4();
@@ -18,7 +28,7 @@ var azurestorage = {
   provisioningParameters: {
     "resource_group_name": resourceGroupName,
     "storage_account_name": storageAccountName,
-    "location": "eastasia",
+    "location": location,
     "account_type": "Standard_RAGRS",
     "tags": {
       "foo": "bar"
@@ -46,7 +56,7 @@ var azureservicebus = {
   provisioningParameters: {
     "resource_group_name": resourceGroupName,
     "namespace_name": namespaceName,
-    "location": "eastasia",
+    "location": location,
     "type": "Messaging",
     "messaging_tier": "Standard",
     "tags": {
@@ -74,7 +84,7 @@ var azuredocumentdb = {
     "resourceGroup": "azure-service-broker-docdb-test",
     "docDbAccountName": instanceId,
     "docDbName": instanceId,
-    "location": "eastus"
+    "location": location
   },
   bindingParameters: {},
   credentials: {
@@ -99,7 +109,7 @@ var azuresqldb = {
   bindingId: bindingId,
   provisioningParameters: {
     "resourceGroup": resourceGroupName,
-    "location": "eastus",
+    "location": location,
     "sqlServerName": sqlServerName,
     "sqlServerCreateIfNotExist": true,
     "sqlServerParameters": {
@@ -108,7 +118,7 @@ var azuresqldb = {
         "startIpAddress": "0.0.0.0",
         "endIpAddress": "255.255.255.255"
       },
-      "location": "eastus",
+      "location": location,
       "properties": {
         "administratorLogin": "azureuser",
         "administratorLoginPassword": "c1oudc0w!@#"
@@ -119,7 +129,7 @@ var azuresqldb = {
     },
     "sqldbName": sqldbName,
     "sqldbParameters": {
-      "location": "eastus",
+      "location": location,
       "properties": {
         "collation": "SQL_Latin1_General_CP1_CI_AS"
       },
@@ -143,6 +153,7 @@ instanceId = uuid.v4();
 bindingId = uuid.v4();
 resourceGroupName = 'cloud-foundry-' + instanceId;
 var cacheName = 'cf' + instanceId;
+var hostname = cacheName + supportedEnvironments[environment]['redisCacheEndpointSuffix'];
 var azurerediscache = {
   serviceName: 'azure-rediscache',
   serviceId: '0346088a-d4b2-4478-aa32-f18e295ec1d9',
@@ -153,7 +164,7 @@ var azurerediscache = {
     "resourceGroup": resourceGroupName,
     "cacheName": cacheName,
     "parameters": {
-      "location": "eastus",
+      "location": location,
       "enableNonSslPort": false,
       "sku": {
         "name": "Basic",
@@ -167,7 +178,7 @@ var azurerediscache = {
   },
   bindingParameters: {},
   credentials: {
-    "hostname": cacheName + ".redis.cache.windows.net",
+    "hostname": hostname,
     "name": cacheName,
     "port": 6379,
     "primaryKey": "<string>",
