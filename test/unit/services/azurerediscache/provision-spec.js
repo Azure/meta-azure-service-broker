@@ -21,8 +21,8 @@ var log = logule.init(module, 'RedisCache-Mocha');
 describe('RedisCache - Provision - PreConditions', function() {
     var validParams = {};
     var cp;
-        
-    before(function() {
+    
+    describe('Provision should succeed if ...', function() {
         validParams = {
             instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',
             parameters : {
@@ -30,7 +30,6 @@ describe('RedisCache - Provision - PreConditions', function() {
                 cacheName: 'C0CacheNC',
                 parameters: {
                     location: 'northcentralus',
-                    redisVersion: '3.0',
                     enableNonSslPort: false,
                     sku: {
                         name: 'Basic',
@@ -42,13 +41,32 @@ describe('RedisCache - Provision - PreConditions', function() {
             azure : azure
         };
         cp = new cmdProvision(log, validParams);
-    });
-    
-    describe('Provision should succeed if ...', function() {
         it('all validators succeed', function(done) {
             (cp.allValidatorsSucceed()).should.equal(true);
-            done();        
-        });        
+            done();
+        });
+        
+        validParams.parameters.parameters.sku = {
+          name: 'Standard',
+          family: 'C',
+          capacity: 0
+        };
+        cp = new cmdProvision(log, validParams);
+        it('all validators succeed', function(done) {
+            (cp.allValidatorsSucceed()).should.equal(true);
+            done();
+        });
+        
+        validParams.parameters.parameters.sku = {
+          name: 'Premium',
+          family: 'P',
+          capacity: 1
+        };
+        cp = new cmdProvision(log, validParams);
+        it('all validators succeed', function(done) {
+            (cp.allValidatorsSucceed()).should.equal(true);
+            done();
+        });
     });
 });
 
@@ -67,8 +85,8 @@ describe('RedisCache - Provision - PreConditions incorrect', function() {
     describe('Provision should fail if ...', function() {
         it('parameters are missing.', function(done) {
             (cp.allValidatorsSucceed()).should.equal(false);
-            done();        
-        });        
+            done();
+        });
     });
 });
 
@@ -114,7 +132,7 @@ describe('RedisCache - Provision - Execution - Cache that doesn\'t previsouly ex
             cp.provision(redisClient, resourceGroupClient, function(err, result) {
                 should.not.exist(err);
                 (result.provisioningState).should.equal('Creating');
-                done();        
+                done();
             });
             
         });

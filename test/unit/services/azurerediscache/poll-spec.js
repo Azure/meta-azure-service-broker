@@ -36,7 +36,7 @@ describe('RedisCache - Poll - PreConditions', function() {
     
 });
 
-describe('RedisCache - Poll - Execution - Cache that exists', function() {
+describe('RedisCache - Provision-Poll - Execution - Cache that exists', function() {
     var validParams;
         
     before(function() {
@@ -46,7 +46,8 @@ describe('RedisCache - Poll - Execution - Cache that exists', function() {
                 resourceGroup: 'redisResourceGroup',
                 cacheName: 'C0CacheNC'
             },
-            provisioning_result: '{\"provisioningState\":\"Creating\"}'
+            provisioning_result: '{\"provisioningState\":\"Creating\"}',
+            last_operation : "provision"
         };
         validParams.azure = azure;
     });
@@ -64,7 +65,81 @@ describe('RedisCache - Poll - Execution - Cache that exists', function() {
             cp.poll(redisClient, function(err, result) {
                 should.not.exist(err);
                 result.statusCode.should.equal(200);
-                done();        
+                done();
+            });
+            
+        });
+    });
+});
+
+describe('RedisCache - Provision-Poll - Execution - Cache is creating', function() {
+    var validParams;
+        
+    before(function() {
+        validParams = {
+            instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',
+            parameters : {
+                resourceGroup: 'redisResourceGroup',
+                cacheName: 'C0CacheNC'
+            },
+            provisioning_result: '{\"provisioningState\":\"Creating\"}',
+            last_operation : "provision"
+        };
+        validParams.azure = azure;
+    });
+    
+    after(function() {
+        redisClient.poll.restore();
+    });
+    
+    describe('Poll operation outcomes should be...', function() {
+        it('should output provisioningState = Succeeded', function(done) {
+
+            var cp = new cmdPoll(log, validParams);
+            
+            sinon.stub(redisClient, 'poll').yields(null, {provisioningState : 'Creating'});
+            cp.poll(redisClient, function(err, result) {
+                should.not.exist(err);
+                result.statusCode.should.equal(200);
+                done();
+            });
+            
+        });
+    });
+});
+
+describe('RedisCache - Deprovision-Poll - Execution - Cache that unexists', function() {
+    var validParams;
+        
+    before(function() {
+        validParams = {
+            instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',
+            parameters : {
+                resourceGroup: 'redisResourceGroup',
+                cacheName: 'C0CacheNC'
+            },
+            provisioning_result: '{\"provisioningState\":\"Creating\"}',
+            last_operation : "deprovision"
+        };
+        validParams.azure = azure;
+    });
+    
+    after(function() {
+        redisClient.poll.restore();
+    });
+    
+    describe('Poll operation outcomes should be...', function() {
+        it('should output provisioningState = Succeeded', function(done) {
+
+            var cp = new cmdPoll(log, validParams);
+            
+            var e = new Error();
+            e.statusCode = 404;
+            sinon.stub(redisClient, 'poll').yields(e);
+            cp.poll(redisClient, function(err, result) {
+                should.not.exist(err);
+                result.statusCode.should.equal(200);
+                done();
             });
             
         });

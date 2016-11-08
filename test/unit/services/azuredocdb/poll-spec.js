@@ -25,7 +25,7 @@ describe('DocumentDb - Poll - PreConditions', function() {
     
 });
 
-describe('DocumentDb - Poll - Execution', function() {
+describe('DocumentDb - Provision-Poll - Execution', function() {
   var validParams;
         
   before(function() {
@@ -52,7 +52,7 @@ describe('DocumentDb - Poll - Execution', function() {
       cp.poll(docDbClient, function(err, reply) {
         should.not.exist(err);
         reply.value.state.should.equal('succeeded');
-        done();        
+        done();
       });
       docDbClient.getDocDbAccount.restore();
     });
@@ -63,10 +63,47 @@ describe('DocumentDb - Poll - Execution', function() {
       cp.poll(docDbClient, function(err, reply) {
         should.not.exist(err);
         reply.value.state.should.equal('in progress');
-        done();        
+        done();
       });
       docDbClient.getDocDbAccount.restore();
     });
   });
 });
 
+describe('DocumentDb - Deprovision-Poll - Execution', function() {
+  var validParams;
+        
+  before(function() {
+    validParams = {
+      instance_id: '2e201389-35ff-4b89-9148-5c08c7325dc8',
+      provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }',
+      last_operation: "deprovision"
+    };
+  });
+    
+  describe('Poll operation outcomes should be...', function() {
+    it('should output state = in progress, if docdb account is being deleting', function(done) {
+      var cp = new cmdPoll(log, validParams);
+      sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: "Deleting"}});
+      cp.poll(docDbClient, function(err, reply) {
+        should.not.exist(err);
+        reply.value.state.should.equal('in progress');
+        done();
+      });
+      docDbClient.getDocDbAccount.restore();
+    });
+    
+    it('should output state = succeeded, if docdb account is deleted', function(done) {
+      var cp = new cmdPoll(log, validParams);
+      var e = new Error();
+      e.statusCode = 404;
+      sinon.stub(docDbClient, 'getDocDbAccount').yields(e);
+      cp.poll(docDbClient, function(err, reply) {
+        should.not.exist(err);
+        reply.value.state.should.equal('succeeded');
+        done();
+      });
+      docDbClient.getDocDbAccount.restore();
+    });
+  });
+});
