@@ -154,40 +154,7 @@
     AZURE_BROKER_DATABASE_NAME: <database-name>
     ```
 
-3. Update `config/default.json`. (Optional)
-
-    The configurations include three parts. These configurations are same as the environment variables in the manifest. If you have configured the manifest, you do not need to update `config/default.json`. If both `manifest.yml` and `config/default.json` are configured, the configurations in `manifest.yml` will overwrite the configurations in `config/default.json`.
-
-    1. `azure` includes the service principal and the Azure DocumentDB Host information.
-
-      For example:
-
-      ```
-      "azure": {
-        "environment": "AzureCloud",
-        "subscriptionId": "55555555-4444-3333-2222-111111111111",
-        "tenantId": "66666666-4444-3333-2222-111111111111",
-        "clientId": "77777777-4444-3333-2222-111111111111",
-        "clientSecret": "your-client-secret"
-      },
-      ```
-
-
-    2. `authUser` and `authPassword` are specified by yourself. They are the username and password of HTTP basic authentication.
-
-    3. Update the configurations for the SQL database. For example:
-
-      ```
-      "database": {
-        "provider": "sqlserver",
-        "server": "<sql-server-name>.database.windows.net",
-        "user": "<username>",
-        "password": "<password>",
-        "database": "<database>"
-      }
-      ```
-
-4. Push the broker to Cloud Foundry
+3. Push the broker to Cloud Foundry
 
   ```
   cf push
@@ -196,10 +163,10 @@
 ## Register a service broker
 
 ```
-cf create-service-broker demo-service-broker $authUser $authPassword <URL of the app meta-azure-service-broker>
+cf create-service-broker demo-service-broker $SECURITY_USER_NAME $SECURITY_USER_PASSWORD <URL of the app meta-azure-service-broker>
 ```
 
-`$authUser` and `$authPassword` should be same as the values of the environment variables `SECURITY_USER_NAME` and `SECURITY_USER_PASSWORD`.
+You can get `SECURITY_USER_NAME` and `SECURITY_USER_PASSWORD` from `manifest.yml`.
 
 For example,
 
