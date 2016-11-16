@@ -4,25 +4,26 @@ unit/services/azurerediscache/index-spec.js
 unit/services/azurerediscache/provision-spec.js
 unit/services/azurerediscache/deprovision-spec.js
 unit/services/azurerediscache/poll-spec.js
+unit/services/azurerediscache/bind-spec.js
 
+unit/services/azuredocdb/index-spec.js
 unit/services/azuredocdb/provision-spec.js
 unit/services/azuredocdb/poll-spec.js
-#unit/services/azuredocdb/bind-spec.js
-unit/services/azuredocdb/index-spec.js
+unit/services/azuredocdb/bind-spec.js
 
+unit/services/azurestorage/index-spec.js
 unit/services/azurestorage/provision-spec.js
-unit/services/azurestorage/poll-spec.js
 unit/services/azurestorage/deprovision-spec.js
+unit/services/azurestorage/poll-spec.js
 unit/services/azurestorage/bind-spec.js
 unit/services/azurestorage/unbind-spec.js
-unit/services/azurestorage/index-spec.js
 
-unit/services/azureservicebus/poll-spec.js
 unit/services/azureservicebus/provision-spec.js
 unit/services/azureservicebus/deprovision-spec.js
+unit/services/azureservicebus/poll-spec.js
 unit/services/azureservicebus/bind-spec.js
 unit/services/azureservicebus/unbind-spec.js
 
 unit/services/azuresqldb/provision-spec.js
-unit/services/azuresqldb/poll-spec.js
 unit/services/azuresqldb/deprovision-spec.js
+unit/services/azuresqldb/poll-spec.js

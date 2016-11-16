@@ -35,7 +35,7 @@ describe('DocumentDb - Bind', function() {
       docDbClient.getAccountKey.restore();
     });
     
-    it('Bind operation should return credentials', function(done) {
+    it('should return credentials', function(done) {
       var cp = new cmdBind(log, validParams);
       cp.bind(docDbClient, function(err, masterKey) {
         should.not.exist(err);
@@ -54,7 +54,7 @@ describe('DocumentDb - Bind', function() {
       docDbClient.getAccountKey.restore();
     });
     
-    it('Bind operation should get an error and do not return credentials', function(done) {
+    it('should get an error and do not return credentials', function(done) {
       var cp = new cmdBind(log, validParams);
       cp.bind(docDbClient, function(err, masterKey) {
         should.exist(err);
