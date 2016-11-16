@@ -6,12 +6,10 @@ var path = require("path");
 var common = require('./lib/common');
 var Broker = require('./lib/broker');
 
+global.modules = {};
+
 var config = common.getConfigurations();
 var broker = new Broker(config);
-
-global.modules = {};
-broker.log.info('Validating configurations...');
-common.validateConfigurations(config);
 
 var addListeners = function(serviceId, serviceModule) {
   broker.on('provision-' + serviceId, serviceModule.provision);
@@ -44,6 +42,7 @@ fs.readdir(servicesPath, function(err, files) {
       if (err) {
         throw err;
       } else {
+        broker.log.info('Adding listeners for the service %s...', service.name);
         addListeners(service.id, serviceModule);
         services.push(service);
         global.modules[service.id] = serviceModule;
