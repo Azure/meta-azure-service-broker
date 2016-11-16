@@ -35,7 +35,7 @@ describe('DocumentDb - Index - Provision', function() {
                 docDbName: 'eDocDb',
                 location:'eastus'
             }
-        }
+        };
         sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null);
         sinon.stub(docDbClient, 'checkDocDbAccountExistence').yields(null);
         sinon.stub(docDbClient, 'createDocDbAccount').yields(null);
@@ -77,7 +77,7 @@ describe('DocumentDb - Index - Poll', function() {
                 docDbName: 'eDocDb',
                 location:'eastus'
             }
-        }
+        };
         sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: "Succeeded"}});
         sinon.stub(docDbClient, 'getToken').yields(null);
         sinon.stub(docDbClient, 'getAccountKey').yields(null);
@@ -119,9 +119,16 @@ describe('DocumentDb - Index - Bind', function() {
               docDbName: 'eDocDb',
               location:'eastus'
             }
-        }
+        };
+        sinon.stub(docDbClient, 'getToken').yields(null);
+        sinon.stub(docDbClient, 'getAccountKey').yields(null);
     });
-    
+
+    after(function() {
+        docDbClient.getToken.restore();
+        docDbClient.getAccountKey.restore();
+    });
+
     describe('Bind operation should succeed', function() {        
         it('should not return an error and statusCode should be 201', function(done) {
             handlers.bind(log, validParams, function(err, reply, result) {
@@ -145,7 +152,7 @@ describe('DocumentDb - Index - Unbind', function() {
             azure: azure,
             provisioning_result: provisioningResult,
             binding_result: {}
-        }
+        };
     });
     
     describe('Unbind operation should succeed', function() {        
@@ -176,7 +183,7 @@ describe('DocumentDb - Index - De-provision', function() {
               docDbName: 'eDocDb',
               location:'eastus'
             }
-        }
+        };
     });
     
     after(function() {

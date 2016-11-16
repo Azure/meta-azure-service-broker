@@ -2,7 +2,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
@@ -11,19 +10,6 @@ var docDbClient = require('../../../../lib/services/azuredocdb/client');
 var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'DocumentDb-Tests');
-
-describe('DocumentDb - Poll - PreConditions', function() {
-  var validParams;
-        
-  before(function() {
-       
-    validParams = {
-      instance_id: '2e201389-35ff-4b89-9148-5c08c7325dc8',
-      provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }'
-    };
-  });
-    
-});
 
 describe('DocumentDb - Provision-Poll - Execution', function() {
   var validParams;
