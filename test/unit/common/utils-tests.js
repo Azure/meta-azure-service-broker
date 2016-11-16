@@ -25,7 +25,8 @@ describe('Util', function() {
         'AZURE_BROKER_DATABASE_SERVER',
         'AZURE_BROKER_DATABASE_USER',
         'AZURE_BROKER_DATABASE_PASSWORD',
-        'AZURE_BROKER_DATABASE_NAME'
+        'AZURE_BROKER_DATABASE_NAME',
+        'AZURE_BROKER_DATABASE_ENCRYPTKEY'
       ];
 
       var environmentVariablesToBackup = {};
@@ -57,7 +58,8 @@ describe('Util', function() {
           'server': environmentVariablesToSet['AZURE_BROKER_DATABASE_SERVER'],
           'user': environmentVariablesToSet['AZURE_BROKER_DATABASE_USER'],
           'password': environmentVariablesToSet['AZURE_BROKER_DATABASE_PASSWORD'],
-          'database': environmentVariablesToSet['AZURE_BROKER_DATABASE_NAME']
+          'database': environmentVariablesToSet['AZURE_BROKER_DATABASE_NAME'],
+          'encryptKey': environmentVariablesToSet['AZURE_BROKER_DATABASE_ENCRYPTKEY'],
         }
       };
 
