@@ -27,7 +27,7 @@ packages:
   type: app-broker
   enable_global_access_to_plans: true
   manifest:
-    path: file:resources/meta-azure-service-broker.zip
+    path: resources/meta-azure-service-broker.zip
     buildpack: https://github.com/cloudfoundry/nodejs-buildpack
     instances: 1
 
@@ -56,7 +56,7 @@ packages:
 # applications as environment variables. You can also refer to them
 # elsewhere in this template by using:
 #     (( .properties.<property-name> ))
-# 
+#
 forms:
 - name: azure-config-form
   label: Azure Config
