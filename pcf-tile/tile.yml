@@ -58,7 +58,7 @@ packages:
 # applications as environment variables. You can also refer to them
 # elsewhere in this template by using:
 #     (( .properties.<property-name> ))
-# 
+#
 forms:
 - name: azure-config-form
   label: Azure Config
