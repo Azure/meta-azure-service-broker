@@ -74,6 +74,7 @@ testMatrix.push(azureservicebus);
 
 instanceId = uuid.v4();
 bindingId = uuid.v4();
+resourceGroupName = 'cloud-foundry-' + instanceId;
 var azuredocumentdb = {
   serviceName: 'azure-documentdb',
   serviceId: '3befc561-4f0c-4df3-ab26-48ac4e366b1c',
@@ -81,7 +82,7 @@ var azuredocumentdb = {
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
-    "resourceGroup": "azure-service-broker-docdb-test",
+    "resourceGroup": resourceGroupName,
     "docDbAccountName": instanceId,
     "docDbName": instanceId,
     "location": location

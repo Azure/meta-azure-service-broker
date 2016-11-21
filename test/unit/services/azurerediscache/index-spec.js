@@ -40,7 +40,10 @@ describe('RedisCache - Index - Provision', function() {
                     }
                 }
             }
-        }
+        };
+        sinon.stub(redisClient, 'provision').yields(null, JSON.parse(provisioningResult));
+        sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
+        sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, {provisioningState: 'Succeeded'});
     });
     
     after(function() {
@@ -51,16 +54,11 @@ describe('RedisCache - Index - Provision', function() {
     
     describe('Provision operation should succeed', function() {        
         it('should not return an error and statusCode should be 202', function(done) {
-
-            sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
-            sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, {provisioningState: 'Succeeded'});
-            sinon.stub(redisClient, 'provision').yields(null, JSON.parse(provisioningResult));
             handlers.provision(log, validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(202);
                 done();
             });
-                        
         });
     });
 });
@@ -90,7 +88,8 @@ describe('RedisCache - Index - Poll existing cache', function() {
                     }
                 }
             }
-        }
+        };
+        sinon.stub(redisClient, 'poll').yields(null, {provisioningState : 'Succeeded'});
     });
     
     after(function() {
@@ -99,15 +98,12 @@ describe('RedisCache - Index - Poll existing cache', function() {
     
     describe('Poll operation should succeed for existing cache', function() {        
         it('should not return an error and statusCode should be 200', function(done) {
-            
-            sinon.stub(redisClient, 'poll').yields(null, {provisioningState : 'Succeeded'});
             handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
                 should.not.exist(err);
                 lastOperatoin.should.equal('provision');
                 reply.statusCode.should.equal(200);
                 done();
             });
-                        
         });
     });
 });
@@ -137,19 +133,22 @@ describe('RedisCache - Index - Bind existing cache', function() {
                     }
                 }
             }
-        }
+        };
+        sinon.stub(redisClient, 'bind').yields(null, {primaryKey: 'fake-primary-key', secondaryKey: 'fake-secondary-key'});
+    });
+    
+    after(function() {
+        redisClient.bind.restore();
     });
     
     describe('Bind operation should succeed for existing cache', function() {        
         it('should not return an error and statusCode should be 201', function(done) {
-            
             handlers.bind(log, validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(201);
                 reply.code.should.equal('Created');
                 done();
             });
-                        
         });
     });
 });
@@ -165,7 +164,8 @@ describe('RedisCache - Index - De-provision existing cache', function() {
             last_operation: 'provision',
             provisioning_result: provisioningResult,
             azure: azure
-        }
+        };
+        sinon.stub(redisClient, 'deprovision').yields(null, {provisioningState : 'Succeeded'});
     });
     
     after(function() {
@@ -174,14 +174,11 @@ describe('RedisCache - Index - De-provision existing cache', function() {
     
     describe('De-Provision operation should succeed for existing cache', function() {        
         it('should not return an error and statusCode should be 202', function(done) {
-            
-            sinon.stub(redisClient, 'deprovision').yields(null, {provisioningState : 'Succeeded'});
             handlers.deprovision(log, validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(202);
                 done();
             });
-                        
         });
     });
 });
@@ -212,7 +209,8 @@ var validParams;
                     }
                 }
             }        
-        }
+        };
+        sinon.stub(redisClient, 'poll').yields(null, {statusCode : 404});
     });
     
     after(function() {
@@ -221,16 +219,12 @@ var validParams;
     
     describe('Poll operation should succeed for de-provisioned cache', function() {        
         it('should not return an error and statusCode should be 200', function(done) {
-            
-            sinon.stub(redisClient, 'poll').yields(null, {statusCode : 404});
             handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
                 should.not.exist(err);
                 lastOperatoin.should.equal('deprovision');
                 reply.statusCode.should.equal(200);
                 done();
             });
-                        
         });
     });
 });
-
