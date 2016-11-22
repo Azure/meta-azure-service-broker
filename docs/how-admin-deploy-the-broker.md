@@ -19,7 +19,7 @@
 
     Please follow the [steps](https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/) to make sure the SQL database can be accessed by the service broker.
 
-  3. Create tables in the SQL database.
+  3. By default, the tables `instances` and `bindings` are created when the broker starts. If not, please create them manually with the following steps.
 
     Use your favorite way to connect to the SQL database.
 
@@ -30,7 +30,7 @@
       mssql --server "<server-name>.database.windows.net" --database <database> --user <username>@<server-name> --pass <pass> --encrypt
       ```
 
-    In the `mssql` command line, create tables `instances` and `bindings` by pasting the contents of [schema.sql](../scripts/schema.sql).
+    In the `mssql` command line, create tables `instances` and `bindings` by loading [schema.sql](../lib/broker/db/sqlserver/schema.sql).
 
 <a name="deploy-meta-azure-service-broker-as-an-app" />
 ## Deploy the meta Azure service broker as an application in Cloud Foundry
