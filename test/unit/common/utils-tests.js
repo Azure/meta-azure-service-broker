@@ -38,6 +38,7 @@ describe('Util', function() {
       keys.forEach(function(key){
         environmentVariablesToSet[key] = 'fake-' + key;
       });
+      environmentVariablesToSet['AZURE_BROKER_DATABASE_ENCRYPTION_KEY'] = 'abcdefghijklmnopqrstuvwxyz123456'; // The key size must be 32
 
       var expectedConfig = {
         'azure': {
