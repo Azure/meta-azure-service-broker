@@ -109,6 +109,9 @@ forms:
   - name: azure_broker_database_name
     type: string
     label: Database Name
+  - name: azure_broker_database_encryptkey
+    type: secret
+    label: Database Encrypt Key
 
 # Add any dependencies your tile has on other installed products.
 # This is often appropriate when using automatic service provisioning
