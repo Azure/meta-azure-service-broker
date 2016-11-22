@@ -19,7 +19,7 @@
 
     Please follow the [steps](https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/) to make sure the SQL database can be accessed by the service broker.
 
-  3. Create tables in the SQL database.
+  3. By default, the tables `instances` and `bindings` are created when the broker starts. If not, please create them manually with the following steps.
 
     Use your favorite way to connect to the SQL database.
 
@@ -30,7 +30,7 @@
       mssql --server "<server-name>.database.windows.net" --database <database> --user <username>@<server-name> --pass <pass> --encrypt
       ```
 
-    In the `mssql` command line, create tables `instances` and `bindings` by pasting the contents of [schema.sql](../scripts/schema.sql).
+    In the `mssql` command line, create tables `instances` and `bindings` by loading [schema.sql](../lib/broker/db/sqlserver/schema.sql).
 
 <a name="deploy-meta-azure-service-broker-as-an-app" />
 ## Deploy the meta Azure service broker as an application in Cloud Foundry
@@ -65,7 +65,7 @@
       AZURE_BROKER_DATABASE_USER: REPLACE-ME
       AZURE_BROKER_DATABASE_PASSWORD: REPLACE-ME
       AZURE_BROKER_DATABASE_NAME: REPLACE-ME
-      AZURE_BROKER_DATABASE_ENCRYPTKEY: REPLACE-ME
+      AZURE_BROKER_DATABASE_ENCRYPTION_KEY: REPLACE-ME
   ```
 
   * `ENVIRONMENT`
@@ -143,10 +143,10 @@
     AZURE_BROKER_DATABASE_USER: REPLACE-ME
     AZURE_BROKER_DATABASE_PASSWORD: REPLACE-ME
     AZURE_BROKER_DATABASE_NAME: REPLACE-ME
-    AZURE_BROKER_DATABASE_ENCRYPTKEY: REPLACE-ME
+    AZURE_BROKER_DATABASE_ENCRYPTION_KEY: REPLACE-ME
     ```
 
-    `AZURE_BROKER_DATABASE_ENCRYPTKEY` is used to encrypt the information in the database. It should contain 32 character. **You need to keep it same if you re-deploy the service broker. Otherwise, the information can't be decrypted so that the service broker can't manage the service instances.**
+    `AZURE_BROKER_DATABASE_ENCRYPTION_KEY` is used to encrypt the information in the database. It should contain 32 character. **You need to keep it same if you re-deploy the service broker. Otherwise, the information can't be decrypted so that the service broker can't manage the service instances.**
 
     Currently, only `sqlserver` is supported for `AZURE_BROKER_DATABASE_PROVIDER`.
 
@@ -156,7 +156,7 @@
     AZURE_BROKER_DATABASE_USER: <username>
     AZURE_BROKER_DATABASE_PASSWORD: <password>
     AZURE_BROKER_DATABASE_NAME: <database-name>
-    AZURE_BROKER_DATABASE_ENCRYPTKEY: <encrypt-key-with-32-length>
+    AZURE_BROKER_DATABASE_ENCRYPTION_KEY: <encryption-key-with-32-length>
     ```
 
 3. Push the broker to Cloud Foundry
