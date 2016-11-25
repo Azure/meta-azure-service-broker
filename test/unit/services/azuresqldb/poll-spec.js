@@ -182,43 +182,16 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
     });
 });
 
-/*  fill in this one when I can catch azure being slow enough
-describe('SqlDb - Poll - polling database immediately after de-provision is started', function () {
-
-    var cp;
-
-    before(function () {
-        cp = new cmdPoll(log, afterDeprovisionValidParams);
-    });
-
-    after(function () {
-        sqldbOps.getToken.restore();
-        sqldbOps.getDatabase.restore();
-    });
-
-    describe('Poll should return xxx immediately after starting to de-provision a database', function () {
-        it('should work', function (done) {
-            sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-            sinon.stub(sqldbOps, 'getDatabase').yields(null, sqldbOpsGetDatabaseResult);
-            cp.poll(sqldbOps, function (err, result) {
-                should.not.exist(err);
-                done();
-            });
-        });
-    });
-});
-*/
-
 describe('SqlDb - Poll - polling database after de-provision is complete', function () {
 
     var cp;
 
-    sqldbOpsGetDatabaseResult = {
+    sqldbOpsGetServerResult = {
         statusCode: 404,
         value:
         {
             state: 'succeeded',
-            description: 'Database has been deleted.'
+            description: 'Server has been deleted.'
         }
     };
 
@@ -228,18 +201,18 @@ describe('SqlDb - Poll - polling database after de-provision is complete', funct
 
     after(function () {
         sqldbOps.getToken.restore();
-        sqldbOps.getDatabase.restore();
+        sqldbOps.getServer.restore();
 
     });
 
     describe('Poll should return 200 after de-provisioning is complete', function () {
-        it('should correctly interpret 404 as database is deleted', function (done) {
+        it('should correctly interpret 404 as server is deleted', function (done) {
             sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-            sinon.stub(sqldbOps, 'getDatabase').yields(null, sqldbOpsGetDatabaseResult);
+            sinon.stub(sqldbOps, 'getServer').yields(null, sqldbOpsGetServerResult);
             cp.poll(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 result.value.state.should.equal('succeeded');
-                result.value.description.should.equal('Database has been deleted.');
+                result.value.description.should.equal('Server has been deleted.');
                 done();
             });
         });
