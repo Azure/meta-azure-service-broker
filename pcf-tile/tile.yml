@@ -4,15 +4,15 @@
 #
 name: azure-service-broker
 icon_file: resources/icon.png
-label: Azure Service Broker
-description: A service broker for Azure services
+label: Microsoft Azure Service Broker
+description: A service broker for Microsoft Azure services
 
 # Global defaults (all optional)
 #
-org: system                            # Name of org to create for your apps
-space: azure-service-broker-space      # Name of space to create for your apps
-apply_open_security_group: true        # Apply open security group, default: false
-allow_paid_service_plans: true         # Allow paid service plans, default: false
+org: system                                 # Name of org to create for your apps
+space: azure-service-broker-space # Name of space to create for your apps
+apply_open_security_group: true             # Apply open security group, default: false
+allow_paid_service_plans: true              # Allow paid service plans, default: false
 
 # Specify the packages to be included in your tile.
 # The format of the section to include depends on the type
