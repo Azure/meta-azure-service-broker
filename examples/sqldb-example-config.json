@@ -1,30 +1,38 @@
- /*
+/*
 {
-    "resourceGroup": "<resource-group>",: "<resource-group>", // [Required] Unique. Only allow up to 90 characters
-    "location": "<azure-region-name>",         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
-    "sqlServerName": "<sql-server-name>",      // [Required] Unique. Servername cannot be empty or null. It can only be made up of lowercase letters 'a'-'z', the numbers 0-9 and the hyphen. The hyphen may not lead or trail in the name.
-    "sqlServerCreateIfNotExist": true | false, // If false, location and properties below are optional.
-    "sqlServerParameters": {
-        "allowSqlServerFirewallRule": {        // [Optional] If present, ruleName and startIpAddress are mandatory.  If endIpAddress is absent, it is assumed to be equal to startIpAddress.
-            "ruleName": "<rule-name>",
-            "startIpAddress": "xx.xx.xx.xx",
-            "endIpAddress": "xx.xx.xx.xx"
-        },
-        "location": "<azure-region-name>",
-        "properties": {
-            "administratorLogin": "<sql-server-admin-name>",
-            "administratorLoginPassword": "<sql-server-admin-password>"
-        }
-    },
-    "sqldbName": "<sql-database-name>",    // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
-    "sqldbParameters": {                   // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
-        "location": "<azure-region-name>",
-        "properties": {
-            "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
-        }
-    }
+  "resourceGroup": "<resource-group>",: "<resource-group>", // [Required] Unique. Only allow up to 90 characters
+  "location": "<azure-region-name>",         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
+  "sqlServerName": "<sql-server-name>",      // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+  "sqlServerCreateIfNotExist": true | false, // If false, location and properties below are optional.
+  "sqlServerParameters": {
+      "allowSqlServerFirewallRules": [        // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
+          {
+              "ruleName": "<rule-name-1>",
+              "startIpAddress": "xx.xx.xx.xx",
+              "endIpAddress": "xx.xx.xx.xx"
+          },
+          {
+              "ruleName": "<rule-name-1>",
+              "startIpAddress": "xx.xx.xx.xx",
+              "endIpAddress": "xx.xx.xx.xx"
+          }
+      ],
+      "location": "<azure-region-name>",
+      "properties": {
+          "administratorLogin": "<sql-server-admin-name>",
+          "administratorLoginPassword": "<sql-server-admin-password>"
+      }
+  },
+  "sqldbName": "<sql-database-name>",    // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
+  "sqldbParameters": {                   // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+      "location": "<azure-region-name>",
+      "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
+      }
+  }
 }
 */
+
 // Please delete all the comments before using this .json to create service instance.
 {
     "resourceGroup": "sqldbResourceGroup",
@@ -32,11 +40,13 @@
     "sqlServerName": "sqlservera",
     "sqlServerCreateIfNotExist": true,
     "sqlServerParameters": {
-        "allowSqlServerFirewallRule": {
+        "allowSqlServerFirewallRules": [
+            {
             "ruleName": "new rule",
             "startIpAddress": "131.107.159.102",
             "endIpAddress": "131.107.159.102"
-        },
+            }
+        ],
         "location": "westus",
         "properties": {
             "administratorLogin": "myusername",

@@ -114,11 +114,18 @@ var azuresqldb = {
     "sqlServerName": sqlServerName,
     "sqlServerCreateIfNotExist": true,
     "sqlServerParameters": {
-      "allowSqlServerFirewallRule": {
-        "ruleName": "all",
-        "startIpAddress": "0.0.0.0",
-        "endIpAddress": "255.255.255.255"
-      },
+      "allowSqlServerFirewallRules": [
+        {
+          "ruleName": "test",
+          "startIpAddress": "0.0.0.0",
+          "endIpAddress": "0.0.0.255"
+        },
+        {
+          "ruleName": "all",
+          "startIpAddress": "0.0.0.0",
+          "endIpAddress": "255.255.255.255"
+        }
+      ],
       "location": location,
       "properties": {
         "administratorLogin": "azureuser",

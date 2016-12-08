@@ -180,11 +180,11 @@ describe('SqlDb - Provision - Execution - server & Database that does not previo
                 sqlServerName: 'azureuser',
                 sqlServerCreateIfNotExist: true,
                 sqlServerParameters: {
-                    allowSqlServerFirewallRule: {
+                    allowSqlServerFirewallRules: [{
                         ruleName: 'new rule',
                         startIpAddress: '0.0.0.0',
                         endIpAddress: '255.255.255.255'
-                    },
+                    }],
                     location: 'westus',
                     properties: {
                         administratorLogin: 'azureuser',
@@ -248,11 +248,11 @@ describe('SqlDb - Provision - Execution - server & Database that both previously
                 sqlServerName: 'azureuser',
                 sqlServerCreateIfNotExist: true,
                 sqlServerParameters: {
-                    allowSqlServerFirewallRule: {
+                    allowSqlServerFirewallRules: [{
                         ruleName: 'new rule',
                         startIpAddress: '0.0.0.0',
                         endIpAddress: '255.255.255.255'
-                    },
+                    }],
                     location: 'westus',
                     properties: {
                         administratorLogin: 'azureuser',
@@ -412,11 +412,11 @@ describe('SqlDb - Provision - Firewall rules', function () {
                     sqlServerName: 'azureuser',
                     sqlServerCreateIfNotExist: true,
                     sqlServerParameters: {
-                        allowSqlServerFirewallRule: {
+                        allowSqlServerFirewallRules: [{
                             ruleName: 'new rule',
                             startIpAddress: '0.0.0.0',
                             endIpAddress: '255.255.255.255'
-                        },
+                        }],
                         location: 'westus',
                         properties: {
                             administratorLogin: 'azureuser',
@@ -442,9 +442,9 @@ describe('SqlDb - Provision - Firewall rules', function () {
         });
     });
 
-    describe('Parameter validation should fail if ...', function () {
+    describe('Incorrect firewall rule specs are given', function () {
         before(function () {
-            validParams = {
+            params = {
                 instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
                 plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
                 parameters: {      // developer's input parameters file
@@ -452,10 +452,6 @@ describe('SqlDb - Provision - Firewall rules', function () {
                     sqlServerName: 'azureuser',
                     sqlServerCreateIfNotExist: true,
                     sqlServerParameters: {
-                        allowSqlServerFirewallRule: {
-                            startIpAddress: '0.0.0.0',
-                            endIpAddress: '255.255.255.255'
-                        },
                         location: 'westus',
                         properties: {
                             administratorLogin: 'azureuser',
@@ -471,93 +467,51 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 },
                 azure: azure
             };
-            cp = new cmdProvision(log, validParams);
-            cp.fixupParameters();
         });
 
-        it('incorrect firewall rule specs are given - no rule name', function (done) {
-            (cp.allValidatorsSucceed()).should.equal(false);
-            done();
-        });
-    });
-
-    describe('Parameter validation should fail if ...', function () {
-        before(function () {
-            validParams = {
-                instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-                plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
-                parameters: {      // developer's input parameters file
-                    resourceGroup: 'sqldbResourceGroup',
-                    sqlServerName: 'azureuser',
-                    sqlServerCreateIfNotExist: true,
-                    sqlServerParameters: {
-                        allowSqlServerFirewallRule: {
-                            ruleName: 'new rule',
-                            endIpAddress: '255.255.255.255'
-                        },
-                        location: 'westus',
-                        properties: {
-                            administratorLogin: 'azureuser',
-                            administratorLoginPassword: 'c1oudc0w'
-                        }
-                    },
-                    sqldbName: 'azureuserSqlDb',
-                    sqldbParameters: {
-                        properties: {
-                            collation: 'SQL_Latin1_General_CP1_CI_AS'
-                        }
-                    }
-                },
-                azure: azure
-            };
-            cp = new cmdProvision(log, validParams);
-            cp.fixupParameters();
+        describe('no rule name', function () {
+            before(function () {
+                params.parameters.sqlServerParameters.allowSqlServerFirewallRules = [{
+                    startIpAddress: '0.0.0.0',
+                    endIpAddress: '255.255.255.255'
+                }];
+            });
+            it('Parameter validation should fail', function (done) {
+                cp = new cmdProvision(log, params);
+                cp.fixupParameters();
+                (cp.allValidatorsSucceed()).should.equal(false);
+                done();
+            });
         });
 
-        it('incorrect firewall rule specs are given - no start ip', function (done) {
-            (cp.allValidatorsSucceed()).should.equal(false);
-            done();
-        });
-    });
-
-    describe('Parameter validation should succeed if ...', function () {
-        before(function () {
-            validParams = {
-                instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-                plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
-                parameters: {      // developer's input parameters file
-                    resourceGroup: 'sqldbResourceGroup',
-                    sqlServerName: 'azureuser',
-                    sqlServerCreateIfNotExist: true,
-                    sqlServerParameters: {
-                        allowSqlServerFirewallRule: {
-                            ruleName: 'new rule',
-                            startIpAddress: '0.0.0.0'
-                        },
-                        location: 'westus',
-                        properties: {
-                            administratorLogin: 'azureuser',
-                            administratorLoginPassword: 'c1oudc0w'
-                        }
-                    },
-                    sqldbName: 'azureuserSqlDb',
-                    sqldbParameters: {
-                        properties: {
-                            collation: 'SQL_Latin1_General_CP1_CI_AS'
-                        }
-                    }
-                },
-                azure: azure
-            };
-            cp = new cmdProvision(log, validParams);
-            cp.fixupParameters();
+        describe('no start IP address', function () {
+            before(function () {
+                params.parameters.sqlServerParameters.allowSqlServerFirewallRules = [{
+                    ruleName: 'new rule',
+                    endIpAddress: '255.255.255.255'
+                }];
+            });
+            it('Parameter validation should fail', function (done) {
+                cp = new cmdProvision(log, params);
+                cp.fixupParameters();
+                (cp.allValidatorsSucceed()).should.equal(false);
+                done();
+            });
         });
 
-        it('correct firewall rule specs are given - no end ip', function (done) {
-            (cp.allValidatorsSucceed()).should.equal(true);
-            done();
+        describe('no end IP address', function () {
+            before(function () {
+                params.parameters.sqlServerParameters.allowSqlServerFirewallRules = [{
+                    ruleName: 'new rule',
+                    startIpAddress: '0.0.0.0'
+                }];
+            });
+            it('Parameter validation should fail', function (done) {
+                cp = new cmdProvision(log, params);
+                cp.fixupParameters();
+                (cp.allValidatorsSucceed()).should.equal(false);
+                done();
+            });
         });
     });
 });
-
-

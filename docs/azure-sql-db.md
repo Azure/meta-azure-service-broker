@@ -37,14 +37,21 @@
   {
     "resourceGroup": "<resource-group>",: "<resource-group>", // [Required] Unique. Only allow up to 90 characters
     "location": "<azure-region-name>",         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
-    "sqlServerName": "<sql-server-name>",      // [Required] Unique. Servername cannot be empty or null. It can only be made up of lowercase letters 'a'-'z', the numbers 0-9 and the hyphen. The hyphen may not lead or trail in the name.
+    "sqlServerName": "<sql-server-name>",      // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
     "sqlServerCreateIfNotExist": true | false, // If false, location and properties below are optional.
     "sqlServerParameters": {
-        "allowSqlServerFirewallRule": {        // [Optional] If present, ruleName and startIpAddress are mandatory.  If endIpAddress is absent, it is assumed to be equal to startIpAddress.
-            "ruleName": "<rule-name>",
-            "startIpAddress": "xx.xx.xx.xx",
-            "endIpAddress": "xx.xx.xx.xx"
-        },
+        "allowSqlServerFirewallRules": [        // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
+            {
+                "ruleName": "<rule-name-1>",
+                "startIpAddress": "xx.xx.xx.xx",
+                "endIpAddress": "xx.xx.xx.xx"
+            },
+            {
+                "ruleName": "<rule-name-1>",
+                "startIpAddress": "xx.xx.xx.xx",
+                "endIpAddress": "xx.xx.xx.xx"
+            }
+        ],
         "location": "<azure-region-name>",
         "properties": {
             "administratorLogin": "<sql-server-admin-name>",
@@ -76,11 +83,18 @@
     "sqlServerName": "sqlservera",
     "sqlServerCreateIfNotExist": true,
     "sqlServerParameters": {
-        "allowSqlServerFirewallRule": {
-            "ruleName": "new rule",
-            "startIpAddress": "131.107.159.102",
-            "endIpAddress": "131.107.159.102"
-        },
+        "allowSqlServerFirewallRules": [
+            {
+                "ruleName": "rule0",
+                "startIpAddress": "1.1.1.1",
+                "endIpAddress": "1.1.1.10"
+            },
+            {
+                "ruleName": "rule1",
+                "startIpAddress": "2.2.2.2",
+                "endIpAddress": "2.2.2.20"
+            },
+        ],
         "location": "westus",
         "properties": {
             "administratorLogin": "myusername",
@@ -96,18 +110,19 @@
     }
   }
   ```
-NOTE: Servername cannot be empty or null. It can only be made up of lowercase letters 'a'-'z', the numbers 0-9 and the hyphen. The hyphen may not lead or trail in the name.
 
-NOTE: The 'allowSqlServerFirewallRule' object is optional. If present, ruleName and startIpAddress are mandatory.  If endIpAddress is absent, it is assumed to be equal to startIpAddress.  If sqlServerCreateIfNotExist is false, location and properties are optional.
+**NOTE:**
 
-NOTE: To see a list of collation values valid for use with Azure SQL Database, use this query:
+  * To see a list of collation values valid for use with Azure SQL Database, use this query:
 
-SELECT name, description
-FROM fn_helpCollations()
+    ```
+    SELECT name, description
+    FROM fn_helpCollations()
+    ```
 
-NOTE: If you want to set more child parameters in sqldbParameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+  * If you want to set more child parameters in sqldbParameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
 
->**NOTE:** Please remove the comments in the JSON file before you use it.
+  * Please remove the comments in the JSON file before you use it.
 
 3. Check the operation status of creating the service instance
 
