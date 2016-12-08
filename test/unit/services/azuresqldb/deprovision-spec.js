@@ -42,17 +42,17 @@ describe('SqlDb - Deprovision', function () {
 
     after(function () {
         sqldbOps.getToken.restore();
-        sqldbOps.deleteServer.restore();
+        sqldbOps.deleteDatabase.restore();
     });
 
     describe('Deprovision should return 200 ...', function () {
         it('returns 200 if no err', function (done) {
             sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-            sinon.stub(sqldbOps, 'deleteServer').yields(null);
+            sinon.stub(sqldbOps, 'deleteDatabase').yields(null, deleteDatabaseResult);
             cd.deprovision(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 result.state.should.equal('succeeded');
-                result.description.should.equal('Deleted Server');
+                result.description.should.equal('Deleted database');
                 done();
             });
         });
