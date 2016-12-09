@@ -38,7 +38,6 @@
     "resourceGroup": "<resource-group>",: "<resource-group>", // [Required] Unique. Only allow up to 90 characters
     "location": "<azure-region-name>",         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
     "sqlServerName": "<sql-server-name>",      // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
-    "sqlServerCreateIfNotExist": true | false, // If false, location and properties below are optional.
     "sqlServerParameters": {
         "allowSqlServerFirewallRules": [        // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
             {
@@ -52,7 +51,6 @@
                 "endIpAddress": "xx.xx.xx.xx"
             }
         ],
-        "location": "<azure-region-name>",
         "properties": {
             "administratorLogin": "<sql-server-admin-name>",
             "administratorLoginPassword": "<sql-server-admin-password>"
@@ -60,7 +58,6 @@
     },
     "sqldbName": "<sql-database-name>",    // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
     "sqldbParameters": {                   // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
-        "location": "<azure-region-name>",
         "properties": {
             "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
         }
@@ -81,7 +78,6 @@
     "resourceGroup": "sqldbResourceGroup",
     "location": "westus",
     "sqlServerName": "sqlservera",
-    "sqlServerCreateIfNotExist": true,
     "sqlServerParameters": {
         "allowSqlServerFirewallRules": [
             {
@@ -95,7 +91,6 @@
                 "endIpAddress": "2.2.2.20"
             },
         ],
-        "location": "westus",
         "properties": {
             "administratorLogin": "myusername",
             "administratorLoginPassword": "mypassword"
@@ -103,7 +98,6 @@
     },
     "sqldbName": "sqlDbA",
     "sqldbParameters": {
-        "location": "westus",
         "properties": {
             "collation": "SQL_Latin1_General_CP1_CI_AS"
         }
@@ -113,11 +107,12 @@
 
 **NOTE:**
 
+  * If the SQL server which you specify doesn't exist, the broker will create it. If it exists, the broker will re-use it and create database in it.
+
   * To see a list of collation values valid for use with Azure SQL Database, use this query:
 
     ```
-    SELECT name, description
-    FROM fn_helpCollations()
+    SELECT name, description FROM fn_helpCollations()
     ```
 
   * If you want to set more child parameters in sqldbParameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
@@ -187,6 +182,8 @@
   ```
 
 ## Delete the service instance
+
+  **The broker only deletes the SQL database on Azure, and don't delete the SQL server.**
 
   ```
   cf delete-service $service_instance_name -f

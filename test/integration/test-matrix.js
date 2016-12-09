@@ -112,7 +112,6 @@ var azuresqldb = {
     "resourceGroup": resourceGroupName,
     "location": location,
     "sqlServerName": sqlServerName,
-    "sqlServerCreateIfNotExist": true,
     "sqlServerParameters": {
       "allowSqlServerFirewallRules": [
         {
@@ -126,7 +125,6 @@ var azuresqldb = {
           "endIpAddress": "255.255.255.255"
         }
       ],
-      "location": location,
       "properties": {
         "administratorLogin": "azureuser",
         "administratorLoginPassword": "c1oudc0w!@#"
@@ -137,7 +135,6 @@ var azuresqldb = {
     },
     "sqldbName": sqldbName,
     "sqldbParameters": {
-      "location": location,
       "properties": {
         "collation": "SQL_Latin1_General_CP1_CI_AS"
       },

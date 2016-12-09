@@ -23,394 +23,237 @@ var log = logule.init(module, 'SqlDb-Mocha');
 var sqldbOps = new sqldbOperations(log, azure);
 
 describe('SqlDb - Provision - PreConditions', function () {
-    var validParams = {};
+    var params = {};
     var cp;
 
-    before(function () {
-        validParams = {
-            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
-            parameters: {      // developer's input parameters file
-                resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'azureuser',
-                sqlServerCreateIfNotExist: true,
-                sqlServerParameters: {
-                    location: 'westus',
-                    properties: {
-                        administratorLogin: 'azureuser',
-                        administratorLoginPassword: 'c1oudc0w'
+    describe('All the required parameters are provided', function () {
+        before(function () {
+            params = {
+                instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
+                plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+                parameters: {      // developer's input parameters file
+                    resourceGroup: 'sqldbResourceGroup',
+                    sqlServerName: 'azureuser',
+                    sqlServerParameters: {
+                        location: 'westus',
+                        properties: {
+                            administratorLogin: 'azureuser',
+                            administratorLoginPassword: 'c1oudc0w'
+                        },
+                        tags: {
+                            foo: 'bar'
+                        }
                     },
-                    tags: {
-                        foo: 'bar'
+                    sqldbName: 'azureuserSqlDb',
+                    sqldbParameters: {
+                        properties: {
+                            collation: 'SQL_Latin1_General_CP1_CI_AS'
+                        },
+                        tags: {
+                            foo: 'bar'
+                        }
                     }
                 },
-                sqldbName: 'azureuserSqlDb',
-                sqldbParameters: {
-                    properties: {
-                        collation: 'SQL_Latin1_General_CP1_CI_AS'
-                    },
-                    tags: {
-                        foo: 'bar'
-                    }
-                }
-            },
-            azure: azure
-        };
-        cp = new cmdProvision(log, validParams);
-        cp.fixupParameters();
-    });
+                azure: azure
+            };
+            cp = new cmdProvision(log, params);
+            cp.fixupParameters();
+        });
 
-    describe('Provision should succeed if ...', function () {
-        it('all validators succeed', function (done) {
+        it('should succeed to validate the parameters', function (done) {
             (cp.allValidatorsSucceed()).should.equal(true);
             done();
         });
     });
-});
 
-describe('SqlDb - Provision - PreConditions', function () {
-    var validParams = {};
-    var cp;
-
-    before(function () {
-        validParams = {
-            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
-            parameters: {      // developer's input parameters file
-                resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'azureuser',
-                sqlServerCreateIfNotExist: true,
-                sqlServerParameters: {
-                    location: 'westus',
-                    properties: {
-                        administratorLogin: 'azureuser'
-                    }
-                },
-                sqldbName: 'azureuserSqlDb',
-                sqldbParameters: {
-                    properties: {
-                        collation: 'SQL_Latin1_General_CP1_CI_AS'
-                    }
-                }
-            },
-            azure: azure
-        };
-        cp = new cmdProvision(log, validParams);
-        cp.fixupParameters();
-    });
-
-    describe('Provision should fail if ...', function () {
-        it('administrator password is missing', function (done) {
-            (cp.allValidatorsSucceed()).should.equal(false);
-            done();
-        });
-    });
-});
-
-describe('SqlDb - Provision - PreConditions testing', function () {
-    var validParams = {};
-    var cp;
-
-    before(function () {
-        validParams = {
-            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
-            parameters: {      // developer's input parameters file
-                resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'azureuser',
-                sqlServerCreateIfNotExist: true,
-                sqlServerParameters: {
-                    location: 'westus',
-                    properties: {
-                        administratorLoginPassword: 'c1oudc0w'
-                    }
-                },
-                sqldbName: 'azureuserSqlDb',
-                sqldbParameters: {
-                    properties: {
-                        collation: 'SQL_Latin1_General_CP1_CI_AS'
-                    }
-                }
-            },
-            azure: azure
-        };
-        cp = new cmdProvision(log, validParams);
-        cp.fixupParameters();
-    });
-
-    describe('Provision should fail if ...', function () {
-        it('administrator login is missing', function (done) {
-            (cp.allValidatorsSucceed()).should.equal(false);
-            done();
-        });
-    });
-});
-
-describe('SqlDb - Provision - Invalid PreConditions - missing parameters file', function () {
-    var validParams = {};
-    var cp;
-
-    before(function () {
-        validParams = {
-            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
-            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-            azure: azure
-        };
-        cp = new cmdProvision(log, validParams);
-    });
-
-    describe('Provision should fail if ...', function () {
-        it('parameters file is not provided', function (done) {
-            (cp.allValidatorsSucceed()).should.equal(false);
-            done();
-        });
-    });
-});
-
-describe('SqlDb - Provision - Execution - server & Database that does not previously exist', function () {
-    var validParams = {};
-    var cp;
-
-    before(function () {
-        validParams = {
-            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
-            parameters: {      // developer's input parameters file
-                resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'azureuser',
-                sqlServerCreateIfNotExist: true,
-                sqlServerParameters: {
-                    allowSqlServerFirewallRules: [{
-                        ruleName: 'new rule',
-                        startIpAddress: '0.0.0.0',
-                        endIpAddress: '255.255.255.255'
-                    }],
-                    location: 'westus',
-                    properties: {
-                        administratorLogin: 'azureuser',
-                        administratorLoginPassword: 'c1oudc0w'
-                    }
-                },
-                sqldbName: 'azureuserSqlDb',
-                sqldbParameters: {
-                    properties: {
-                        collation: 'SQL_Latin1_General_CP1_CI_AS'
-                    }
-                }
-            },
-            azure: azure,
-            provisioning_result: '{\"provisioningState\":\"Creating\"}'
-        };
-
-        cp = new cmdProvision(log, validParams);
-        cp.fixupParameters();
-    });
-
-    after(function () {
-        resourceGroupClient.checkExistence.restore();
-        resourceGroupClient.createOrUpdate.restore();
-        sqldbOps.getToken.restore();
-        sqldbOps.createDatabase.restore();
-        sqldbOps.createFirewallRule.restore();
-        sqldbOps.getServer.restore();
-        sqldbOps.createServer.restore();
-        sqldbOps.getDatabase.restore();
-    });
-
-    it('should not callback error', function (done) {
-
-        sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
-        sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, { provisioningState: 'Succeeded' });
-        sinon.stub(sqldbOps, 'getServer').yields(null, { statusCode: HttpStatus.NOT_FOUND });
-        sinon.stub(sqldbOps, 'createServer').yields(null, { statusCode: HttpStatus.OK });
-        sinon.stub(sqldbOps, 'getDatabase').yields(null, { statusCode: HttpStatus.NOT_FOUND });
-        sinon.stub(sqldbOps, 'createDatabase').yields(null, {body: {}});
-        sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-        sinon.stub(sqldbOps, 'createFirewallRule').yields(null, { statusCode: HttpStatus.OK });
-        cp.provision(sqldbOps, resourceGroupClient, function (err, result) {
-            should.not.exist(err);
-            done();
-        });
-
-    });
-});
-
-describe('SqlDb - Provision - Execution - server & Database that both previously exist', function () {
-    var validParams = {};
-    var cp;
-
-    before(function () {
-        validParams = {
-            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
-            parameters: {      // developer's input parameters file
-                resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'azureuser',
-                sqlServerCreateIfNotExist: true,
-                sqlServerParameters: {
-                    allowSqlServerFirewallRules: [{
-                        ruleName: 'new rule',
-                        startIpAddress: '0.0.0.0',
-                        endIpAddress: '255.255.255.255'
-                    }],
-                    location: 'westus',
-                    properties: {
-                        administratorLogin: 'azureuser',
-                        administratorLoginPassword: 'c1oudc0w'
-                    }
-                },
-                sqldbName: 'azureuserSqlDb',
-                sqldbParameters: {
-                    properties: {
-                        collation: 'SQL_Latin1_General_CP1_CI_AS'
-                    }
-                }
-            },
-            azure: azure,
-            provisioning_result: '{\"provisioningState\":\"Creating\"}'
-        };
-
-        cp = new cmdProvision(log, validParams);
-        cp.fixupParameters();
-    });
-
-    after(function () {
-        resourceGroupClient.checkExistence.restore();
-        resourceGroupClient.createOrUpdate.restore();
-        sqldbOps.getToken.restore();
-        sqldbOps.createFirewallRule.restore();
-        sqldbOps.getServer.restore();
-        sqldbOps.getDatabase.restore();
-    });
-
-    it('should get a conflict error', function (done) {
-
-        sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
-        sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, { provisioningState: 'Succeeded' });
-        sinon.stub(sqldbOps, 'getServer').yields(null, { statusCode: HttpStatus.NOT_FOUND });
-        sinon.stub(sqldbOps, 'createServer').yields(null, { statusCode: HttpStatus.OK });
-        sinon.stub(sqldbOps, 'getDatabase').yields(null, { statusCode: HttpStatus.OK });
-        sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-        sinon.stub(sqldbOps, 'createFirewallRule').yields(null, { statusCode: HttpStatus.OK });
-        cp.provision(sqldbOps, resourceGroupClient, function (err, result) {
-            should.exist(err);
-            (err.statusCode).should.equal(409);
-            done();
-        });
-    });
-});
-
-describe('SqlDb - Provision - Execution - Basic plan, no sql server parameters, sql server exists', function () {
-    var validParams = {};
-    var cp;
-
-    before(function () {
-        validParams = {
-            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
-            parameters: {      // developer's input parameters file
-                resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'azureuser',
-                sqldbName: 'azureuserSqlDb',
-                sqldbParameters: {
-                    properties: {
-                        collation: 'SQL_Latin1_General_CP1_CI_AS'
-                    }
-                }
-            },
-            azure: azure,
-            provisioning_result: '{\"provisioningState\":\"Creating\"}'
-        };
-
-        cp = new cmdProvision(log, validParams);
-        cp.fixupParameters();
-    });
-
-    after(function () {
-        resourceGroupClient.checkExistence.restore();
-        resourceGroupClient.createOrUpdate.restore();
-        sqldbOps.getToken.restore();
-        sqldbOps.createDatabase.restore();
-        sqldbOps.getServer.restore();
-    });
-
-    it('should not callback error', function (done) {
-
-        sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
-        sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, { provisioningState: 'Succeeded' });
-        sinon.stub(sqldbOps, 'createDatabase').yields(null, {body: {}});
-        sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-        sinon.stub(sqldbOps, 'getServer').yields(null, { statusCode: HttpStatus.OK });
-        cp.provision(sqldbOps, resourceGroupClient, function (err, result) {
-            should.not.exist(err);
-            done();
-        });
-
-    });
-});
-
-describe('SqlDb - Provision - Execution - StandardS0 plan, no sql server parameters, sql server exists', function () {
-    var validParams = {};
-    var cp;
-
-    before(function () {
-        validParams = {
-            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-            plan_id: "2497b7f3-341b-4ac6-82fb-d4a48c005e19",
-            parameters: {      // developer's input parameters file
-                resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'azureuser',
-                sqldbName: 'azureuserSqlDb',
-                sqldbParameters: {
-                    properties: {
-                        collation: 'SQL_Latin1_General_CP1_CI_AS'
-                    }
-                }
-            },
-            azure: azure,
-            provisioning_result: '{\"provisioningState\":\"Creating\"}'
-        };
-
-        cp = new cmdProvision(log, validParams);
-        cp.fixupParameters();
-    });
-
-    after(function () {
-        resourceGroupClient.checkExistence.restore();
-        resourceGroupClient.createOrUpdate.restore();
-        sqldbOps.getToken.restore();
-        sqldbOps.createDatabase.restore();
-        sqldbOps.getServer.restore();
-    });
-
-    it('should not callback error', function (done) {
-
-        sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
-        sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, { provisioningState: 'Succeeded' });
-        sinon.stub(sqldbOps, 'createDatabase').yields(null, {body: {}});
-        sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-        sinon.stub(sqldbOps, 'getServer').yields(null, { statusCode: HttpStatus.OK });
-        cp.provision(sqldbOps, resourceGroupClient, function (err, result) {
-            should.not.exist(err);
-            done();
-        });
-
-    });
-});
-
-describe('SqlDb - Provision - Firewall rules', function () {
-    var validParams = {};
-    var cp;
-
-    describe('Parameter validation should succeed if ...', function () {
+    describe('a depreciated parameter "sqlServerCreateIfNotExist" is provided', function () {
         before(function () {
-            validParams = {
+            params = {
                 instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
                 plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'sqldbResourceGroup',
                     sqlServerName: 'azureuser',
                     sqlServerCreateIfNotExist: true,
+                    sqlServerParameters: {
+                        location: 'westus',
+                        properties: {
+                            administratorLogin: 'azureuser',
+                            administratorLoginPassword: 'c1oudc0w'
+                        },
+                        tags: {
+                            foo: 'bar'
+                        }
+                    },
+                    sqldbName: 'azureuserSqlDb',
+                    sqldbParameters: {
+                        properties: {
+                            collation: 'SQL_Latin1_General_CP1_CI_AS'
+                        },
+                        tags: {
+                            foo: 'bar'
+                        }
+                    }
+                },
+                azure: azure
+            };
+            cp = new cmdProvision(log, params);
+            cp.fixupParameters();
+        });
+
+        it('should fail to validate the parameters', function (done) {
+            (cp.allValidatorsSucceed()).should.equal(false);
+            done();
+        });
+    });
+
+    describe('parameters file is not provided', function () {
+
+        before(function () {
+            params = {
+                plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+                instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
+                azure: azure
+            };
+            cp = new cmdProvision(log, params);
+        });
+
+        it('should fail to validate the parameters', function (done) {
+            (cp.allValidatorsSucceed()).should.equal(false);
+            done();
+        });
+    });
+});
+
+describe('SqlDb - Provision - Execution', function () {
+    var params = {};
+    var cp;
+
+    before(function () {
+        params = {
+            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
+            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+            parameters: {      // developer's input parameters file
+                resourceGroup: 'fake-resource-group-name',
+                sqlServerName: 'fake-server-name',
+                sqlServerParameters: {
+                    allowSqlServerFirewallRules: [{
+                        ruleName: 'new rule',
+                        startIpAddress: '0.0.0.0',
+                        endIpAddress: '255.255.255.255'
+                    }],
+                    location: 'westus',
+                    properties: {
+                        administratorLogin: 'azureuser',
+                        administratorLoginPassword: 'c1oudc0w'
+                    }
+                },
+                sqldbName: 'fake-db-name',
+                sqldbParameters: {
+                    properties: {
+                        collation: 'SQL_Latin1_General_CP1_CI_AS'
+                    }
+                }
+            },
+            azure: azure
+        };
+
+        cp = new cmdProvision(log, params);
+        cp.fixupParameters();
+    });
+
+    describe('Server & Database that does not previously exist', function() {
+
+        before(function () {
+            sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
+            sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
+            sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, { provisioningState: 'Succeeded' });
+            sinon.stub(sqldbOps, 'getServer').yields(null, { statusCode: HttpStatus.NOT_FOUND });
+            sinon.stub(sqldbOps, 'createServer').yields(null, {
+                statusCode: HttpStatus.OK,
+                body: {
+                    properties: {
+                        fullyQualifiedDomainName: 'fake-fqdn'
+                    }
+                }
+            });
+            sinon.stub(sqldbOps, 'createFirewallRule').yields(null, { statusCode: HttpStatus.OK });
+            sinon.stub(sqldbOps, 'getDatabase').yields(null, { statusCode: HttpStatus.NOT_FOUND });
+            sinon.stub(sqldbOps, 'createDatabase').yields(null, {body: {}});
+        });
+    
+        after(function () {
+            sqldbOps.getToken.restore();
+            resourceGroupClient.checkExistence.restore();
+            resourceGroupClient.createOrUpdate.restore();
+            sqldbOps.getServer.restore();
+            sqldbOps.createServer.restore();
+            sqldbOps.createFirewallRule.restore();
+            sqldbOps.getDatabase.restore();
+            sqldbOps.createDatabase.restore();
+        });
+    
+        it('should not callback error', function (done) {
+            cp.provision(sqldbOps, resourceGroupClient, function (err, result) {
+                should.not.exist(err);
+                done();
+            });
+        });
+    });
+
+    describe('Sql server exists, but sql database does not exist', function () {
+    
+        before(function () {
+            sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
+            sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
+            sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, { provisioningState: 'Succeeded' });
+            sinon.stub(sqldbOps, 'getServer').yields(null, {
+                statusCode: HttpStatus.OK,
+                body: {
+                    properties: {
+                        fullyQualifiedDomainName: 'fake-fqdn'
+                    }
+                }
+            });
+            sinon.stub(sqldbOps, 'createFirewallRule').yields(null, { statusCode: HttpStatus.OK });
+            sinon.stub(sqldbOps, 'getDatabase').yields(null, { statusCode: HttpStatus.NOT_FOUND });
+            sinon.stub(sqldbOps, 'createDatabase').yields(null, {body: {}});
+        });
+    
+        after(function () {
+            sqldbOps.getToken.restore();
+            resourceGroupClient.checkExistence.restore();
+            resourceGroupClient.createOrUpdate.restore();
+            sqldbOps.getServer.restore();
+            sqldbOps.createFirewallRule.restore();
+            sqldbOps.getDatabase.restore();
+            sqldbOps.createDatabase.restore();
+        });
+    
+        it('should not callback error', function (done) {
+    
+            cp.provision(sqldbOps, resourceGroupClient, function (err, result) {
+                should.not.exist(err);
+                done();
+            });
+    
+        });
+    });
+
+});
+
+describe('SqlDb - Provision - Firewall rules', function () {
+    var params = {};
+    var cp;
+
+    describe('Parameter validation should succeed if ...', function () {
+        before(function () {
+            params = {
+                instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
+                plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+                parameters: {      // developer's input parameters file
+                    resourceGroup: 'sqldbResourceGroup',
+                    sqlServerName: 'azureuser',
                     sqlServerParameters: {
                         allowSqlServerFirewallRules: [{
                             ruleName: 'new rule',
@@ -432,7 +275,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 },
                 azure: azure
             };
-            cp = new cmdProvision(log, validParams);
+            cp = new cmdProvision(log, params);
             cp.fixupParameters();
         });
 
@@ -450,7 +293,6 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'sqldbResourceGroup',
                     sqlServerName: 'azureuser',
-                    sqlServerCreateIfNotExist: true,
                     sqlServerParameters: {
                         location: 'westus',
                         properties: {
