@@ -37,20 +37,19 @@
   {
     "resourceGroup": "<resource-group>",: "<resource-group>", // [Required] Unique. Only allow up to 90 characters
     "location": "<azure-region-name>",         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
-    "sqlServerName": "<sql-server-name>",      // [Required] Unique. Servername cannot be empty or null. It can only be made up of lowercase letters 'a'-'z', the numbers 0-9 and the hyphen. The hyphen may not lead or trail in the name.
+    "sqlServerName": "<sql-server-name>",      // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
     "sqlServerParameters": {
-        "allowSqlServerFirewallRules": [       // [Optional] Support mutiple rules. If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
+        "allowSqlServerFirewallRules": [        // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
             {
-                "ruleName": "<rule-name>",
+                "ruleName": "<rule-name-1>",
                 "startIpAddress": "xx.xx.xx.xx",
                 "endIpAddress": "xx.xx.xx.xx"
             },
             {
-                "ruleName": "<rule-name>",
+                "ruleName": "<rule-name-1>",
                 "startIpAddress": "xx.xx.xx.xx",
                 "endIpAddress": "xx.xx.xx.xx"
-            },
-            ...
+            }
         ],
         "properties": {
             "administratorLogin": "<sql-server-admin-name>",
@@ -83,14 +82,14 @@
         "allowSqlServerFirewallRules": [
             {
                 "ruleName": "rule0",
-                "startIpAddress": "10.10.10.0",
-                "endIpAddress": "10.10.10.10"
+                "startIpAddress": "1.1.1.1",
+                "endIpAddress": "1.1.1.10"
             },
             {
                 "ruleName": "rule1",
-                "startIpAddress": "100.100.100.0",
-                "endIpAddress": "100.100.100.100"
-            }
+                "startIpAddress": "2.2.2.2",
+                "endIpAddress": "2.2.2.20"
+            },
         ],
         "properties": {
             "administratorLogin": "myusername",
@@ -106,14 +105,19 @@
   }
   ```
 
->**NOTE:** To see a list of collation values valid for use with Azure SQL Database, use this query:
+**NOTE:**
 
-SELECT name, description
-FROM fn_helpCollations()
+  * If the SQL server which you specify doesn't exist, the broker will create it. If it exists, the broker will re-use it and create database in it.
 
->**NOTE:** If you want to set more child parameters in sqldbParameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+  * To see a list of collation values valid for use with Azure SQL Database, use this query:
 
->**NOTE:** Please remove the comments in the JSON file before you use it.
+    ```
+    SELECT name, description FROM fn_helpCollations()
+    ```
+
+  * If you want to set more child parameters in sqldbParameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+
+  * Please remove the comments in the JSON file before you use it.
 
 3. Check the operation status of creating the service instance
 
@@ -178,6 +182,8 @@ FROM fn_helpCollations()
   ```
 
 ## Delete the service instance
+
+  **The broker only deletes the SQL database on Azure, and don't delete the SQL server.**
 
   ```
   cf delete-service $service_instance_name -f
