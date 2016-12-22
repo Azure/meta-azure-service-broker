@@ -209,11 +209,7 @@ describe('SqlDb - Provision - Execution', function () {
             sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, { provisioningState: 'Succeeded' });
             sinon.stub(sqldbOps, 'getServer').yields(null, {
                 statusCode: HttpStatus.OK,
-                body: {
-                    properties: {
-                        fullyQualifiedDomainName: 'fake-fqdn'
-                    }
-                }
+                body: '{"properties": { "fullyQualifiedDomainName": "fake-fqdn"}}'
             });
             sinon.stub(sqldbOps, 'createFirewallRule').yields(null, { statusCode: HttpStatus.OK });
             sinon.stub(sqldbOps, 'getDatabase').yields(null, { statusCode: HttpStatus.NOT_FOUND });
@@ -227,7 +223,6 @@ describe('SqlDb - Provision - Execution', function () {
             sqldbOps.getServer.restore();
             sqldbOps.createFirewallRule.restore();
             sqldbOps.getDatabase.restore();
-            sqldbOps.createDatabase.restore();
         });
     
         it('should not callback error', function (done) {
