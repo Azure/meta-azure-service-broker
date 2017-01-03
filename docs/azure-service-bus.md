@@ -2,6 +2,32 @@
 
 [Azure Service Bus](https://azure.microsoft.com/en-us/services/service-bus/) keep apps and devices connected across private and public clouds. This broker currently publishes a single service and plan for provisioning Azure Service Bus Service.
 
+## Behaviors
+
+### Provision
+  
+  1. Create a Namespace.
+  
+### Provision-Poll
+  
+  1. Check whether creating the Namespace succeeds or not.
+  
+### Bind
+
+  1. Collect credentials.
+
+### Unbind
+
+  Do nothing.
+  
+### Deprovision
+
+  1. Delete the Namespace.
+
+### Deprovision-Poll
+
+  1. Check whether deleting the Namespace succeeds or not.
+  
 ## Create an Azure service bus service
 
 1. Get the service name and plans

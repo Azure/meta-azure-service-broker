@@ -2,6 +2,32 @@
 
 [Azure Redis Cache](https://azure.microsoft.com/en-us/services/cache/) is based on the popular open-source Redis cache. It gives you access to a secure, dedicated Redis cache, managed by Microsoft and accessible from any application within Azure. This broker currently publishes a single service and plan for provisioning Azure Redis Cache.
 
+## Behaviors
+
+### Provision
+  
+  1. Create a Redis Cache.
+  
+### Provision-Poll
+  
+  1. Check whether creating the Redis Cache succeeds or not.
+  
+### Bind
+
+  1. Collect credentials.
+
+### Unbind
+
+  Do nothing.
+  
+### Deprovision
+
+  1. Delete the Redis Cache.
+
+### Deprovision-Poll
+
+  1. Check whether deleting the Redis Cache succeeds or not.
+  
 ## Create an Azure Redis Cache service
 
 1. Get the service name and plans

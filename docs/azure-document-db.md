@@ -2,6 +2,34 @@
 
 [Azure DocumentDB](https://azure.microsoft.com/en-us/services/documentdb/) is a NoSQL document database service designed from the ground up to natively support JSON and JavaScript directly inside the database engine.
 
+## Behaviors
+
+### Provision
+  
+  1. Create a DocumentDB account.
+  
+### Provision-Poll
+  
+  1. Check whether creating the DocumentDB account succeeds or not. If yes then go to 2, else retry 1.
+  
+  2. Create a database.
+  
+### Bind
+
+  1. Collect credentials.
+
+### Unbind
+
+  Do nothing.
+  
+### Deprovision
+
+  1. Delete the DocumentDB account.
+
+### Deprovision-Poll
+
+  1. Check whether deleting the DocumentDB account succeeds or not.
+  
 ## Create an Azure DocumentDB service
 
 1. Get the service name and plans

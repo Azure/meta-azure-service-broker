@@ -2,6 +2,52 @@
 
 [Azure SQL Database](https://azure.microsoft.com/en-us/documentation/articles/sql-database-technical-overview/) is a relational database service in the cloud based on the market-leading Microsoft SQL Server engine, with mission-critical capabilities.
 
+## Behaviors
+
+### Provision
+  
+  1. If the server doesn't exist, create a SQL Server.
+  
+  2. Create a database.
+  
+### Provision-Poll
+  
+  1. Check whether creating database succeeds or not.
+  
+### Bind
+
+  1. Try to login to the master database of the server to create a new Login. If succeeded then go to 3, else go to 2.
+  
+  2. Add a temporary firwall rule to allow service broker to access the server.
+  
+  3. Try to login to the new-created database of the server to create a new user for the Login with the name.
+  
+  4. Delete the temporary firewall rule.
+  
+  5. Collect credentials.
+  
+  ** NOTE **: The firewall rule needs to be deleted manually if Bind fails. The rule name should be 'broker-temp-rule-<sqldbName>'.
+
+### Unbind
+
+  1. Try to login to the new-created database of the server to drop the user for the Login. If succeeded then go to 3, else go to 2.
+  
+  2. Add a temporary firwall rule to allow service broker to access the server.
+  
+  3. Try to login to the master database of the server to drop the Login.
+  
+  4. Delete the temporary firewall rule.
+  
+  ** NOTE **: The firewall rule needs to be deleted manually if Unbind fails. The rule name should be 'broker-temp-rule-<sqldbName>'.
+  
+### Deprovision
+
+  1. Delete the database.
+
+### Deprovision-Poll
+
+  1. Check whether deleting database succeeds or not.
+
 ## Create an Azure SQL Database service
 
 1. Get the service name and plans
@@ -59,7 +105,7 @@
     "sqldbName": "<sql-database-name>",                         // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
     "sqldbParameters": {                                        // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
         "databaseLogin": "<sql-database-user-name>",            // [Optional] The broker will generate if not present.
-        "databaseLoginPassword": "<sql-database-user-password>",// [Optional] The broker will generate if not present. Recommend not to present. Please check Microsoft SQL Server Strong Password Requirements if you want to set it yourself: https://support.microsoft.com/en-us/kb/965823
+        "databaseLoginPassword": "<sql-database-user-password>",// [Optional] The broker will generate if not present. Recommend not to provide. Please check Microsoft SQL Server Strong Password Requirements if you want to set it yourself: https://support.microsoft.com/en-us/kb/965823
         "properties": {
             "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
         }
@@ -166,7 +212,9 @@
     "databaseLogin": "ulrich",
     "databaseLoginPassword": "u1r8chP@ss",
     "sqlServerName": "sqlservera",
-    "sqldbName": "sqlDbA"
+    "sqldbName": "sqlDbA",
+    "jdbcUrl": "jdbc:sqlserver://fake-server.database.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password",
+    
   }
 
   ```
