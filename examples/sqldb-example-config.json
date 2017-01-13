@@ -23,8 +23,6 @@
   },
   "sqldbName": "<sql-database-name>",                         // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
   "sqldbParameters": {                                        // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
-      "databaseLogin": "<sql-database-user-name>",            // [Optional] The broker will generate if not present.
-      "databaseLoginPassword": "<sql-database-user-password>",// [Optional] The broker will generate if not present. Recommend not to provide. Please check Microsoft SQL Server Strong Password Requirements if you want to set it yourself: https://support.microsoft.com/en-us/kb/965823
       "properties": {
           "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
       }

@@ -54,7 +54,13 @@ describe('SqlDb - Provision - PreConditions', function () {
                         }
                     }
                 },
-                azure: azure
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'allowToCreateSqlServer': true
+                    }
+                },
+                accountPool:{sql:{}}
             };
             cp = new cmdProvision(log, params);
             cp.fixupParameters();
@@ -95,7 +101,13 @@ describe('SqlDb - Provision - PreConditions', function () {
                         }
                     }
                 },
-                azure: azure
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'allowToCreateSqlServer': true
+                    }
+                },
+                accountPool:{sql:{}}
             };
             cp = new cmdProvision(log, params);
             cp.fixupParameters();
@@ -113,7 +125,14 @@ describe('SqlDb - Provision - PreConditions', function () {
             params = {
                 plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
                 instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-                azure: azure
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'isAllowedToCreateSqlServer': true,
+                        'isAllowedToConfigureFirewallRules': true
+                    }
+                },
+                accountPool:{sql:{}}
             };
             cp = new cmdProvision(log, params);
         });
@@ -155,7 +174,13 @@ describe('SqlDb - Provision - Execution', function () {
                     }
                 }
             },
-            azure: azure
+            azure: azure,
+            privilege: {
+                'sqldb': {
+                    'allowToCreateSqlServer': true
+                }
+            },
+            accountPool:{sql:{}}
         };
 
         cp = new cmdProvision(log, params);
@@ -268,7 +293,14 @@ describe('SqlDb - Provision - Firewall rules', function () {
                         }
                     }
                 },
-                azure: azure
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'isAllowedToCreateSqlServer': true,
+                        'isAllowedToConfigureFirewallRules': true
+                    }
+                },
+                accountPool:{sql:{}}
             };
             cp = new cmdProvision(log, params);
             cp.fixupParameters();
@@ -302,7 +334,14 @@ describe('SqlDb - Provision - Firewall rules', function () {
                         }
                     }
                 },
-                azure: azure
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'isAllowedToCreateSqlServer': true,
+                        'isAllowedToConfigureFirewallRules': true
+                    }
+                },
+                accountPool:{sql:{}}
             };
         });
 

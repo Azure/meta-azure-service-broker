@@ -69,7 +69,7 @@ describe('SqlDb - bind', function () {
     describe('', function () {
         sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
         sinon.stub(sqldbOps, 'executeSql').yields(null);
-        it('should not exist error', function (done) {
+        it('should not callback error', function (done) {
             cb.bind(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 should.exist(result.databaseLogin);

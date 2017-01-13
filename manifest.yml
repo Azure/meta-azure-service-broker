@@ -17,3 +17,17 @@ applications:
     AZURE_BROKER_DATABASE_PASSWORD: REPLACE-ME
     AZURE_BROKER_DATABASE_NAME: REPLACE-ME
     AZURE_BROKER_DATABASE_ENCRYPTION_KEY: REPLACE-ME
+    
+    AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER: true | false
+    AZURE_SQLDB_SQL_SERVER_POOL: '[
+      {
+        "sqlServerName": "REPLACE-ME",
+        "administratorLogin": "REPLACE-ME",
+        "administratorLoginPassword": "REPLACE-ME"
+      },
+      {
+        "sqlServerName": "REPLACE-ME",
+        "administratorLogin": "REPLACE-ME",
+        "administratorLoginPassword": "REPLACE-ME"
+      }
+    ]'

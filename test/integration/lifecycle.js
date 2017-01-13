@@ -23,7 +23,7 @@ var lifecycle = function(service) {
   var bindingParameters = service.bindingParameters;
   var credentials = service.credentials;
   var e2e = service.e2e;
-
+  
   describe(serviceName, function() {
     describe('Provisioning', function() {
       it('should return 422 if accepts_incomplete is not set to true', function(done) {
