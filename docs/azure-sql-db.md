@@ -84,7 +84,7 @@
     "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
     "location": "<azure-region-name>",          // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
     "sqlServerName": "<sql-server-name>",       // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
-    "sqlServerParameters": {
+    "sqlServerParameters": {                    // Remove this block if using existing server
         "allowSqlServerFirewallRules": [        // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
             {
                 "ruleName": "<rule-name-1>",
@@ -153,7 +153,7 @@
 
 **NOTE:**
 
-  * If the SQL server which you specify doesn't exist, the broker will create it. If it exists, the broker will re-use it and create database in it.
+  * If the SQL server which you specify doesn't exist, the broker will check the priviledge of creating server set in broker manifest. A new server will be created if allowed.
 
   * To see a list of collation values valid for use with Azure SQL Database, use this query:
 
