@@ -54,7 +54,13 @@ describe('SqlDb - Provision - PreConditions', function () {
                         }
                     }
                 },
-                azure: azure
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'allowToCreateSqlServer': true
+                    }
+                },
+                accountPool:{sql:{}}
             };
             cp = new cmdProvision(log, params);
             cp.fixupParameters();
@@ -95,7 +101,13 @@ describe('SqlDb - Provision - PreConditions', function () {
                         }
                     }
                 },
-                azure: azure
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'allowToCreateSqlServer': true
+                    }
+                },
+                accountPool:{sql:{}}
             };
             cp = new cmdProvision(log, params);
             cp.fixupParameters();
@@ -113,7 +125,14 @@ describe('SqlDb - Provision - PreConditions', function () {
             params = {
                 plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
                 instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-                azure: azure
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'isAllowedToCreateSqlServer': true,
+                        'isAllowedToConfigureFirewallRules': true
+                    }
+                },
+                accountPool:{sql:{}}
             };
             cp = new cmdProvision(log, params);
         });
@@ -155,7 +174,13 @@ describe('SqlDb - Provision - Execution', function () {
                     }
                 }
             },
-            azure: azure
+            azure: azure,
+            privilege: {
+                'sqldb': {
+                    'allowToCreateSqlServer': true
+                }
+            },
+            accountPool:{sql:{}}
         };
 
         cp = new cmdProvision(log, params);
@@ -209,11 +234,7 @@ describe('SqlDb - Provision - Execution', function () {
             sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, { provisioningState: 'Succeeded' });
             sinon.stub(sqldbOps, 'getServer').yields(null, {
                 statusCode: HttpStatus.OK,
-                body: {
-                    properties: {
-                        fullyQualifiedDomainName: 'fake-fqdn'
-                    }
-                }
+                body: '{"properties": { "fullyQualifiedDomainName": "fake-fqdn"}}'
             });
             sinon.stub(sqldbOps, 'createFirewallRule').yields(null, { statusCode: HttpStatus.OK });
             sinon.stub(sqldbOps, 'getDatabase').yields(null, { statusCode: HttpStatus.NOT_FOUND });
@@ -227,7 +248,6 @@ describe('SqlDb - Provision - Execution', function () {
             sqldbOps.getServer.restore();
             sqldbOps.createFirewallRule.restore();
             sqldbOps.getDatabase.restore();
-            sqldbOps.createDatabase.restore();
         });
     
         it('should not callback error', function (done) {
@@ -273,7 +293,14 @@ describe('SqlDb - Provision - Firewall rules', function () {
                         }
                     }
                 },
-                azure: azure
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'isAllowedToCreateSqlServer': true,
+                        'isAllowedToConfigureFirewallRules': true
+                    }
+                },
+                accountPool:{sql:{}}
             };
             cp = new cmdProvision(log, params);
             cp.fixupParameters();
@@ -307,7 +334,14 @@ describe('SqlDb - Provision - Firewall rules', function () {
                         }
                     }
                 },
-                azure: azure
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'isAllowedToCreateSqlServer': true,
+                        'isAllowedToConfigureFirewallRules': true
+                    }
+                },
+                accountPool:{sql:{}}
             };
         });
 

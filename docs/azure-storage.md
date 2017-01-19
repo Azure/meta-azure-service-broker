@@ -2,6 +2,32 @@
 
 [Azure Storage Service](https://azure.microsoft.com/en-us/services/storage/) offers reliable, economical cloud storage for data big and small. This broker currently publishes a single service and plan for provisioning Azure Storage Service.
 
+## Behaviors
+
+### Provision
+  
+  1. Create a Storage Account.
+  
+### Provision-Poll
+  
+  1. Check whether creating the Storage Account succeeds or not.
+  
+### Bind
+
+  1. Collect credentials.
+
+### Unbind
+  
+  Do nothing.
+  
+### Deprovision
+
+  1. Delete the Storage Account.
+
+### Deprovision-Poll
+
+  1. Check whether deleting the Storage Account succeeds or not.
+  
 ## Create an Azure storage service
 
 1. Get the service name and plans

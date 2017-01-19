@@ -10,8 +10,8 @@ module.exports = function(environment) {
     var Connection = require('tedious').Connection;
     var serverSuffix = supportedEnvironments[environment]['sqlServerEndpointSuffix'];
     var config = {  
-      userName: credential.administratorLogin,
-      password: credential.administratorLoginPassword,
+      userName: credential.databaseLogin,
+      password: credential.databaseLoginPassword,
       server: credential.sqlServerName + serverSuffix,
       options: {encrypt: true, database: credential.sqldbName}
     };

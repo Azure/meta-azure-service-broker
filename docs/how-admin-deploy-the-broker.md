@@ -158,7 +158,27 @@
     AZURE_BROKER_DATABASE_NAME: <database-name>
     AZURE_BROKER_DATABASE_ENCRYPTION_KEY: <encryption-key-with-32-length>
     ```
+    
+  * Modules related configurations
 
+    Only SQL database service has the configurations for now. The default value of `AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER` is `true`. `AZURE_SQLDB_SQL_SERVER_POOL` is an array of SQL server credentials. Each element in the array should contain all the three parameters: sqlServerName, administratorLogin and administratorLoginPassword.
+
+    ```
+    AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER: true | false
+    AZURE_SQLDB_SQL_SERVER_POOL: '[
+      {
+        "sqlServerName": "REPLACE-ME",
+        "administratorLogin": "REPLACE-ME",
+        "administratorLoginPassword": "REPLACE-ME"
+      },
+      {
+        "sqlServerName": "REPLACE-ME",
+        "administratorLogin": "REPLACE-ME",
+        "administratorLoginPassword": "REPLACE-ME"
+      }
+    ]'
+    ```
+    
 3. Push the broker to Cloud Foundry
 
   ```

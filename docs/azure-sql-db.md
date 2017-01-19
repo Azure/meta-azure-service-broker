@@ -2,6 +2,52 @@
 
 [Azure SQL Database](https://azure.microsoft.com/en-us/documentation/articles/sql-database-technical-overview/) is a relational database service in the cloud based on the market-leading Microsoft SQL Server engine, with mission-critical capabilities.
 
+## Behaviors
+
+### Provision
+  
+  1. If the server doesn't exist, create a SQL Server.
+  
+  2. Create a database.
+  
+### Provision-Poll
+  
+  1. Check whether creating database succeeds or not.
+  
+### Bind
+
+  1. Try to login to the master database of the server to create a new Login. If succeeded then go to 3, else go to 2.
+  
+  2. Add a temporary firwall rule to allow service broker to access the server.
+  
+  3. Try to login to the new-created database of the server to create a new user for the Login with the name.
+  
+  4. Delete the temporary firewall rule.
+  
+  5. Collect credentials.
+  
+  ** NOTE **: The firewall rule needs to be deleted manually if Bind fails. The rule name should be 'broker-temp-rule-<sqldbName>'.
+
+### Unbind
+
+  1. Try to login to the new-created database of the server to drop the user for the Login. If succeeded then go to 3, else go to 2.
+  
+  2. Add a temporary firwall rule to allow service broker to access the server.
+  
+  3. Try to login to the master database of the server to drop the Login.
+  
+  4. Delete the temporary firewall rule.
+  
+  ** NOTE **: The firewall rule needs to be deleted manually if Unbind fails. The rule name should be 'broker-temp-rule-<sqldbName>'.
+  
+### Deprovision
+
+  1. Delete the database.
+
+### Deprovision-Poll
+
+  1. Check whether deleting database succeeds or not.
+
 ## Create an Azure SQL Database service
 
 1. Get the service name and plans
@@ -35,10 +81,10 @@
 
   ```
   {
-    "resourceGroup": "<resource-group>",       // [Required] Unique. Only allow up to 90 characters
-    "location": "<azure-region-name>",         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
-    "sqlServerName": "<sql-server-name>",      // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
-    "sqlServerParameters": {
+    "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
+    "location": "<azure-region-name>",          // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
+    "sqlServerName": "<sql-server-name>",       // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+    "sqlServerParameters": {                    // Remove this block if using existing server
         "allowSqlServerFirewallRules": [        // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
             {
                 "ruleName": "<rule-name-1>",
@@ -56,8 +102,8 @@
             "administratorLoginPassword": "<sql-server-admin-password>"
         }
     },
-    "sqldbName": "<sql-database-name>",    // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
-    "sqldbParameters": {                   // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+    "sqldbName": "<sql-database-name>",                         // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
+    "sqldbParameters": {                                        // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
         "properties": {
             "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
         }
@@ -107,7 +153,7 @@
 
 **NOTE:**
 
-  * If the SQL server which you specify doesn't exist, the broker will create it. If it exists, the broker will re-use it and create database in it.
+  * If the SQL server which you specify doesn't exist, the broker will check the priviledge of creating server set in broker manifest. A new server will be created if allowed.
 
   * To see a list of collation values valid for use with Azure SQL Database, use this query:
 
@@ -161,10 +207,12 @@
 
   ```
   "credentials": {
-    "administratorLogin": "ulrich",
-    "administratorLoginPassword": "u1r8chP@ss",
+    "databaseLogin": "ulrich",
+    "databaseLoginPassword": "u1r8chP@ss",
     "sqlServerName": "sqlservera",
-    "sqldbName": "sqlDbA"
+    "sqldbName": "sqlDbA",
+    "jdbcUrl": "jdbc:sqlserver://fake-server.database.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password",
+    
   }
 
   ```

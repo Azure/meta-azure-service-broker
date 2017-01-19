@@ -22,7 +22,8 @@ var lifecycle = function(service) {
   var provisioningParameters = service.provisioningParameters;
   var bindingParameters = service.bindingParameters;
   var credentials = service.credentials;
-
+  var e2e = service.e2e;
+  
   describe(serviceName, function() {
     describe('Provisioning', function() {
       it('should return 422 if accepts_incomplete is not set to true', function(done) {
@@ -147,16 +148,18 @@ var lifecycle = function(service) {
                   res.body.credentials.should.have.property(key, value);
                 }
               }); 
-              client = clients[serviceName];
-              if(client) {
-                client.validateCredential(actualCredentials, function(result) {
-                  result.should.equal(statusCode.PASS);
+              if (e2e) {
+                client = clients[serviceName];
+                if(client) {
+                  client.validateCredential(actualCredentials, function(result) {
+                    result.should.equal(statusCode.PASS);
+                    done();
+                  });
+                } else {
+                  console.warn("E2E tests for %s are skipped because the client to validate credentials is not implemented.", serviceName);
                   done();
-                });
-              } else {
-                console.warn("E2E tests for %s are skipped because the client to validate credentials is not implemented.", serviceName);
-                done();
-              }
+                }
+              } else done();
             });
         }, 10000);
       });
