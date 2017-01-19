@@ -204,7 +204,7 @@
   ```
 
   The credentials have the following format:
-  
+
   ```
   "credentials": {
     "databaseLogin": "ulrich",
