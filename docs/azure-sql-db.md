@@ -22,12 +22,15 @@
   
   3. Try to login to the new-created database of the server to create a new user for the Login with the name.
   
-  4. Delete the temporary firewall rule.
+  4. Grant permission "CONTROL" to the user.
   
-  5. Collect credentials.
+  5. Delete the temporary firewall rule.
   
-  ** NOTE **: The firewall rule needs to be deleted manually if Bind fails. The rule name should be 'broker-temp-rule-<sqldbName>'.
-
+  6. Collect credentials.
+  
+  **NOTE**: 1. The firewall rule needs to be deleted manually if Bind fails. The rule name should be 'broker-temp-rule-<sqldbName>'.
+            2. Permission "CONTROL" in a database: https://msdn.microsoft.com/en-us/library/ms178569.aspx
+  
 ### Unbind
 
   1. Try to login to the new-created database of the server to drop the user for the Login. If succeeded then go to 3, else go to 2.
@@ -38,7 +41,7 @@
   
   4. Delete the temporary firewall rule.
   
-  ** NOTE **: The firewall rule needs to be deleted manually if Unbind fails. The rule name should be 'broker-temp-rule-<sqldbName>'.
+  **NOTE**: The firewall rule needs to be deleted manually if Unbind fails. The rule name should be 'broker-temp-rule-<sqldbName>'.
   
 ### Deprovision
 
