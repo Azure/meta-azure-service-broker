@@ -60,7 +60,7 @@ describe('SqlDb - Provision - PreConditions', function () {
                         'allowToCreateSqlServer': true
                     }
                 },
-                accountPool:{sql:{}}
+                accountPool:{'sqldb':{}}
             };
             cp = new cmdProvision(log, params);
             cp.fixupParameters();
@@ -144,7 +144,7 @@ describe('SqlDb - Provision - PreConditions', function () {
     });
 });
 
-describe('SqlDb - Provision - Execution', function () {
+describe('SqlDb - Provision - Execution (allow to create server)', function () {
     var params = {};
     var cp;
 
@@ -180,7 +180,7 @@ describe('SqlDb - Provision - Execution', function () {
                     'allowToCreateSqlServer': true
                 }
             },
-            accountPool:{sql:{}}
+            accountPool:{'sqldb':{}}
         };
 
         cp = new cmdProvision(log, params);
@@ -221,6 +221,10 @@ describe('SqlDb - Provision - Execution', function () {
         it('should not callback error', function (done) {
             cp.provision(sqldbOps, resourceGroupClient, function (err, result) {
                 should.not.exist(err);
+                should.exist(result.body.sqlServerName);
+                should.exist(result.body.fullyQualifiedDomainName);
+                should.exist(result.body.administratorLogin);
+                should.exist(result.body.administratorLoginPassword);
                 done();
             });
         });
@@ -248,12 +252,111 @@ describe('SqlDb - Provision - Execution', function () {
             sqldbOps.getServer.restore();
             sqldbOps.createFirewallRule.restore();
             sqldbOps.getDatabase.restore();
+            sqldbOps.createDatabase.restore();
         });
     
         it('should not callback error', function (done) {
     
             cp.provision(sqldbOps, resourceGroupClient, function (err, result) {
                 should.not.exist(err);
+                should.exist(result.body.sqlServerName);
+                should.exist(result.body.fullyQualifiedDomainName);
+                should.exist(result.body.administratorLogin);
+                should.exist(result.body.administratorLoginPassword);
+                done();
+            });
+    
+        });
+    });
+
+});
+
+describe('SqlDb - Provision - Execution (not allow to create server)', function () {
+    var params = {};
+    var cp;
+
+    before(function () {
+        params = {
+            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
+            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+            parameters: {      // developer's input parameters file
+                resourceGroup: 'fake-resource-group-name',
+                sqlServerName: 'fake-server-name',
+                sqldbName: 'fake-db-name',
+                sqldbParameters: {
+                    properties: {
+                        collation: 'SQL_Latin1_General_CP1_CI_AS'
+                    }
+                }
+            },
+            azure: azure,
+            privilege: {
+                'sqldb': {
+                    'allowToCreateSqlServer': false
+                }
+            },
+            accountPool:{
+                'sqldb': {
+                    'fake-server-name': {
+                        administratorLogin: 'azureuser',
+                        administratorLoginPassword: 'c1oudc0w'
+                    }
+                }
+            }
+        };
+
+        cp = new cmdProvision(log, params);
+        cp.fixupParameters();
+    });
+
+    describe('Server & Database that does not previously exist', function() {
+
+        before(function () {
+            sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
+            sinon.stub(sqldbOps, 'getServer').yields(null, { statusCode: HttpStatus.NOT_FOUND });
+        });
+    
+        after(function () {
+            sqldbOps.getToken.restore();
+            sqldbOps.getServer.restore();
+        });
+    
+        it('should callback error that server not exist', function (done) {
+            cp.provision(sqldbOps, resourceGroupClient, function (err, result) {
+                should.exist(err);
+                err.message.should.equal('The specified server does not exist but you do not have the privilege to create a new server.');
+                done();
+            });
+        });
+    });
+
+    describe('Sql server exists, but sql database does not exist', function () {
+    
+        before(function () {
+            sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
+            sinon.stub(sqldbOps, 'getServer').yields(null, {
+                statusCode: HttpStatus.OK,
+                body: '{"properties": { "fullyQualifiedDomainName": "fake-fqdn"}}'
+            });
+            sinon.stub(sqldbOps, 'getDatabase').yields(null, { statusCode: HttpStatus.NOT_FOUND });
+            sinon.stub(sqldbOps, 'createDatabase').yields(null, {body: {}});
+        });
+    
+        after(function () {
+            sqldbOps.getToken.restore();
+            sqldbOps.getServer.restore();
+            sqldbOps.getDatabase.restore();
+            sqldbOps.createDatabase.restore();
+        });
+    
+        it('should not callback error', function (done) {
+    
+            cp.provision(sqldbOps, resourceGroupClient, function (err, result) {
+                should.not.exist(err);
+                should.exist(result.body.sqlServerName);
+                should.exist(result.body.fullyQualifiedDomainName);
+                should.exist(result.body.administratorLogin);
+                should.exist(result.body.administratorLoginPassword);
                 done();
             });
     
