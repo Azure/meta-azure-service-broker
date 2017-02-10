@@ -6,9 +6,13 @@
 
 ### Provision
   
-  1. If the server doesn't exist, create a SQL Server.
+  1. If the server dose not exist, and the operator allows the service broker to create a new server, then create the SQL server.
   
   2. Create a database.
+  
+**NOTE:**
+  
+  * The operator can enable or disable the option for SQL service broker to create new server, in the meta service broker manifest file, see the "Modules related configurations" section [here](https://github.com/Azure/meta-azure-service-broker/blob/master/docs/how-admin-deploy-the-broker.md#deploy-the-meta-azure-service-broker-as-an-application-in-cloud-foundry) for details.
   
 ### Provision-Poll
   
@@ -18,32 +22,35 @@
   
 ### Bind
 
-  1. Try to login to the master database of the server to create a new Login. If succeeded then go to 3, else go to 2.
+  1. Login to the master database, create Login with generated name and password by following SQL server password policy.
   
-  2. Add a temporary firwall rule to allow service broker to access the server.
+  2. Login to the newly created database, create a new user for the Login with the name.
   
-  3. Try to login to the new-created database of the server to create a new user for the Login with the name.
+  3. Login to the newly created database, grant permission "CONTROL" to the user.
   
-  4. Grant permission "CONTROL" to the user.
+  4. Collect [credentials](./azure-sql-db.md#format-of-credentials).
   
-  5. Delete the temporary firewall rule.
+**NOTE:**
   
-  6. Collect credentials.
+  * A temporary firewall rule will be created to allow service broker to access the server if some login was refused by firewall. And it will be deleted after the last login.
   
-  **NOTE**: 1. The firewall rule needs to be deleted manually if Bind fails. The rule name should be 'broker-temp-rule-<sqldbName>'.
-            2. Permission "CONTROL" in a database: https://msdn.microsoft.com/en-us/library/ms178569.aspx
+  * Maybe the temporary firewall rule needs to be deleted manually if Bind fails. The rule name is 'broker-temp-rule-\<sqldbName>'.
+  
+  * The concepts of Login and User in SQL server: https://msdn.microsoft.com/en-us/library/aa337562.aspx
+  
+  * Permission "CONTROL" has full permissions in a database: https://msdn.microsoft.com/en-us/library/ms178569.aspx
   
 ### Unbind
 
-  1. Try to login to the new-created database of the server to drop the user for the Login. If succeeded then go to 3, else go to 2.
+  1. Login to the newly created database, drop the user for the Login.
   
-  2. Add a temporary firwall rule to allow service broker to access the server.
+  2. Login to the master database of the server, drop the Login.
   
-  3. Try to login to the master database of the server to drop the Login.
+**NOTE**:
+
+  * A temporary firewall rule will be created to allow service broker to access the server if some login was refused by firewall. And it will be deleted after the last login.
   
-  4. Delete the temporary firewall rule.
-  
-  **NOTE**: The firewall rule needs to be deleted manually if Unbind fails. The rule name should be 'broker-temp-rule-<sqldbName>'.
+  * Maybe the temporary firewall rule needs to be deleted manually if Unbind fails. The rule name is 'broker-temp-rule-\<sqldbName>'.
   
 ### Deprovision
 
@@ -89,10 +96,10 @@
     "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
     "location": "<azure-region-name>",          // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
     "sqlServerName": "<sql-server-name>",       // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
-    "sqlServerParameters": {                    // Remove this block if using existing server
+    "sqlServerParameters": {                    // Ignore this block if using existing server
         "allowSqlServerFirewallRules": [        // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
             {
-                "ruleName": "<rule-name-1>",
+                "ruleName": "<rule-name-0>",
                 "startIpAddress": "xx.xx.xx.xx",
                 "endIpAddress": "xx.xx.xx.xx"
             },
@@ -215,17 +222,25 @@
   ```
   "credentials": {
     "sqldbName": "sqlDbA",
-    "sqlServerName": "sqlservera",
+    "sqlServerName": "fake-server",
     "sqlServerFullyQualifiedDomainName": "fake-server.database.windows.net",
     "databaseLogin": "ulrich",
     "databaseLoginPassword": "u1r8chP@ss",
     "jdbcUrl": "jdbc:sqlserver://fake-server.database.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password;Encrypt=true;TrustServerCertificate=false;HostNameInCertificate=*.database.windows.net;loginTimeout=30",
-    "jdbcUrlForAuditingEnabled": jdbc:sqlserver://fake-server.database.secure.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password;Encrypt=true;TrustServerCertificate=false;HostNameInCertificate=*.database.secure.windows.net;loginTimeout=30"
+    "jdbcUrlForAuditingEnabled": "jdbc:sqlserver://fake-server.database.secure.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password;Encrypt=true;TrustServerCertificate=false;HostNameInCertificate=*.database.secure.windows.net;loginTimeout=30"
   }
 
   ```
   
-  **NOTE**: The "jdbcUrl" is for auditing disabled only. Similarly, the "jdbcUrlForAuditingEnabled" is for auditing enabled only. [Here](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-auditing-and-dynamic-data-masking-downlevel-clients) is a doc about why.
+**NOTE:**
+  
+  * If using `jdbcUrlForAuditingEnabled` on Azure China Cloud, you need to:
+  
+      1. Follow this [doc](https://www.azure.cn/documentation/articles/aog-web-app-java-import-wosign-certification/) to import a certification to a key store file `cacerts`.
+      
+      2. Follow this [doc](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/jre-open_jdk_jre.md#custom-ca-certificates), fork the [official java buildpack](https://github.com/cloudfoundry/java-buildpack) and add the `cacerts`.
+      
+      3. Push your app with the customized buildpack in #2.
   
 ## Unbinding
 
