@@ -71,22 +71,114 @@ describe('Util', function() {
           'sqldb': {}
         }
       };
+      
+      describe('in case AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER and AZURE_SQLDB_SQL_SERVER_POOL are not in environment variables', function() {
+        before(function() {
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToSet[key];
+          });
+        });
 
-      before(function() {
-        keys.forEach(function(key){
-          process.env[key] = environmentVariablesToSet[key];
+        after(function() {
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToBackup[key];
+          });
+        });
+
+        it('should fetch configurations from environment variables', function() {
+          var actualConfig = Common.getConfigurations();
+          actualConfig.should.eql(expectedConfig);
         });
       });
+      
+      describe('in case AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER is true', function() {
+        before(function() {
+          process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'] = 'true';
+          process.env['AZURE_SQLDB_SQL_SERVER_POOL'] = '[ \
+            { \
+              "sqlServerName": "fake-server0", \
+              "administratorLogin": "fake-login0", \
+              "administratorLoginPassword": "fake-pwd0" \
+            }, \
+            { \
+              "sqlServerName": "fake-server1", \
+              "administratorLogin": "fake-login1", \
+              "administratorLoginPassword": "fake-pwd1" \
+            } \
+          ]';
+        
+          expectedConfig['privilege']['sqldb']['allowToCreateSqlServer'] = true;
+          expectedConfig['accountPool']['sqldb'] = {
+            "fake-server0": {
+              "administratorLogin": "fake-login0",
+              "administratorLoginPassword": "fake-pwd0"
+            },
+            "fake-server1": {
+              "administratorLogin": "fake-login1",
+              "administratorLoginPassword": "fake-pwd1"
+            }
+          };
+          
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToSet[key];
+          });
+        });
 
-      after(function() {
-        keys.forEach(function(key){
-          process.env[key] = environmentVariablesToBackup[key];
+        after(function() {
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToBackup[key];
+          });
+        });
+        
+        it('should fetch configurations from environment variables - 2', function() {
+          var actualConfig = Common.getConfigurations();
+          actualConfig.should.eql(expectedConfig);
         });
       });
+        
+      describe('in case AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER is false, and administratorLoginPassword is in pcf-tile format', function() {
+        before(function() {
+          process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'] = 'false';
+          process.env['AZURE_SQLDB_SQL_SERVER_POOL'] = '[ \
+            { \
+              "sqlServerName": "fake-server0", \
+              "administratorLogin": "fake-login0", \
+              "administratorLoginPassword": {"secret": "fake-pwd0"} \
+            }, \
+            { \
+              "sqlServerName": "fake-server1", \
+              "administratorLogin": "fake-login1", \
+              "administratorLoginPassword": {"secret": "fake-pwd1"} \
+            } \
+          ]';
+          
+          expectedConfig['privilege']['sqldb']['allowToCreateSqlServer'] = false;
+          expectedConfig['accountPool']['sqldb'] = {
+            "fake-server0": {
+              "administratorLogin": "fake-login0",
+              "administratorLoginPassword": "fake-pwd0"
+            },
+            "fake-server1": {
+              "administratorLogin": "fake-login1",
+              "administratorLoginPassword": "fake-pwd1"
+            }
+          };
+          
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToSet[key];
+          });
+        });
 
-      it('should fetch configurations from environment variables', function() {
-        var actualConfig = Common.getConfigurations();
-        actualConfig.should.eql(expectedConfig);
+        after(function() {
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToBackup[key];
+          });
+        });
+        
+        it('should fetch configurations from environment variables - 3', function() {
+          var actualConfig = Common.getConfigurations();
+          actualConfig.should.eql(expectedConfig);
+        });
       });
     });
   });

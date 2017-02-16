@@ -112,7 +112,29 @@ forms:
   - name: azure_broker_database_encryption_key
     type: secret
     label: Database Encryption Key (32 characters)
-
+- name: sqldb-config-form
+  label: SQL Database Config
+  properties:
+  - name: azure_sqldb_allow_to_create_sql_server
+    type: boolean
+    configurable: true
+    default: true
+    label: Allow to Create Sql Server
+  - name: azure_sqldb_sql_server_pool
+    type: collection
+    configurable: true
+    property_blueprints:
+      - name: sqlServerName
+        type: string
+        label: SQL Server Name
+      - name: administratorLogin
+        type: string
+        label: SQL Server Administrator Login
+      - name: administratorLoginPassword
+        type: secret
+        label: SQL Server Administrator Login Password
+    label: Sql Server Pool
+    
 # Add any dependencies your tile has on other installed products.
 # This is often appropriate when using automatic service provisioning
 # for any of your packages above, with services provided by other
