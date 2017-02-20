@@ -214,16 +214,19 @@
 
   ```
   "credentials": {
+    "sqldbName": "sqlDbA",
+    "sqlServerName": "sqlservera",
+    "sqlServerFullyQualifiedDomainName": "fake-server.database.windows.net",
     "databaseLogin": "ulrich",
     "databaseLoginPassword": "u1r8chP@ss",
-    "sqlServerName": "sqlservera",
-    "sqldbName": "sqlDbA",
-    "jdbcUrl": "jdbc:sqlserver://fake-server.database.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password",
-    
+    "jdbcUrl": "jdbc:sqlserver://fake-server.database.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password;Encrypt=true;TrustServerCertificate=false;HostNameInCertificate=*.database.windows.net;loginTimeout=30",
+    "jdbcUrlForAuditingEnabled": jdbc:sqlserver://fake-server.database.secure.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password;Encrypt=true;TrustServerCertificate=false;HostNameInCertificate=*.database.secure.windows.net;loginTimeout=30"
   }
 
   ```
-
+  
+  **NOTE**: The "jdbcUrl" is for auditing disabled only. Similarly, the "jdbcUrlForAuditingEnabled" is for auditing enabled only. [Here](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-auditing-and-dynamic-data-masking-downlevel-clients) is a doc about why.
+  
 ## Unbinding
 
   ```

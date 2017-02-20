@@ -66,8 +66,10 @@ azuresqldb = {
     "databaseLogin": "<string>",
     "databaseLoginPassword": "<string>",
     "sqlServerName": sqlServerName,
+    "sqlServerFullyQualifiedDomainName": "<string>",
     "sqldbName": sqldbName,
-    "jdbcUrl": "<string>"
+    "jdbcUrl": "<string>",
+    "jdbcUrlForAuditingEnabled": "<string>"
   },
   e2e: false
 }
@@ -120,8 +122,10 @@ azuresqldb = {
     "databaseLogin": "<string>",
     "databaseLoginPassword": "<string>",
     "sqlServerName": sqlServerName,
+    "sqlServerFullyQualifiedDomainName": "<string>",
     "sqldbName": sqldbName,
-    "jdbcUrl": "<string>"
+    "jdbcUrl": "<string>",
+    "jdbcUrlForAuditingEnabled": "<string>"
   },
   e2e: true
 }
