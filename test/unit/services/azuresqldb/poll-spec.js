@@ -8,6 +8,7 @@
 /* global describe, before, it */
 
 var _ = require('underscore');
+var HttpStatus = require('http-status-codes');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
@@ -36,6 +37,7 @@ var afterProvisionValidParams = {
             }
         },
         sqldbName: 'sqldb',
+        transparentDataEncryption: false,
         sqldbParameters: {
             location: 'westus',
             properties: {
@@ -51,6 +53,9 @@ var afterProvisionValidParams = {
     provisioning_result: "{\"administratorLogin\":\"xxxx\",\"administratorLoginPassword\":\"xxxxxxx\",\"operation\":\"CreateLogicalDatabase\",\"startTime\":\"/ Date(1467968057450 + 0000) / \",\"id\":\"subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/ sqldbResourceGroup / providers / Microsoft.Sql / servers / golive4 / databases / sqldb\",\"type\":\"Microsoft.Sql / servers / databases\",\"provisioningResult\":\"creating\",\"sqlServerName\":\"golive4\",\"sqldbName\":\"sqldb\",\"sqldbParameters\":{\"location\":\"westus\",\"properties\":{\"collation\":\"SQL_Latin1_General_CP1_CI_AS\",\"maxSizeBytes\":\"2147483648\",\"createMode\":\"Default\",\"edition\":\"Basic\",\"requestedServiceObjectiveName\":\"Basic\"}}}",
     azure: azure
 };
+
+var afterProvisionValidParamsWithTDE = JSON.parse(JSON.stringify(afterProvisionValidParams));
+afterProvisionValidParamsWithTDE.parameters.transparentDataEncryption = true;
 
 var afterDeprovisionValidParams = {
     instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
@@ -156,30 +161,94 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
         }
     };
 
-    before(function () {
-        cp = new cmdPoll(log, afterProvisionValidParams);
+    beforeEach(function () {
+        sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
+        sinon.stub(sqldbOps, 'getDatabase').yields(null, sqldbOpsGetDatabaseResult);
     });
 
-    after(function () {
+    afterEach(function () {
         sqldbOps.getToken.restore();
         sqldbOps.getDatabase.restore();
+        sqldbOps.setTransparentDataEncryption.restore();
     });
 
-    describe('Poll should return 200 if ...', function () {
-        it('is executed after sufficient time', function (done) {
-            sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-            sinon.stub(sqldbOps, 'getDatabase').yields(null, sqldbOpsGetDatabaseResult);
+    describe('Poll should ...', function () {
+        it('return 200 if it is executed after sufficient time', function (done) {
+            var cp = new cmdPoll(log, afterProvisionValidParams);
+            var tdeSpy = sinon.spy(sqldbOps, 'setTransparentDataEncryption');
             cp.poll(sqldbOps, function (err, result) {
                 should.not.exist(err);
+                tdeSpy.called.should.equal(false);
                 result.body.sqlServerName.should.equal('golive4');
                 result.body.administratorLogin.should.equal('xxxx');
                 result.body.administratorLoginPassword.should.equal('xxxxxxx');
+                result.statusCode.should.equal(HttpStatus.OK);
                 result.value.state.should.equal('succeeded');
                 result.value.description.should.equal('Created logical database sqldb on logical server golive4.');
                 done();
             });
         });
     });
+
+    describe('TransparentDataEncryption should ...', function () {
+        it('not be called if TDE setting is false', function (done) {
+            var cp = new cmdPoll(log, afterProvisionValidParams);
+            var tdeSpy = sinon.spy(sqldbOps, 'setTransparentDataEncryption');
+            cp.poll(sqldbOps, function (err, result) {
+                tdeSpy.called.should.equal(false);
+                should.not.exist(err);
+                done();
+            });
+        });
+
+        it('fail if transparent data encryption failed', function (done) {
+            var cp = new cmdPoll(log, afterProvisionValidParamsWithTDE);
+            var tdeError = new Error("TDE failure");
+            sinon.stub(sqldbOps, 'setTransparentDataEncryption').yields(tdeError);
+            cp.poll(sqldbOps, function (err, result) {
+                should.exist(err);
+                err.message.should.equal("TDE failure");
+                done();
+            });
+        });
+
+        it('fail if an unexpected error code is received without an error', function (done) {
+            var cp = new cmdPoll(log, afterProvisionValidParamsWithTDE);
+            var tdeResult = {
+                statusCode:HttpStatus.BAD_GATEWAY,
+                body:{
+                    message:"Bad Gateway"
+                }
+            };
+            sinon.stub(sqldbOps, 'setTransparentDataEncryption').yields(null, tdeResult);
+
+            cp.poll(sqldbOps, function (err, result) {
+                should.exist(err);
+                err.message.should.equal("Bad Gateway");
+                done();
+            });
+        });
+
+        it('succeed on CREATED return code', function (done) {
+            var cp = new cmdPoll(log, afterProvisionValidParamsWithTDE);
+            var tdeResult = {
+                statusCode:HttpStatus.CREATED,
+                body:{
+                    message:"success"
+                }
+            };
+            var stub = sinon.stub(sqldbOps, 'setTransparentDataEncryption').yields(null, tdeResult);
+
+            cp.poll(sqldbOps, function (err, result) {
+                should.not.exist(err);
+                stub.calledOnce.should.equal(true);
+                result.statusCode.should.equal(HttpStatus.OK);
+                result.value.state.should.equal('succeeded');
+                done();
+            });
+        });
+    });
+
 });
 
 /*  fill in this one when I can catch azure being slow enough
@@ -244,5 +313,35 @@ describe('SqlDb - Poll - polling database after de-provision is complete', funct
             });
         });
     });
+});
+
+describe('SqlDb - Client setTransparentDataEncryption...', function () {
+
+    it('Fails on PUT error', function(){
+        var putStub = sinon.stub(sqldbOps, 'PUT').yields(Error('PUT failed'), {response:'502'}, {body:null});
+
+        sqldbOps.setTransparentDataEncryption(function callback(err, result){
+            should.exist(err);
+            should.ok(putStub.calledOnce);
+        });
+        sqldbOps.PUT.restore();
+    });
+
+    it('Succeeds on PUT success', function(){
+        var putStub = sinon.stub(sqldbOps, 'PUT').yields(null, {response:'200'}, 'sample body');
+
+        sqldbOps.setTransparentDataEncryption(function callback(err, result){
+            should.not.exist(err);
+            should.exist(result);
+            should.exist(result.body);
+            should.equal(result.body, 'sample body');
+            should.ok(putStub.calledOnce);
+            data = putStub.args[0][2];
+            should.exist(data);
+            should.equal(data.properties.status, 'Enabled');
+        });
+        sqldbOps.PUT.restore();
+    });
+
 });
 

@@ -51,6 +51,7 @@ azuresqldb = {
       }
     },
     "sqldbName": sqldbName,
+    "transparentDataEncryption": false,
     "sqldbParameters": {
       "properties": {
         "collation": "SQL_Latin1_General_CP1_CI_AS"
@@ -104,6 +105,7 @@ azuresqldb = {
       }
     },
     "sqldbName": sqldbName,
+    "transparentDataEncryption": true,
     "sqldbParameters": {
       "properties": {
         "collation": "SQL_Latin1_General_CP1_CI_AS"
