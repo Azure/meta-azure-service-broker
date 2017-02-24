@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 
 var testMatrix = require('./test-matrix');
 
-var broker = require('../../brokerserver')
+var broker = require('../../brokerserver');
 var server = broker.restServer;
 var clients = require('../utils/clients');
 var statusCode = require('../utils/statusCode');
@@ -23,6 +23,7 @@ var lifecycle = function(service) {
   var bindingParameters = service.bindingParameters;
   var credentials = service.credentials;
   var e2e = service.e2e;
+  var client = clients[serviceName];
   
   describe(serviceName, function() {
     describe('Provisioning', function() {
@@ -32,11 +33,11 @@ var lifecycle = function(service) {
           .set('X-Broker-API-Version', '2.8')
           .auth('demouser', 'demopassword')
           .send({
-            "organization_guid": uuid.v4(),
-            "plan_id": planId,
-            "service_id": serviceId,
-            "space_guid": uuid.v4(),
-            "parameters": provisioningParameters
+            'organization_guid': uuid.v4(),
+            'plan_id': planId,
+            'service_id': serviceId,
+            'space_guid': uuid.v4(),
+            'parameters': provisioningParameters
           })
           .end(function(err, res) {
             res.should.have.status(422);
@@ -55,11 +56,11 @@ var lifecycle = function(service) {
             accepts_incomplete: true
           })
           .send({
-            "organization_guid": uuid.v4(),
-            "plan_id": planId,
-            "service_id": serviceId,
-            "space_guid": uuid.v4(),
-            "parameters": provisioningParameters
+            'organization_guid': uuid.v4(),
+            'plan_id': planId,
+            'service_id': serviceId,
+            'space_guid': uuid.v4(),
+            'parameters': provisioningParameters
           })
           .end(function(err, res) {
             res.should.have.status(202);
@@ -77,11 +78,11 @@ var lifecycle = function(service) {
             accepts_incomplete: true
           })
           .send({
-            "organization_guid": uuid.v4(),
-            "plan_id": planId,
-            "service_id": serviceId,
-            "space_guid": uuid.v4(),
-            "parameters": provisioningParameters
+            'organization_guid': uuid.v4(),
+            'plan_id': planId,
+            'service_id': serviceId,
+            'space_guid': uuid.v4(),
+            'parameters': provisioningParameters
           })
           .end(function(err, res) {
             res.should.have.status(409);
@@ -117,6 +118,14 @@ var lifecycle = function(service) {
           }
         );
       });
+
+      it('should validate the provisioning operation', function(done) {
+        if(client && client.validateProvisioning) {
+          client.validateProvisioning(service, done);
+        } else {
+          done();
+        }
+      });
   
       it('should get the credentials by the binding operation and the credentials should be workable', function(done) {
         this.timeout(300000);
@@ -127,10 +136,10 @@ var lifecycle = function(service) {
             .set('X-Broker-API-Version', '2.8')
             .auth('demouser', 'demopassword')
             .send({
-              "plan_id": planId,
-              "service_id": serviceId,
-              "app_guid": uuid.v4(),
-              "parameters": bindingParameters
+              'plan_id': planId,
+              'service_id': serviceId,
+              'app_guid': uuid.v4(),
+              'parameters': bindingParameters
             })
             .end(function(err, res) {
               res.should.have.status(201);
@@ -149,14 +158,13 @@ var lifecycle = function(service) {
                 }
               }); 
               if (e2e) {
-                client = clients[serviceName];
                 if(client) {
                   client.validateCredential(actualCredentials, function(result) {
                     result.should.equal(statusCode.PASS);
                     done();
                   });
                 } else {
-                  console.warn("E2E tests for %s are skipped because the client to validate credentials is not implemented.", serviceName);
+                  console.warn('E2E tests for %s are skipped because the client to validate credentials is not implemented.', serviceName);
                   done();
                 }
               } else done();
@@ -235,6 +243,6 @@ var lifecycle = function(service) {
   
   });
 
-}
+};
 
 _.each(testMatrix, lifecycle);
