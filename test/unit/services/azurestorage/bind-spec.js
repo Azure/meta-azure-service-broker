@@ -11,23 +11,20 @@ var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var azurestorage = require('../../../../lib/services/azurestorage/');
-var storageClient = require('../../../../lib/services/azurestorage/storageclient');
 var azure = require('../helpers').azure;
+var msRestRequest = require('../../../../lib/common/msRestRequest');
 
 var log = logule.init(module, 'Storage-Mocha');
+
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
 
 describe('Storage', function() {
 
   describe('Binding', function() {
 
-    before(function() {
-      storageClient.init = sinon.stub();
-    });
-
     describe('When no error is thrown', function() {
       var validParams = {};
-      var primaryKey = 'fake-primary-key';
-      var secondaryKey = 'fake-secondary-key';
 
       before(function() {
         validParams = {
@@ -37,12 +34,13 @@ describe('Storage', function() {
           provisioning_result: '{\"resourceGroupResult\":{\"resourceGroupName\":\"cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5\",\"groupParameters\":{\"location\":\"eastus\"}},\"storageAccountResult\":{\"storageAccountName\":\"cfe77a25d2f58c11e5b93300\",\"accountParameters\":{\"location\":\"eastus\",\"accountType\":\"Standard_LRS\"}}}',
           azure: azure,
         };
-        sinon.stub(storageClient, 'bind').yields(null,
-          primaryKey, secondaryKey);
+        msRestRequest.POST = sinon.stub();
+        msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5/providers/Microsoft.Storage/storageAccounts/cfe77a25d2f58c11e5b93300/listKeys')
+          .yields(null, {statusCode: 200}, '{"keys":[{"value":"fake-primary-key"},{"value":"fake-secondary-key"}]}');
       });
 
       after(function() {
-        storageClient.bind.restore();
+        mockingHelper.restore();
       });
 
       it('should return the credentials', function(done) {

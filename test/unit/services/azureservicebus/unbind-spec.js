@@ -9,9 +9,7 @@
 
 var logule = require('logule');
 var should = require('should');
-var sinon = require('sinon');
 var azureservicebus = require('../../../../lib/services/azureservicebus/');
-var utils = require('../../../../lib/services/azureservicebus/utils');
 var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'ServiceBus-Mocha');
@@ -19,10 +17,6 @@ var log = logule.init(module, 'ServiceBus-Mocha');
 describe('ServiceBus', function() {
 
   describe('Unbinding', function() {
-
-    before(function() {
-      utils.init = sinon.stub();
-    });
 
     describe('When no error is thrown', function() {
       var validParams = {};

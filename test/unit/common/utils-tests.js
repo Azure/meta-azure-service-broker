@@ -207,6 +207,7 @@ describe('Util', function() {
       var operation = 'operationx';
       Common.logHttpResponse(log,
                              {
+                               statusCode: '123',
                                headers: {
                                  'x-ms-request-id': 'aaa',
                                  'x-ms-correlation-request-id': 'bbb',
@@ -217,8 +218,9 @@ describe('Util', function() {
                              operation,
                              true);
 
-      var message = util.format('receive from: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n',
+      var message = util.format('receive from: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n',
                                 operation,
+                                'statusCode', '123',
                                 'x-ms-request-id', 'aaa',
                                 'x-ms-correlation-request-id', 'bbb',
                                 'x-ms-routing-request-id', 'ccc',
@@ -230,6 +232,7 @@ describe('Util', function() {
       var operation = 'operationx';
       Common.logHttpResponse(log,
                              {
+                               statusCode: '123',
                                headers: {
                                  'x-ms-request-id': 'aaa',
                                  'x-ms-correlation-request-id': 'bbb',
@@ -240,8 +243,9 @@ describe('Util', function() {
                              operation,
                              false);
 
-      var message = util.format('receive from: %s\n%s: %s\n%s: %s\n%s: %s\n%s\n',
+      var message = util.format('receive from: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s\n',
                                 operation,
+                                'statusCode', '123',
                                 'x-ms-request-id', 'aaa',
                                 'x-ms-correlation-request-id', 'bbb',
                                 'x-ms-routing-request-id', 'ccc',
@@ -253,6 +257,7 @@ describe('Util', function() {
   describe('getToken()', function() {
     describe('when the status code of response is 200', function() {
       before(function() {
+        Token.init({}, {});
         sinon.stub(request, 'post').yields(null, {statusCode: 200}, '{"access_token": "asdasdasd"}');
       });
 
@@ -261,7 +266,7 @@ describe('Util', function() {
       });
       
       it('should get the token', function() {
-        Token.getToken('', '', '', '', function(err, token) {
+        Token.getToken(true, function(err, token) {
           should.not.exist(err);
           token.should.be.exactly('asdasdasd');
         });
@@ -270,6 +275,7 @@ describe('Util', function() {
     
     describe('when the status code of response is 403', function() {
       before(function() {
+        Token.init({}, {});
         sinon.stub(request, 'post').yields(null, {statusCode: 403});
       });
 
@@ -278,7 +284,7 @@ describe('Util', function() {
       });
       
       it('should get an error', function() {
-        Token.getToken('', '', '', '', function(err, token) {
+        Token.getToken(true, function(err, token) {
           should.exist(err);
           err.statusCode.should.equal(403);
         });

@@ -11,24 +11,18 @@ var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var azureservicebus = require('../../../../lib/services/azureservicebus/');
-var utils = require('../../../../lib/services/azureservicebus/utils');
 var azure = require('../helpers').azure;
+var msRestRequest = require('../../../../lib/common/msRestRequest');
 
 var log = logule.init(module, 'ServiceBus-Mocha');
+
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
 
 describe('ServiceBus', function() {
 
   describe('Deprovisioning', function() {
-
-    before(function() {
-      utils.init = sinon.stub();
-      sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
-    });
-
-    after(function(){
-      utils.getToken.restore();
-    });
-
+    
     describe('When no error is thrown', function() {
       var validParams = {};
 
@@ -38,13 +32,16 @@ describe('ServiceBus', function() {
           provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5\",\"namespaceName\":\"cfe77a25d2f58c11e5b93300\"}',
           azure: azure,
         };
-        sinon.stub(utils, 'delNamespace').yields(null);
+        
+        msRestRequest.DELETE = sinon.stub();
+        msRestRequest.DELETE.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5/providers/Microsoft.ServiceBus/namespaces/cfe77a25d2f58c11e5b93300')
+          .yields(null, {statusCode: 202});
       });
 
-      after(function() {
-        utils.delNamespace.restore();
+      after(function () {
+        mockingHelper.restore();
       });
-
+      
       it('should delete the namespace', function(done) {
         azureservicebus.deprovision(log, validParams, function(
           err, reply, result) {

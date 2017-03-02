@@ -26,11 +26,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "async": "1.5.2",
-    "azure-arm-rediscache": "0.2.1",
-    "azure-arm-resource": "1.0.0-preview",
-    "azure-arm-storage": "0.12.2-preview",
     "config": "1.21.0",
-    "documentdb": "1.6.0",
     "http-status-codes": "1.0.6",
     "logule": "2.1.0",
     "ms-rest-azure": "1.14.5",
@@ -40,7 +36,8 @@
     "semver": "5.1.0",
     "string": "3.3.1",
     "underscore": "1.8.3",
-    "uuid": "3.0.1"    
+    "uuid": "3.0.1",
+    "moment": "2.17.1"
   },
   "devDependencies": {
     "azure": "0.10.6",
@@ -54,7 +51,8 @@
     "redis": "2.6.1",
     "should": "8.3.0",
     "sinon": "1.17.3",
-    "tedious": "^1.14.0"
+    "tedious": "^1.14.0",
+    "documentdb": "1.6.0"
   },
   "homepage": "https://github.com/Azure/meta-azure-service-broker",
   "repository": {

@@ -13,17 +13,17 @@ var sinon = require('sinon');
 var cmdDeprovision = require('../../../../lib/services/azuresqldb/cmd-deprovision');
 var sqldbOperations = require('../../../../lib/services/azuresqldb/client');
 var azure = require('../helpers').azure;
+var msRestRequest = require('../../../../lib/common/msRestRequest');
 
 var log = logule.init(module, 'SqlDb-Mocha');
 var sqldbOps = new sqldbOperations(log, azure);
 
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
+
 describe('SqlDb - Deprovision', function () {
 
     var cd;
-
-    var accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik1uQ19WWmNBVGZNNXBPWWlKSE1iYTlnb0VLWSIsImtpZCI6Ik1uQ19WWmNBVGZNNXBPWWlKSE1iYTlnb0VLWSJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuYXp1cmUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0Ny8iLCJpYXQiOjE0Njc4MTYyMTcsIm5iZiI6MTQ2NzgxNjIxNywiZXhwIjoxNDY3ODIwMTE3LCJhcHBpZCI6ImQ4MTllODE4LTRkNGEtNGZmOS04OWU5LTliZTBiZmVjOWVjZCIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0Ny8iLCJvaWQiOiI2NDgwN2MzMi0xYWYxLTRlNTgtYWMwOS02NGM1NTU0YzdjNTgiLCJzdWIiOiI2NDgwN2MzMi0xYWYxLTRlNTgtYWMwOS02NGM1NTU0YzdjNTgiLCJ0aWQiOiI3MmY5ODhiZi04NmYxLTQxYWYtOTFhYi0yZDdjZDAxMWRiNDciLCJ2ZXIiOiIxLjAifQ.tqCAMoZz7n3AKBjdNUHwGfLSaDp7Qdl6Dzu_5cf5WNoKCet9E6ohLZtohfiLXuNS-uG-UDRDNtvX_eVayui422CkdDSbAtEPZXIRaFD8dGVO3uMRKWhWQ1u-aTA8LKHKKO2a6aF9hWwjHDQ_FRwi1qZ8UX60HkW62MgLlJeym5AC8aL0JKVekmrVx-NGcfJJs7VXVOLbka45ADAlUNqi13TxyEY_oqCZzGatJZK8sFNYMvGFtTcnhjSEoxdl9LjcMAWWgVuKg-iVAX1vAf0HhD7H3XqJKPaZR-o2fQ5kvEKzzfz_VkUeQO4DG-1gpKS_jNVynb1ZxUGbs5y56WmDDw';
-
-    var deleteDatabaseResult = { statusCode: 200 };
 
     before(function () {
 
@@ -36,18 +36,18 @@ describe('SqlDb - Deprovision', function () {
         };
 
         cd = new cmdDeprovision(log, validParams);
-
+        
+        msRestRequest.DELETE = sinon.stub();
+        msRestRequest.DELETE.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb')
+          .yields(null, {statusCode: 200});
     });
 
     after(function () {
-        sqldbOps.getToken.restore();
-        sqldbOps.deleteDatabase.restore();
+        mockingHelper.restore();
     });
 
     describe('Deprovision should return 200 ...', function () {
         it('returns 200 if no err', function (done) {
-            sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-            sinon.stub(sqldbOps, 'deleteDatabase').yields(null, deleteDatabaseResult);
             cd.deprovision(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 result.state.should.equal('succeeded');
