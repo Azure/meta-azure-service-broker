@@ -14,6 +14,8 @@ var server = broker.restServer;
 var clients = require('../utils/clients');
 var statusCode = require('../utils/statusCode');
 
+var cleaner = require('./cleaner');
+
 var lifecycle = function(service) {
   var serviceName = service.serviceName;
   var serviceId = service.serviceId;
@@ -240,6 +242,9 @@ var lifecycle = function(service) {
         );
       });
   
+      it('should call cleaner in the last', function(done) {
+        cleaner.clean(provisioningParameters, done);
+      });
     });
   
   });
