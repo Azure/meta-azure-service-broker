@@ -121,6 +121,18 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
         "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
       }
     }
+    sqldBlobAuditingPolicy:{
+        "location": "{database-location}",
+        "properties": {
+            "state": "{policy-state}",
+            "storageEndpoint": "{storageEndpoint}",
+            "storageAccountAccessKey": "{storageAccountAccessKey}",
+            "retentionDays": "{retentionDays}",
+            "auditActionsAndGroups": "{auditActionsAndGroups}",
+            "storageSubscriptionId": "{storageSubscriptionId}",
+            "isSecondaryKeyInUse": "{isSecondaryKeyInUse}"
+        }
+    }
   }
   ```
 
