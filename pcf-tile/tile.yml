@@ -123,6 +123,7 @@ forms:
   - name: azure_sqldb_sql_server_pool
     type: collection
     configurable: true
+    optional: true
     property_blueprints:
       - name: sqlServerName
         type: string
