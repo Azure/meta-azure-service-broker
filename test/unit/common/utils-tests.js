@@ -69,6 +69,11 @@ describe('Util', function() {
         },
         'accountPool': {
           'sqldb': {}
+        },
+        'defaultSettings': {
+          'sqldb': {
+            'transparentDataEncryption': false
+          }
         }
       };
       
@@ -96,11 +101,15 @@ describe('Util', function() {
           process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'] = 'true';
           process.env['AZURE_SQLDB_SQL_SERVER_POOL'] = '[ \
             { \
+              "resourceGroup": "fake-group", \
+              "location": "fake-location", \
               "sqlServerName": "fake-server0", \
               "administratorLogin": "fake-login0", \
               "administratorLoginPassword": "fake-pwd0" \
             }, \
             { \
+              "resourceGroup": "fake-group", \
+              "location": "fake-location", \
               "sqlServerName": "fake-server1", \
               "administratorLogin": "fake-login1", \
               "administratorLoginPassword": "fake-pwd1" \
@@ -110,10 +119,14 @@ describe('Util', function() {
           expectedConfig['privilege']['sqldb']['allowToCreateSqlServer'] = true;
           expectedConfig['accountPool']['sqldb'] = {
             'fake-server0': {
+              'resourceGroup': 'fake-group',
+              'location': 'fake-location',
               'administratorLogin': 'fake-login0',
               'administratorLoginPassword': 'fake-pwd0'
             },
             'fake-server1': {
+              'resourceGroup': 'fake-group',
+              'location': 'fake-location',
               'administratorLogin': 'fake-login1',
               'administratorLoginPassword': 'fake-pwd1'
             }
@@ -141,11 +154,15 @@ describe('Util', function() {
           process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'] = 'false';
           process.env['AZURE_SQLDB_SQL_SERVER_POOL'] = '[ \
             { \
+              "resourceGroup": "fake-group", \
+              "location": "fake-location", \
               "sqlServerName": "fake-server0", \
               "administratorLogin": "fake-login0", \
               "administratorLoginPassword": {"secret": "fake-pwd0"} \
             }, \
             { \
+              "resourceGroup": "fake-group", \
+              "location": "fake-location", \
               "sqlServerName": "fake-server1", \
               "administratorLogin": "fake-login1", \
               "administratorLoginPassword": {"secret": "fake-pwd1"} \
@@ -155,10 +172,14 @@ describe('Util', function() {
           expectedConfig['privilege']['sqldb']['allowToCreateSqlServer'] = false;
           expectedConfig['accountPool']['sqldb'] = {
             'fake-server0': {
+              'resourceGroup': 'fake-group',
+              'location': 'fake-location',
               'administratorLogin': 'fake-login0',
               'administratorLoginPassword': 'fake-pwd0'
             },
             'fake-server1': {
+              'resourceGroup': 'fake-group',
+              'location': 'fake-location',
               'administratorLogin': 'fake-login1',
               'administratorLoginPassword': 'fake-pwd1'
             }

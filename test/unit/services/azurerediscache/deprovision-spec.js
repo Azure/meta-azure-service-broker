@@ -33,7 +33,7 @@ describe('RedisCache - Deprovision - Execution', function() {
         cp = new cmdDeprovision(log, validParams);
         
         msRestRequest.DELETE = sinon.stub();
-        msRestRequest.DELETE.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheNC')
+        msRestRequest.DELETE.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheNC')
           .yields(null, {statusCode: 200});
     });
 

@@ -1,0 +1,24 @@
+/*
+{
+  "sqlServerName": "<sql-server-name>",       // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+  "sqldbName": "<sql-database-name>",         // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
+  "transparentDataEncryption": true | false,  // Enable Transparent Data Encryption on the database. If not present, it follows the broker manifest. Defaults to false. 
+  "sqldbParameters": {                        // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+      "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
+      }
+  }
+}
+*/
+
+// Please delete all the comments before using this .json to create service instance.
+{
+    "sqlServerName": "sqlservera",
+    "sqldbName": "sqlDbA",
+    "transparentDataEncryption": true,
+    "sqldbParameters": {
+        "properties": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+        }
+    }
+}

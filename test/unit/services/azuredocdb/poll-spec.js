@@ -30,11 +30,11 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
     sinon.stub(request, 'post').yields(null, {statusCode: 201});
     
     msRestRequest.GET = sinon.stub();
-    msRestRequest.GET.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount')
+    msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount')
       .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Succeeded","documentEndpoint":"fakeendpoint"}}');
     
     msRestRequest.POST = sinon.stub();
-    msRestRequest.POST.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
+    msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
       .yields(null, {statusCode: 200}, '{"primaryMasterKey":"fake-master-key"}');
   });
     
@@ -69,11 +69,11 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
     sinon.stub(request, 'post').yields(null, {statusCode: 201});
     
     msRestRequest.GET = sinon.stub();
-    msRestRequest.GET.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount')
+    msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount')
       .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Creating"}}');
       
     msRestRequest.POST = sinon.stub();
-    msRestRequest.POST.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
+    msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
       .yields(null, {statusCode: 200}, '{"primaryMasterKey":"fake-master-key"}');
   });
     
@@ -107,7 +107,7 @@ describe('DocumentDb - Deprovision-Poll - Execution', function() {
     };
     
     msRestRequest.GET = sinon.stub();
-    msRestRequest.GET.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount')
+    msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount')
       .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Deleting"}}');
   });
   
@@ -138,7 +138,7 @@ describe('DocumentDb - Deprovision-Poll - Execution', function() {
     };
     
     msRestRequest.GET = sinon.stub();
-    msRestRequest.GET.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount')
+    msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount')
       .yields(null, {statusCode: 404});
   });
   

@@ -35,7 +35,7 @@ describe('RedisCache - Bind', function() {
             azure: azure
         };
         msRestRequest.POST = sinon.stub();
-        msRestRequest.POST.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheNC/listKeys')
+        msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheNC/listKeys')
           .yields(null, {statusCode: 200}, JSON.stringify(fakeAccessKeys));
     });
     

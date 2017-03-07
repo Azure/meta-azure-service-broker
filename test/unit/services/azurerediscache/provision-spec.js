@@ -124,10 +124,10 @@ describe('RedisCache - Provision - Execution - Cache that doesn\'t previsouly ex
           .yields(null, {statusCode: 200});
 
         msRestRequest.GET = sinon.stub();
-        msRestRequest.GET.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheSC')
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheSC')
           .yields(null, {statusCode: 404});
 
-        msRestRequest.PUT.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheSC')
+        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheSC')
           .yields(null, {statusCode: 201}, {properties: {provisioningState : 'Creating'}});
     });
     

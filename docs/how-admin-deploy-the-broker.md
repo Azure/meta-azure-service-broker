@@ -161,17 +161,22 @@
     
   * Modules related configurations
 
-    Only SQL database service has the configurations for now. The default value of `AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER` is `true`. `AZURE_SQLDB_SQL_SERVER_POOL` is an array of SQL server credentials. Each element in the array should contain all the three parameters: sqlServerName, administratorLogin and administratorLoginPassword.
+    Only SQL database service has the configurations for now. The default value of `AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER` is `true`. The default value of `AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION` is `false`. `AZURE_SQLDB_SQL_SERVER_POOL` is an array of SQL server credentials. Each element in the array should contain all the five parameters: resourceGroup, location, sqlServerName, administratorLogin and administratorLoginPassword.
 
     ```
     AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER: true | false
+    AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION: true | false
     AZURE_SQLDB_SQL_SERVER_POOL: '[
       {
+        "resourceGroup": "REPLACE-ME",
+        "location": "REPLACE-ME",
         "sqlServerName": "REPLACE-ME",
         "administratorLogin": "REPLACE-ME",
         "administratorLoginPassword": "REPLACE-ME"
       },
       {
+        "resourceGroup": "REPLACE-ME",
+        "location": "REPLACE-ME",
         "sqlServerName": "REPLACE-ME",
         "administratorLogin": "REPLACE-ME",
         "administratorLoginPassword": "REPLACE-ME"

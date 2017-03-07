@@ -28,7 +28,7 @@ describe('DocumentDb - Bind', function() {
   describe('When account key is retrieved from Azure successfully', function() {
     before(function() {
       msRestRequest.POST = sinon.stub();
-      msRestRequest.POST.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
+      msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
         .yields(null, {statusCode: 200}, '{"primaryMasterKey":"fake-master-key"}');
     });
       
@@ -49,7 +49,7 @@ describe('DocumentDb - Bind', function() {
   describe('When account key can not be retrieved from Azure', function() {
     before(function() {
       msRestRequest.POST = sinon.stub();
-      msRestRequest.POST.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
+      msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
         .yields(null, {statusCode: 500});
     });
       

@@ -33,9 +33,9 @@ describe('SqlDb - Provision - PreConditions', function () {
                 plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'fake-resource-group-name',
+                    location: 'westus',
                     sqlServerName: 'fake-server-name',
                     sqlServerParameters: {
-                        location: 'westus',
                         properties: {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
@@ -67,7 +67,7 @@ describe('SqlDb - Provision - PreConditions', function () {
         });
 
         it('should succeed to validate the parameters', function (done) {
-            (cp.allValidatorsSucceed()).should.equal(true);
+            (cp.getInvalidParams().length).should.equal(0);
             done();
         });
     });
@@ -79,10 +79,10 @@ describe('SqlDb - Provision - PreConditions', function () {
                 plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'fake-resource-group-name',
+                    location: 'westus',
                     sqlServerName: 'fake-server-name',
                     sqlServerCreateIfNotExist: true,
                     sqlServerParameters: {
-                        location: 'westus',
                         properties: {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
@@ -114,7 +114,7 @@ describe('SqlDb - Provision - PreConditions', function () {
         });
 
         it('should fail to validate the parameters', function (done) {
-            (cp.allValidatorsSucceed()).should.equal(false);
+            (cp.getInvalidParams())[0].should.equal('sqlServerCreateIfNotExist');
             done();
         });
     });
@@ -128,17 +128,16 @@ describe('SqlDb - Provision - PreConditions', function () {
                 azure: azure,
                 privilege: {
                     'sqldb': {
-                        'isAllowedToCreateSqlServer': true,
-                        'isAllowedToConfigureFirewallRules': true
+                        'allowToCreateSqlServer': true
                     }
                 },
-                accountPool:{sql:{}}
+                accountPool:{'sqldb':{}}
             };
             cp = new cmdProvision(log, params);
         });
 
         it('should fail to validate the parameters', function (done) {
-            (cp.allValidatorsSucceed()).should.equal(false);
+            (cp.getInvalidParams().length).should.not.equal(0);
             done();
         });
     });
@@ -197,6 +196,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
             plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
             parameters: {      // developer's input parameters file
                 resourceGroup: 'fake-resource-group-name',
+                location: 'westus',
                 sqlServerName: 'fake-server-name',
                 sqlServerParameters: {
                     allowSqlServerFirewallRules: [{
@@ -204,7 +204,6 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
                         startIpAddress: '0.0.0.0',
                         endIpAddress: '255.255.255.255'
                     }],
-                    location: 'westus',
                     properties: {
                         administratorLogin: 'fake-server-name',
                         administratorLoginPassword: 'c1oudc0w'
@@ -311,7 +310,6 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
             instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
             plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
             parameters: {      // developer's input parameters file
-                resourceGroup: 'fake-resource-group-name',
                 sqlServerName: 'fake-server-name',
                 sqldbName: 'fake-db-name',
                 sqldbParameters: {
@@ -329,6 +327,8 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
             accountPool:{
                 'sqldb': {
                     'fake-server-name': {
+                        resourceGroup: 'fake-resource-group-name',
+                        location: 'fake-location',
                         administratorLogin: 'fake-server-name',
                         administratorLoginPassword: 'c1oudc0w'
                     }
@@ -338,8 +338,6 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
 
         cp = new cmdProvision(log, params);
         cp.fixupParameters();
-        
-        msRestRequest.PUT = sinon.stub();
     });
     
     after(function () {
@@ -374,6 +372,7 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
                 );
             msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
                 .yields(null, {statusCode: 404});
+            msRestRequest.PUT = sinon.stub();
             msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
                 .yields(null, {statusCode: 202}, {});
         });
@@ -405,6 +404,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'fake-resource-group-name',
+                    location: 'westus',
                     sqlServerName: 'fake-server-name',
                     sqlServerParameters: {
                         allowSqlServerFirewallRules: [{
@@ -412,7 +412,6 @@ describe('SqlDb - Provision - Firewall rules', function () {
                             startIpAddress: '0.0.0.0',
                             endIpAddress: '255.255.255.255'
                         }],
-                        location: 'westus',
                         properties: {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
@@ -428,8 +427,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 azure: azure,
                 privilege: {
                     'sqldb': {
-                        'isAllowedToCreateSqlServer': true,
-                        'isAllowedToConfigureFirewallRules': true
+                        'allowToCreateSqlServer': true
                     }
                 },
                 accountPool:{sql:{}}
@@ -439,7 +437,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
         });
 
         it('correct firewall rule specs are given', function (done) {
-            (cp.allValidatorsSucceed()).should.equal(true);
+            (cp.getInvalidParams().length).should.equal(0);
             done();
         });
     });
@@ -451,9 +449,9 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'fake-resource-group-name',
+                    location: 'westus',
                     sqlServerName: 'fake-server-name',
                     sqlServerParameters: {
-                        location: 'westus',
                         properties: {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
@@ -469,8 +467,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 azure: azure,
                 privilege: {
                     'sqldb': {
-                        'isAllowedToCreateSqlServer': true,
-                        'isAllowedToConfigureFirewallRules': true
+                        'allowToCreateSqlServer': true
                     }
                 },
                 accountPool:{sql:{}}
@@ -487,7 +484,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
             it('Parameter validation should fail', function (done) {
                 cp = new cmdProvision(log, params);
                 cp.fixupParameters();
-                (cp.allValidatorsSucceed()).should.equal(false);
+                (cp.getInvalidParams())[0].should.equal('allowSqlServerFirewallRules');
                 done();
             });
         });
@@ -502,7 +499,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
             it('Parameter validation should fail', function (done) {
                 cp = new cmdProvision(log, params);
                 cp.fixupParameters();
-                (cp.allValidatorsSucceed()).should.equal(false);
+                (cp.getInvalidParams())[0].should.equal('allowSqlServerFirewallRules');
                 done();
             });
         });
@@ -517,7 +514,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
             it('Parameter validation should fail', function (done) {
                 cp = new cmdProvision(log, params);
                 cp.fixupParameters();
-                (cp.allValidatorsSucceed()).should.equal(false);
+                (cp.getInvalidParams())[0].should.equal('allowSqlServerFirewallRules');
                 done();
             });
         });

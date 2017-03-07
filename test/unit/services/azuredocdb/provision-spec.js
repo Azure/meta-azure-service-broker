@@ -80,14 +80,14 @@ describe('DocumentDb - Provision - Execution - DocDb that doesn\'t previsouly ex
     cp = new cmdProvision(log, validParams);
     
     msRestRequest.GET = sinon.stub();
-    msRestRequest.GET.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/docDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/testDocDbAccount')
+    msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/docDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/testDocDbAccount')
       .yields(null, {statusCode: 404});
     
     msRestRequest.PUT = sinon.stub();
     msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/docDbResourceGroup')
       .yields(null, {statusCode: 200});
 
-    msRestRequest.PUT.withArgs('https://management.azure.com/subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/docDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/testDocDbAccount')
+    msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/docDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/testDocDbAccount')
       .yields(null, {statusCode: 200});
   });
     
