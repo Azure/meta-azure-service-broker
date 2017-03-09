@@ -35,12 +35,12 @@
     "logule": "2.1.0",
     "ms-rest-azure": "1.14.5",
     "mssql": "3.1.2",
-    "node-uuid": "1.4.7",
     "request": "2.72.0",
     "restify": "4.3.0",
     "semver": "5.1.0",
     "string": "3.3.1",
-    "underscore": "1.8.3"
+    "underscore": "1.8.3",
+    "uuid": "3.0.1"    
   },
   "devDependencies": {
     "azure": "0.10.6",

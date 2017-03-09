@@ -1,4 +1,4 @@
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 
 var chai = require('chai');
 var chaiHttp = require('chai-http');

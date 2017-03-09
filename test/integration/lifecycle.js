@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 var async = require('async');
 var chai = require('chai');
 var chaiHttp = require('chai-http');
