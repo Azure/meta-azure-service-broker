@@ -313,6 +313,66 @@
                     "requestedServiceObjectiveName": "P11"
                 }
             }
+        },
+        {
+            "id":"b69af389-7af5-47bd-9ccf-c1ffdc2620d9",
+            "name": "DataWarehouse100",
+            "free": false,
+            "description": "SQL Data Warehouse, 100 DWU, 1024GB",
+            "metadata": {
+                "bullets": [
+                    "Combines the SQL Server relational database with Azure cloud scale-out capabilities",
+                    "Decouples storage from compute",
+                    "Enables increasing, decreasing, pausing, or resuming compute",
+                    "Utilizes SQL Server Transact-SQL (T-SQL) and tools",
+                    "Complies with various legal and business security requirements such as SOC and ISO"
+                ],
+                "costs": [
+                    {
+                        "amount": {
+                            "usd": 1.51
+                        },
+                        "unit": "hourly estimate"
+                    }
+                ],
+                "displayName": "SQL Date warehouse 100 DWU",
+                "details": {
+                    "createMode": "Default",
+                    "edition": "DataWarehouse",
+                    "maxSizeBytes": "1099511627776",
+                    "requestedServiceObjectiveName": "DW100"
+                }
+            }
+        },
+        {
+            "id":"470a869b-1b02-474b-b5e5-10ca0ea488df",
+            "name": "DataWarehouse1200",
+            "free": false,
+            "description": "SQL Data Warehouse, 1200 DWU, 1024GB",
+            "metadata": {
+                "bullets": [
+                    "Combines the SQL Server relational database with Azure cloud scale-out capabilities",
+                    "Decouples storage from compute",
+                    "Enables increasing, decreasing, pausing, or resuming compute",
+                    "Utilizes SQL Server Transact-SQL (T-SQL) and tools",
+                    "Complies with various legal and business security requirements such as SOC and ISO"
+                ],
+                "costs": [
+                    {
+                        "amount": {
+                            "usd": 18.15
+                        },
+                        "unit": "hourly estimate"
+                    }
+                ],
+                "displayName": "SQL Date warehouse 1200 DWU",
+                "details": {
+                    "createMode": "Default",
+                    "edition": "DataWarehouse",
+                    "maxSizeBytes": "1099511627776",
+                    "requestedServiceObjectiveName": "DW1200"
+                }
+            }
         }
     ]
 }

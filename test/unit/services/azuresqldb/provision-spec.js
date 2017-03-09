@@ -144,6 +144,49 @@ describe('SqlDb - Provision - PreConditions', function () {
     });
 });
 
+describe('SqlDb - Provision - FixupParameters ', function () {
+    var params;
+    before(function () {
+        params = {
+            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
+            plan_id: 'b69af389-7af5-47bd-9ccf-c1ffdc2620d9', //DW100
+            parameters: {      // developer's input parameters file
+                resourceGroup: 'sqldbResourceGroup',
+                sqlServerName: 'azureuser',
+                sqlServerParameters: {
+                    location: 'westus',
+                    properties: {
+                        administratorLogin: 'azureuser',
+                        administratorLoginPassword: 'c1oudc0w'
+                    }
+                },
+                sqldbName: 'my_datawarehouse',
+                sqldbParameters: {
+                    properties: {
+                        collation: 'SQL_Latin1_General_CP1_CI_AS'
+                    }
+                }
+            },
+            azure: azure,
+            privilege: {
+                'sqldb': {
+                    'allowToCreateSqlServer': true
+                }
+            },
+            accountPool:{'sqldb':{}}
+        };
+    });
+
+    it('should contain additional parameters', function () {
+        var cp = new cmdProvision(log, params);
+        cp.fixupParameters();
+        params.parameters.sqldbParameters.properties.maxSizeBytes.should.equal('1099511627776');
+        params.parameters.sqldbParameters.properties.createMode.should.equal('Default');
+        params.parameters.sqldbParameters.properties.edition.should.equal('DataWarehouse');
+        params.parameters.sqldbParameters.properties.requestedServiceObjectiveName.should.equal('DW100');
+    });
+});
+
 describe('SqlDb - Provision - Execution (allow to create server)', function () {
     var params = {};
     var cp;
