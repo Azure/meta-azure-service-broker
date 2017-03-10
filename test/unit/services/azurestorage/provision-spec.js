@@ -10,7 +10,6 @@
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var common = require('../../../../lib/common');
 var azurestorage = require('../../../../lib/services/azurestorage/');
 var storageClient = require('../../../../lib/services/azurestorage/storageclient');
 var azure = require('../helpers').azure;

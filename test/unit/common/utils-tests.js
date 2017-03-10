@@ -109,13 +109,13 @@ describe('Util', function() {
         
           expectedConfig['privilege']['sqldb']['allowToCreateSqlServer'] = true;
           expectedConfig['accountPool']['sqldb'] = {
-            "fake-server0": {
-              "administratorLogin": "fake-login0",
-              "administratorLoginPassword": "fake-pwd0"
+            'fake-server0': {
+              'administratorLogin': 'fake-login0',
+              'administratorLoginPassword': 'fake-pwd0'
             },
-            "fake-server1": {
-              "administratorLogin": "fake-login1",
-              "administratorLoginPassword": "fake-pwd1"
+            'fake-server1': {
+              'administratorLogin': 'fake-login1',
+              'administratorLoginPassword': 'fake-pwd1'
             }
           };
           
@@ -154,13 +154,13 @@ describe('Util', function() {
           
           expectedConfig['privilege']['sqldb']['allowToCreateSqlServer'] = false;
           expectedConfig['accountPool']['sqldb'] = {
-            "fake-server0": {
-              "administratorLogin": "fake-login0",
-              "administratorLoginPassword": "fake-pwd0"
+            'fake-server0': {
+              'administratorLogin': 'fake-login0',
+              'administratorLoginPassword': 'fake-pwd0'
             },
-            "fake-server1": {
-              "administratorLogin": "fake-login1",
-              "administratorLoginPassword": "fake-pwd1"
+            'fake-server1': {
+              'administratorLogin': 'fake-login1',
+              'administratorLoginPassword': 'fake-pwd1'
             }
           };
           

@@ -10,7 +10,6 @@
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var common = require('../../../../lib/common');
 var azurestorage = require('../../../../lib/services/azurestorage/');
 var storageClient = require('../../../../lib/services/azurestorage/storageclient');
 var azure = require('../helpers').azure;
@@ -26,7 +25,6 @@ describe('Storage', function() {
     });
 
     describe('When no error is thrown', function() {
-      var sandbox;
       var validParams = {};
       var primaryKey = 'fake-primary-key';
       var secondaryKey = 'fake-secondary-key';

@@ -7,7 +7,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var _ = require('underscore');
 var HttpStatus = require('http-status-codes');
 var logule = require('logule');
 var should = require('should');
@@ -30,7 +29,7 @@ describe('SqlDb - Provision - PreConditions', function () {
         before(function () {
             params = {
                 instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-                plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+                plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'sqldbResourceGroup',
                     sqlServerName: 'azureuser',
@@ -76,7 +75,7 @@ describe('SqlDb - Provision - PreConditions', function () {
         before(function () {
             params = {
                 instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-                plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+                plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'sqldbResourceGroup',
                     sqlServerName: 'azureuser',
@@ -123,7 +122,7 @@ describe('SqlDb - Provision - PreConditions', function () {
 
         before(function () {
             params = {
-                plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+                plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
                 instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
                 azure: azure,
                 privilege: {
@@ -194,7 +193,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
     before(function () {
         params = {
             instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+            plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
             parameters: {      // developer's input parameters file
                 resourceGroup: 'fake-resource-group-name',
                 sqlServerName: 'fake-server-name',
@@ -321,7 +320,7 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
     before(function () {
         params = {
             instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-            plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+            plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
             parameters: {      // developer's input parameters file
                 resourceGroup: 'fake-resource-group-name',
                 sqlServerName: 'fake-server-name',
@@ -416,7 +415,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
         before(function () {
             params = {
                 instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-                plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+                plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'sqldbResourceGroup',
                     sqlServerName: 'azureuser',
@@ -462,7 +461,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
         before(function () {
             params = {
                 instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
-                plan_id: "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+                plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
                 parameters: {      // developer's input parameters file
                     resourceGroup: 'sqldbResourceGroup',
                     sqlServerName: 'azureuser',

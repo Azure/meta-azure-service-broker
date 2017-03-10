@@ -2,7 +2,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
@@ -34,18 +33,17 @@ describe('DocumentDb - Provision - PreConditions', function() {
     
   describe('Provision should succeed if ...', function() {
     it('verifyParameters returns null', function(done) {
-      (cp.verifyParameters() === null).should.be.true;
+      (cp.verifyParameters() === null).should.equal(true);
       done();
     });        
   });
 });
 
 describe('DocumentDb - Provision - PreConditions incorrect', function() {
-  var validParams = {};
   var cp;
         
   before(function() { /* no parameters!! */
-    invalidParams = {
+    var invalidParams = {
       instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',            
       azure : azure
     };

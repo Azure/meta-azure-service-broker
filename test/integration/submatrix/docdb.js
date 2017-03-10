@@ -26,19 +26,19 @@ var azuredocumentdb = {
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
-    "resourceGroup": resourceGroupName,
-    "docDbAccountName": instanceId,
-    "docDbName": instanceId,
-    "location": location
+    'resourceGroup': resourceGroupName,
+    'docDbAccountName': instanceId,
+    'docDbName': instanceId,
+    'location': location
   },
   bindingParameters: {},
   credentials: {
-    "documentdb_host_endpoint": "<string>",
-    "documentdb_master_key": "<string>",
-    "documentdb_database_id": instanceId,
-    "documentdb_database_link": "<string>"
+    'documentdb_host_endpoint': '<string>',
+    'documentdb_master_key': '<string>',
+    'documentdb_database_id': instanceId,
+    'documentdb_database_link': '<string>'
   }
-}
+};
 testMatrix.push(azuredocumentdb);
 
 module.exports = testMatrix;

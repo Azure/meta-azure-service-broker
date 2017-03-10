@@ -7,7 +7,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var _ = require('underscore');
 var HttpStatus = require('http-status-codes');
 var logule = require('logule');
 var should = require('should');
@@ -50,7 +49,7 @@ var afterProvisionValidParams = {
         }
     },
     last_operation: 'provision',
-    provisioning_result: "{\"administratorLogin\":\"xxxx\",\"administratorLoginPassword\":\"xxxxxxx\",\"operation\":\"CreateLogicalDatabase\",\"startTime\":\"/ Date(1467968057450 + 0000) / \",\"id\":\"subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/ sqldbResourceGroup / providers / Microsoft.Sql / servers / golive4 / databases / sqldb\",\"type\":\"Microsoft.Sql / servers / databases\",\"provisioningResult\":\"creating\",\"sqlServerName\":\"golive4\",\"sqldbName\":\"sqldb\",\"sqldbParameters\":{\"location\":\"westus\",\"properties\":{\"collation\":\"SQL_Latin1_General_CP1_CI_AS\",\"maxSizeBytes\":\"2147483648\",\"createMode\":\"Default\",\"edition\":\"Basic\",\"requestedServiceObjectiveName\":\"Basic\"}}}",
+    provisioning_result: '{"administratorLogin":"xxxx","administratorLoginPassword":"xxxxxxx","operation":"CreateLogicalDatabase","startTime":"/ Date(1467968057450 + 0000) / ","id":"subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/ sqldbResourceGroup / providers / Microsoft.Sql / servers / golive4 / databases / sqldb","type":"Microsoft.Sql / servers / databases","provisioningResult":"creating","sqlServerName":"golive4","sqldbName":"sqldb","sqldbParameters":{"location":"westus","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":"2147483648","createMode":"Default","edition":"Basic","requestedServiceObjectiveName":"Basic"}}}',
     azure: azure
 };
 
@@ -88,7 +87,7 @@ var afterDeprovisionValidParams = {
         }
     },
     last_operation: 'deprovision',
-    provisioning_result: '{\"id\":\"/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb\",\"name\":\"sqldb\",\"type\":\"Microsoft.Sql/servers/databases\",\"location\":\"West US\",\"kind\":\"v12.0,user\",\"properties\":{\"databaseId\":\"1e141874-5886-4077-a476-f2ecc4b0016d\",\"edition\":\"Basic\",\"status\":\"Online\",\"serviceLevelObjective\":\"Basic\",\"collation\":\"SQL_Latin1_General_CP1_CI_AS\",\"maxSizeBytes\":\"2147483648\",\"creationDate\":\"2016-07-09T13:39:44.4Z\",\"currentServiceObjectiveId\":\"dd6d99bb-f193-4ec1-86f2-43d3bccbc49c\",\"requestedServiceObjectiveId\":\"dd6d99bb-f193-4ec1-86f2-43d3bccbc49c\",\"requestedServiceObjectiveName\":null,\"defaultSecondaryLocation\":\"East US\",\"earliestRestoreDate\":\"2016-07-09T13:49:55.667Z\",\"elasticPoolName\":null,\"containmentState\":2},\"sqlServerName\":\"golive4\",\"administratorLogin\":\"xxxx\",\"administratorLoginPassword\":\"xxxxxxx\"}',
+    provisioning_result: '{"id":"/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb","name":"sqldb","type":"Microsoft.Sql/servers/databases","location":"West US","kind":"v12.0,user","properties":{"databaseId":"1e141874-5886-4077-a476-f2ecc4b0016d","edition":"Basic","status":"Online","serviceLevelObjective":"Basic","collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":"2147483648","creationDate":"2016-07-09T13:39:44.4Z","currentServiceObjectiveId":"dd6d99bb-f193-4ec1-86f2-43d3bccbc49c","requestedServiceObjectiveId":"dd6d99bb-f193-4ec1-86f2-43d3bccbc49c","requestedServiceObjectiveName":null,"defaultSecondaryLocation":"East US","earliestRestoreDate":"2016-07-09T13:49:55.667Z","elasticPoolName":null,"containmentState":2},"sqlServerName":"golive4","administratorLogin":"xxxx","administratorLoginPassword":"xxxxxxx"}',
     azure: azure
 };
 
@@ -133,7 +132,6 @@ describe('SqlDb - Poll - polling database immediately after creation is started'
 
 describe('SqlDb - Poll - polling database after creation is complete', function () {
 
-    var cp;
     var sqldbOpsGetDatabaseResult = {
         statusCode: 200,
         body: {
@@ -203,11 +201,11 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
 
         it('fail if transparent data encryption failed', function (done) {
             var cp = new cmdPoll(log, afterProvisionValidParamsWithTDE);
-            var tdeError = new Error("TDE failure");
+            var tdeError = new Error('TDE failure');
             sinon.stub(sqldbOps, 'setTransparentDataEncryption').yields(tdeError);
             cp.poll(sqldbOps, function (err, result) {
                 should.exist(err);
-                err.message.should.equal("TDE failure");
+                err.message.should.equal('TDE failure');
                 done();
             });
         });
@@ -217,14 +215,14 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
             var tdeResult = {
                 statusCode:HttpStatus.BAD_GATEWAY,
                 body:{
-                    message:"Bad Gateway"
+                    message:'Bad Gateway'
                 }
             };
             sinon.stub(sqldbOps, 'setTransparentDataEncryption').yields(null, tdeResult);
 
             cp.poll(sqldbOps, function (err, result) {
                 should.exist(err);
-                err.message.should.equal("Bad Gateway");
+                err.message.should.equal('Bad Gateway');
                 done();
             });
         });
@@ -234,7 +232,7 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
             var tdeResult = {
                 statusCode:HttpStatus.CREATED,
                 body:{
-                    message:"success"
+                    message:'success'
                 }
             };
             var stub = sinon.stub(sqldbOps, 'setTransparentDataEncryption').yields(null, tdeResult);
@@ -282,7 +280,7 @@ describe('SqlDb - Poll - polling database after de-provision is complete', funct
 
     var cp;
 
-    sqldbOpsGetDatabaseResult = {
+    var sqldbOpsGetDatabaseResult = {
         statusCode: 404,
         value:
         {
@@ -336,7 +334,7 @@ describe('SqlDb - Client setTransparentDataEncryption...', function () {
             should.exist(result.body);
             should.equal(result.body, 'sample body');
             should.ok(putStub.calledOnce);
-            data = putStub.args[0][2];
+            var data = putStub.args[0][2];
             should.exist(data);
             should.equal(data.properties.status, 'Enabled');
         });

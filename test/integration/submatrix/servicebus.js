@@ -27,22 +27,22 @@ var azureservicebus = {
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
-    "resource_group_name": resourceGroupName,
-    "namespace_name": namespaceName,
-    "location": location,
-    "type": "Messaging",
-    "messaging_tier": "Standard",
-    "tags": {
-      "foo": "bar"
+    'resource_group_name': resourceGroupName,
+    'namespace_name': namespaceName,
+    'location': location,
+    'type': 'Messaging',
+    'messaging_tier': 'Standard',
+    'tags': {
+      'foo': 'bar'
     }
   },
   bindingParameters: {},
   credentials: {
-    "namespace_name": namespaceName,
-    "shared_access_key_name": "<string>",
-    "shared_access_key_value": "<string>",
+    'namespace_name': namespaceName,
+    'shared_access_key_name': '<string>',
+    'shared_access_key_value': '<string>',
   }
-}
+};
 testMatrix.push(azureservicebus);
 
 module.exports = testMatrix;

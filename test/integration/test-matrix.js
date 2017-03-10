@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 var submatrix = ['storage', 'servicebus', 'docdb', 'sqldb', 'rediscache'];
 
 var testMatrix = [];
@@ -9,5 +7,3 @@ submatrix.forEach(function(name) {
 });
 
 module.exports = testMatrix;
-
-

@@ -15,7 +15,7 @@ if (!_.has(supportedEnvironments, environment)) {
 }
 
 var location = supportedEnvironments[environment]['location'];
-var sqlServerNam;
+var sqlServerName;
 var sqldbName;
 var azuresqldb;
 
@@ -31,48 +31,48 @@ azuresqldb = {
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
-    "resourceGroup": resourceGroupName,
-    "location": location,
-    "sqlServerName": sqlServerName,
-    "sqlServerParameters": {
-      "allowSqlServerFirewallRules": [
+    'resourceGroup': resourceGroupName,
+    'location': location,
+    'sqlServerName': sqlServerName,
+    'sqlServerParameters': {
+      'allowSqlServerFirewallRules': [
         {
-          "ruleName": "test",
-          "startIpAddress": "111.111.111.111",
-          "endIpAddress": "111.111.111.111"
+          'ruleName': 'test',
+          'startIpAddress': '111.111.111.111',
+          'endIpAddress': '111.111.111.111'
         }
       ],
-      "properties": {
-        "administratorLogin": "azureuser",
-        "administratorLoginPassword": "c1oudc0w!@#"
+      'properties': {
+        'administratorLogin': 'azureuser',
+        'administratorLoginPassword': 'c1oudc0w!@#'
       },
-      "tags": {
-        "foo": "bar"
+      'tags': {
+        'foo': 'bar'
       }
     },
-    "sqldbName": sqldbName,
-    "transparentDataEncryption": false,
-    "sqldbParameters": {
-      "properties": {
-        "collation": "SQL_Latin1_General_CP1_CI_AS"
+    'sqldbName': sqldbName,
+    'transparentDataEncryption': false,
+    'sqldbParameters': {
+      'properties': {
+        'collation': 'SQL_Latin1_General_CP1_CI_AS'
       },
-      "tags": {
-        "foo": "bar"
+      'tags': {
+        'foo': 'bar'
       }
     }
   },
   bindingParameters: {},
   credentials: {
-    "databaseLogin": "<string>",
-    "databaseLoginPassword": "<string>",
-    "sqlServerName": sqlServerName,
-    "sqlServerFullyQualifiedDomainName": "<string>",
-    "sqldbName": sqldbName,
-    "jdbcUrl": "<string>",
-    "jdbcUrlForAuditingEnabled": "<string>"
+    'databaseLogin': '<string>',
+    'databaseLoginPassword': '<string>',
+    'sqlServerName': sqlServerName,
+    'sqlServerFullyQualifiedDomainName': '<string>',
+    'sqldbName': sqldbName,
+    'jdbcUrl': '<string>',
+    'jdbcUrlForAuditingEnabled': '<string>'
   },
   e2e: false
-}
+};
 testMatrix.push(azuresqldb);
 
 instanceId = uuid.v4();
@@ -87,48 +87,48 @@ azuresqldb = {
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
-    "resourceGroup": resourceGroupName,
-    "location": location,
-    "sqlServerName": sqlServerName,
-    "sqlServerParameters": {
-      "allowSqlServerFirewallRules": [
+    'resourceGroup': resourceGroupName,
+    'location': location,
+    'sqlServerName': sqlServerName,
+    'sqlServerParameters': {
+      'allowSqlServerFirewallRules': [
         {
-          "ruleName": "test",
-          "startIpAddress": "0.0.0.0",
-          "endIpAddress": "255.255.255.255"
+          'ruleName': 'test',
+          'startIpAddress': '0.0.0.0',
+          'endIpAddress': '255.255.255.255'
         }
       ],
-      "properties": {
-        "administratorLogin": "azureuser",
-        "administratorLoginPassword": "c1oudc0w!@#"
+      'properties': {
+        'administratorLogin': 'azureuser',
+        'administratorLoginPassword': 'c1oudc0w!@#'
       },
-      "tags": {
-        "foo": "bar"
+      'tags': {
+        'foo': 'bar'
       }
     },
-    "sqldbName": sqldbName,
-    "transparentDataEncryption": true,
-    "sqldbParameters": {
-      "properties": {
-        "collation": "SQL_Latin1_General_CP1_CI_AS"
+    'sqldbName': sqldbName,
+    'transparentDataEncryption': true,
+    'sqldbParameters': {
+      'properties': {
+        'collation': 'SQL_Latin1_General_CP1_CI_AS'
       },
-      "tags": {
-        "foo": "bar"
+      'tags': {
+        'foo': 'bar'
       }
     }
   },
   bindingParameters: {},
   credentials: {
-    "databaseLogin": "<string>",
-    "databaseLoginPassword": "<string>",
-    "sqlServerName": sqlServerName,
-    "sqlServerFullyQualifiedDomainName": "<string>",
-    "sqldbName": sqldbName,
-    "jdbcUrl": "<string>",
-    "jdbcUrlForAuditingEnabled": "<string>"
+    'databaseLogin': '<string>',
+    'databaseLoginPassword': '<string>',
+    'sqlServerName': sqlServerName,
+    'sqlServerFullyQualifiedDomainName': '<string>',
+    'sqldbName': sqldbName,
+    'jdbcUrl': '<string>',
+    'jdbcUrlForAuditingEnabled': '<string>'
   },
   e2e: true
-}
+};
 testMatrix.push(azuresqldb);
 
 module.exports = testMatrix;

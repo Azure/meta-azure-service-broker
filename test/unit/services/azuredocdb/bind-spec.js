@@ -7,7 +7,6 @@ var should = require('should');
 var sinon = require('sinon');
 var cmdBind = require('../../../../lib/services/azuredocdb/cmd-bind');
 var docDbClient = require('../../../../lib/services/azuredocdb/client');
-var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'DocumentDb-Tests');
 

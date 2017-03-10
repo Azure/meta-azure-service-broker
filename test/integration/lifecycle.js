@@ -1,3 +1,4 @@
+/*jshint expr: true*/
 var _ = require('underscore');
 var uuid = require('uuid');
 var async = require('async');
@@ -53,7 +54,7 @@ var lifecycle = function(service) {
           .set('X-Broker-API-Version', '2.8')
           .auth('demouser', 'demopassword')
           .query({
-            accepts_incomplete: true
+            'accepts_incomplete': true
           })
           .send({
             'organization_guid': uuid.v4(),
@@ -75,7 +76,7 @@ var lifecycle = function(service) {
           .set('X-Broker-API-Version', '2.8')
           .auth('demouser', 'demopassword')
           .query({
-            accepts_incomplete: true
+            'accepts_incomplete': true
           })
           .send({
             'organization_guid': uuid.v4(),
@@ -181,8 +182,8 @@ var lifecycle = function(service) {
             .set('X-Broker-API-Version', '2.8')
             .auth('demouser', 'demopassword')
             .query({
-              service_id: serviceId,
-              plan_id: planId
+              'service_id': serviceId,
+              'plan_id': planId
             })
             .end(function(err, res) {
               res.should.have.status(200);
@@ -200,8 +201,8 @@ var lifecycle = function(service) {
             .set('X-Broker-API-Version', '2.8')
             .auth('demouser', 'demopassword')
             .query({
-              service_id: serviceId,
-              plan_id: planId
+              'service_id': serviceId,
+              'plan_id': planId
             })
             .end(function(err, res) {
               res.should.have.status(202);

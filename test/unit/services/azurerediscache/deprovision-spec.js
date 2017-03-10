@@ -6,7 +6,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');

@@ -27,21 +27,21 @@ var azurestorage = {
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
-    "resource_group_name": resourceGroupName,
-    "storage_account_name": storageAccountName,
-    "location": location,
-    "account_type": "Standard_RAGRS",
-    "tags": {
-      "foo": "bar"
+    'resource_group_name': resourceGroupName,
+    'storage_account_name': storageAccountName,
+    'location': location,
+    'account_type': 'Standard_RAGRS',
+    'tags': {
+      'foo': 'bar'
     }
   },
   bindingParameters: {},
   credentials: {
-    "storage_account_name": storageAccountName,
-    "primary_access_key": "<string>",
-    "secondary_access_key": "<string>"
+    'storage_account_name': storageAccountName,
+    'primary_access_key': '<string>',
+    'secondary_access_key': '<string>'
   }
-}
+};
 testMatrix.push(azurestorage);
 
 module.exports = testMatrix;

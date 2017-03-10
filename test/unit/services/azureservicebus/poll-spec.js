@@ -10,7 +10,6 @@
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var common = require('../../../../lib/common');
 var azureservicebus = require('../../../../lib/services/azureservicebus/');
 var utils = require('../../../../lib/services/azureservicebus/utils');
 var azure = require('../helpers').azure;
@@ -245,7 +244,7 @@ describe('ServiceBus', function() {
           provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
           azure: azure,
         };
-        var notFoundError = new Error("Namespace not found.");
+        var notFoundError = new Error('Namespace not found.');
         notFoundError.statusCode = 404;
         sinon.stub(utils, 'checkNamespaceStatus').yields(notFoundError);
       });

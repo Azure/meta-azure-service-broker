@@ -7,7 +7,6 @@ var should = require('should');
 var sinon = require('sinon');
 var cmdPoll = require('../../../../lib/services/azuredocdb/cmd-poll');
 var docDbClient = require('../../../../lib/services/azuredocdb/client');
-var azure = require('../helpers').azure;
 
 var log = logule.init(module, 'DocumentDb-Tests');
 
@@ -18,11 +17,11 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
     validParams = {
       instance_id: '2e201389-35ff-4b89-9148-5c08c7325dc8',
       provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }',
-      last_operation: "provision"
+      last_operation: 'provision'
     };
     sinon.stub(docDbClient, 'getToken').yields(null);
     sinon.stub(docDbClient, 'getAccountKey').yields(null);
-    sinon.stub(docDbClient, 'createDocDbDatabase').yields(null, "docdbmasterkey", {id: "abc", _self: "abc"});
+    sinon.stub(docDbClient, 'createDocDbDatabase').yields(null, 'docdbmasterkey', {id: 'abc', _self: 'abc'});
   });
     
   after(function() {
@@ -34,7 +33,7 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
   describe('Poll operation outcomes should be...', function() {
     it('should output state = succeeded, if docdb account is created', function(done) {
       var cp = new cmdPoll(log, validParams);
-      sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: "Succeeded"}});
+      sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: 'Succeeded'}});
       cp.poll(docDbClient, function(err, reply) {
         should.not.exist(err);
         reply.value.state.should.equal('succeeded');
@@ -45,7 +44,7 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
     
     it('should output state = in progress, if docdb account is creating', function(done) {
       var cp = new cmdPoll(log, validParams);
-      sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: "Creating"}});
+      sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: 'Creating'}});
       cp.poll(docDbClient, function(err, reply) {
         should.not.exist(err);
         reply.value.state.should.equal('in progress');
@@ -63,14 +62,14 @@ describe('DocumentDb - Deprovision-Poll - Execution', function() {
     validParams = {
       instance_id: '2e201389-35ff-4b89-9148-5c08c7325dc8',
       provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }',
-      last_operation: "deprovision"
+      last_operation: 'deprovision'
     };
   });
     
   describe('Poll operation outcomes should be...', function() {
     it('should output state = in progress, if docdb account is being deleting', function(done) {
       var cp = new cmdPoll(log, validParams);
-      sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: "Deleting"}});
+      sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: 'Deleting'}});
       cp.poll(docDbClient, function(err, reply) {
         should.not.exist(err);
         reply.value.state.should.equal('in progress');

@@ -10,7 +10,6 @@
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
-var common = require('../../../../lib/common');
 var azureservicebus = require('../../../../lib/services/azureservicebus/');
 var utils = require('../../../../lib/services/azureservicebus/utils');
 var azure = require('../helpers').azure;
@@ -30,7 +29,6 @@ describe('ServiceBus', function() {
       utils.getToken.restore();
     });
     describe('When no error is thrown', function() {
-      var sandbox;
       var validParams = {};
       var key_name = 'RootManageSharedAccessKey';
       var key_value = 'fake-primary-key';

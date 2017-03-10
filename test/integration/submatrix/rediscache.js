@@ -28,31 +28,31 @@ var azurerediscache = {
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
-    "resourceGroup": resourceGroupName,
-    "cacheName": cacheName,
-    "parameters": {
-      "location": location,
-      "enableNonSslPort": false,
-      "sku": {
-        "name": "Basic",
-        "family": "C",
-        "capacity": 0
+    'resourceGroup': resourceGroupName,
+    'cacheName': cacheName,
+    'parameters': {
+      'location': location,
+      'enableNonSslPort': false,
+      'sku': {
+        'name': 'Basic',
+        'family': 'C',
+        'capacity': 0
       },
-      "tags": {
-        "foo": "bar"
+      'tags': {
+        'foo': 'bar'
       }
     }
   },
   bindingParameters: {},
   credentials: {
-    "hostname": hostname,
-    "name": cacheName,
-    "port": 6379,
-    "primaryKey": "<string>",
-    "secondaryKey": "<string>",
-    "sslPort": 6380
+    'hostname': hostname,
+    'name': cacheName,
+    'port': 6379,
+    'primaryKey': '<string>',
+    'secondaryKey': '<string>',
+    'sslPort': 6380
   }
-}
+};
 testMatrix.push(azurerediscache);
 
 module.exports = testMatrix;

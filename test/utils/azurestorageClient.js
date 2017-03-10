@@ -4,13 +4,11 @@ var logule = require('logule');
 var statusCode = require('./statusCode');
 var supportedEnvironments = require('./supportedEnvironments');
 
-var LOCALFILE = __filename;
-
 module.exports = function(environment) {
   var clientName = 'azurestorageClient';
   var log = logule.init(module, clientName);
   var validate = function(accountName, accountKey, callback) {
-    var context = {}
+    var context = {};
     context.accountName = accountName;
     context.accountKey = accountKey;
     context.status = statusCode.FAIL;
@@ -32,17 +30,17 @@ module.exports = function(environment) {
       context.exception = ex;
       callback(context);
     }
-  }
+  };
 
   this.validateCredential = function(credential, next) {
     async.parallel([
       function(callback) {
-        validate(credential.storage_account_name, credential.primary_access_key, function(context) {
+        validate(credential['storage_account_name'], credential['primary_access_key'], function(context) {
            callback(null, context);
         });
       },
       function(callback) {
-        validate(credential.storage_account_name, credential.secondary_access_key, function(context) {
+        validate(credential['storage_account_name'], credential['secondary_access_key'], function(context) {
            callback(null, context);
         });
       }
@@ -52,12 +50,10 @@ module.exports = function(environment) {
       for(var i=0, len=results.length; i < len; i++) {
         if(results[i].status != statusCode.PASS) {
           result = statusCode.FAIL;
-          log.error('FAIL result: ' + results[i])
+          log.error('FAIL result: ' + results[i]);
         }
       }
       next(result);
     });
   };
-}
-
-
+};

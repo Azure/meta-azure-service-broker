@@ -9,7 +9,7 @@ module.exports = function(environment) {
   var log = logule.init(module, clientName);
 
   this.validateCredential = function(credential, next) {
-    var connectionString = 'Endpoint=sb://' + credential.namespace_name + supportedEnvironments[environment]['serviceBusEndpointSuffix'] + '/;SharedAccessKeyName=' + credential.shared_access_key_name + ';SharedAccessKey=' + credential.shared_access_key_value; 
+    var connectionString = 'Endpoint=sb://' + credential['namespace_name'] + supportedEnvironments[environment]['serviceBusEndpointSuffix'] + '/;SharedAccessKeyName=' + credential['shared_access_key_name'] + ';SharedAccessKey=' + credential['shared_access_key_value']; 
     log.debug('connectionString: ' + connectionString);
     var queueName = 'azureservicebus' + Math.floor(Math.random()*1000);
     var message = {body: 'servicebus test message'};
@@ -23,7 +23,7 @@ module.exports = function(environment) {
               callback(null, statusCode.PASS);
             } else {
               log.error('Queue ' + queueName + ' not created. Error: ' + error);
-              callback(error)
+              callback(error);
             }
           });
         },
@@ -46,7 +46,7 @@ module.exports = function(environment) {
                 callback(null, statusCode.PASS);
               } else {
                 log.error('Message does not match. Sent: ' + message + ' Received: ' + receivedMessage);
-                callback(new Error('recive message does not match the message sent'), statusCode.FAIL)
+                callback(new Error('recive message does not match the message sent'), statusCode.FAIL);
               }
             } else {
               log.error('Failed to receive message. Error: ' + receivedMessage);
@@ -59,12 +59,12 @@ module.exports = function(environment) {
         if (err || result != statusCode.PASS) {
           next(statusCode.FAIL);
         } else {
-          next(statusCode.PASS)
+          next(statusCode.PASS);
         }
       });
     } catch (ex) {
       log.error('Got exception: ' + ex);
       next(statusCode.FAIL);
     }   
-  }
-}
+  };
+};

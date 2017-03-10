@@ -1,11 +1,10 @@
-var uuid = require('uuid');
+/*jshint expr: true*/
 
 var chai = require('chai');
 var chaiHttp = require('chai-http');
-var should = chai.should();
 chai.use(chaiHttp);
 
-var broker = require('../../brokerserver')
+var broker = require('../../brokerserver');
 var server = broker.restServer;
 
 describe('Catalog', function() {

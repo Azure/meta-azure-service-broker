@@ -2,7 +2,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
@@ -78,7 +77,7 @@ describe('DocumentDb - Index - Poll', function() {
                 location:'eastus'
             }
         };
-        sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: "Succeeded"}});
+        sinon.stub(docDbClient, 'getDocDbAccount').yields(null, {properties: {provisioningState: 'Succeeded'}});
         sinon.stub(docDbClient, 'getToken').yields(null);
         sinon.stub(docDbClient, 'getAccountKey').yields(null);
         sinon.stub(docDbClient, 'createDocDbDatabase').yields(null);
@@ -114,7 +113,7 @@ describe('DocumentDb - Index - Bind', function() {
             azure: azure,
             provisioning_result: provisioningResult,
             parameters: {
-              resourceGroupName: "myRG",
+              resourceGroupName: 'myRG',
               docDbAccountName: 'eDocDbAccount',
               docDbName: 'eDocDb',
               location:'eastus'
@@ -178,7 +177,7 @@ describe('DocumentDb - Index - De-provision', function() {
             azure: azure,
             provisioning_result: provisioningResult,
             parameters: {
-              resourceGroupName: "myRG",
+              resourceGroupName: 'myRG',
               docDbAccountName: 'eDocDbAccount',
               docDbName: 'eDocDb',
               location:'eastus'

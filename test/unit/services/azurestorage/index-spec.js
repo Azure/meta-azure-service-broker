@@ -2,7 +2,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var _ = require('underscore');
 var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
@@ -74,7 +73,7 @@ describe('Storage - Index - Provision', function() {
       last_operation: 'provision',
       azure: azure,
       parameters: parameters
-    }
+    };
   });
 
   after(function() {
@@ -117,7 +116,7 @@ describe('Storage - Index - Poll existing storage', function() {
       provisioning_result: JSON.stringify(provisioningResult),
       azure: azure,
       parameters: parameters
-    }
+    };
   });
 
   after(function() {
@@ -153,7 +152,7 @@ describe('Storage - Index - Bind existing storage', function() {
       provisioning_result: JSON.stringify(provisioningResult),
       azure: azure,
       parameters: parameters
-    }
+    };
   });
 
   after(function() {
@@ -189,7 +188,7 @@ describe('Storage - Index - De-provision existing storage', function() {
       last_operation: 'provision',
       provisioning_result: JSON.stringify(provisioningResult),
       azure: azure
-    }
+    };
   });
 
   after(function() {
@@ -224,7 +223,7 @@ describe('Storage - Index - Poll de-provisioned storage', function() {
       provisioning_result: JSON.stringify(provisioningResult),
       azure: azure,
       parameters: parameters
-    }
+    };
   });
 
   after(function() {

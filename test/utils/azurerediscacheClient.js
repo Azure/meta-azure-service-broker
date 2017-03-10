@@ -8,9 +8,9 @@ module.exports = function() {
   var log = logule.init(module, clientName);
   this.validateCredential = function(credential, next) {
     try {
-      var client = redis.createClient(credential.sslPort, credential.hostname, {auth_pass: credential.primaryKey, tls: {servername: credential.hostname}});
-      client.on("error", function (err) {
-        log.error("Client Error: " + err);
+      var client = redis.createClient(credential.sslPort, credential.hostname, {'auth_pass': credential.primaryKey, 'tls': {servername: credential.hostname}});
+      client.on('error', function (err) {
+        log.error('Client Error: ' + err);
         client.end(false);
       });
       var key = clientName + 'key' + Math.floor(Math.random()*1000);
@@ -46,7 +46,7 @@ module.exports = function() {
         if(err || result != statusCode.PASS) {
           next(statusCode.FAIL);
         } else {
-          next(statusCode.PASS)
+          next(statusCode.PASS);
         }
       }); 
   
@@ -54,5 +54,5 @@ module.exports = function() {
       log.error('Got an exception: ' + ex);
       next(statusCode.FAIL);
     }
-  }
-}
+  };
+};
