@@ -6,9 +6,13 @@ var should = chai.should();
 var util = require('util');
 
 exports.clean = function(provisioningParameters, done) {
+  var resourceGroupName = provisioningParameters.resourceGroup || provisioningParameters.resource_group_name;
+  if (!resourceGroupName) {
+    return done();
+  }
+  
   var environmentName = process.env['ENVIRONMENT'];
   var subscriptionId = process.env['SUBSCRIPTION_ID'];
-  var resourceGroupName = provisioningParameters.resourceGroup || provisioningParameters.resource_group_name;
   
   var API_VERSIONS = common.API_VERSION[environmentName];
   
