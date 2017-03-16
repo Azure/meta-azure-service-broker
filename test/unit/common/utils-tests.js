@@ -82,6 +82,8 @@ describe('Util', function() {
           keys.forEach(function(key){
             process.env[key] = environmentVariablesToSet[key];
           });
+          delete process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'];
+          delete process.env['AZURE_SQLDB_SQL_SERVER_POOL'];
         });
 
         after(function() {
@@ -184,6 +186,75 @@ describe('Util', function() {
               'administratorLoginPassword': 'fake-pwd1'
             }
           };
+          
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToSet[key];
+          });
+        });
+
+        after(function() {
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToBackup[key];
+          });
+        });
+        
+        it('should fetch configurations from environment variables - 3', function() {
+          var actualConfig = Common.getConfigurations();
+          actualConfig.should.eql(expectedConfig);
+        });
+      });
+      
+      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is true', function() {
+        before(function() {
+          process.env['AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION'] = 'true';
+          
+          expectedConfig['defaultSettings']['sqldb']['transparentDataEncryption'] = true;
+          
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToSet[key];
+          });
+        });
+
+        after(function() {
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToBackup[key];
+          });
+        });
+        
+        it('should fetch configurations from environment variables - 4', function() {
+          var actualConfig = Common.getConfigurations();
+          actualConfig.should.eql(expectedConfig);
+        });
+      });
+      
+      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is false', function() {
+        before(function() {
+          process.env['AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION'] = 'false';
+          
+          expectedConfig['defaultSettings']['sqldb']['transparentDataEncryption'] = false;
+          
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToSet[key];
+          });
+        });
+
+        after(function() {
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToBackup[key];
+          });
+        });
+        
+        it('should fetch configurations from environment variables - 5', function() {
+          var actualConfig = Common.getConfigurations();
+          actualConfig.should.eql(expectedConfig);
+        });
+      });
+      
+      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is not present', function() {
+        before(function() {
+          delete process.env['AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION'];
+          
+          expectedConfig['defaultSettings']['sqldb']['transparentDataEncryption'] = false;
           
           keys.forEach(function(key){
             process.env[key] = environmentVariablesToSet[key];
