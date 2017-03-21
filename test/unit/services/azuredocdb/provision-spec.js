@@ -2,7 +2,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var util = require('util');
@@ -11,11 +10,9 @@ var docDbClient = require('../../../../lib/services/azuredocdb/client');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
 
-var log = logule.init(module, 'DocumentDb-Mocha');
-
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
-docDbClient.initialize(azure, log);
+docDbClient.initialize(azure);
 
 describe('DocumentDb - Provision - PreConditions', function() {
   var validParams = {};
@@ -32,7 +29,7 @@ describe('DocumentDb - Provision - PreConditions', function() {
       },
       azure : azure
     };
-    cp = new cmdProvision(log, validParams);
+    cp = new cmdProvision(validParams);
   });
     
   describe('Provision should succeed if ...', function() {
@@ -51,7 +48,7 @@ describe('DocumentDb - Provision - PreConditions incorrect', function() {
       instance_id : '2e201389-35ff-4b89-9148-5c08c7325dc8',            
       azure : azure
     };
-    cp = new cmdProvision(log, invalidParams);
+    cp = new cmdProvision(invalidParams);
   });
     
   describe('Provision should fail if ...', function() {
@@ -77,7 +74,7 @@ describe('DocumentDb - Provision - Execution - DocDb that doesn\'t previsouly ex
       },
       azure : azure,
     };
-    cp = new cmdProvision(log, validParams);
+    cp = new cmdProvision(validParams);
     
     msRestRequest.GET = sinon.stub();
     msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/docDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/testDocDbAccount')

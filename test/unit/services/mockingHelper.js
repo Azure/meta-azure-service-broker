@@ -7,6 +7,7 @@ module.exports.backup = function(){
   originPut = msRestRequest.PUT;
   originPost = msRestRequest.POST;
   originDelete = msRestRequest.DELETE;
+  
 };
 
 module.exports.restore = function(){

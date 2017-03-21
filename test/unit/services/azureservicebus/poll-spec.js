@@ -7,14 +7,11 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var azureservicebus = require('../../../../lib/services/azureservicebus/');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
-
-var log = logule.init(module, 'ServiceBus-Mocha');
 
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
@@ -45,7 +42,7 @@ describe('ServiceBus', function() {
       });
       
       it('should return the state: succeeded', function(done) {
-        azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
+        azureservicebus.poll(validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
           lastOperation.should.equal('provision');
 
@@ -90,7 +87,7 @@ describe('ServiceBus', function() {
       });
       
       it('should return the state: in progress', function(done) {
-        azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
+        azureservicebus.poll(validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
           lastOperation.should.equal('provision');
 
@@ -135,7 +132,7 @@ describe('ServiceBus', function() {
       });
       
       it('should return the state: in progress', function(done) {
-        azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
+        azureservicebus.poll(validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
           lastOperation.should.equal('provision');
 
@@ -180,7 +177,7 @@ describe('ServiceBus', function() {
       });
       
       it('should return the state: in progress', function(done) {
-        azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
+        azureservicebus.poll(validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
           lastOperation.should.equal('provision');
 
@@ -225,7 +222,7 @@ describe('ServiceBus', function() {
       });
       
       it('should return the state: in progress', function(done) {
-        azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
+        azureservicebus.poll(validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
           lastOperation.should.equal('deprovision');
 
@@ -272,7 +269,7 @@ describe('ServiceBus', function() {
       });
       
       it('should return the state: succeeded', function(done) {
-        azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
+        azureservicebus.poll(validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
           lastOperation.should.equal('deprovision');
 

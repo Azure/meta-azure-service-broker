@@ -7,12 +7,9 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var azureservicebus = require('../../../../lib/services/azureservicebus/');
 var azure = require('../helpers').azure;
-
-var log = logule.init(module, 'ServiceBus-Mocha');
 
 describe('ServiceBus', function() {
 
@@ -33,7 +30,7 @@ describe('ServiceBus', function() {
       });
 
       it('should unbind the service', function(done) {
-        azureservicebus.unbind(log, validParams, function(
+        azureservicebus.unbind(validParams, function(
           err, reply, result) {
           should.not.exist(err);
 

@@ -24,7 +24,7 @@ exports.clean = function(provisioningParameters, done) {
                                      subscriptionId,
                                      resourceGroupName);
   
-  var headers = common.mergeCommonHeaders(console, 'Delete resource group for integration test', {});
+  var headers = common.mergeCommonHeaders('Delete resource group for integration test', {});
   msRestRequest.DELETE(resourceGroupUrl, headers, API_VERSIONS.RESOURCE_GROUP, function (err, res, body) {
     should.not.exist(err);
     res.statusCode.should.equal(202);

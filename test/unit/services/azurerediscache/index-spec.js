@@ -2,7 +2,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var uuid = require('uuid');
@@ -12,7 +11,6 @@ var redisClient = require('../../../../lib/services/azurerediscache/client');
 var resourceGroupClient = require('../../../../lib/common/resourceGroup-client');
 var azure = require('../helpers').azure;
 
-var log = logule.init(module, 'Redis Cache-Tests');
 var generatedValidInstanceId = uuid.v4();
 var provisioningResult = '{"id":"/subscriptions/' + azure.subscriptionId + '/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheE","name":"C0CacheE","type":"Microsoft.Cache/Redis","location":"East US","tags":{},"accessKeys":{"primaryKey":"4eEobxjSUnBjAHYWGO+0M69/XikkJv6+EPiaXMjfNJg=","secondaryKey":"Zb3e6FZAwzJS60eBbN7sLTFp76UdWfhFno99Pal/dL0="},"provisioningState":"Creating","hostName":"C0CacheE.redis.cache.windows.net","port":6379,"sslPort":6380,"redisVersion":"3.0","sku":{"name":"Basic","family":"C","capacity":0},"redisConfiguration":{"maxclients":"256","maxmemory-reserved":"2","maxmemory-delta":"2"},"enableNonSslPort":false}';
 
@@ -51,7 +49,7 @@ describe('RedisCache - Index - Provision', function() {
     
     describe('Provision operation should succeed', function() {        
         it('should not return an error and statusCode should be 202', function(done) {
-            handlers.provision(log, validParams, function(err, reply, result) {
+            handlers.provision(validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(202);
                 done();
@@ -95,7 +93,7 @@ describe('RedisCache - Index - Poll existing cache', function() {
     
     describe('Poll operation should succeed for existing cache', function() {        
         it('should not return an error and statusCode should be 200', function(done) {
-            handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
+            handlers.poll(validParams, function(err, lastOperatoin, reply, result) {
                 should.not.exist(err);
                 lastOperatoin.should.equal('provision');
                 reply.statusCode.should.equal(200);
@@ -140,7 +138,7 @@ describe('RedisCache - Index - Bind existing cache', function() {
     
     describe('Bind operation should succeed for existing cache', function() {        
         it('should not return an error and statusCode should be 201', function(done) {
-            handlers.bind(log, validParams, function(err, reply, result) {
+            handlers.bind(validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(201);
                 reply.code.should.equal('Created');
@@ -171,7 +169,7 @@ describe('RedisCache - Index - De-provision existing cache', function() {
     
     describe('De-Provision operation should succeed for existing cache', function() {        
         it('should not return an error and statusCode should be 202', function(done) {
-            handlers.deprovision(log, validParams, function(err, reply, result) {
+            handlers.deprovision(validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(202);
                 done();
@@ -216,7 +214,7 @@ var validParams;
     
     describe('Poll operation should succeed for de-provisioned cache', function() {        
         it('should not return an error and statusCode should be 200', function(done) {
-            handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
+            handlers.poll(validParams, function(err, lastOperatoin, reply, result) {
                 should.not.exist(err);
                 lastOperatoin.should.equal('deprovision');
                 reply.statusCode.should.equal(200);

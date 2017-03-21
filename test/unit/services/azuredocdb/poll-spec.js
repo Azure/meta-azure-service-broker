@@ -2,7 +2,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdPoll = require('../../../../lib/services/azuredocdb/cmd-poll');
@@ -11,11 +10,9 @@ var docDbClient = require('../../../../lib/services/azuredocdb/client');
 var msRestRequest = require('../../../../lib/common/msRestRequest');
 var request = require('request');
 
-var log = logule.init(module, 'DocDb-Mocha');
-
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
-docDbClient.initialize(azure, log);
+docDbClient.initialize(azure);
 
 describe('DocumentDb - Provision-Poll - Execution', function() {
   var validParams;
@@ -45,7 +42,7 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
     
   describe('Poll operation outcomes should be...', function() {
     it('should output state = succeeded, if docdb account is created', function(done) {
-      var cp = new cmdPoll(log, validParams);
+      var cp = new cmdPoll(validParams);
       cp.poll(docDbClient, function(err, reply) {
         should.not.exist(err);
         reply.value.state.should.equal('succeeded');
@@ -84,7 +81,7 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
   describe('Poll operation outcomes should be...', function() {
     
     it('should output state = in progress, if docdb account is creating', function(done) {
-      var cp = new cmdPoll(log, validParams);
+      var cp = new cmdPoll(validParams);
       cp.poll(docDbClient, function(err, reply) {
         should.not.exist(err);
         reply.value.state.should.equal('in progress');
@@ -115,7 +112,7 @@ describe('DocumentDb - Deprovision-Poll - Execution', function() {
   
   describe('Poll operation outcomes should be...', function() {
     it('should output state = in progress, if docdb account is being deleting', function(done) {
-      var cp = new cmdPoll(log, validParams);
+      var cp = new cmdPoll(validParams);
       cp.poll(docDbClient, function(err, reply) {
         should.not.exist(err);
         reply.value.state.should.equal('in progress');
@@ -147,7 +144,7 @@ describe('DocumentDb - Deprovision-Poll - Execution', function() {
   describe('Poll operation outcomes should be...', function() {
     
     it('should output state = succeeded, if docdb account is deleted', function(done) {
-      var cp = new cmdPoll(log, validParams);
+      var cp = new cmdPoll(validParams);
       cp.poll(docDbClient, function(err, reply) {
         should.not.exist(err);
         reply.value.state.should.equal('succeeded');

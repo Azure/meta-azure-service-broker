@@ -1,13 +1,14 @@
+var common = require('../../lib/common');
 var azure = require('azure');
 var async = require('async');
-var logule = require('logule');
 var statusCode = require('./statusCode');
 var supportedEnvironments = require('./supportedEnvironments');
 
 module.exports = function(environment) {
   var clientName = 'azureservicebusClient';
-  var log = logule.init(module, clientName);
-
+  common.addLogger(clientName, clientName);
+  var log = require('winston').loggers.get(clientName);
+  
   this.validateCredential = function(credential, next) {
     var connectionString = 'Endpoint=sb://' + credential['namespace_name'] + supportedEnvironments[environment]['serviceBusEndpointSuffix'] + '/;SharedAccessKeyName=' + credential['shared_access_key_name'] + ';SharedAccessKey=' + credential['shared_access_key_value']; 
     log.debug('connectionString: ' + connectionString);

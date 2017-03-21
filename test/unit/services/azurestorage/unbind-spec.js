@@ -7,12 +7,9 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var azurestorage = require('../../../../lib/services/azurestorage/');
 var azure = require('../helpers').azure;
-
-var log = logule.init(module, 'Storage-Mocha');
 
 describe('Storage', function() {
 
@@ -33,7 +30,7 @@ describe('Storage', function() {
       });
 
       it('should unbind the service', function(done) {
-        azurestorage.unbind(log, validParams, function(
+        azurestorage.unbind(validParams, function(
           err, reply, result) {
           should.not.exist(err);
 

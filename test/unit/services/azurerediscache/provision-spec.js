@@ -7,19 +7,16 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdProvision = require('../../../../lib/services/azurerediscache/cmd-provision');
 var redisClient = require('../../../../lib/services/azurerediscache/client');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
-
-var log = logule.init(module, 'RedisCache-Mocha');
   
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
-redisClient.initialize(azure, log);
+redisClient.initialize(azure);
 
 describe('RedisCache - Provision - PreConditions', function() {
     var validParams = {};
@@ -43,7 +40,7 @@ describe('RedisCache - Provision - PreConditions', function() {
             },
             azure : azure
         };
-        cp = new cmdProvision(log, validParams);
+        cp = new cmdProvision(validParams);
         it('all validators succeed', function(done) {
             (cp.allValidatorsSucceed()).should.equal(true);
             done();
@@ -54,7 +51,7 @@ describe('RedisCache - Provision - PreConditions', function() {
           family: 'C',
           capacity: 0
         };
-        cp = new cmdProvision(log, validParams);
+        cp = new cmdProvision(validParams);
         it('all validators succeed', function(done) {
             (cp.allValidatorsSucceed()).should.equal(true);
             done();
@@ -65,7 +62,7 @@ describe('RedisCache - Provision - PreConditions', function() {
           family: 'P',
           capacity: 1
         };
-        cp = new cmdProvision(log, validParams);
+        cp = new cmdProvision(validParams);
         it('all validators succeed', function(done) {
             (cp.allValidatorsSucceed()).should.equal(true);
             done();
@@ -82,7 +79,7 @@ describe('RedisCache - Provision - PreConditions incorrect', function() {
             instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',            
             azure : azure
         };
-        cp = new cmdProvision(log, validParams);
+        cp = new cmdProvision(validParams);
     });
     
     describe('Provision should fail if ...', function() {
@@ -117,7 +114,7 @@ describe('RedisCache - Provision - Execution - Cache that doesn\'t previsouly ex
             azure : azure,
             provisioning_result: '{\"provisioningState\":\"Creating\"}'
         };
-        cp = new cmdProvision(log, validParams);
+        cp = new cmdProvision(validParams);
         
         msRestRequest.PUT = sinon.stub();
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup')

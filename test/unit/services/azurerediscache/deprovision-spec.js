@@ -6,7 +6,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdDeprovision = require('../../../../lib/services/azurerediscache/cmd-deprovision');
@@ -14,11 +13,9 @@ var redisClient = require('../../../../lib/services/azurerediscache/client');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
 
-var log = logule.init(module, 'RedisCache-Mocha');
-
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
-redisClient.initialize(azure, log);
+redisClient.initialize(azure);
 
 describe('RedisCache - Deprovision - Execution', function() {
     var validParams = {};
@@ -30,7 +27,7 @@ describe('RedisCache - Deprovision - Execution', function() {
             provisioning_result: '{\"resourceGroupName\":\"redisResourceGroup\",\"name\":\"C0CacheNC\"}'
         };
         validParams.azure = azure;
-        cp = new cmdDeprovision(log, validParams);
+        cp = new cmdDeprovision(validParams);
         
         msRestRequest.DELETE = sinon.stub();
         msRestRequest.DELETE.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheNC')

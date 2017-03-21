@@ -8,7 +8,6 @@
 /* global describe, before, it */
 
 var HttpStatus = require('http-status-codes');
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdProvision = require('../../../../lib/services/azuresqldb/cmd-provision');
@@ -16,8 +15,7 @@ var sqldbOperations = require('../../../../lib/services/azuresqldb/client');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
 
-var log = logule.init(module, 'SqlDb-Mocha');
-var sqldbOps = new sqldbOperations(log, azure);
+var sqldbOps = new sqldbOperations(azure);
 
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
@@ -62,7 +60,7 @@ describe('SqlDb - Provision - PreConditions', function () {
                 },
                 accountPool:{'sqldb':{}}
             };
-            cp = new cmdProvision(log, params);
+            cp = new cmdProvision(params);
             cp.fixupParameters();
         });
 
@@ -109,7 +107,7 @@ describe('SqlDb - Provision - PreConditions', function () {
                 },
                 accountPool:{sql:{}}
             };
-            cp = new cmdProvision(log, params);
+            cp = new cmdProvision(params);
             cp.fixupParameters();
         });
 
@@ -133,7 +131,7 @@ describe('SqlDb - Provision - PreConditions', function () {
                 },
                 accountPool:{'sqldb':{}}
             };
-            cp = new cmdProvision(log, params);
+            cp = new cmdProvision(params);
         });
 
         it('should fail to validate the parameters', function (done) {
@@ -177,7 +175,7 @@ describe('SqlDb - Provision - FixupParameters ', function () {
     });
 
     it('should contain additional parameters', function () {
-        var cp = new cmdProvision(log, params);
+        var cp = new cmdProvision(params);
         cp.fixupParameters();
         params.parameters.sqldbParameters.properties.maxSizeBytes.should.equal('1099511627776');
         params.parameters.sqldbParameters.properties.createMode.should.equal('Default');
@@ -225,7 +223,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
             accountPool:{'sqldb':{}}
         };
 
-        cp = new cmdProvision(log, params);
+        cp = new cmdProvision(params);
         cp.fixupParameters();
         
         msRestRequest.PUT = sinon.stub();
@@ -336,7 +334,7 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
             }
         };
 
-        cp = new cmdProvision(log, params);
+        cp = new cmdProvision(params);
         cp.fixupParameters();
     });
     
@@ -432,7 +430,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 },
                 accountPool:{sql:{}}
             };
-            cp = new cmdProvision(log, params);
+            cp = new cmdProvision(params);
             cp.fixupParameters();
         });
 
@@ -482,7 +480,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 }];
             });
             it('Parameter validation should fail', function (done) {
-                cp = new cmdProvision(log, params);
+                cp = new cmdProvision(params);
                 cp.fixupParameters();
                 (cp.getInvalidParams())[0].should.equal('allowSqlServerFirewallRules');
                 done();
@@ -497,7 +495,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 }];
             });
             it('Parameter validation should fail', function (done) {
-                cp = new cmdProvision(log, params);
+                cp = new cmdProvision(params);
                 cp.fixupParameters();
                 (cp.getInvalidParams())[0].should.equal('allowSqlServerFirewallRules');
                 done();
@@ -512,7 +510,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
                 }];
             });
             it('Parameter validation should fail', function (done) {
-                cp = new cmdProvision(log, params);
+                cp = new cmdProvision(params);
                 cp.fixupParameters();
                 (cp.getInvalidParams())[0].should.equal('allowSqlServerFirewallRules');
                 done();

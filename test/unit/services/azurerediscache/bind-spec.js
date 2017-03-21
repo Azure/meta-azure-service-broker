@@ -7,19 +7,16 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdBind = require('../../../../lib/services/azurerediscache/cmd-bind');
 var redisClient = require('../../../../lib/services/azurerediscache/client');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
-
-var log = logule.init(module, 'RedisCache-Mocha');
   
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
-redisClient.initialize(azure, log);
+redisClient.initialize(azure);
 
 describe('RedisCache - Bind', function() {
     var validParams;
@@ -45,7 +42,7 @@ describe('RedisCache - Bind', function() {
     
     describe('When access keys are retrievied from Azure successfully', function() {
         it('should return credentials', function(done) {
-            var cp = new cmdBind(log, validParams);
+            var cp = new cmdBind(validParams);
             cp.bind(redisClient, function(err, accessKeys) {
                 should.not.exist(err);
                 accessKeys.should.eql(fakeAccessKeys);

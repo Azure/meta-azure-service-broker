@@ -2,12 +2,12 @@
 
 You need to implement the following functions in the service module.
 
-* Handlers.catalog = function(log, params, next)
-* Handlers.provision = function(log, params, next)
-* Handlers.poll = function(log, params, next)
-* Handlers.deprovision = function(log, params, next)
-* Handlers.bind = function(log, params, next)
-* Handlers.unbind = function(log, params, next)
+* Handlers.catalog = function(params, next)
+* Handlers.provision = function(params, next)
+* Handlers.poll = function(params, next)
+* Handlers.deprovision = function(params, next)
+* Handlers.bind = function(params, next)
+* Handlers.unbind = function(params, next)
 
 About the parameters
 
@@ -35,7 +35,7 @@ About the parameters
 
 ### catalog function
 
-Handlers.catalog = function(log, params, next)
+Handlers.catalog = function(params, next)
 
 * params
 
@@ -88,7 +88,7 @@ http://docs.cloudfoundry.org/services/api.html#catalog-mgmt
 
 ### Provision function
 
-Handlers.provision = function(log, params, next)
+Handlers.provision = function(params, next)
 
 It should be an asynchronous operation.
 
@@ -169,7 +169,7 @@ It should be an asynchronous operation.
 
 ### Poll function
 
-Handlers.poll = function(log, params, next)
+Handlers.poll = function(params, next)
 
 * params
 
@@ -232,7 +232,7 @@ Handlers.poll = function(log, params, next)
 
 ### Deprovision function
 
-Handlers.deprovision = function(log, params, next)
+Handlers.deprovision = function(params, next)
 
 It should be an asynchronous operation.
 
@@ -289,7 +289,7 @@ It should be an asynchronous operation.
 
 ### Bind function
 
-Handlers.bind = function(log, params, next)
+Handlers.bind = function(params, next)
 
 * params
 
@@ -352,7 +352,7 @@ Handlers.bind = function(log, params, next)
 
 ### Unbind function
 
-Handlers.unbind = function(log, params, next)
+Handlers.unbind = function(params, next)
 
 When the unbinding function of the service module is called, the broker will delete the binding specific information (everything associated with the bindingId.).
 
