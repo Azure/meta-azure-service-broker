@@ -2,7 +2,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var uuid = require('uuid');
@@ -13,15 +12,10 @@ var request = require('request');
 
 var azure = require('../helpers').azure;
 
-var log = logule.init(module, 'DocumentDb-Tests');
 var generatedValidInstanceId = uuid.v4();
 var provisioningResult = '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount", "database": {"id": "abc", "_self": "abc"} }';
-var originGet = msRestRequest.GET;
-var originPut = msRestRequest.PUT;
-var originPost = msRestRequest.POST;
-var originDelete = msRestRequest.DELETE;
-
-log.muteOnly('debug');
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
 
 describe('DocumentDb - Index - Provision', function() {
     var validParams;
@@ -53,13 +47,12 @@ describe('DocumentDb - Index - Provision', function() {
     });
     
     after(function() {
-        msRestRequest.GET = originGet;
-        msRestRequest.PUT = originPut;
+        mockingHelper.restore();
     });
     
     describe('Provision operation should succeed', function() {        
         it('should not return an error and statusCode should be 202', function(done) {
-            handlers.provision(log, validParams, function(err, reply, result) {
+            handlers.provision(validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(202);
                 done();
@@ -100,14 +93,13 @@ describe('DocumentDb - Index - Poll', function() {
     });
     
     after(function() {
-        msRestRequest.GET = originGet;
-        msRestRequest.POST = originPost;
+        mockingHelper.restore();
         request.post.restore();
     });
     
     describe('Poll operation should succeed', function() {        
         it('should not return an error', function(done) {
-            handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
+            handlers.poll(validParams, function(err, lastOperatoin, reply, result) {
                 should.not.exist(err);
                 lastOperatoin.should.equal('provision');
                 done();
@@ -141,12 +133,12 @@ describe('DocumentDb - Index - Bind', function() {
     });
 
     after(function() {
-        msRestRequest.POST = originPost;
+        mockingHelper.restore();
     });
 
     describe('Bind operation should succeed', function() {        
         it('should not return an error and statusCode should be 201', function(done) {
-            handlers.bind(log, validParams, function(err, reply, result) {
+            handlers.bind(validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(201);
                 done();
@@ -172,7 +164,7 @@ describe('DocumentDb - Index - Unbind', function() {
     
     describe('Unbind operation should succeed', function() {        
         it('should not return an error and statusCode should be 200', function(done) {
-            handlers.unbind(log, validParams, function(err, reply, result) {
+            handlers.unbind(validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(200);
                 done();
@@ -206,12 +198,12 @@ describe('DocumentDb - Index - De-provision', function() {
     });
     
     after(function() {
-        msRestRequest.DELETE = originDelete;
+        mockingHelper.restore();
     });
     
     describe('De-provision operation should succeed', function() {        
         it('should not return an error, statusCode should be 202.', function(done) {
-            handlers.deprovision(log, validParams, function(err, reply, result) {
+            handlers.deprovision(validParams, function(err, reply, result) {
                 should.not.exist(err);
                 reply.statusCode.should.equal(202);
                 done();

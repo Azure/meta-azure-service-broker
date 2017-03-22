@@ -13,8 +13,8 @@ var msRestRequest = require('../../../../lib/common/msRestRequest');
 
 var log = logule.init(module, 'DocumentDb-Mocha');
 
-var originGet = msRestRequest.GET;
-var originPut = msRestRequest.PUT;
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
 docDbClient.initialize(azure, log);
 
 describe('DocumentDb - Provision - PreConditions', function() {
@@ -92,8 +92,7 @@ describe('DocumentDb - Provision - Execution - DocDb that doesn\'t previsouly ex
   });
     
   after(function() {
-    msRestRequest.GET = originGet;
-    msRestRequest.PUT = originPut;
+    mockingHelper.restore();
   });
     
   describe('Provision operation outcomes should be...', function() {

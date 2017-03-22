@@ -13,8 +13,8 @@ var request = require('request');
 
 var log = logule.init(module, 'DocDb-Mocha');
 
-var originPost = msRestRequest.POST;
-var originGet = msRestRequest.GET;
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
 docDbClient.initialize(azure, log);
 
 describe('DocumentDb - Provision-Poll - Execution', function() {
@@ -40,8 +40,7 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
     
   after(function() {
     request.post.restore();
-    msRestRequest.GET = originGet;
-    msRestRequest.POST = originPost;
+    mockingHelper.restore();
   });
     
   describe('Poll operation outcomes should be...', function() {
@@ -79,8 +78,7 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
     
   after(function() {
     request.post.restore();
-    msRestRequest.GET = originGet;
-    msRestRequest.POST = originPost;
+    mockingHelper.restore();
   });
     
   describe('Poll operation outcomes should be...', function() {
@@ -112,7 +110,7 @@ describe('DocumentDb - Deprovision-Poll - Execution', function() {
   });
   
   after(function() {
-    msRestRequest.GET = originGet;
+    mockingHelper.restore();
   });
   
   describe('Poll operation outcomes should be...', function() {
@@ -143,7 +141,7 @@ describe('DocumentDb - Deprovision-Poll - Execution', function() {
   });
   
   after(function() {
-    msRestRequest.GET = originGet;
+    mockingHelper.restore();
   });
   
   describe('Poll operation outcomes should be...', function() {

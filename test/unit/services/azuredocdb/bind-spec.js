@@ -12,7 +12,8 @@ var msRestRequest = require('../../../../lib/common/msRestRequest');
 
 var log = logule.init(module, 'DocumentDb-Tests');
 
-var originPost = msRestRequest.POST;
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
 docDbClient.initialize(azure, log);
 
 describe('DocumentDb - Bind', function() {
@@ -33,7 +34,7 @@ describe('DocumentDb - Bind', function() {
     });
       
     after(function() {
-      msRestRequest.POST = originPost;
+      mockingHelper.restore();
     });
     
     it('should return credentials', function(done) {
@@ -54,7 +55,7 @@ describe('DocumentDb - Bind', function() {
     });
       
     after(function() {
-      msRestRequest.POST = originPost;
+      mockingHelper.restore();
     });
     
     it('should get an error and do not return credentials', function(done) {
