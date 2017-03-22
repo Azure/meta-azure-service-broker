@@ -11,25 +11,19 @@ var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var azureservicebus = require('../../../../lib/services/azureservicebus/');
-var utils = require('../../../../lib/services/azureservicebus/utils');
 var azure = require('../helpers').azure;
+var msRestRequest = require('../../../../lib/common/msRestRequest');
 
 var log = logule.init(module, 'ServiceBus-Mocha');
+
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
 
 describe('ServiceBus', function() {
 
   describe('Polling', function() {
 
     var validParams = {};
-
-    before(function() {
-      utils.init = sinon.stub();
-      sinon.stub(utils, 'getToken').yields(null, 'fake-access-token');
-    });
-
-    after(function() {
-        utils.getToken.restore();
-    });
 
     describe('When the provisioning state is Succeeded', function() {
 
@@ -40,13 +34,16 @@ describe('ServiceBus', function() {
           provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
           azure: azure,
         };
-        sinon.stub(utils, 'checkNamespaceStatus').yields(null, 'Succeeded');
+        
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5/providers/Microsoft.ServiceBus/namespaces/cfa6c5953cf5b211e5a5b700')
+          .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Succeeded"}}');
       });
 
-      after(function() {
-        utils.checkNamespaceStatus.restore();
+      after(function () {
+        mockingHelper.restore();
       });
-
+      
       it('should return the state: succeeded', function(done) {
         azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
@@ -82,13 +79,16 @@ describe('ServiceBus', function() {
           provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
           azure: azure,
         };
-        sinon.stub(utils, 'checkNamespaceStatus').yields(null, 'Creating');
+        
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5/providers/Microsoft.ServiceBus/namespaces/cfa6c5953cf5b211e5a5b700')
+          .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Creating"}}');
       });
 
-      after(function() {
-        utils.checkNamespaceStatus.restore();
+      after(function () {
+        mockingHelper.restore();
       });
-
+      
       it('should return the state: in progress', function(done) {
         azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
@@ -124,13 +124,16 @@ describe('ServiceBus', function() {
           provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
           azure: azure,
         };
-        sinon.stub(utils, 'checkNamespaceStatus').yields(null, 'Activating');
+
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5/providers/Microsoft.ServiceBus/namespaces/cfa6c5953cf5b211e5a5b700')
+          .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Activating"}}');
       });
 
-      after(function() {
-        utils.checkNamespaceStatus.restore();
+      after(function () {
+        mockingHelper.restore();
       });
-
+      
       it('should return the state: in progress', function(done) {
         azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
@@ -160,13 +163,22 @@ describe('ServiceBus', function() {
     describe('When the provisioning state is Enabling', function() {
 
       before(function() {
-        sinon.stub(utils, 'checkNamespaceStatus').yields(null, 'Enabling');
+        validParams = {
+          instance_id: 'a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
+          last_operation: 'provision',
+          provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
+          azure: azure,
+        };
+        
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5/providers/Microsoft.ServiceBus/namespaces/cfa6c5953cf5b211e5a5b700')
+          .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Enabling"}}');
       });
 
-      after(function() {
-        utils.checkNamespaceStatus.restore();
+      after(function () {
+        mockingHelper.restore();
       });
-
+      
       it('should return the state: in progress', function(done) {
         azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
@@ -202,13 +214,16 @@ describe('ServiceBus', function() {
           provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
           azure: azure,
         };
-        sinon.stub(utils, 'checkNamespaceStatus').yields(null, 'Deleting');
+        
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5/providers/Microsoft.ServiceBus/namespaces/cfa6c5953cf5b211e5a5b700')
+          .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Deleting"}}');
       });
 
-      after(function() {
-        utils.checkNamespaceStatus.restore();
+      after(function () {
+        mockingHelper.restore();
       });
-
+      
       it('should return the state: in progress', function(done) {
         azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
@@ -246,13 +261,16 @@ describe('ServiceBus', function() {
         };
         var notFoundError = new Error('Namespace not found.');
         notFoundError.statusCode = 404;
-        sinon.stub(utils, 'checkNamespaceStatus').yields(notFoundError);
+        
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5/providers/Microsoft.ServiceBus/namespaces/cfa6c5953cf5b211e5a5b700')
+          .yields(notFoundError);
       });
 
-      after(function() {
-        utils.checkNamespaceStatus.restore();
+      after(function () {
+        mockingHelper.restore();
       });
-
+      
       it('should return the state: succeeded', function(done) {
         azureservicebus.poll(log, validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);

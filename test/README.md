@@ -64,7 +64,7 @@ If you want to run the cases in a specific file, you can use `../node_modules/mo
     export SECURITY_USER_PASSWORD="demopassword"
     ```
 
-  3. Export the SQL database related environment variables.
+  3. Export the broker database related environment variables.
 
     ```
     export AZURE_BROKER_DATABASE_PROVIDER="sqlserver"
@@ -73,7 +73,22 @@ If you want to run the cases in a specific file, you can use `../node_modules/mo
     export AZURE_BROKER_DATABASE_PASSWORD="<password>"
     export AZURE_BROKER_DATABASE_NAME="<database-name>"
     ```
-
+  
+  4. Export the SQL database module related environment variables. A valid Azure SQL Server is needed in `AZURE_SQLDB_SQL_SERVER_POOL`.
+    
+    ```
+    export AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER="true"
+    export AZURE_SQLDB_SQL_SERVER_POOL='[
+      {
+        "resourceGroup": "REPLACE-ME",
+        "location": "REPLACE-ME",
+        "sqlServerName": "REPLACE-ME",
+        "administratorLogin": "REPLACE-ME",
+        "administratorLoginPassword": "REPLACE-ME"
+      }
+    ]'
+    ```
+    
 3. Run the following commands:
 
   ```

@@ -12,10 +12,14 @@ var should = require('should');
 var sinon = require('sinon');
 var cmdProvision = require('../../../../lib/services/azurerediscache/cmd-provision');
 var redisClient = require('../../../../lib/services/azurerediscache/client');
-var resourceGroupClient = require('../../../../lib/common/resourceGroup-client');
 var azure = require('../helpers').azure;
- 
+var msRestRequest = require('../../../../lib/common/msRestRequest');
+
 var log = logule.init(module, 'RedisCache-Mocha');
+  
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
+redisClient.initialize(azure, log);
 
 describe('RedisCache - Provision - PreConditions', function() {
     var validParams = {};
@@ -114,21 +118,26 @@ describe('RedisCache - Provision - Execution - Cache that doesn\'t previsouly ex
             provisioning_result: '{\"provisioningState\":\"Creating\"}'
         };
         cp = new cmdProvision(log, validParams);
+        
+        msRestRequest.PUT = sinon.stub();
+        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup')
+          .yields(null, {statusCode: 200});
+
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheSC')
+          .yields(null, {statusCode: 404});
+
+        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheSC')
+          .yields(null, {statusCode: 201}, {properties: {provisioningState : 'Creating'}});
     });
     
     after(function() {
-        resourceGroupClient.checkExistence.restore();
-        resourceGroupClient.createOrUpdate.restore();
-        redisClient.provision.restore();
+        mockingHelper.restore();
     });
     
     describe('Provision operation outcomes should be...', function() {
         it('should output provisioningState = Creating', function(done) {
-            
-            sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
-            sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, {provisioningState: 'Succeeded'});
-            sinon.stub(redisClient, 'provision').yields(null, {provisioningState : 'Creating'});
-            cp.provision(redisClient, resourceGroupClient, function(err, result) {
+            cp.provision(redisClient, function(err, result) {
                 should.not.exist(err);
                 (result.provisioningState).should.equal('Creating');
                 done();

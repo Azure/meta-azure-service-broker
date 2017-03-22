@@ -19,13 +19,18 @@ applications:
     AZURE_BROKER_DATABASE_ENCRYPTION_KEY: REPLACE-ME
     
     AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER: true | false
+    AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION: true | false
     AZURE_SQLDB_SQL_SERVER_POOL: '[
       {
+        "resourceGroup": "REPLACE-ME",
+        "location": "REPLACE-ME",
         "sqlServerName": "REPLACE-ME",
         "administratorLogin": "REPLACE-ME",
         "administratorLoginPassword": "REPLACE-ME"
       },
       {
+        "resourceGroup": "REPLACE-ME",
+        "location": "REPLACE-ME",
         "sqlServerName": "REPLACE-ME",
         "administratorLogin": "REPLACE-ME",
         "administratorLoginPassword": "REPLACE-ME"

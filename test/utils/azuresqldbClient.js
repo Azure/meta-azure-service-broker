@@ -88,9 +88,18 @@ module.exports = function(environment) {
     var expectedTDE = service.provisioningParameters.transparentDataEncryption;
     var actualTDE = null;
     var connection;
+    
+    var userName, password;
+    if (service.provisioningParameters.sqlServerParameters) {
+      userName = service.provisioningParameters.sqlServerParameters.properties.administratorLogin;
+      password = service.provisioningParameters.sqlServerParameters.properties.administratorLoginPassword;
+    } else {
+      userName = service.envProvisioningParameters.administratorLogin;
+      password = service.envProvisioningParameters.administratorLoginPassword;
+    }
     var config = {
-      userName: service.provisioningParameters.sqlServerParameters.properties.administratorLogin,
-      password: service.provisioningParameters.sqlServerParameters.properties.administratorLoginPassword,
+      userName: userName,
+      password: password,
       server: sqlserverName + serverSuffix,
       options: {encrypt: true, database: sqldbName}
     };

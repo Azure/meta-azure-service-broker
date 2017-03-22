@@ -96,30 +96,30 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
     "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
     "location": "<azure-region-name>",          // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
     "sqlServerName": "<sql-server-name>",       // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
-    "sqlServerParameters": {                    // Ignore this block if using existing server
-        "allowSqlServerFirewallRules": [        // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
-            {
-                "ruleName": "<rule-name-0>",
-                "startIpAddress": "xx.xx.xx.xx",
-                "endIpAddress": "xx.xx.xx.xx"
-            },
-            {
-                "ruleName": "<rule-name-1>",
-                "startIpAddress": "xx.xx.xx.xx",
-                "endIpAddress": "xx.xx.xx.xx"
-            }
-        ],
-        "properties": {
-            "administratorLogin": "<sql-server-admin-name>",
-            "administratorLoginPassword": "<sql-server-admin-password>"
+    "sqlServerParameters": {
+      "allowSqlServerFirewallRules": [          // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
+        {
+          "ruleName": "<rule-name-0>",
+          "startIpAddress": "xx.xx.xx.xx",
+          "endIpAddress": "xx.xx.xx.xx"
+        },
+        {
+          "ruleName": "<rule-name-1>",
+          "startIpAddress": "xx.xx.xx.xx",
+          "endIpAddress": "xx.xx.xx.xx"
         }
+      ],
+      "properties": {
+         "administratorLogin": "<sql-server-admin-name>",
+         "administratorLoginPassword": "<sql-server-admin-password>"
+      }
     },
     "sqldbName": "<sql-database-name>",                         // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
     "transparentDataEncryption": true | false,                  // Enable Transparent Data Encryption on the database. Defaults to false.
     "sqldbParameters": {                                        // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
-        "properties": {
-            "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
-        }
+      "properties": {
+        "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
+      }
     }
   }
   ```
@@ -164,9 +164,11 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
     }
   }
   ```
+  
+  Please refer this [example](../examples/sqldb-example-config-for-server-exists.json) if using existing server specified in the broker manifest.
 
 **NOTE:**
-
+  
   * If the SQL server which you specify doesn't exist, the broker will check the priviledge of creating server set in broker manifest. A new server will be created if allowed.
 
   * To see a list of collation values valid for use with Azure SQL Database, use this query:

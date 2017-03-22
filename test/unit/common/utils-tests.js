@@ -69,6 +69,11 @@ describe('Util', function() {
         },
         'accountPool': {
           'sqldb': {}
+        },
+        'defaultSettings': {
+          'sqldb': {
+            'transparentDataEncryption': false
+          }
         }
       };
       
@@ -77,6 +82,8 @@ describe('Util', function() {
           keys.forEach(function(key){
             process.env[key] = environmentVariablesToSet[key];
           });
+          delete process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'];
+          delete process.env['AZURE_SQLDB_SQL_SERVER_POOL'];
         });
 
         after(function() {
@@ -96,11 +103,15 @@ describe('Util', function() {
           process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'] = 'true';
           process.env['AZURE_SQLDB_SQL_SERVER_POOL'] = '[ \
             { \
+              "resourceGroup": "fake-group", \
+              "location": "fake-location", \
               "sqlServerName": "fake-server0", \
               "administratorLogin": "fake-login0", \
               "administratorLoginPassword": "fake-pwd0" \
             }, \
             { \
+              "resourceGroup": "fake-group", \
+              "location": "fake-location", \
               "sqlServerName": "fake-server1", \
               "administratorLogin": "fake-login1", \
               "administratorLoginPassword": "fake-pwd1" \
@@ -110,10 +121,14 @@ describe('Util', function() {
           expectedConfig['privilege']['sqldb']['allowToCreateSqlServer'] = true;
           expectedConfig['accountPool']['sqldb'] = {
             'fake-server0': {
+              'resourceGroup': 'fake-group',
+              'location': 'fake-location',
               'administratorLogin': 'fake-login0',
               'administratorLoginPassword': 'fake-pwd0'
             },
             'fake-server1': {
+              'resourceGroup': 'fake-group',
+              'location': 'fake-location',
               'administratorLogin': 'fake-login1',
               'administratorLoginPassword': 'fake-pwd1'
             }
@@ -141,11 +156,15 @@ describe('Util', function() {
           process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'] = 'false';
           process.env['AZURE_SQLDB_SQL_SERVER_POOL'] = '[ \
             { \
+              "resourceGroup": "fake-group", \
+              "location": "fake-location", \
               "sqlServerName": "fake-server0", \
               "administratorLogin": "fake-login0", \
               "administratorLoginPassword": {"secret": "fake-pwd0"} \
             }, \
             { \
+              "resourceGroup": "fake-group", \
+              "location": "fake-location", \
               "sqlServerName": "fake-server1", \
               "administratorLogin": "fake-login1", \
               "administratorLoginPassword": {"secret": "fake-pwd1"} \
@@ -155,14 +174,87 @@ describe('Util', function() {
           expectedConfig['privilege']['sqldb']['allowToCreateSqlServer'] = false;
           expectedConfig['accountPool']['sqldb'] = {
             'fake-server0': {
+              'resourceGroup': 'fake-group',
+              'location': 'fake-location',
               'administratorLogin': 'fake-login0',
               'administratorLoginPassword': 'fake-pwd0'
             },
             'fake-server1': {
+              'resourceGroup': 'fake-group',
+              'location': 'fake-location',
               'administratorLogin': 'fake-login1',
               'administratorLoginPassword': 'fake-pwd1'
             }
           };
+          
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToSet[key];
+          });
+        });
+
+        after(function() {
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToBackup[key];
+          });
+        });
+        
+        it('should fetch configurations from environment variables - 3', function() {
+          var actualConfig = Common.getConfigurations();
+          actualConfig.should.eql(expectedConfig);
+        });
+      });
+      
+      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is true', function() {
+        before(function() {
+          process.env['AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION'] = 'true';
+          
+          expectedConfig['defaultSettings']['sqldb']['transparentDataEncryption'] = true;
+          
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToSet[key];
+          });
+        });
+
+        after(function() {
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToBackup[key];
+          });
+        });
+        
+        it('should fetch configurations from environment variables - 4', function() {
+          var actualConfig = Common.getConfigurations();
+          actualConfig.should.eql(expectedConfig);
+        });
+      });
+      
+      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is false', function() {
+        before(function() {
+          process.env['AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION'] = 'false';
+          
+          expectedConfig['defaultSettings']['sqldb']['transparentDataEncryption'] = false;
+          
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToSet[key];
+          });
+        });
+
+        after(function() {
+          keys.forEach(function(key){
+            process.env[key] = environmentVariablesToBackup[key];
+          });
+        });
+        
+        it('should fetch configurations from environment variables - 5', function() {
+          var actualConfig = Common.getConfigurations();
+          actualConfig.should.eql(expectedConfig);
+        });
+      });
+      
+      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is not present', function() {
+        before(function() {
+          delete process.env['AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION'];
+          
+          expectedConfig['defaultSettings']['sqldb']['transparentDataEncryption'] = false;
           
           keys.forEach(function(key){
             process.env[key] = environmentVariablesToSet[key];
@@ -207,6 +299,7 @@ describe('Util', function() {
       var operation = 'operationx';
       Common.logHttpResponse(log,
                              {
+                               statusCode: '123',
                                headers: {
                                  'x-ms-request-id': 'aaa',
                                  'x-ms-correlation-request-id': 'bbb',
@@ -217,8 +310,9 @@ describe('Util', function() {
                              operation,
                              true);
 
-      var message = util.format('receive from: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n',
+      var message = util.format('receive from: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n',
                                 operation,
+                                'statusCode', '123',
                                 'x-ms-request-id', 'aaa',
                                 'x-ms-correlation-request-id', 'bbb',
                                 'x-ms-routing-request-id', 'ccc',
@@ -230,6 +324,7 @@ describe('Util', function() {
       var operation = 'operationx';
       Common.logHttpResponse(log,
                              {
+                               statusCode: '123',
                                headers: {
                                  'x-ms-request-id': 'aaa',
                                  'x-ms-correlation-request-id': 'bbb',
@@ -240,8 +335,9 @@ describe('Util', function() {
                              operation,
                              false);
 
-      var message = util.format('receive from: %s\n%s: %s\n%s: %s\n%s: %s\n%s\n',
+      var message = util.format('receive from: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s\n',
                                 operation,
+                                'statusCode', '123',
                                 'x-ms-request-id', 'aaa',
                                 'x-ms-correlation-request-id', 'bbb',
                                 'x-ms-routing-request-id', 'ccc',
@@ -253,6 +349,7 @@ describe('Util', function() {
   describe('getToken()', function() {
     describe('when the status code of response is 200', function() {
       before(function() {
+        Token.init({}, {});
         sinon.stub(request, 'post').yields(null, {statusCode: 200}, '{"access_token": "asdasdasd"}');
       });
 
@@ -261,7 +358,7 @@ describe('Util', function() {
       });
       
       it('should get the token', function() {
-        Token.getToken('', '', '', '', function(err, token) {
+        Token.getToken(true, function(err, token) {
           should.not.exist(err);
           token.should.be.exactly('asdasdasd');
         });
@@ -270,6 +367,7 @@ describe('Util', function() {
     
     describe('when the status code of response is 403', function() {
       before(function() {
+        Token.init({}, {});
         sinon.stub(request, 'post').yields(null, {statusCode: 403});
       });
 
@@ -278,7 +376,7 @@ describe('Util', function() {
       });
       
       it('should get an error', function() {
-        Token.getToken('', '', '', '', function(err, token) {
+        Token.getToken(true, function(err, token) {
           should.exist(err);
           err.statusCode.should.equal(403);
         });

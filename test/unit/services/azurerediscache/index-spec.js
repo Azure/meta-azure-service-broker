@@ -11,7 +11,7 @@ var handlers = require('../../../../lib/services/azurerediscache/index');
 var redisClient = require('../../../../lib/services/azurerediscache/client');
 var resourceGroupClient = require('../../../../lib/common/resourceGroup-client');
 var azure = require('../helpers').azure;
- 
+
 var log = logule.init(module, 'Redis Cache-Tests');
 var generatedValidInstanceId = uuid.v4();
 var provisioningResult = '{"id":"/subscriptions/' + azure.subscriptionId + '/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheE","name":"C0CacheE","type":"Microsoft.Cache/Redis","location":"East US","tags":{},"accessKeys":{"primaryKey":"4eEobxjSUnBjAHYWGO+0M69/XikkJv6+EPiaXMjfNJg=","secondaryKey":"Zb3e6FZAwzJS60eBbN7sLTFp76UdWfhFno99Pal/dL0="},"provisioningState":"Creating","hostName":"C0CacheE.redis.cache.windows.net","port":6379,"sslPort":6380,"redisVersion":"3.0","sku":{"name":"Basic","family":"C","capacity":0},"redisConfiguration":{"maxclients":"256","maxmemory-reserved":"2","maxmemory-delta":"2"},"enableNonSslPort":false}';
@@ -41,13 +41,11 @@ describe('RedisCache - Index - Provision', function() {
             }
         };
         sinon.stub(redisClient, 'provision').yields(null, JSON.parse(provisioningResult));
-        sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
-        sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null, {provisioningState: 'Succeeded'});
+        sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null);
     });
     
     after(function() {
         redisClient.provision.restore();
-        resourceGroupClient.checkExistence.restore();
         resourceGroupClient.createOrUpdate.restore();
     });
     

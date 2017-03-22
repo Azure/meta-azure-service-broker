@@ -4,12 +4,15 @@ var async = require('async');
 var fs = require("fs");
 var path = require("path");
 var common = require('./lib/common');
+var msRestRequest = require('./lib/common/msRestRequest');
 var Broker = require('./lib/broker');
 
 global.modules = {};
 
 var config = common.getConfigurations();
 var broker = new Broker(config);
+
+msRestRequest.init(config.azure, broker.log);
 
 var addListeners = function(serviceId, serviceModule) {
   broker.on('provision-' + serviceId, serviceModule.provision);

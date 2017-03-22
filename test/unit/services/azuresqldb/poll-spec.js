@@ -14,8 +14,10 @@ var sinon = require('sinon');
 var cmdPoll = require('../../../../lib/services/azuresqldb/cmd-poll');
 var sqldbOperations = require('../../../../lib/services/azuresqldb/client');
 var azure = require('../helpers').azure;
+var msRestRequest = require('../../../../lib/common/msRestRequest');
 
-var accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik1uQ19WWmNBVGZNNXBPWWlKSE1iYTlnb0VLWSIsImtpZCI6Ik1uQ19WWmNBVGZNNXBPWWlKSE1iYTlnb0VLWSJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuYXp1cmUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0Ny8iLCJpYXQiOjE0Njc4MTYyMTcsIm5iZiI6MTQ2NzgxNjIxNywiZXhwIjoxNDY3ODIwMTE3LCJhcHBpZCI6ImQ4MTllODE4LTRkNGEtNGZmOS04OWU5LTliZTBiZmVjOWVjZCIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0Ny8iLCJvaWQiOiI2NDgwN2MzMi0xYWYxLTRlNTgtYWMwOS02NGM1NTU0YzdjNTgiLCJzdWIiOiI2NDgwN2MzMi0xYWYxLTRlNTgtYWMwOS02NGM1NTU0YzdjNTgiLCJ0aWQiOiI3MmY5ODhiZi04NmYxLTQxYWYtOTFhYi0yZDdjZDAxMWRiNDciLCJ2ZXIiOiIxLjAifQ.tqCAMoZz7n3AKBjdNUHwGfLSaDp7Qdl6Dzu_5cf5WNoKCet9E6ohLZtohfiLXuNS-uG-UDRDNtvX_eVayui422CkdDSbAtEPZXIRaFD8dGVO3uMRKWhWQ1u-aTA8LKHKKO2a6aF9hWwjHDQ_FRwi1qZ8UX60HkW62MgLlJeym5AC8aL0JKVekmrVx-NGcfJJs7VXVOLbka45ADAlUNqi13TxyEY_oqCZzGatJZK8sFNYMvGFtTcnhjSEoxdl9LjcMAWWgVuKg-iVAX1vAf0HhD7H3XqJKPaZR-o2fQ5kvEKzzfz_VkUeQO4DG-1gpKS_jNVynb1ZxUGbs5y56WmDDw';
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
 
 var afterProvisionValidParams = {
     instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
@@ -25,10 +27,9 @@ var afterProvisionValidParams = {
     space_guid: '4                                   ',
     parameters: {
         resourceGroup: 'sqldbResourceGroup',
+        location: 'westus',
         sqlServerName: 'golive4',
-        sqlServerCreateIfNotExist: true,
         sqlServerParameters: {
-            location: 'westus',
             properties: {
                 administratorLogin: 'xxxx',
                 administratorLoginPassword: 'xxxxxxx',
@@ -38,7 +39,6 @@ var afterProvisionValidParams = {
         sqldbName: 'sqldb',
         transparentDataEncryption: false,
         sqldbParameters: {
-            location: 'westus',
             properties: {
                 collation: 'SQL_Latin1_General_CP1_CI_AS',
                 maxSizeBytes: '2147483648',
@@ -49,8 +49,13 @@ var afterProvisionValidParams = {
         }
     },
     last_operation: 'provision',
-    provisioning_result: '{"administratorLogin":"xxxx","administratorLoginPassword":"xxxxxxx","operation":"CreateLogicalDatabase","startTime":"/ Date(1467968057450 + 0000) / ","id":"subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/ sqldbResourceGroup / providers / Microsoft.Sql / servers / golive4 / databases / sqldb","type":"Microsoft.Sql / servers / databases","provisioningResult":"creating","sqlServerName":"golive4","sqldbName":"sqldb","sqldbParameters":{"location":"westus","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":"2147483648","createMode":"Default","edition":"Basic","requestedServiceObjectiveName":"Basic"}}}',
-    azure: azure
+    provisioning_result: '{\"resourceGroup\":\"sqldbResourceGroup\", \"administratorLogin\":\"xxxx\",\"administratorLoginPassword\":\"xxxxxxx\",\"operation\":\"CreateLogicalDatabase\",\"startTime\":\"/ Date(1467968057450 + 0000) / \",\"id\":\"subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/ sqldbResourceGroup / providers / Microsoft.Sql / servers / golive4 / databases / sqldb\",\"type\":\"Microsoft.Sql / servers / databases\",\"provisioningResult\":\"creating\",\"sqlServerName\":\"golive4\",\"sqldbName\":\"sqldb\",\"sqldbParameters\":{\"location\":\"westus\",\"properties\":{\"collation\":\"SQL_Latin1_General_CP1_CI_AS\",\"maxSizeBytes\":\"2147483648\",\"createMode\":\"Default\",\"edition\":\"Basic\",\"requestedServiceObjectiveName\":\"Basic\"}}}',
+    azure: azure,
+    'defaultSettings': {
+      'sqldb': {
+        'transparentDataEncryption': false
+      }
+    }
 };
 
 var afterProvisionValidParamsWithTDE = JSON.parse(JSON.stringify(afterProvisionValidParams));
@@ -64,10 +69,9 @@ var afterDeprovisionValidParams = {
     space_guid: '4                                   ',
     parameters: {
         resourceGroup: 'sqldbResourceGroup',
+        location: 'westus',
         sqlServerName: 'golive4',
-        sqlServerCreateIfNotExist: true,
         sqlServerParameters: {
-            location: 'westus',
             properties: {
                 administratorLogin: 'xxxx',
                 administratorLoginPassword: 'xxxxxxx',
@@ -76,7 +80,6 @@ var afterDeprovisionValidParams = {
         },
         sqldbName: 'sqldb',
         sqldbParameters: {
-            location: 'westus',
             properties: {
                 collation: 'SQL_Latin1_General_CP1_CI_AS',
                 maxSizeBytes: '2147483648',
@@ -87,8 +90,13 @@ var afterDeprovisionValidParams = {
         }
     },
     last_operation: 'deprovision',
-    provisioning_result: '{"id":"/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb","name":"sqldb","type":"Microsoft.Sql/servers/databases","location":"West US","kind":"v12.0,user","properties":{"databaseId":"1e141874-5886-4077-a476-f2ecc4b0016d","edition":"Basic","status":"Online","serviceLevelObjective":"Basic","collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":"2147483648","creationDate":"2016-07-09T13:39:44.4Z","currentServiceObjectiveId":"dd6d99bb-f193-4ec1-86f2-43d3bccbc49c","requestedServiceObjectiveId":"dd6d99bb-f193-4ec1-86f2-43d3bccbc49c","requestedServiceObjectiveName":null,"defaultSecondaryLocation":"East US","earliestRestoreDate":"2016-07-09T13:49:55.667Z","elasticPoolName":null,"containmentState":2},"sqlServerName":"golive4","administratorLogin":"xxxx","administratorLoginPassword":"xxxxxxx"}',
-    azure: azure
+    provisioning_result: '{\"resourceGroup\":\"sqldbResourceGroup\", \"id\":\"/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb\",\"name\":\"sqldb\",\"type\":\"Microsoft.Sql/servers/databases\",\"location\":\"West US\",\"kind\":\"v12.0,user\",\"properties\":{\"databaseId\":\"1e141874-5886-4077-a476-f2ecc4b0016d\",\"edition\":\"Basic\",\"status\":\"Online\",\"serviceLevelObjective\":\"Basic\",\"collation\":\"SQL_Latin1_General_CP1_CI_AS\",\"maxSizeBytes\":\"2147483648\",\"creationDate\":\"2016-07-09T13:39:44.4Z\",\"currentServiceObjectiveId\":\"dd6d99bb-f193-4ec1-86f2-43d3bccbc49c\",\"requestedServiceObjectiveId\":\"dd6d99bb-f193-4ec1-86f2-43d3bccbc49c\",\"requestedServiceObjectiveName\":null,\"defaultSecondaryLocation\":\"East US\",\"earliestRestoreDate\":\"2016-07-09T13:49:55.667Z\",\"elasticPoolName\":null,\"containmentState\":2},\"sqlServerName\":\"golive4\",\"administratorLogin\":\"xxxx\",\"administratorLoginPassword\":\"xxxxxxx\"}',
+    azure: azure,
+    'defaultSettings': {
+      'sqldb': {
+        'transparentDataEncryption': false
+      }
+    }
 };
 
 var log = logule.init(module, 'SqlDb-Mocha');
@@ -108,17 +116,17 @@ describe('SqlDb - Poll - polling database immediately after creation is started'
 
     before(function () {
         cp = new cmdPoll(log, afterProvisionValidParams);
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb')
+          .yields(null, sqldbOpsGetDatabaseResult);
     });
 
     after(function () {
-        sqldbOps.getToken.restore();
-        sqldbOps.getDatabase.restore();
+        mockingHelper.restore();
     });
 
     describe('Poll should return 200 immediately after starting to provision a database', function () {
         it('should interpret the 404 from GetDatabase as creating the database', function (done) {
-            sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-            sinon.stub(sqldbOps, 'getDatabase').yields(null, sqldbOpsGetDatabaseResult);
             cp.poll(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 result.value.state.should.equal('in progress');
@@ -132,6 +140,7 @@ describe('SqlDb - Poll - polling database immediately after creation is started'
 
 describe('SqlDb - Poll - polling database after creation is complete', function () {
 
+    var tdeSpy = sinon.spy(sqldbOps, 'setTransparentDataEncryption');
     var sqldbOpsGetDatabaseResult = {
         statusCode: 200,
         body: {
@@ -160,20 +169,19 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
     };
 
     beforeEach(function () {
-        sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-        sinon.stub(sqldbOps, 'getDatabase').yields(null, sqldbOpsGetDatabaseResult);
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb')
+          .yields(null, sqldbOpsGetDatabaseResult, JSON.stringify(sqldbOpsGetDatabaseResult.body));
+        msRestRequest.PUT = sinon.stub();
     });
 
     afterEach(function () {
-        sqldbOps.getToken.restore();
-        sqldbOps.getDatabase.restore();
-        sqldbOps.setTransparentDataEncryption.restore();
+        mockingHelper.restore();
     });
 
     describe('Poll should ...', function () {
         it('return 200 if it is executed after sufficient time', function (done) {
             var cp = new cmdPoll(log, afterProvisionValidParams);
-            var tdeSpy = sinon.spy(sqldbOps, 'setTransparentDataEncryption');
             cp.poll(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 tdeSpy.called.should.equal(false);
@@ -191,7 +199,6 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
     describe('TransparentDataEncryption should ...', function () {
         it('not be called if TDE setting is false', function (done) {
             var cp = new cmdPoll(log, afterProvisionValidParams);
-            var tdeSpy = sinon.spy(sqldbOps, 'setTransparentDataEncryption');
             cp.poll(sqldbOps, function (err, result) {
                 tdeSpy.called.should.equal(false);
                 should.not.exist(err);
@@ -202,7 +209,8 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
         it('fail if transparent data encryption failed', function (done) {
             var cp = new cmdPoll(log, afterProvisionValidParamsWithTDE);
             var tdeError = new Error('TDE failure');
-            sinon.stub(sqldbOps, 'setTransparentDataEncryption').yields(tdeError);
+            msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb/transparentDataEncryption/current')
+              .yields(tdeError);
             cp.poll(sqldbOps, function (err, result) {
                 should.exist(err);
                 err.message.should.equal('TDE failure');
@@ -218,7 +226,8 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
                     message:'Bad Gateway'
                 }
             };
-            sinon.stub(sqldbOps, 'setTransparentDataEncryption').yields(null, tdeResult);
+            msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb/transparentDataEncryption/current')
+              .yields(null, tdeResult, tdeResult.body);
 
             cp.poll(sqldbOps, function (err, result) {
                 should.exist(err);
@@ -235,11 +244,11 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
                     message:'success'
                 }
             };
-            var stub = sinon.stub(sqldbOps, 'setTransparentDataEncryption').yields(null, tdeResult);
+            msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb/transparentDataEncryption/current')
+              .yields(null, tdeResult, tdeResult.body);
 
             cp.poll(sqldbOps, function (err, result) {
                 should.not.exist(err);
-                stub.calledOnce.should.equal(true);
                 result.statusCode.should.equal(HttpStatus.OK);
                 result.value.state.should.equal('succeeded');
                 done();
@@ -249,60 +258,23 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
 
 });
 
-/*  fill in this one when I can catch azure being slow enough
-describe('SqlDb - Poll - polling database immediately after de-provision is started', function () {
-
-    var cp;
-
-    before(function () {
-        cp = new cmdPoll(log, afterDeprovisionValidParams);
-    });
-
-    after(function () {
-        sqldbOps.getToken.restore();
-        sqldbOps.getDatabase.restore();
-    });
-
-    describe('Poll should return xxx immediately after starting to de-provision a database', function () {
-        it('should work', function (done) {
-            sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-            sinon.stub(sqldbOps, 'getDatabase').yields(null, sqldbOpsGetDatabaseResult);
-            cp.poll(sqldbOps, function (err, result) {
-                should.not.exist(err);
-                done();
-            });
-        });
-    });
-});
-*/
-
 describe('SqlDb - Poll - polling database after de-provision is complete', function () {
 
     var cp;
 
-    var sqldbOpsGetDatabaseResult = {
-        statusCode: 404,
-        value:
-        {
-            state: 'succeeded',
-            description: 'Database has been deleted.'
-        }
-    };
-
     before(function () {
         cp = new cmdPoll(log, afterDeprovisionValidParams);
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb')
+          .yields(null, {statusCode: 404});
     });
 
     after(function () {
-        sqldbOps.getToken.restore();
-        sqldbOps.getDatabase.restore();
-
+        mockingHelper.restore();
     });
 
     describe('Poll should return 200 after de-provisioning is complete', function () {
         it('should correctly interpret 404 as database is deleted', function (done) {
-            sinon.stub(sqldbOps, 'getToken').yields(null, accessToken);
-            sinon.stub(sqldbOps, 'getDatabase').yields(null, sqldbOpsGetDatabaseResult);
             cp.poll(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 result.value.state.should.equal('succeeded');
@@ -311,35 +283,5 @@ describe('SqlDb - Poll - polling database after de-provision is complete', funct
             });
         });
     });
-});
-
-describe('SqlDb - Client setTransparentDataEncryption...', function () {
-
-    it('Fails on PUT error', function(){
-        var putStub = sinon.stub(sqldbOps, 'PUT').yields(Error('PUT failed'), {response:'502'}, {body:null});
-
-        sqldbOps.setTransparentDataEncryption(function callback(err, result){
-            should.exist(err);
-            should.ok(putStub.calledOnce);
-        });
-        sqldbOps.PUT.restore();
-    });
-
-    it('Succeeds on PUT success', function(){
-        var putStub = sinon.stub(sqldbOps, 'PUT').yields(null, {response:'200'}, 'sample body');
-
-        sqldbOps.setTransparentDataEncryption(function callback(err, result){
-            should.not.exist(err);
-            should.exist(result);
-            should.exist(result.body);
-            should.equal(result.body, 'sample body');
-            should.ok(putStub.calledOnce);
-            var data = putStub.args[0][2];
-            should.exist(data);
-            should.equal(data.properties.status, 'Enabled');
-        });
-        sqldbOps.PUT.restore();
-    });
-
 });
 
