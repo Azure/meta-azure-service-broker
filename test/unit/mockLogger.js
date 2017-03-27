@@ -8,14 +8,10 @@ var logger = {
 
 mock('winston', { loggers: {
   add: function() {
-    return;
+    return logger;
   },
   get: function() {
     return logger;
-<<<<<<< HEAD
   },
   loggers: {}
-=======
-  }
->>>>>>> 2d516c4aea40dfb009515bcaa5447c21ad0c0320
 }});

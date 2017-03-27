@@ -11,7 +11,7 @@ global.modules = {};
 
 var config = common.getConfigurations();
 var broker = new Broker(config);
-var log = require('winston').loggers.get(common.LOG_CONSTANTS.BROKER);
+var log = common.getLogger(common.LOG_CONSTANTS.BROKER);
 
 msRestRequest.init(config.azure);
 
