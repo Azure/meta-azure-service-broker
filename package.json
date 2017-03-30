@@ -65,8 +65,8 @@
   },
   "scripts": {
     "test": "npm -s run-script jshint && npm -s run-script eslint && npm -s run-script cover",
-    "jshint": "jshint lib test --reporter=jslint",
-    "eslint": "eslint --cache=true --max-warnings 0 lib test",
+    "jshint": "jshint lib test brokerserver.js --reporter=jslint",
+    "eslint": "eslint --cache=true --max-warnings 0 lib test brokerserver.js",
     "unit": "node scripts/test.js unittestlist.txt",
     "integration": "node scripts/test.js integrationtestlist.txt",
     "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- test/unit/mockLogger test/unit/common/ test/unit/services/azurestorage/ test/unit/services/azuredocdb test/unit/services/azurerediscache test/unit/services/azureservicebus test/unit/services/azuresqldb -R spec -t 5000",

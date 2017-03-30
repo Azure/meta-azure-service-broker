@@ -1,6 +1,5 @@
 'use strict';
 
-var async = require('async');
 var fs = require('fs');
 var path = require('path');
 var common = require('./lib/common');
@@ -28,7 +27,7 @@ log.info('Starting to collect the service offering and plans of each service mod
 var params = {};
 params.azure = config.azure;
 
-var servicesPath = "./lib/services"
+var servicesPath = './lib/services';
 var services = [];
 
 fs.readdir(servicesPath, function(err, files) {
