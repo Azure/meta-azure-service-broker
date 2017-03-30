@@ -2,7 +2,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var uuid = require('uuid');
@@ -18,7 +17,6 @@ var azure = {
   clientSecret: '2/DzYYYYYYYYYYsAvXXXXXXXXXXQ0EL7WPxEXX115Go=',
 };
 
-var log = logule.init(module, 'Storage-Tests');
 var generatedValidInstanceId = uuid.v4();
 
 var resourceGroupName = 'fake-resource-group';
@@ -93,7 +91,7 @@ describe('Storage - Index - Provision', function() {
           accountParameters: accountParameters,
         }
       });
-      handlers.provision(log, validParams, function(err, reply, result) {
+      handlers.provision(validParams, function(err, reply, result) {
         should.not.exist(err);
         reply.statusCode.should.equal(202);
         result.should.eql(provisioningResult);
@@ -129,7 +127,7 @@ describe('Storage - Index - Poll existing storage', function() {
       sinon.stub(storageClient, 'poll').yields(null, {
         provisioningState: 'Succeeded'
       });
-      handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
+      handlers.poll(validParams, function(err, lastOperatoin, reply, result) {
         should.not.exist(err);
         lastOperatoin.should.equal('provision');
         reply.statusCode.should.equal(200);
@@ -164,7 +162,7 @@ describe('Storage - Index - Bind existing storage', function() {
 
       sinon.stub(storageClient, 'bind').withArgs(resourceGroupName, storageAccountName).yields(null, 'fake-key-1', 'fake-key-2');
 
-      handlers.bind(log, validParams, function(err, reply, result) {
+      handlers.bind(validParams, function(err, reply, result) {
         should.not.exist(err);
         reply.statusCode.should.equal(201);
         reply.code.should.equal('Created');
@@ -201,7 +199,7 @@ describe('Storage - Index - De-provision existing storage', function() {
       sinon.stub(storageClient, 'deprovision').yields(null, {
         provisioningState: 'Succeeded'
       });
-      handlers.deprovision(log, validParams, function(err, reply, result) {
+      handlers.deprovision(validParams, function(err, reply, result) {
         should.not.exist(err);
         reply.statusCode.should.equal(202);
         done();
@@ -236,7 +234,7 @@ describe('Storage - Index - Poll de-provisioned storage', function() {
       sinon.stub(storageClient, 'poll').yields(null, {
         statusCode: 404
       });
-      handlers.poll(log, validParams, function(err, lastOperatoin, reply, result) {
+      handlers.poll(validParams, function(err, lastOperatoin, reply, result) {
         should.not.exist(err);
         lastOperatoin.should.equal('deprovision');
         reply.statusCode.should.equal(200);

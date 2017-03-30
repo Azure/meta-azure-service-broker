@@ -1,10 +1,12 @@
-var logule = require('logule');
+var common = require('../../lib/common');
 var documentdb = require('documentdb');
 var statusCode = require('./statusCode');
 
 module.exports = function() {
   var clientName = 'azuredocdbClient';
-  var log = logule.init(module, clientName);
+  common.addLogger(clientName, clientName);
+  var log = require('winston').loggers.get(clientName);
+  
   this.validateCredential = function(credential, next) {
     log.debug(credential);
     try {

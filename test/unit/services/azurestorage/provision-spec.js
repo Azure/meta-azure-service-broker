@@ -7,14 +7,11 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var azurestorage = require('../../../../lib/services/azurestorage/');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
-
-var log = logule.init(module, 'Storage-Mocha');
 
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
@@ -34,7 +31,7 @@ describe('Storage', function() {
       });
 
       it('should return missing parameter error', function(done) {
-        azurestorage.provision(log, validParams, function(
+        azurestorage.provision(validParams, function(
           err, reply, result) {
           err.should.have.property('description',
             'The parameters ["resource_group_name","storage_account_name","location","account_type"] are missing.');
@@ -76,7 +73,7 @@ describe('Storage', function() {
         });
 
         it('should create the storage', function(done) {
-          azurestorage.provision(log, validParams, function(
+          azurestorage.provision(validParams, function(
             err, reply, result) {
             should.not.exist(err);
             var replyExpected = {
@@ -143,7 +140,7 @@ describe('Storage', function() {
         });
 
         it('should create the storage', function(done) {
-          azurestorage.provision(log, validParams, function(
+          azurestorage.provision(validParams, function(
             err, reply, result) {
             should.exist(err);
             err.should.have.property('statusCode', 400);

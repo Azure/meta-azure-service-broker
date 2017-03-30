@@ -1,0 +1,8 @@
+{
+  "console": {
+    "level": "info",
+    "debugStdout": true,
+    "colorize": true,
+    "prettyPrint": true
+  }
+}

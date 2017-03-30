@@ -7,19 +7,16 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdPoll = require('../../../../lib/services/azurerediscache/cmd-poll');
 var redisClient = require('../../../../lib/services/azurerediscache/client');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
-
-var log = logule.init(module, 'RedisCache-Mocha');
   
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
-redisClient.initialize(azure, log);
+redisClient.initialize(azure);
   
 describe('RedisCache - Provision-Poll - Execution - Cache that exists', function() {
     var validParams;
@@ -47,7 +44,7 @@ describe('RedisCache - Provision-Poll - Execution - Cache that exists', function
     
     describe('Poll operation outcomes should be...', function() {
         it('should output provisioningState = Succeeded', function(done) {
-            var cp = new cmdPoll(log, validParams);
+            var cp = new cmdPoll(validParams);
             cp.poll(redisClient, function(err, result) {
                 should.not.exist(err);
                 result.statusCode.should.equal(200);
@@ -83,7 +80,7 @@ describe('RedisCache - Provision-Poll - Execution - Cache is creating', function
     
     describe('Poll operation outcomes should be...', function() {
         it('should output provisioningState = Creating', function(done) {
-            var cp = new cmdPoll(log, validParams);
+            var cp = new cmdPoll(validParams);
             cp.poll(redisClient, function(err, result) {
                 should.not.exist(err);
                 result.statusCode.should.equal(200);
@@ -120,7 +117,7 @@ describe('RedisCache - Deprovision-Poll - Execution - Cache that unexists', func
     
     describe('Poll operation outcomes should be...', function() {
         it('should output provisioningState = Succeeded', function(done) {
-            var cp = new cmdPoll(log, validParams);
+            var cp = new cmdPoll(validParams);
             cp.poll(redisClient, function(err, result) {
                 should.not.exist(err);
                 result.statusCode.should.equal(200);

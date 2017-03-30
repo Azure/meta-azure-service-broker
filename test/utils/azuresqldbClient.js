@@ -1,11 +1,12 @@
-var logule = require('logule');
+var common = require('../../lib/common');
 var statusCode = require('./statusCode');
 var supportedEnvironments = require('./supportedEnvironments');
 var async = require('async');
 
 module.exports = function(environment) {
   var clientName = 'azuresqldbClient';
-  var log = logule.init(module, clientName);
+  common.addLogger(clientName, clientName);
+  var log = require('winston').loggers.get(clientName);
 
   this.validateCredential = function(credential, next) {
     var Connection = require('tedious').Connection;

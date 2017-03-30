@@ -7,7 +7,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdDeprovision = require('../../../../lib/services/azuresqldb/cmd-deprovision');
@@ -15,8 +14,7 @@ var sqldbOperations = require('../../../../lib/services/azuresqldb/client');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
 
-var log = logule.init(module, 'SqlDb-Mocha');
-var sqldbOps = new sqldbOperations(log, azure);
+var sqldbOps = new sqldbOperations(azure);
 
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
@@ -35,7 +33,7 @@ describe('SqlDb - Deprovision', function () {
             azure: azure
         };
 
-        cd = new cmdDeprovision(log, validParams);
+        cd = new cmdDeprovision(validParams);
         
         msRestRequest.DELETE = sinon.stub();
         msRestRequest.DELETE.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb')

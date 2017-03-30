@@ -7,15 +7,13 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdbind = require('../../../../lib/services/azuresqldb/cmd-bind');
 var sqldbOperations = require('../../../../lib/services/azuresqldb/client');
 var azure = require('../helpers').azure;
 
-var log = logule.init(module, 'SqlDb-Mocha');
-var sqldbOps = new sqldbOperations(log, azure);
+var sqldbOps = new sqldbOperations(azure);
 
 describe('SqlDb - bind', function () {
 
@@ -55,7 +53,7 @@ describe('SqlDb - bind', function () {
             azure: azure
         };
 
-        cb = new cmdbind(log, validParams);
+        cb = new cmdbind(validParams);
     });
 
     after(function () {

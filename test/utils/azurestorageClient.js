@@ -1,12 +1,14 @@
 var azure = require('azure-storage');
 var async = require('async');
-var logule = require('logule');
+var common = require('../../lib/common');
 var statusCode = require('./statusCode');
 var supportedEnvironments = require('./supportedEnvironments');
 
 module.exports = function(environment) {
   var clientName = 'azurestorageClient';
-  var log = logule.init(module, clientName);
+  common.addLogger(clientName, clientName);
+  var log = require('winston').loggers.get(clientName);
+  
   var validate = function(accountName, accountKey, callback) {
     var context = {};
     context.accountName = accountName;

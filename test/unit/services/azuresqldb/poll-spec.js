@@ -8,7 +8,6 @@
 /* global describe, before, it */
 
 var HttpStatus = require('http-status-codes');
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdPoll = require('../../../../lib/services/azuresqldb/cmd-poll');
@@ -99,8 +98,7 @@ var afterDeprovisionValidParams = {
     }
 };
 
-var log = logule.init(module, 'SqlDb-Mocha');
-var sqldbOps = new sqldbOperations(log, azure);
+var sqldbOps = new sqldbOperations(azure);
 
 describe('SqlDb - Poll - polling database immediately after creation is started', function () {
 
@@ -115,7 +113,7 @@ describe('SqlDb - Poll - polling database immediately after creation is started'
     };
 
     before(function () {
-        cp = new cmdPoll(log, afterProvisionValidParams);
+        cp = new cmdPoll(afterProvisionValidParams);
         msRestRequest.GET = sinon.stub();
         msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb')
           .yields(null, sqldbOpsGetDatabaseResult);
@@ -181,7 +179,7 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
 
     describe('Poll should ...', function () {
         it('return 200 if it is executed after sufficient time', function (done) {
-            var cp = new cmdPoll(log, afterProvisionValidParams);
+            var cp = new cmdPoll(afterProvisionValidParams);
             cp.poll(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 tdeSpy.called.should.equal(false);
@@ -198,7 +196,7 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
 
     describe('TransparentDataEncryption should ...', function () {
         it('not be called if TDE setting is false', function (done) {
-            var cp = new cmdPoll(log, afterProvisionValidParams);
+            var cp = new cmdPoll(afterProvisionValidParams);
             cp.poll(sqldbOps, function (err, result) {
                 tdeSpy.called.should.equal(false);
                 should.not.exist(err);
@@ -207,7 +205,7 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
         });
 
         it('fail if transparent data encryption failed', function (done) {
-            var cp = new cmdPoll(log, afterProvisionValidParamsWithTDE);
+            var cp = new cmdPoll(afterProvisionValidParamsWithTDE);
             var tdeError = new Error('TDE failure');
             msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb/transparentDataEncryption/current')
               .yields(tdeError);
@@ -219,7 +217,7 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
         });
 
         it('fail if an unexpected error code is received without an error', function (done) {
-            var cp = new cmdPoll(log, afterProvisionValidParamsWithTDE);
+            var cp = new cmdPoll(afterProvisionValidParamsWithTDE);
             var tdeResult = {
                 statusCode:HttpStatus.BAD_GATEWAY,
                 body:{
@@ -237,7 +235,7 @@ describe('SqlDb - Poll - polling database after creation is complete', function 
         });
 
         it('succeed on CREATED return code', function (done) {
-            var cp = new cmdPoll(log, afterProvisionValidParamsWithTDE);
+            var cp = new cmdPoll(afterProvisionValidParamsWithTDE);
             var tdeResult = {
                 statusCode:HttpStatus.CREATED,
                 body:{
@@ -263,7 +261,7 @@ describe('SqlDb - Poll - polling database after de-provision is complete', funct
     var cp;
 
     before(function () {
-        cp = new cmdPoll(log, afterDeprovisionValidParams);
+        cp = new cmdPoll(afterDeprovisionValidParams);
         msRestRequest.GET = sinon.stub();
         msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb')
           .yields(null, {statusCode: 404});

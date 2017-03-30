@@ -230,22 +230,22 @@ cf delete-service-broker demo-service-broker -f
 
 ## Debug logging
 
-By default, the debug logging is disabled. If you want to enable the debug logging, please remove `debug` from the `suppress` list in `.logule.json`. Here is the [reference](https://github.com/clux/logule#configuration).
+By default, the debug logging is disabled. If you want to enable the debug logging, please change `"level": "info"` to `"level": "debug"` in `winston.json`. Here is the [reference](https://github.com/winstonjs/winston/blob/fcf04e1dece55ec1dd100e4a8a2cdcda91146e74/docs/transports.md#console-transport).
 
 ```
-"stdout"    : {
-  "pad"       : 0,
-  "delimiter" : " - ",
-  "nesting"   : 3,
-  "mutable"   : true,
-  "timestamp" : "toLocaleTimeString",
-  "suppress"  : ["debug"]
-},
+{
+  "console": {
+    "level": "info",
+    "debugStdout": true,
+    "colorize": true,
+    "prettyPrint": true
+  }
+}
 ```
 
 You can enable the debug logging when you deploy the service broker at the first time. Then you will get the debug messages. On the other hand, you can also enable it after the service broker is registered, but you need to update the service broker. The steps:
 
-1. Enable debug logging in `.logule.json`.
+1. Enable debug logging in `winston.json`.
 
 2. Re-push the broker to Cloud Foundry.
 

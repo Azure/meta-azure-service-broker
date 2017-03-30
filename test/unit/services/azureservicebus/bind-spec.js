@@ -7,14 +7,11 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var azureservicebus = require('../../../../lib/services/azureservicebus/');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
-
-var log = logule.init(module, 'ServiceBus-Mocha');
 
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
@@ -43,7 +40,7 @@ describe('ServiceBus', function() {
       });
       
       it('should return the credentials', function(done) {
-        azureservicebus.bind(log, validParams, function(
+        azureservicebus.bind(validParams, function(
           err, reply, result) {
           should.not.exist(err);
 

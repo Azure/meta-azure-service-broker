@@ -2,7 +2,6 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdBind = require('../../../../lib/services/azuredocdb/cmd-bind');
@@ -10,10 +9,9 @@ var docDbClient = require('../../../../lib/services/azuredocdb/client');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
 
-var log = logule.init(module, 'DocumentDb-Tests');
-
-var originPost = msRestRequest.POST;
-docDbClient.initialize(azure, log);
+var mockingHelper = require('../mockingHelper');
+mockingHelper.backup();
+docDbClient.initialize(azure);
 
 describe('DocumentDb - Bind', function() {
   var validParams;
@@ -33,11 +31,11 @@ describe('DocumentDb - Bind', function() {
     });
       
     after(function() {
-      msRestRequest.POST = originPost;
+      mockingHelper.restore();
     });
     
     it('should return credentials', function(done) {
-      var cp = new cmdBind(log, validParams);
+      var cp = new cmdBind(validParams);
       cp.bind(docDbClient, function(err, masterKey) {
         should.not.exist(err);
         masterKey.should.equal('fake-master-key');
@@ -54,11 +52,11 @@ describe('DocumentDb - Bind', function() {
     });
       
     after(function() {
-      msRestRequest.POST = originPost;
+      mockingHelper.restore();
     });
     
     it('should get an error and do not return credentials', function(done) {
-      var cp = new cmdBind(log, validParams);
+      var cp = new cmdBind(validParams);
       cp.bind(docDbClient, function(err, masterKey) {
         should.exist(err);
         should.not.exist(masterKey);

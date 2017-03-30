@@ -1,4 +1,5 @@
-var logule = require('logule');
+var log = require('winston').loggers.get('common');
+
 var should = require('should');
 var sinon = require('sinon');
 var util = require('util');
@@ -7,7 +8,6 @@ var request = require('request');
 
 var Common = require('../../../lib/common');
 var Token = require('../../../lib/common/token');
-var log = logule.init(module, 'ServiceBroker-Mocha');
 
 describe('Util', function() {
 
@@ -297,8 +297,7 @@ describe('Util', function() {
 
     it('should call log.debug with correct message when logging body', function() {
       var operation = 'operationx';
-      Common.logHttpResponse(log,
-                             {
+      Common.logHttpResponse({
                                statusCode: '123',
                                headers: {
                                  'x-ms-request-id': 'aaa',
@@ -322,8 +321,7 @@ describe('Util', function() {
 
     it('should call log.debug with correct message when not logging body', function() {
       var operation = 'operationx';
-      Common.logHttpResponse(log,
-                             {
+      Common.logHttpResponse({
                                statusCode: '123',
                                headers: {
                                  'x-ms-request-id': 'aaa',

@@ -7,14 +7,11 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var azurestorage = require('../../../../lib/services/azurestorage/');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
-
-var log = logule.init(module, 'Storage-Mocha');
 
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
@@ -44,7 +41,7 @@ describe('Storage', function() {
       });
 
       it('should return the credentials', function(done) {
-        azurestorage.bind(log, validParams, function(
+        azurestorage.bind(validParams, function(
           err, reply, result) {
           should.not.exist(err);
 

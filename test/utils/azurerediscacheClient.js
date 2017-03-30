@@ -1,11 +1,13 @@
+var common = require('../../lib/common');
 var redis = require('redis');
 var async = require('async');
-var logule = require('logule');
 var statusCode = require('./statusCode');
 
 module.exports = function() {
   var clientName = 'azurerediscacheClient';
-  var log = logule.init(module, clientName);
+  common.addLogger(clientName, clientName);
+  var log = require('winston').loggers.get(clientName);
+  
   this.validateCredential = function(credential, next) {
     try {
       var client = redis.createClient(credential.sslPort, credential.hostname, {'auth_pass': credential.primaryKey, 'tls': {servername: credential.hostname}});

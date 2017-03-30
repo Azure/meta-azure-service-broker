@@ -7,15 +7,13 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var cmdUnbind = require('../../../../lib/services/azuresqldb/cmd-unbind');
 var sqldbOperations = require('../../../../lib/services/azuresqldb/client');
 var azure = require('../helpers').azure;
 
-var log = logule.init(module, 'SqlDb-Mocha');
-var sqldbOps = new sqldbOperations(log, azure);
+var sqldbOps = new sqldbOperations(azure);
 
 describe('SqlDb - Unbind', function () {
 
@@ -56,7 +54,7 @@ describe('SqlDb - Unbind', function () {
             azure: azure
         };
 
-        cb = new cmdUnbind(log, validParams);
+        cb = new cmdUnbind(validParams);
     });
 
     after(function () {

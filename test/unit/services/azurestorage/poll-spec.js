@@ -7,14 +7,11 @@
 /* jshint newcap: false */
 /* global describe, before, it */
 
-var logule = require('logule');
 var should = require('should');
 var sinon = require('sinon');
 var azurestorage = require('../../../../lib/services/azurestorage/');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
-
-var log = logule.init(module, 'Storage-Mocha');
 
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
@@ -47,7 +44,7 @@ describe('Storage', function() {
       });
 
       it('should return the state: succeeded', function(done) {
-        azurestorage.poll(log, validParams, function(err, lastOperation, reply, result) {
+        azurestorage.poll(validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
           lastOperation.should.equal('provision');
 
@@ -96,7 +93,7 @@ describe('Storage', function() {
       });
 
       it('should return the state: in progress', function(done) {
-        azurestorage.poll(log, validParams, function(err, lastOperation, reply, result) {
+        azurestorage.poll(validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
           lastOperation.should.equal('provision');
 
@@ -145,7 +142,7 @@ describe('Storage', function() {
       });
 
       it('should return the state: in progress', function(done) {
-        azurestorage.poll(log, validParams, function(err, lastOperation, reply, result) {
+        azurestorage.poll(validParams, function(err, lastOperation, reply, result) {
           should.not.exist(err);
           lastOperation.should.equal('provision');
 
