@@ -3,6 +3,7 @@ var supportedEnvironment = {
     location: 'eastus',
     redisCacheEndpointSuffix: '.redis.cache.windows.net',
     sqlServerEndpointSuffix: '.database.windows.net',
+    mysqlServerEndpointSuffix: '.database.windows.net',
     serviceBusEndpointSuffix: '.servicebus.windows.net',
     storageEndpointSuffix: '.core.windows.net'
   },
