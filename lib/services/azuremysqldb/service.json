@@ -1,0 +1,31 @@
+{
+  "id": "e40b3635-01bc-4262-b2c5-0847bd7ab43b",
+  "name": "azure-mysqldb",
+  "description": "Azure MySQL Database Service",
+  "bindable": true,
+  "tags": [
+    "Azure",
+    "MySQL",
+    "Database"
+  ],
+  "metadata": {
+    "displayName": "Azure MySQL Database Service",
+    "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/SQLDatabase.png",
+    "longDescription": "",
+    "providerDisplayName": "Microsoft"
+  },
+  "plans": [{
+    "id": "d8d5cac9-d975-48ea-9ac4-8232f92bcb93",
+    "name": "basic",
+    "free": true,
+    "description": "Basic, 100 DTUs, 51200MB",
+    "metadata": {
+      "displayName": "Basic",
+      "details": {
+        "name": "MYSQLS3M100",
+        "tier": "Basic",
+        "capacity": 100
+      }
+    }
+  }]
+}
