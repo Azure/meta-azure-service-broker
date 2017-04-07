@@ -135,7 +135,7 @@ describe('SqlDb - Provision - PreConditions', function () {
         });
 
         it('should fail to validate the parameters', function (done) {
-            (cp.getInvalidParams().length).should.not.equal(0);
+            (cp.getInvalidParams().length).should.equal(7);
             done();
         });
     });
