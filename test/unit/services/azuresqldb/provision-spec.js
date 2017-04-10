@@ -134,9 +134,9 @@ describe('SqlDb - Provision - PreConditions', function () {
             cp = new cmdProvision(params);
         });
 
-        it('should fail to validate the parameters', function (done) {
+        it('should find invalid parameters', function () {
             (cp.getInvalidParams().length).should.equal(7);
-            done();
+            (cp.getInvalidParams()).should.deepEqual(['resourceGroupName', 'location', 'sqlServerName', 'sqldbName', 'administratorLogin', 'administratorLoginPassword', 'collation']);
         });
     });
 });
