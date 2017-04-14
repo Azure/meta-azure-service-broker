@@ -6,7 +6,7 @@ var supportedEnvironments = require('./supportedEnvironments');
 
 module.exports = function(environment) {
   var clientName = 'azurestorageClient';
-  common.addLogger(clientName, clientName);
+  common.getLogger(clientName, clientName);
   var log = require('winston').loggers.get(clientName);
   
   var validate = function(accountName, accountKey, callback) {

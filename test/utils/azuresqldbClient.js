@@ -5,7 +5,7 @@ var async = require('async');
 
 module.exports = function(environment) {
   var clientName = 'azuresqldbClient';
-  common.addLogger(clientName, clientName);
+  common.getLogger(clientName, clientName);
   var log = require('winston').loggers.get(clientName);
 
   this.validateCredential = function(credential, next) {
