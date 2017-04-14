@@ -256,6 +256,8 @@ function runLifecycle(testMatrix) {
 
 runLifecycle(require('./test-matrix'));
 
+// Rerun lifecycle tests without the ability to create SQL servers
 process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'] = 'false';
+// Invalidate node cache
 delete require.cache[require.resolve('../../brokerserver')];
 runLifecycle(require('./test-matrix2'));

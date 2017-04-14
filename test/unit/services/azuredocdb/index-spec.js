@@ -13,7 +13,7 @@ var request = require('request');
 var azure = require('../helpers').azure;
 
 var generatedValidInstanceId = uuid.v4();
-var provisioningResult = '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount", "database": {"id": "abc", "_self": "abc"} }';
+
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
 
@@ -64,7 +64,6 @@ describe('DocumentDb - Index - Provision', function() {
 
 describe('DocumentDb - Index - Poll', function() {
     var validParams;
-    
     before(function() {
         validParams = {
             instance_id: generatedValidInstanceId,
@@ -72,12 +71,21 @@ describe('DocumentDb - Index - Poll', function() {
             plan_id: service.plans[0].id,
             azure: azure,
             last_operation: 'provision',
-            provisioning_result: provisioningResult,
+            provisioning_result: {
+                'resourceGroupName': 'myRG',
+                'docDbAccountName': 'myaccount',
+                'database':
+                {
+                    'id': 'abc',
+                    '_self': 'abc'
+                }
+            },
             parameters: {
                 resourceGroup: 'docDbResourceGroup',
                 docDbAccountName: 'eDocDbAccount',
                 docDbName: 'eDocDb',
-                location:'eastus'
+                location:'eastus',
+
             }
         };
         msRestRequest.GET = sinon.stub();
@@ -118,7 +126,15 @@ describe('DocumentDb - Index - Bind', function() {
             service_id: service.id,
             plan_id: service.plans[0].id,
             azure: azure,
-            provisioning_result: provisioningResult,
+            provisioning_result: {
+                'resourceGroupName': 'myRG',
+                'docDbAccountName': 'myaccount',
+                'database':
+                {
+                    'id': 'abc',
+                    '_self': 'abc'
+                }
+            },
             parameters: {
               resourceGroupName: 'myRG',
               docDbAccountName: 'eDocDbAccount',
@@ -126,6 +142,8 @@ describe('DocumentDb - Index - Bind', function() {
               location:'eastus'
             }
         };
+
+
         
         msRestRequest.POST = sinon.stub();
         msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
@@ -157,7 +175,15 @@ describe('DocumentDb - Index - Unbind', function() {
             service_id: service.id,
             plan_id: service.plans[0].id,
             azure: azure,
-            provisioning_result: provisioningResult,
+            provisioning_result: {
+                'resourceGroupName': 'myRG',
+                'docDbAccountName': 'myaccount',
+                'database':
+                {
+                    'id': 'abc',
+                    '_self': 'abc'
+                }
+            },
             binding_result: {}
         };
     });
@@ -183,12 +209,20 @@ describe('DocumentDb - Index - De-provision', function() {
             service_id: service.id,
             plan_id: service.plans[0].id,
             azure: azure,
-            provisioning_result: provisioningResult,
+            provisioning_result: {
+                'resourceGroupName': 'myRG',
+                'docDbAccountName': 'myaccount',
+                'database':
+                {
+                    'id': 'abc',
+                    '_self': 'abc'
+                }
+            },
             parameters: {
-              resourceGroupName: 'myRG',
-              docDbAccountName: 'eDocDbAccount',
-              docDbName: 'eDocDb',
-              location:'eastus'
+                resourceGroupName: 'myRG',
+                docDbAccountName: 'eDocDbAccount',
+                docDbName: 'eDocDb',
+                location: 'eastus'
             }
         };
         

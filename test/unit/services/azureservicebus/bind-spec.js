@@ -26,7 +26,7 @@ describe('ServiceBus', function() {
       before(function() {
         validParams = {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-          provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5\",\"namespaceName\":\"cfe77a25d2f58c11e5b93300\"}',
+          provisioning_result: {'resourceGroupName':'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5','namespaceName':'cfe77a25d2f58c11e5b93300'},
           azure: azure
         };
         

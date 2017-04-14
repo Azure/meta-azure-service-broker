@@ -111,7 +111,7 @@ describe('Storage - Index - Poll existing storage', function() {
       service_id: service.id,
       plan_id: service.plans[0].id,
       last_operation: 'provision',
-      provisioning_result: JSON.stringify(provisioningResult),
+      provisioning_result: provisioningResult,
       azure: azure,
       parameters: parameters
     };
@@ -147,7 +147,7 @@ describe('Storage - Index - Bind existing storage', function() {
       service_id: service.id,
       plan_id: service.plans[0].id,
       last_operation: 'provision',
-      provisioning_result: JSON.stringify(provisioningResult),
+      provisioning_result: provisioningResult,
       azure: azure,
       parameters: parameters
     };
@@ -184,7 +184,7 @@ describe('Storage - Index - De-provision existing storage', function() {
       service_id: service.id,
       plan_id: service.plans[0].id,
       last_operation: 'provision',
-      provisioning_result: JSON.stringify(provisioningResult),
+      provisioning_result: provisioningResult,
       azure: azure
     };
   });
@@ -218,7 +218,7 @@ describe('Storage - Index - Poll de-provisioned storage', function() {
       service_id: service.id,
       plan_id: service.plans[0].id,
       last_operation: 'deprovision',
-      provisioning_result: JSON.stringify(provisioningResult),
+      provisioning_result: provisioningResult,
       azure: azure,
       parameters: parameters
     };

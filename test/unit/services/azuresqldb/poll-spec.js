@@ -48,7 +48,28 @@ var afterProvisionValidParams = {
         }
     },
     last_operation: 'provision',
-    provisioning_result: '{\"resourceGroup\":\"sqldbResourceGroup\", \"administratorLogin\":\"xxxx\",\"administratorLoginPassword\":\"xxxxxxx\",\"operation\":\"CreateLogicalDatabase\",\"startTime\":\"/ Date(1467968057450 + 0000) / \",\"id\":\"subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/ sqldbResourceGroup / providers / Microsoft.Sql / servers / golive4 / databases / sqldb\",\"type\":\"Microsoft.Sql / servers / databases\",\"provisioningResult\":\"creating\",\"sqlServerName\":\"golive4\",\"sqldbName\":\"sqldb\",\"sqldbParameters\":{\"location\":\"westus\",\"properties\":{\"collation\":\"SQL_Latin1_General_CP1_CI_AS\",\"maxSizeBytes\":\"2147483648\",\"createMode\":\"Default\",\"edition\":\"Basic\",\"requestedServiceObjectiveName\":\"Basic\"}}}',
+    provisioning_result: {
+        'resourceGroup': 'sqldbResourceGroup',
+        'administratorLogin': 'xxxx',
+        'administratorLoginPassword': 'xxxxxxx',
+        'operation': 'CreateLogicalDatabase',
+        'startTime': '/ Date(1467968057450 + 0000) / ',
+        'id': 'subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/ sqldbResourceGroup / providers / Microsoft.Sql / servers / golive4 / databases / sqldb',
+        'type': 'Microsoft.Sql / servers / databases',
+        'provisioningResult': 'creating',
+        'sqlServerName': 'golive4',
+        'sqldbName': 'sqldb',
+        'sqldbParameters': {
+            'location': 'westus',
+            'properties': {
+                'collation': 'SQL_Latin1_General_CP1_CI_AS',
+                'maxSizeBytes': '2147483648',
+                'createMode': 'Default',
+                'edition': 'Basic',
+                'requestedServiceObjectiveName': 'Basic'
+            }
+        }
+    },
     azure: azure,
     'defaultSettings': {
       'sqldb': {
@@ -89,7 +110,33 @@ var afterDeprovisionValidParams = {
         }
     },
     last_operation: 'deprovision',
-    provisioning_result: '{\"resourceGroup\":\"sqldbResourceGroup\", \"id\":\"/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb\",\"name\":\"sqldb\",\"type\":\"Microsoft.Sql/servers/databases\",\"location\":\"West US\",\"kind\":\"v12.0,user\",\"properties\":{\"databaseId\":\"1e141874-5886-4077-a476-f2ecc4b0016d\",\"edition\":\"Basic\",\"status\":\"Online\",\"serviceLevelObjective\":\"Basic\",\"collation\":\"SQL_Latin1_General_CP1_CI_AS\",\"maxSizeBytes\":\"2147483648\",\"creationDate\":\"2016-07-09T13:39:44.4Z\",\"currentServiceObjectiveId\":\"dd6d99bb-f193-4ec1-86f2-43d3bccbc49c\",\"requestedServiceObjectiveId\":\"dd6d99bb-f193-4ec1-86f2-43d3bccbc49c\",\"requestedServiceObjectiveName\":null,\"defaultSecondaryLocation\":\"East US\",\"earliestRestoreDate\":\"2016-07-09T13:49:55.667Z\",\"elasticPoolName\":null,\"containmentState\":2},\"sqlServerName\":\"golive4\",\"administratorLogin\":\"xxxx\",\"administratorLoginPassword\":\"xxxxxxx\"}',
+    provisioning_result: {
+        'resourceGroup': 'sqldbResourceGroup',
+        'id': '/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb',
+        'name': 'sqldb',
+        'type': 'Microsoft.Sql/servers/databases',
+        'location': 'West US',
+        'kind': 'v12.0,user',
+        'properties': {
+            'databaseId': '1e141874-5886-4077-a476-f2ecc4b0016d',
+            'edition': 'Basic',
+            'status': 'Online',
+            'serviceLevelObjective': 'Basic',
+            'collation': 'SQL_Latin1_General_CP1_CI_AS',
+            'maxSizeBytes': '2147483648',
+            'creationDate': '2016-07-09T13:39:44.4Z',
+            'currentServiceObjectiveId': 'dd6d99bb-f193-4ec1-86f2-43d3bccbc49c',
+            'requestedServiceObjectiveId': 'dd6d99bb-f193-4ec1-86f2-43d3bccbc49c',
+            'requestedServiceObjectiveName': null,
+            'defaultSecondaryLocation': 'East US',
+            'earliestRestoreDate': '2016-07-09T13:49:55.667Z',
+            'elasticPoolName': null,
+            'containmentState': 2
+        },
+        'sqlServerName': 'golive4',
+        'administratorLogin': 'xxxx',
+        'administratorLoginPassword': 'xxxxxxx'
+    },
     azure: azure,
     'defaultSettings': {
       'sqldb': {

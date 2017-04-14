@@ -28,7 +28,7 @@ describe('RedisCache - Provision-Poll - Execution - Cache that exists', function
                 resourceGroup: 'redisResourceGroup',
                 cacheName: 'C0CacheNC'
             },
-            provisioning_result: '{"provisioningState":"Creating"}',
+            provisioning_result: {'provisioningState':'Creating'},
             last_operation: 'provision',
             azure: azure
         };
@@ -65,7 +65,7 @@ describe('RedisCache - Provision-Poll - Execution - Cache is creating', function
                 resourceGroup: 'redisResourceGroup',
                 cacheName: 'C0CacheNC'
             },
-            provisioning_result: '{"provisioningState":"Creating"}',
+            provisioning_result: {'provisioningState':'Creating'},
             last_operation : 'provision',
             azure: azure
         };
@@ -100,7 +100,7 @@ describe('RedisCache - Deprovision-Poll - Execution - Cache that unexists', func
                 resourceGroup: 'redisResourceGroup',
                 cacheName: 'C0CacheNC'
             },
-            provisioning_result: '{"provisioningState":"Creating"}',
+            provisioning_result: {'provisioningState':'Creating'},
             last_operation : 'deprovision',
             azure: azure
         };

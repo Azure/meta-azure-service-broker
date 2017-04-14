@@ -26,7 +26,21 @@ describe('Storage', function() {
       validParams = {
         instance_id: 'a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
         last_operation: 'provision',
-        provisioning_result: '{\"resourceGroupResult\":{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"groupParameters\":{\"location\":\"eastus\"}},\"storageAccountResult\":{\"storageAccountName\":\"cfa6c5953cf5b211e5a5b700\",\"accountParameters\":{\"location\":\"eastus\",\"accountType\":\"Standard_LRS\"}}}',
+        provisioning_result: {
+          'resourceGroupResult': {
+            'resourceGroupName': 'cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
+            'groupParameters': {
+              'location': 'eastus'
+            }
+          },
+          'storageAccountResult': {
+            'storageAccountName': 'cfa6c5953cf5b211e5a5b700',
+            'accountParameters': {
+              'location': 'eastus',
+              'accountType': 'Standard_LRS'
+            }
+          }
+        },
         azure: azure,
       };
     });

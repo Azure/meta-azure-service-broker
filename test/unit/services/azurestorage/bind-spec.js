@@ -28,7 +28,21 @@ describe('Storage', function() {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
           parameters: {
           },
-          provisioning_result: '{\"resourceGroupResult\":{\"resourceGroupName\":\"cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5\",\"groupParameters\":{\"location\":\"eastus\"}},\"storageAccountResult\":{\"storageAccountName\":\"cfe77a25d2f58c11e5b93300\",\"accountParameters\":{\"location\":\"eastus\",\"accountType\":\"Standard_LRS\"}}}',
+          provisioning_result: {
+            'resourceGroupResult': {
+              'resourceGroupName': 'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5',
+              'groupParameters': {
+                'location': 'eastus'
+              }
+            },
+            'storageAccountResult': {
+              'storageAccountName': 'cfe77a25d2f58c11e5b93300',
+              'accountParameters': {
+                'location': 'eastus',
+                'accountType': 'Standard_LRS'
+              }
+            }
+          },
           azure: azure,
         };
         msRestRequest.POST = sinon.stub();

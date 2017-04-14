@@ -28,7 +28,7 @@ describe('ServiceBus', function() {
         validParams = {
           instance_id: 'a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
           last_operation: 'provision',
-          provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
+          provisioning_result: {'resourceGroupName':'cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5','namespaceName':'cfa6c5953cf5b211e5a5b700'},
           azure: azure,
         };
         
@@ -73,7 +73,7 @@ describe('ServiceBus', function() {
         validParams = {
           instance_id: 'a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
           last_operation: 'provision',
-          provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
+          provisioning_result: {'resourceGroupName':'cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5','namespaceName':'cfa6c5953cf5b211e5a5b700'},
           azure: azure,
         };
         
@@ -118,7 +118,7 @@ describe('ServiceBus', function() {
         validParams = {
           instance_id: 'a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
           last_operation: 'provision',
-          provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
+          provisioning_result: {'resourceGroupName':'cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5','namespaceName':'cfa6c5953cf5b211e5a5b700'},
           azure: azure,
         };
 
@@ -163,7 +163,7 @@ describe('ServiceBus', function() {
         validParams = {
           instance_id: 'a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
           last_operation: 'provision',
-          provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
+          provisioning_result: {'resourceGroupName':'cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5','namespaceName':'cfa6c5953cf5b211e5a5b700'},
           azure: azure,
         };
         
@@ -208,7 +208,7 @@ describe('ServiceBus', function() {
         validParams = {
           instance_id: 'a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
           last_operation: 'deprovision',
-          provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
+          provisioning_result: {'resourceGroupName':'cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5','namespaceName':'cfa6c5953cf5b211e5a5b700'},
           azure: azure,
         };
         
@@ -253,7 +253,7 @@ describe('ServiceBus', function() {
         validParams = {
           instance_id: 'a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
           last_operation: 'deprovision',
-          provisioning_result: '{\"resourceGroupName\":\"cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5\",\"namespaceName\":\"cfa6c5953cf5b211e5a5b700\"}',
+          provisioning_result: {'resourceGroupName':'cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5','namespaceName':'cfa6c5953cf5b211e5a5b700'},
           azure: azure,
         };
         var notFoundError = new Error('Namespace not found.');

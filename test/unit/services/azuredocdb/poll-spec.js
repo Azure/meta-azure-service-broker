@@ -20,7 +20,10 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
   before(function() {
     validParams = {
       instance_id: '2e201389-35ff-4b89-9148-5c08c7325dc8',
-      provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }',
+      provisioning_result: {
+        'resourceGroupName': 'myRG',
+        'docDbAccountName': 'myaccount'
+      },
       last_operation: 'provision'
     };
     
@@ -58,7 +61,7 @@ describe('DocumentDb - Provision-Poll - Execution', function() {
   before(function() {
     validParams = {
       instance_id: '2e201389-35ff-4b89-9148-5c08c7325dc8',
-      provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }',
+      provisioning_result: { 'resourceGroupName': 'myRG', 'docDbAccountName': 'myaccount' },
       last_operation: 'provision'
     };
     
@@ -97,7 +100,7 @@ describe('DocumentDb - Deprovision-Poll - Execution', function() {
   before(function() {
     validParams = {
       instance_id: '2e201389-35ff-4b89-9148-5c08c7325dc8',
-      provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }',
+      provisioning_result: { 'resourceGroupName': 'myRG', 'docDbAccountName': 'myaccount' },
       last_operation: 'deprovision'
     };
     
@@ -128,7 +131,7 @@ describe('DocumentDb - Deprovision-Poll - Execution', function() {
   before(function() {
     validParams = {
       instance_id: '2e201389-35ff-4b89-9148-5c08c7325dc8',
-      provisioning_result: '{ "resourceGroupName": "myRG", "docDbAccountName": "myaccount" }',
+      provisioning_result: { 'resourceGroupName': 'myRG', 'docDbAccountName': 'myaccount' },
       last_operation: 'deprovision'
     };
     

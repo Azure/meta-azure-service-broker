@@ -112,7 +112,7 @@ describe('RedisCache - Provision - Execution - Cache that doesn\'t previsouly ex
                 }
             },
             azure : azure,
-            provisioning_result: '{\"provisioningState\":\"Creating\"}'
+            provisioning_result: {'provisioningState':'Creating'}
         };
         cp = new cmdProvision(validParams);
         
