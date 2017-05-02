@@ -71,7 +71,14 @@ azuresqldb = {
     'jdbcUrl': '<string>',
     'jdbcUrlForAuditingEnabled': '<string>'
   },
-  e2e: false
+  e2e: false,
+  updateParameters: {
+      'sqlServerParameters': {
+        'properties': {
+          'administratorLoginPassword': 'newPassword425'
+        }
+      }
+  }
 };
 testMatrix.push(azuresqldb);
 

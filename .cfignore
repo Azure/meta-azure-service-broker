@@ -3,4 +3,6 @@ docs/
 scripts/
 examples/
 node_modules/
+.vscode/
 README.md
+.env

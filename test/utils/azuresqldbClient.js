@@ -2,6 +2,10 @@ var common = require('../../lib/common');
 var statusCode = require('./statusCode');
 var supportedEnvironments = require('./supportedEnvironments');
 var async = require('async');
+var msRestRequest = require('../../lib/common/msRestRequest');
+var util = require('util');
+var _ = require('underscore');
+var broker = require('../../brokerserver');
 
 module.exports = function(environment) {
   var clientName = 'azuresqldbClient';
@@ -11,15 +15,15 @@ module.exports = function(environment) {
   this.validateCredential = function(credential, next) {
     var Connection = require('tedious').Connection;
     var Request = require('tedious').Request;
-    
+
     var serverSuffix = supportedEnvironments[environment]['sqlServerEndpointSuffix'];
-    var config = {  
+    var config = {
       userName: credential.databaseLogin,
       password: credential.databaseLoginPassword,
       server: credential.sqlServerName + serverSuffix,
       options: {encrypt: true, database: credential.sqldbName}
     };
-    
+
     function nextStep(err, message, callback) {
       if (err) {
         log.error(message + ' Error: %j', 'not ', err);
@@ -29,7 +33,7 @@ module.exports = function(environment) {
         callback(null);
       }
     }
-    
+
     var connection;
     async.waterfall([
       function(callback) {
@@ -89,7 +93,7 @@ module.exports = function(environment) {
     var expectedTDE = service.provisioningParameters.transparentDataEncryption;
     var actualTDE = null;
     var connection;
-    
+
     var userName, password;
     if (service.provisioningParameters.sqlServerParameters) {
       userName = service.provisioningParameters.sqlServerParameters.properties.administratorLogin;
@@ -151,5 +155,65 @@ module.exports = function(environment) {
       connection.close();
       next(err);
     });
+  };
+
+  this.validateUpdate = function (service, next) {
+    if (service.updateParameters){
+      async.waterfall([
+        function (callback){
+          // Actually change the server password so that the rest of the lifecycle does not fail.
+          log.debug('Modifying the sqlserver password');
+          var environmentName = process.env['ENVIRONMENT'];
+          var subscriptionId = process.env['SUBSCRIPTION_ID'];
+          var API_VERSIONS = common.API_VERSION[environmentName];
+          var environment = common.getEnvironment(environmentName);
+          var resourceManagerEndpointUrl = environment.resourceManagerEndpointUrl;
+          var resourceGroupName = service.provisioningParameters.resourceGroup;
+          var sqlServerName = service.provisioningParameters.sqlServerName;
+
+          var serverUrl = util.format('%s/subscriptions/%s/resourcegroups/%s/providers/Microsoft.Sql/servers/%s',
+            resourceManagerEndpointUrl,
+            subscriptionId,
+            resourceGroupName,
+            sqlServerName);
+
+          var standardHeaders = {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json'
+          };
+
+          var headers = common.mergeCommonHeaders('sqldb client - createServer', standardHeaders);
+          var params = _.extend({}, service.updateParameters.sqlServerParameters);
+          params.location = service.provisioningParameters.location;
+
+          msRestRequest.PUT(serverUrl, headers, params, API_VERSIONS.SQL, function (err, res, body) {
+            log.debug('Modify request body : %j', body);
+            return callback(err);
+          });
+        },
+        function (callback){
+          broker.db.getServiceInstance(service.instanceId, callback);
+        },
+        function(instance, callback){
+          // Validate password change in instance
+          var newPassword = service.updateParameters.sqlServerParameters.properties.administratorLoginPassword;
+          if (instance.parameters.sqlServerParameters.properties.administratorLoginPassword !== newPassword) {
+            return callback(new Error('New password is wrong in provisionning parameters'));
+          }
+
+          if (instance['provisioning_result'].administratorLoginPassword !== newPassword) {
+            return callback(new Error('New password is wrong in provisionning result'));
+          }
+          callback(null);
+        }
+      ],
+      function(err, result){
+        next(err);
+      });
+    }
+    else{
+      // No update
+      return next(null);
+    }
   };
 };

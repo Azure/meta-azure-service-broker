@@ -1,0 +1,51 @@
+{
+    // Use IntelliSense to learn about possible Node.js debug attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Integration Tests",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--config",
+                "${workspaceRoot}/test/integration/mocha.opts",
+                "${workspaceRoot}/test/integration/catalog.js",
+                "${workspaceRoot}/test/integration/lifecycle.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "envFile": "${workspaceRoot}/.env"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Unit Tests",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--config",
+                "${workspaceRoot}/test/unit/mocha.opts",
+                "${workspaceRoot}/test/unit/mockLogger",
+                "${workspaceRoot}/test/unit/common/",
+                "--recursive",
+                "${workspaceRoot}/test/unit/services/"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceRoot}/index.js",
+            "envFile": "${workspaceRoot}/.env"
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Process",
+            "address": "localhost",
+            "port": 5858
+        }
+    ]
+}

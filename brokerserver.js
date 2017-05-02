@@ -14,12 +14,15 @@ var log = common.getLogger(common.LOG_CONSTANTS.BROKER);
 
 msRestRequest.init(config.azure);
 
+// Brokers listen for '<operation>-<serviceId>' ex: 'poll-fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5'
 var addListeners = function(serviceId, serviceModule) {
-  broker.on('provision-' + serviceId, serviceModule.provision);
-  broker.on('poll-' + serviceId, serviceModule.poll);
-  broker.on('deprovision-' + serviceId, serviceModule.deprovision);
-  broker.on('bind-' + serviceId, serviceModule.bind);
-  broker.on('unbind-' + serviceId, serviceModule.unbind);
+  var operations = ['provision', 'poll', 'deprovision', 'bind', 'unbind', 'update'];
+  operations.forEach(function(operation) {
+    if (serviceModule.hasOwnProperty(operation)){
+      log.debug('Adding listener %s-%s', operation, serviceId);
+      broker.on(operation + '-' + serviceId, serviceModule[operation]);
+    }
+  });
 };
 
 log.info('Starting to collect the service offering and plans of each service module...');
@@ -27,7 +30,7 @@ log.info('Starting to collect the service offering and plans of each service mod
 var params = {};
 params.azure = config.azure;
 
-var servicesPath = './lib/services';
+var servicesPath = path.resolve(__dirname, 'lib/services');
 var services = [];
 
 fs.readdir(servicesPath, function(err, files) {
@@ -40,7 +43,7 @@ fs.readdir(servicesPath, function(err, files) {
   }).filter(function(file) {
     return fs.statSync(file).isDirectory();
   }).forEach(function(file) {
-    var serviceModule = require('./' + file);
+    var serviceModule = require(file);
     serviceModule.catalog(params, function(err, service) {
       if (err) {
         throw err;

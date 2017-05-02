@@ -1,0 +1,3 @@
+--ui tdd
+--timeout 200000
+--reporter list

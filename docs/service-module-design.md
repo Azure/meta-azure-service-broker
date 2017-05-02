@@ -8,6 +8,7 @@ You need to implement the following functions in the service module.
 * Handlers.deprovision = function(params, next)
 * Handlers.bind = function(params, next)
 * Handlers.unbind = function(params, next)
+* Handlers.update = function(params, next)
 
 About the parameters
 
@@ -21,7 +22,7 @@ About the parameters
 
   The future compatibility is the reason why the JSON object is used; it will be easier to add fields in the future if JSON is expected.
 
-  params may contain three parts: azure part, http request part and service module specific part. 
+  params may contain three parts: azure part, http request part and service module specific part.
 
     a. The azure part is the ENVIRONMENT (AzureCloud, AzureChinaCloud), service principals (TENANT_ID, CLIENT_ID, CLIENT_SECRET) and the SUBSCRIPTION_ID.
 
@@ -116,7 +117,7 @@ It should be an asynchronous operation.
   ```
 
   Example:
-  
+
     ```
     {
       "id":"dbf4e995-e236-48cb-8d99-3698e5d6611b",
@@ -393,7 +394,7 @@ When the unbinding function of the service module is called, the broker will del
     ```
 
   * reply should be a JSON object.
-  
+
     ```
     {
       StatusCode: 200,
@@ -403,6 +404,44 @@ When the unbinding function of the service module is called, the broker will del
     ```
 
   * result should be a valid JSON object which is determined by the service module. This parameter may be deprecated in future.
+
+### Update function
+
+Handlers.update = function(params, next)
+
+When the update function of the service module is called, the broker will attempt to update the instance to conform to the passed parameters.
+
+* params
+
+  ```
+  {
+    "service_id": "service guid which is in the service module’s catalog",
+    "instance": {
+      <The current service instance configuration from the broker database>
+    }
+    "requested": {
+      <The configuration that is requested for this service instance>
+    }
+  }
+  ```
+
+* next(err, reply, result)
+
+* err should be null if the operation is succeeded. Otherwise, err should be a valid JSON object.
+
+  ```
+  {
+    statusCode: e.g. 404,
+    code: "e.g. NotFound",
+    description: "e.g. The resource is not found."
+  }
+  ```
+
+* reply should be an empty JSON object.
+
+  ```
+  {}
+  ```
 
 ### Logging
 

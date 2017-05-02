@@ -1,2 +1,0 @@
-integration/catalog.js
-integration/lifecycle.js

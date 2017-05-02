@@ -27,7 +27,7 @@ function runLifecycle(testMatrix) {
     var credentials = service.credentials;
     var e2e = service.e2e;
     var client = clients[serviceName];
-    
+
     describe(serviceName, function() {
       describe('Provisioning', function() {
         it('should return 422 if accepts_incomplete is not set to true', function(done) {
@@ -48,9 +48,10 @@ function runLifecycle(testMatrix) {
             });
         });
       });
-    
+
       describe('Successful lifecycle', function() {
         it('should provision a service instance successfully', function(done) {
+          this.timeout(60000);
           chai.request(server)
             .put('/v2/service_instances/' + instanceId)
             .set('X-Broker-API-Version', '2.8')
@@ -70,7 +71,7 @@ function runLifecycle(testMatrix) {
               done();
             });
         });
-    
+
         it('should get a conflict error if the resource name is same', function(done) {
           // The instance is different because it's a different service instance
           chai.request(server)
@@ -101,17 +102,17 @@ function runLifecycle(testMatrix) {
               return state === 'in progress';
             },
             function(callback) {
-              setTimeout(function() {
-                chai.request(server)
-                  .get('/v2/service_instances/' + instanceId + '/last_operation')
-                  .set('X-Broker-API-Version', '2.8')
-                  .auth('demouser', 'demopassword')
-                  .end(function(err, res) {
-                    res.should.have.status(200);
-                    res.body.should.have.property('state');
-                    state = res.body.state;
-                    callback(err, state);
-                  });
+              setTimeout(function () {
+              chai.request(server)
+                .get('/v2/service_instances/' + instanceId + '/last_operation')
+                .set('X-Broker-API-Version', '2.8')
+                .auth('demouser', 'demopassword')
+                .end(function(err, res) {
+                  res.should.have.status(200);
+                  res.body.should.have.property('state');
+                  state = res.body.state;
+                  callback(err, state);
+                });
               }, 30000);
             },
             function (err, state) {
@@ -123,96 +124,128 @@ function runLifecycle(testMatrix) {
         });
 
         it('should validate the provisioning operation', function(done) {
+          var test = this;
           if(client && client.validateProvisioning) {
             client.validateProvisioning(service, done);
           } else {
-            done();
+            test.skip();
           }
         });
-    
+
         it('should get the credentials by the binding operation and the credentials should be workable', function(done) {
           this.timeout(300000);
-    
-          setTimeout(function() {
-            chai.request(server)
-              .put('/v2/service_instances/' + instanceId + '/service_bindings/' + bindingId)
-              .set('X-Broker-API-Version', '2.8')
-              .auth('demouser', 'demopassword')
-              .send({
-                'plan_id': planId,
-                'service_id': serviceId,
-                'app_guid': uuid.v4(),
-                'parameters': bindingParameters
-              })
-              .end(function(err, res) {
-                res.should.have.status(201);
-                res.should.be.json;
-                res.body.should.be.a('object');
-                res.body.should.have.property('credentials');
-                var actualCredentials = res.body.credentials;
-                var keys = _.keys(credentials);
-                _.each(keys, function(key) {
-                  res.body.credentials.should.have.property(key);
-                  var value = credentials[key];
-                  if (_.isString(value) && value.startsWith('<') && value.endsWith('>')) {
-                    res.body.credentials.should.have.property(key).be.a(value.slice(1, -1));
-                  } else {
-                    res.body.credentials.should.have.property(key, value);
-                  }
-                }); 
-                if (e2e) {
-                  if(client) {
-                    client.validateCredential(actualCredentials, function(result) {
-                      result.should.equal(statusCode.PASS);
-                      done();
-                    });
-                  } else {
-                    console.warn('E2E tests for %s are skipped because the client to validate credentials is not implemented.', serviceName);
-                    done();
-                  }
-                } else done();
+
+          chai.request(server)
+            .put('/v2/service_instances/' + instanceId + '/service_bindings/' + bindingId)
+            .set('X-Broker-API-Version', '2.8')
+            .auth('demouser', 'demopassword')
+            .send({
+              'plan_id': planId,
+              'service_id': serviceId,
+              'app_guid': uuid.v4(),
+              'parameters': bindingParameters
+            })
+            .end(function(err, res) {
+              res.should.have.status(201);
+              res.should.be.json;
+              res.body.should.be.a('object');
+              res.body.should.have.property('credentials');
+              var actualCredentials = res.body.credentials;
+              var keys = _.keys(credentials);
+              _.each(keys, function(key) {
+                res.body.credentials.should.have.property(key);
+                var value = credentials[key];
+                if (_.isString(value) && value.startsWith('<') && value.endsWith('>')) {
+                  res.body.credentials.should.have.property(key).be.a(value.slice(1, -1));
+                } else {
+                  res.body.credentials.should.have.property(key, value);
+                }
               });
-          }, 10000);
+              if (e2e) {
+                if(client) {
+                  client.validateCredential(actualCredentials, function(result) {
+                    result.should.equal(statusCode.PASS);
+                    done();
+                  });
+                } else {
+                  console.warn('E2E tests for %s are skipped because the client to validate credentials is not implemented.', serviceName);
+                  done();
+                }
+              } else done();
+            });
         });
-    
+
+        it('should update the service instance', function(done){
+          // Limit the duration of this test to 60s
+          this.timeout(60000);
+          var test = this;
+
+          // Skip update if the plan does not support it
+          if (!service.updateParameters){
+            test.skip();
+          }
+
+          chai.request(server)
+            .patch('/v2/service_instances/' + instanceId)
+            .set('X-Broker-API-Version', '2.8')
+            .auth('demouser', 'demopassword')
+            .query({
+              'service_id': serviceId,
+              'plan_id': planId,
+              'accepts_incomplete': true,
+              'parameters':service.updateParameters
+            })
+            .end(function (err, res) {
+              res.should.have.status(200);
+              done(err);
+            });
+        });
+
+        it('should validate the update operation', function (done) {
+          this.timeout(60000);
+
+          var test = this;
+          if (client && client.validateUpdate) {
+            client.validateUpdate(service, done);
+          } else {
+            test.skip();
+          }
+        });
+
         it('should delete the binding', function(done) {
           this.timeout(60000);
-    
-          setTimeout(function() {
-            chai.request(server)
-              .delete('/v2/service_instances/' + instanceId + '/service_bindings/' + bindingId)
-              .set('X-Broker-API-Version', '2.8')
-              .auth('demouser', 'demopassword')
-              .query({
-                'service_id': serviceId,
-                'plan_id': planId
-              })
-              .end(function(err, res) {
-                res.should.have.status(200);
-                done();
-              });
-          }, 10000);
+
+          chai.request(server)
+            .delete('/v2/service_instances/' + instanceId + '/service_bindings/' + bindingId)
+            .set('X-Broker-API-Version', '2.8')
+            .auth('demouser', 'demopassword')
+            .query({
+              'service_id': serviceId,
+              'plan_id': planId
+            })
+            .end(function(err, res) {
+              res.should.have.status(200);
+              done();
+            });
         });
-    
+
         it('should deprovision the service instance successfully', function(done) {
           this.timeout(60000);
-    
-          setTimeout(function() {
-            chai.request(server)
-              .delete('/v2/service_instances/' + instanceId)
-              .set('X-Broker-API-Version', '2.8')
-              .auth('demouser', 'demopassword')
-              .query({
-                'service_id': serviceId,
-                'plan_id': planId
-              })
-              .end(function(err, res) {
-                res.should.have.status(202);
-                done();
-              });
-          }, 10000);
+
+          chai.request(server)
+            .delete('/v2/service_instances/' + instanceId)
+            .set('X-Broker-API-Version', '2.8')
+            .auth('demouser', 'demopassword')
+            .query({
+              'service_id': serviceId,
+              'plan_id': planId
+            })
+            .end(function(err, res) {
+              res.should.have.status(202);
+              done();
+            });
         });
-    
+
         it('should poll the state of the deprovisioning operation', function(done) {
           this.timeout(3600000);
           var state = 'in progress';
@@ -241,12 +274,13 @@ function runLifecycle(testMatrix) {
             }
           );
         });
-    
+
         it('should call cleaner in the last', function(done) {
+          this.timeout(60000);
           cleaner.clean(provisioningParameters, done);
         });
       });
-    
+
     });
 
   };

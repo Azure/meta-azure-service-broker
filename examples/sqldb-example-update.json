@@ -1,0 +1,7 @@
+{
+    "sqlServerParameters": {
+        "properties": {
+            "administratorLoginPassword": "newerPassword425"
+        }
+    }
+}
