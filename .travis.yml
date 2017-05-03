@@ -1,6 +1,19 @@
 language: node_js
-sudo: false
+env:
+  global:
+  - DOCKER_USERNAME=krancour
+  - secure: YuXD24eXJyXvT4hlwW9vmkhvWcQggQGqtL7zQdIgoe6s162cEUuZo7AG9N8MzvuIsChJofX7JJzOMhzRS9U12uWl4xqJL+G/pLr61FSxDbiRa2YULMFN/dCeplX3SDaAXwU+w5d/hnfH7jrmebxinHrlwXKK9v4qfO0qvcpt3IgUzbb3ub1e7ykWEKiuJTYAX3b/SsQsHDE6ySG/I0ADlil18m0sKDSQSDEEBIsXSEGKZ7TbJKdx7e10/xfdJM0s1n/QqzvMhqxYLnLouuv/tO02WWNz2uRMLP+qy+hqV9o4cYK1mZiT5+f1ITGVdH9AQff9Z3ykv8NEyGeU39J6FgKXT582fwDzyhl+3MjmjAEO8nsWuDl3jwTUtD6riU2vEfEbsP8pZEJviYMcvBA9O6cXkkj3qiNQ8DFX9K/ODSi/4+xmYwRZC73cyUyHX1Iv8gVGWZYRiau/MFDCBHZPr/FDZiqlSyYdGMU7Hgq9vVbPJpnvEQvfqV8UqkV+sl7BC1dfqSD9NigC8oG5YkAEJJpvmSZeZggZxczjS7DmBzNEEAZEeNCFvIeuPHNggMDUWiV9qdh7I6X4QBCqbVYqwqe4nbf/I67I/gy9S8YZ8vLGW6/Up2Rzbd+6XUhKqc21/Y9TM6pop97QxgEhB8fP7gVg8XGvnAAhYK/fZLFRAYE=
+services:
+- docker
+sudo: required
 node_js:
 - '4.2'
 script:
 - npm test
+- make docker-build
+deploy:
+  provider: script
+  script: scripts/deploy.sh
+  on:
+    repo: Azure/meta-azure-service-broker
+    all_branches: true
