@@ -124,6 +124,7 @@ function runLifecycle(testMatrix) {
         });
 
         it('should validate the provisioning operation', function(done) {
+          this.timeout(60000);
           var test = this;
           if(client && client.validateProvisioning) {
             client.validateProvisioning(service, done);
