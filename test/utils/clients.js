@@ -4,6 +4,7 @@ var AzurerediscacheClient = require('./azurerediscacheClient');
 var AzuredocdbClient = require('./azuredocdbClient');
 var AzuresqldbClient = require('./azuresqldbClient');
 var AzuremysqldbClient = require('./azuremysqldbClient');
+var AzurepostgresqldbClient = require('./azurepostgresqldbClient');
 
 var environment = process.env['ENVIRONMENT'];
 
@@ -13,5 +14,6 @@ module.exports = {
   'azure-rediscache': new AzurerediscacheClient(),
   'azure-documentdb': new AzuredocdbClient(),
   'azure-sqldb': new AzuresqldbClient(environment),
-  'azure-mysqldb': new AzuremysqldbClient(environment)
+  'azure-mysqldb': new AzuremysqldbClient(environment),
+  'azure-postgresqldb': new AzurepostgresqldbClient(environment)
 };
