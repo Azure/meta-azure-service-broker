@@ -39,12 +39,12 @@ describe('RedisCache - Deprovision - Execution', function() {
     });
 
     describe('Deprovision operation outcomes should be...', function() {
-        it('should output err & result null', function(done) {
+        it('should not exist err and provision result should not change', function(done) {
             
             cp.deprovision(redisClient, function(err, result) {
                 should.not.exist(err);
-                should.not.exist(result);
-                done();
+                result.should.equal(validParams.provisioning_result);
+                done(null);
             });
             
         });
