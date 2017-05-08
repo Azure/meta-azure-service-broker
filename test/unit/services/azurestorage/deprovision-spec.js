@@ -65,22 +65,7 @@ describe('Storage', function() {
           };
           reply.should.eql(replyExpected);
 
-          var resultExpected = {
-            resourceGroupResult: {
-              'resourceGroupName': 'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-              'groupParameters': {
-                'location': 'eastus'
-              }
-            },
-            storageAccountResult: {
-              'storageAccountName': 'cfe77a25d2f58c11e5b93300',
-              'accountParameters': {
-                'location': 'eastus',
-                'accountType': 'Standard_LRS'
-              }
-            }
-          };
-          result.should.eql(resultExpected);
+          result.should.eql(validParams.provisioning_result);
 
           done();
         });

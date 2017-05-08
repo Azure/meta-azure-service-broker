@@ -51,11 +51,7 @@ describe('ServiceBus', function() {
           };
           reply.should.eql(replyExpected);
 
-          var resultExpected = {
-              'resourceGroupName': 'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-              'namespaceName': 'cfe77a25d2f58c11e5b93300',
-          };
-          result.should.eql(resultExpected);
+          result.should.eql(validParams.provisioning_result);
 
           done();
         });
