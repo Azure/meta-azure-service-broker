@@ -82,6 +82,7 @@
     | Service Bus Service | yes | yes |
     | Storage Service | yes | yes |
     | SQL Database Service | yes | yes |
+    //TODO: add mysql and postgresql
 
   * `SUBSCRIPTION_ID`
 

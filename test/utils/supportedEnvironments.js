@@ -4,6 +4,7 @@ var supportedEnvironment = {
     redisCacheEndpointSuffix: '.redis.cache.windows.net',
     sqlServerEndpointSuffix: '.database.windows.net',
     mysqlServerEndpointSuffix: '.database.windows.net',
+    postgresqlServerEndpointSuffix: '.database.windows.net',
     serviceBusEndpointSuffix: '.servicebus.windows.net',
     storageEndpointSuffix: '.core.windows.net'
   },

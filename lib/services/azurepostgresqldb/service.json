@@ -1,0 +1,31 @@
+{
+  "id": "9569986f-c4d2-47e1-ba65-6763f08c3124",
+  "name": "azure-postgresqldb",
+  "description": "Azure PostgreSQL Database Service",
+  "bindable": true,
+  "tags": [
+    "Azure",
+    "PostgreSQL",
+    "Database"
+  ],
+  "metadata": {
+    "displayName": "Azure PostgreSQL Database Service",
+    "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/SQLDatabase.png",
+    "longDescription": "",
+    "providerDisplayName": "Microsoft"
+  },
+  "plans": [{
+    "id": "ffc1e3c8-0e24-471d-8683-1b42e100bb14",
+    "name": "basic",
+    "free": true,
+    "description": "Basic, 100 DTUs, 51200MB",
+    "metadata": {
+      "displayName": "Basic",
+      "details": {
+        "name": "PGSQLS3M100",
+        "tier": "Basic",
+        "capacity": 100
+      }
+    }
+  }]
+}
