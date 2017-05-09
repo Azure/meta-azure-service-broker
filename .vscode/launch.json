@@ -10,7 +10,7 @@
             "name": "Integration Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [
-                "--config",
+                "--opts",
                 "${workspaceRoot}/test/integration/mocha.opts",
                 "${workspaceRoot}/test/integration/catalog.js",
                 "${workspaceRoot}/test/integration/lifecycle.js"
@@ -24,7 +24,7 @@
             "name": "Unit Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [
-                "--config",
+                "--opts",
                 "${workspaceRoot}/test/unit/mocha.opts",
                 "${workspaceRoot}/test/unit/mockLogger",
                 "${workspaceRoot}/test/unit/common/",

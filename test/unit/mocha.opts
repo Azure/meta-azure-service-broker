@@ -1,4 +1,4 @@
 --ui bdd
---timeout 20000
---reporter list
+--timeout 2000
+--reporter spec
 --colors
