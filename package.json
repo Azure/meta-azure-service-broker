@@ -67,9 +67,9 @@
     "lint": "npm -s run-script jshint && npm -s run-script eslint",
     "jshint": "jshint lib test brokerserver.js --reporter=jslint",
     "eslint": "eslint --cache=true --max-warnings 0 lib test brokerserver.js",
-    "unit": "mocha --config test/unit/mocha.opts test/unit/mockLogger test/unit/common/ --recursive test/unit/services/",
-    "integration": "mocha --config test/integration/mocha.opts test/integration/catalog.js test/integration/lifecycle.js",
-    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha -- --config test/unit/mocha.opts test/unit/mockLogger test/unit/common/ --recursive test/unit/services/",
+    "unit": "mocha --opts test/unit/mocha.opts test/unit/mockLogger test/unit/common/ --recursive test/unit/services/",
+    "integration": "mocha --opts test/integration/mocha.opts test/integration/catalog.js test/integration/lifecycle.js",
+    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha -- --opts test/unit/mocha.opts test/unit/mockLogger test/unit/common/ --recursive test/unit/services/",
     "start": "node index.js"
   }
 }
