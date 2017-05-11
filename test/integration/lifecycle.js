@@ -51,7 +51,6 @@ function runLifecycle(testMatrix) {
 
       describe('Successful lifecycle', function() {
         it('should provision a service instance successfully', function(done) {
-          this.timeout(60000);
           chai.request(server)
             .put('/v2/service_instances/' + instanceId)
             .set('X-Broker-API-Version', '2.8')
