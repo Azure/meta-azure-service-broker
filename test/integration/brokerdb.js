@@ -102,7 +102,7 @@ describe('Broker DB', function () {
     it('should be able to update last operation', function (done) {
         async.waterfall([
             function(callback){
-                db.updateServiceInstanceLastOperation(instance['instance_id'], 'newLastOperation', callback);
+                db.updateServiceInstanceDeprovisioningResult(instance['instance_id'], 'newLastOperation', JSON.stringify(instance['provisioning_result']), callback);
             },
             function(callback){
                 db.getServiceInstance(instance['instance_id'], callback);

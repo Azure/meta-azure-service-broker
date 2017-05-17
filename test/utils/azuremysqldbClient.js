@@ -30,55 +30,53 @@ module.exports = function(environment) {
       }
     }
 
-    setTimeout(function(){
-      var conn = mysql.createConnection(config);
-      async.waterfall([
-        function(callback) {
-          log.debug('Connecting to MySQL server %s%s', credential.mysqlServerName, serverSuffix);
-          conn.connect(function(err) {
-            var message = 'The MySQL Server can %sbe connected.';
-            nextStep(err, message, callback);
-          });
-        },
-        function(callback) {
-          conn.query('CREATE DATABASE testdb', function(err) {
-            var message = 'The user can %screate a new database in the MySQL Server.';
-            nextStep(err, message, callback);
-          });
-        },
-        function(callback) {
-          conn.query('USE testdb', function(err) {
-            var message = 'The user can %sswitch to the new database in the MySQL Server.';
-            nextStep(err, message, callback);
-          });
-        },
-        function(callback) {
-          conn.query('CREATE TABLE testtable(aaa char(10))', function(err) {
-            var message = 'The user can %screate a new table in the MySQL Database.';
-            nextStep(err, message, callback);
-          });
-        },
-        function(callback) {
-          conn.query('INSERT INTO testtable(aaa) values (\'bbb\')', function(err) {
-            var message = 'The user can %sinsert a new row to the new table.';
-            nextStep(err, message, callback);
-          });
-        },
-        function(callback) {
-          conn.query('SELECT * FROM testtable', function(err) {
-            var message = 'The user can %sget the row inserted.';
-            nextStep(err, message, callback);
-          });
-        }
-      ],function(err){
-        conn.end();
-        if (err) {
-          next(statusCode.FAIL);
-        } else {
-          next(statusCode.PASS);
-        }
-      });
-    }, 30000);
+    var conn = mysql.createConnection(config);
+    async.waterfall([
+      function(callback) {
+        log.debug('Connecting to MySQL server %s%s', credential.mysqlServerName, serverSuffix);
+        conn.connect(function(err) {
+          var message = 'The MySQL Server can %sbe connected.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
+        conn.query('CREATE DATABASE testdb', function(err) {
+          var message = 'The user can %screate a new database in the MySQL Server.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
+        conn.query('USE testdb', function(err) {
+          var message = 'The user can %sswitch to the new database in the MySQL Server.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
+        conn.query('CREATE TABLE testtable(aaa char(10))', function(err) {
+          var message = 'The user can %screate a new table in the MySQL Database.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
+        conn.query('INSERT INTO testtable(aaa) values (\'bbb\')', function(err) {
+          var message = 'The user can %sinsert a new row to the new table.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
+        conn.query('SELECT * FROM testtable', function(err) {
+          var message = 'The user can %sget the row inserted.';
+          nextStep(err, message, callback);
+        });
+      }
+    ],function(err){
+      conn.end();
+      if (err) {
+        next(statusCode.FAIL);
+      } else {
+        next(statusCode.PASS);
+      }
+    });
   };
 
 };

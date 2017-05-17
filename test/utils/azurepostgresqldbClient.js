@@ -32,58 +32,56 @@ module.exports = function(environment) {
       }
     }
 
-    setTimeout(function(){
-      var client = new pg.Client(config);
-      async.waterfall([
-        function(callback) {
-          log.debug('Connecting to PostgreSQL server %s%s', credential.postgresqlServerName, serverSuffix);
-          client.connect(function(err) {
-            var message = 'The PostgreSQL Server can %sbe connected.';
-            nextStep(err, message, callback);
-          });
-        },
-        function(callback) {
-          client.query('CREATE DATABASE testdb', function(err) {
-            var message = 'The user can %screate a new database in the PostgreSQL Server.';
-            nextStep(err, message, callback);
-          });
-        },
-        function(callback) {
-          client.end();
-          config.database = 'testdb';
-          client = new pg.Client(config);
-          client.connect(function(err) {
-            var message = 'The user can %sconnect to the new database in the PostgreSQL Server.';
-            nextStep(err, message, callback);
-          });
-        },
-        function(callback) {
-          client.query('CREATE TABLE testtable(aaa char(10))', function(err) {
-            var message = 'The user can %screate a new table in the PostgreSQL Database.';
-            nextStep(err, message, callback);
-          });
-        },
-        function(callback) {
-          client.query('INSERT INTO testtable(aaa) values (\'bbb\')', function(err) {
-            var message = 'The user can %sinsert a new row to the new table.';
-            nextStep(err, message, callback);
-          });
-        },
-        function(callback) {
-          client.query('SELECT * FROM testtable', function(err) {
-            var message = 'The user can %sget the row inserted.';
-            nextStep(err, message, callback);
-          });
-        }
-      ],function(err){
+    var client = new pg.Client(config);
+    async.waterfall([
+      function(callback) {
+        log.debug('Connecting to PostgreSQL server %s%s', credential.postgresqlServerName, serverSuffix);
+        client.connect(function(err) {
+          var message = 'The PostgreSQL Server can %sbe connected.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
+        client.query('CREATE DATABASE testdb', function(err) {
+          var message = 'The user can %screate a new database in the PostgreSQL Server.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
         client.end();
-        if (err) {
-          next(statusCode.FAIL);
-        } else {
-          next(statusCode.PASS);
-        }
-      });
-    }, 30000);
+        config.database = 'testdb';
+        client = new pg.Client(config);
+        client.connect(function(err) {
+          var message = 'The user can %sconnect to the new database in the PostgreSQL Server.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
+        client.query('CREATE TABLE testtable(aaa char(10))', function(err) {
+          var message = 'The user can %screate a new table in the PostgreSQL Database.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
+        client.query('INSERT INTO testtable(aaa) values (\'bbb\')', function(err) {
+          var message = 'The user can %sinsert a new row to the new table.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
+        client.query('SELECT * FROM testtable', function(err) {
+          var message = 'The user can %sget the row inserted.';
+          nextStep(err, message, callback);
+        });
+      }
+    ],function(err){
+      client.end();
+      if (err) {
+        next(statusCode.FAIL);
+      } else {
+        next(statusCode.PASS);
+      }
+    });
   };
 
 };

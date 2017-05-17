@@ -1,6 +1,6 @@
-# Azure PostgreSQL Database Service
+﻿# Azure PostgreSQL Database Service
 
-//TODO add description
+[Azure PostgreSQL Database](https://azure.microsoft.com/en-us/services/postgresql) is a relational database service based on the open source Postgres database engine. It is a fully managed database as a service offering capable of handling mission-critical workloads with predictable performance, security, high availability, and dynamic scalability.  Develop applications with Azure Database for PostgreSQL leveraging the open source tools and platform of your choice.
 
 ## Behaviors
 
@@ -30,7 +30,7 @@
 
   1. Check whether deleting server succeeds or not.
 
-## Create an Azure MySQL Database service
+## Create an Azure PostgreSQL Database service
 
 1. Get the service name and plans
 
@@ -41,8 +41,9 @@
   Sample output:
 
   ```
-  service         plans                                                                                                                                                            description
-  azure-postgresqldb   basic   Azure PostgreSQL Database Service
+  service              plans                                                                         description
+  azure-postgresqldb   basic50*, basic100*, standard100*, standard200*, standard400*, standard800*   Azure PostgreSQL Database Service
+
   ```
 
   If you can not find the service name, please use the following command to make the plans public.
@@ -65,11 +66,11 @@
   {
     "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
     "location": "<azure-region-name>",          // [Required] support westus and northeurope only
-    "postgresqlServerName": "<postgresql-server-name>",// [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+    "postgresqlServerName": "<server-name>",    // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
     "postgresqlServerParameters": {
-        "allowPostgresqlServerFirewallRules": [        // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
+        "allowPostgresqlServerFirewallRules": [ // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
             {
-                "ruleName": "<rule-name-0>",
+                "ruleName": "<rule-name-0>",    // The rule name can only contain 0-9, a-z, A-Z, -, _, and cannot exceed 128 characters
                 "startIpAddress": "xx.xx.xx.xx",
                 "endIpAddress": "xx.xx.xx.xx"
             },
@@ -80,10 +81,11 @@
             }
         ],
         "properties": {
-            "version": "9.5 | 9.6",
+            "version": "9.5" | "9.6",
+            "sslEnforcement": "Enabled" | "Disabled",
             "storageMB": 51200,
-            "administratorLogin": "<postgresql-server-admin-name>",
-            "administratorLoginPassword": "<postgresql-server-admin-password>"
+            "administratorLogin": "<server-admin-name>",
+            "administratorLoginPassword": "<server-admin-password>"
         }
     }
   }
@@ -92,7 +94,7 @@
   For example:
 
   ```
-  cf create-service azure-postgresqldb basic postgresqldb -c examples/postgresqldb-example-config.json
+  cf create-service azure-postgresqldb basic100 postgresqldb -c examples/postgresqldb-example-config.json
   ```
 
   The contents of `examples/postgresqldb-example-config.json`:
@@ -103,15 +105,16 @@
       "location": "westus",
       "postgresqlServerName": "postgresqlservera",
       "postgresqlServerParameters": {
-          "allowMysqlServerFirewallRules": [
+          "allowPostgresqlServerFirewallRules": [
               {
-                "ruleName": "new rule",
+                "ruleName": "newrule",
                 "startIpAddress": "0.0.0.0",
                 "endIpAddress": "255.255.255.255"
               }
           ],
           "properties": {
               "version": "9.6",
+              "sslEnforcement": "Disabled",
               "storageMB": 51200,
               "administratorLogin": "myusername",
               "administratorLoginPassword": "mypassword"
@@ -167,13 +170,17 @@
   ```
   "credentials": {
     "postgresqlServerName": "fake-server",
-    "postgresqlServerFullyQualifiedDomainName": "fake-server.database.windows.net",
+    "postgresqlServerFullyQualifiedDomainName": "fake-server.postgres.database.azure.com",
     "administratorLogin": "ulrich",
     "administratorLoginPassword": "u1r8chP@ss",
-    "jdbcUrl": "jdbc:postgresql://fake-server.database.windows.net:5432;database={your_database}?user=ulrich@fake-server&password=u1r8chP@ss&ssl=true",
+    "jdbcUrl": "jdbc:postgresql://fake-server.postgres.database.azure.com:5432/{your_database}?user=ulrich@fake-server&password=u1r8chP@ss&ssl=true",
   }
 
   ```
+  
+**NOTE:**
+
+  * The character "&" in JDBC url is encoded into "\u0026" by the Cloud Controller. Your app may need to handle this.
   
 ## Unbinding
 
