@@ -41,6 +41,7 @@ azurepostgresqldb = {
         }
       ],
       'properties': {
+        'sslEnforcement': 'Disabled',
         'administratorLogin': 'azureuser',
         'administratorLoginPassword': 'c1oudc0w!@#'
       },

@@ -6,7 +6,7 @@
   "postgresqlServerParameters": {
       "allowPostgreqlServerFirewallRules": [  // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
           {
-              "ruleName": "<rule-name-0>",
+              "ruleName": "<rule-name-0>",    // The rule name can only contain 0-9, a-z, A-Z, -, _, and cannot exceed 128 characters
               "startIpAddress": "xx.xx.xx.xx",
               "endIpAddress": "xx.xx.xx.xx"
           },
@@ -17,10 +17,11 @@
           }
       ],
       "properties": {
-          "version": "9.5 | 9.6",
-          "storageMB": 51200,
-          "administratorLogin": "<sql-server-admin-name>",
-          "administratorLoginPassword": "<sql-server-admin-password>"
+          "version": "9.5" | "9.6",
+          "sslEnforcement": "Enabled" | "Disabled",
+          "storageMB": 51200 | 128000 | ... | 947200,
+          "administratorLogin": "<server-admin-name>",
+          "administratorLoginPassword": "<server-admin-password>"
       }
   }
 }
@@ -34,13 +35,14 @@
     "postgresqlServerParameters": {
         "allowPostgresqlServerFirewallRules": [
             {
-              "ruleName": "new rule",
+              "ruleName": "newrule",
               "startIpAddress": "0.0.0.0",
               "endIpAddress": "255.255.255.255"
             }
         ],
         "properties": {
             "version": "9.6",
+            "sslEnforcement": "Disabled",
             "storageMB": 51200,
             "administratorLogin": "myusername",
             "administratorLoginPassword": "mypassword"

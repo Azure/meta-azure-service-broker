@@ -2,11 +2,11 @@
 {
   "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
   "location": "<azure-region-name>",          // [Required] support westus and northeurope only
-  "mysqlServerName": "<sql-server-name>",       // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+  "mysqlServerName": "<server-name>",         // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
   "mysqlServerParameters": {
-      "allowMyqlServerFirewallRules": [        // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
+      "allowMysqlServerFirewallRules": [      // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
           {
-              "ruleName": "<rule-name-0>",
+              "ruleName": "<rule-name-0>",    // // The rule name can only contain 0-9, a-z, A-Z, -, _, and cannot exceed 128 characters
               "startIpAddress": "xx.xx.xx.xx",
               "endIpAddress": "xx.xx.xx.xx"
           },
@@ -17,10 +17,11 @@
           }
       ],
       "properties": {
-          "version": "5.6 | 5.7",
-          "storageMB": 51200,
-          "administratorLogin": "<sql-server-admin-name>",
-          "administratorLoginPassword": "<sql-server-admin-password>"
+          "version": "5.6" | "5.7",
+          "sslEnforcement": "Enabled" | "Disabled",
+          "storageMB": 51200 | 128000 | ... | 947200,
+          "administratorLogin": "<server-admin-name>",
+          "administratorLoginPassword": "<server-admin-password>"
       }
   }
 }
@@ -34,13 +35,14 @@
     "mysqlServerParameters": {
         "allowMysqlServerFirewallRules": [
             {
-              "ruleName": "new rule",
+              "ruleName": "newrule",
               "startIpAddress": "0.0.0.0",
               "endIpAddress": "255.255.255.255"
             }
         ],
         "properties": {
             "version": "5.6",
+            "sslEnforcement": "Disabled",
             "storageMB": 51200,
             "administratorLogin": "myusername",
             "administratorLoginPassword": "mypassword"
