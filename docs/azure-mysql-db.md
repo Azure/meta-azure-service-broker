@@ -122,7 +122,7 @@
           "properties": {
               "version": "5.6",
               "sslEnforcement": "Disabled",
-              "storageMB": 51200,
+              "storageMB": 51200 | 128000 | ... | 947200,
               "administratorLogin": "myusername",
               "administratorLoginPassword": "mypassword"
           }
