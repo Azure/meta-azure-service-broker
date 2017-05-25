@@ -76,7 +76,8 @@
 
     | Service Name | AzureCloud | AzureChinaCloud |
     |:---|:---|:---|
-    | DocumentDB Service | yes | yes |
+    | DocumentDB Service (depreciated) | yes | yes |
+    | CosmosDB Service | yes | no |
     | Event Hub Service | yes | yes |
     | Redis Cache Service | yes | yes |
     | Service Bus Service | yes | yes |
