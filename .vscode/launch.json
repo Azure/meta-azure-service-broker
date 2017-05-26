@@ -13,6 +13,7 @@
                 "--opts",
                 "${workspaceRoot}/test/integration/mocha.opts",
                 "${workspaceRoot}/test/integration/catalog.js",
+                "${workspaceRoot}/test/integration/brokerdb.js",
                 "${workspaceRoot}/test/integration/lifecycle.js"
             ],
             "internalConsoleOptions": "openOnSessionStart",

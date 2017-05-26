@@ -299,3 +299,28 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
   ```
   cf delete-service mysqldb -f
   ```
+
+## Update credentials
+
+If the SQL server credentials are modified, the service broker needs to be informed of the change or binding operations will fail.
+
+### As an admin using cf push
+
+1) Simply modify the SQL server password in the manifest.yml file that was used to deploy the broker. `(AZURE_SQLDB_SQL_SERVER_POOL / administratorLoginPassword)`
+
+2) Push the broker with the updated manifest. `cf push -f manifest.yml`
+
+### As a developper using cf update
+
+1) Modify the config.json file used to create the service instance 
+```
+{
+  'sqlServerParameters': {
+    'properties': {
+      'administratorLoginPassword': 'newPassword425'
+    }
+  }
+}
+```
+
+2) Inform the broker. `cf update-service mydb -c config.json`
