@@ -142,12 +142,10 @@ describe('DocumentDb - Index - Bind', function() {
               location:'eastus'
             }
         };
-
-
         
         msRestRequest.POST = sinon.stub();
         msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
-          .yields(null, {statusCode: 200}, '{"primaryMasterKey":"fake-master-key","documentEndpoint":"fakeendpoint"}');
+          .yields(null, {statusCode: 200}, '{"primaryMasterKey":"fake-master-key"}');
     });
 
     after(function() {
