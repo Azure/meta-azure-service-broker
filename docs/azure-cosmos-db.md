@@ -45,7 +45,7 @@
   azure-cosmosdb    standard*   Azure CosmosDb Service
   ```
 
-  If the "azure-cosmosdb" service is not listed, use the following command to make it public：
+  If the "azure-cosmosdb" service is not listed, use the following command to make it public:
 
   ```
   cf enable-service-access azure-cosmosdb

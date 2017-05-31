@@ -55,7 +55,8 @@
     "mock-require": "2.0.1",
     "mysql2": "1.2.0",
     "pg": "6.1.5",
-    "mongodb": "2.2.27"
+    "mongodb": "2.2.27",
+    "compare-version": "0.1.2"
   },
   "homepage": "https://github.com/Azure/meta-azure-service-broker",
   "repository": {
