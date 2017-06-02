@@ -26,17 +26,21 @@
   "license": "Apache-2.0",
   "dependencies": {
     "async": "1.5.2",
+    "azure-arm-postgresql": "file:///Users/kent/Code/azure-sdk-for-node/lib/services/postgresqlManagement",
+    "azure-arm-resource": "2.0.0-preview",
     "config": "1.21.0",
     "http-status-codes": "1.0.6",
-    "winston": "2.3.1",
-    "ms-rest-azure": "1.14.5",
+    "ms-rest-azure": "2.1.2",
     "mssql": "3.1.2",
+    "pg": "^6.2.3",
+    "pg-escape": "^0.2.0",
     "request": "2.72.0",
     "restify": "4.3.0",
     "semver": "5.1.0",
     "string": "3.3.1",
     "underscore": "1.8.3",
-    "uuid": "3.0.1"
+    "uuid": "3.0.1",
+    "winston": "2.3.1"
   },
   "devDependencies": {
     "azure": "0.10.6",
@@ -49,7 +53,8 @@
     "mocha": "3.3.0",
     "redis": "2.6.1",
     "should": "11.2.1",
-    "sinon": "1.17.3",
+    "should-sinon": "0.0.5",
+    "sinon": "^2.3.4",
     "tedious": "^1.14.0",
     "documentdb": "1.6.0",
     "mock-require": "2.0.1"
