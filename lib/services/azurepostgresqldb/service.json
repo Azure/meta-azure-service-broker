@@ -1,0 +1,97 @@
+{
+  "id": "9569986f-c4d2-47e1-ba65-6763f08c3124",
+  "name": "azure-postgresqldb",
+  "description": "Azure PostgreSQL Database Service",
+  "bindable": true,
+  "tags": [
+    "Azure",
+    "PostgreSQL",
+    "Database"
+  ],
+  "metadata": {
+    "displayName": "Azure PostgreSQL Database Service",
+    "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/SQLDatabase.png",
+    "longDescription": "Azure PostgreSQL Database is a relational database service based on the open source Postgres database engine. It is a fully managed database as a service offering capable of handling mission-critical workloads with predictable performance, security, high availability, and dynamic scalability.  Develop applications with Azure Database for PostgreSQL leveraging the open source tools and platform of your choice.",
+    "providerDisplayName": "Microsoft"
+  },
+  "plans": [
+    {
+      "id": "bb6ddfd0-4d8f-4496-aa33-d64ad9562c1f",
+      "name": "basic50",
+      "free": false,
+      "description": "Basic Tier, 50 DTUs. See preview pricing here: https://azure.microsoft.com/en-us/pricing/details/mysql. We'll update it after GA.",
+      "metadata": {
+        "displayName": "Basic50",
+        "details": {
+          "tier": "Basic",
+          "capacity": 50
+        }
+      }
+    },
+    {
+      "id": "ffc1e3c8-0e24-471d-8683-1b42e100bb14",
+      "name": "basic100",
+      "free": false,
+      "description": "Basic Tier, 100 DTUs",
+      "metadata": {
+        "displayName": "Basic100",
+        "details": {
+          "tier": "Basic",
+          "capacity": 100
+        }
+      }
+    },
+    {
+      "id": "1464a2cd-ad32-4f6b-ba80-9d052e4a0fe3",
+      "name": "standard100",
+      "free": false,
+      "description": "Standard Tier, 100 DTUs",
+      "metadata": {
+        "displayName": "Standard100",
+        "details": {
+          "tier": "Standard",
+          "capacity": 100
+        }
+      }
+    },
+    {
+      "id": "83c03465-9b1d-408d-ad13-78bc4b205295",
+      "name": "standard200",
+      "free": false,
+      "description": "Standard Tier, 200 DTUs",
+      "metadata": {
+        "displayName": "Standard200",
+        "details": {
+          "tier": "Standard",
+          "capacity": 200
+        }
+      }
+    },
+    {
+      "id": "ef31f27f-c71b-4193-a0f5-61dd1a8be129",
+      "name": "standard400",
+      "free": false,
+      "description": "Standard Tier, 400 DTUs",
+      "metadata": {
+        "displayName": "Standard400",
+        "details": {
+          "tier": "Standard",
+          "capacity": 400
+        }
+      }
+    },
+    {
+      "id": "316b0d63-856e-4d34-b5b1-d7c6f83f74f9",
+      "name": "standard800",
+      "free": false,
+      "description": "Standard Tier, 800 DTUs",
+      "metadata": {
+        "displayName": "Standard800",
+        "details": {
+          "tier": "Standard",
+          "capacity": 800
+        }
+      }
+    }
+  ]
+}

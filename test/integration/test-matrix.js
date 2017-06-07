@@ -1,4 +1,4 @@
-var submatrix = ['storage', 'servicebus', 'docdb', 'sqldb', 'rediscache'];
+var submatrix = ['storage', 'servicebus', 'docdb', 'sqldb', 'rediscache', 'mysqldb', 'postgresqldb'];
 
 var testMatrix = [];
 

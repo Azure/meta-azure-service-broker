@@ -1,0 +1,97 @@
+{
+  "id": "e40b3635-01bc-4262-b2c5-0847bd7ab43b",
+  "name": "azure-mysqldb",
+  "description": "Azure MySQL Database Service",
+  "bindable": true,
+  "tags": [
+    "Azure",
+    "MySQL",
+    "Database"
+  ],
+  "metadata": {
+    "displayName": "Azure MySQL Database Service",
+    "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/SQLDatabase.png",
+    "longDescription": "Azure MySQL Database is a relational database service in the Microsoft cloud based on MySQL Community Edition database engine.",
+    "providerDisplayName": "Microsoft"
+  },
+  "plans": [
+    {
+      "id": "a05c9967-9f20-4b17-8c66-bb32ab396fcd",
+      "name": "basic50",
+      "free": false,
+      "description": "Basic Tier, 50 DTUs. See preview pricing here: https://azure.microsoft.com/en-us/pricing/details/mysql. We'll update it after GA.",
+      "metadata": {
+        "displayName": "Basic50",
+        "details": {
+          "tier": "Basic",
+          "capacity": 50
+        }
+      }
+    },
+    {
+      "id": "d8d5cac9-d975-48ea-9ac4-8232f92bcb93",
+      "name": "basic100",
+      "free": false,
+      "description": "Basic Tier, 100 DTUs",
+      "metadata": {
+        "displayName": "Basic100",
+        "details": {
+          "tier": "Basic",
+          "capacity": 100
+        }
+      }
+    },
+    {
+      "id": "1694df50-10e8-4f97-9bb3-513ce49395db",
+      "name": "standard100",
+      "free": false,
+      "description": "Standard Tier, 100 DTUs",
+      "metadata": {
+        "displayName": "Standard100",
+        "details": {
+          "tier": "Standard",
+          "capacity": 100
+        }
+      }
+    },
+    {
+      "id": "5b95f2d0-8ab4-4e8c-b147-134dc803c717",
+      "name": "standard200",
+      "free": false,
+      "description": "Standard Tier, 200 DTUs",
+      "metadata": {
+        "displayName": "Standard200",
+        "details": {
+          "tier": "Standard",
+          "capacity": 200
+        }
+      }
+    },
+    {
+      "id": "bbf776dc-6701-4d54-85cb-d1ce2a997c12",
+      "name": "standard400",
+      "free": false,
+      "description": "Standard Tier, 400 DTUs",
+      "metadata": {
+        "displayName": "Standard400",
+        "details": {
+          "tier": "Standard",
+          "capacity": 400
+        }
+      }
+    },
+    {
+      "id": "0df075da-8ca1-4480-8508-e4c8d577c932",
+      "name": "standard800",
+      "free": false,
+      "description": "Standard Tier, 800 DTUs",
+      "metadata": {
+        "displayName": "Standard800",
+        "details": {
+          "tier": "Standard",
+          "capacity": 800
+        }
+      }
+    }
+  ]
+}

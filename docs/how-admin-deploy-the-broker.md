@@ -82,7 +82,9 @@
     | Service Bus Service | yes | yes |
     | Storage Service | yes | yes |
     | SQL Database Service | yes | yes |
-
+    | MySQL Database Service (preview)  | yes | no |
+    | PostgreSQL Database Service (preview) | yes | no |
+    
   * `SUBSCRIPTION_ID`
 
     You can list the providers in the subscription, and make sure that the namespace is registered. For example, if you want to enable Service Bus service, `Microsoft.ServiceBus` should be registered. If the specific provider is not registered, you need to run `azure provider register <PROVIDER-NAME>` to register it.

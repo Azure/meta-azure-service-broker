@@ -52,7 +52,9 @@
     "sinon": "1.17.3",
     "tedious": "^1.14.0",
     "documentdb": "1.6.0",
-    "mock-require": "2.0.1"
+    "mock-require": "2.0.1",
+    "mysql2": "1.2.0",
+    "pg": "6.1.5"
   },
   "homepage": "https://github.com/Azure/meta-azure-service-broker",
   "repository": {
