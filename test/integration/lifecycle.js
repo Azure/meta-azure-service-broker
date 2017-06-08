@@ -162,7 +162,9 @@ function runLifecycle(testMatrix) {
                   res.body.credentials.should.have.property(key, value);
                 }
               });
-              if (e2e) {
+              if (e2e === false) {
+                done();
+              } else {
                 if(client) {
                   client.validateCredential(actualCredentials, function(result) {
                     result.should.equal(statusCode.PASS);
@@ -172,7 +174,7 @@ function runLifecycle(testMatrix) {
                   console.warn('E2E tests for %s are skipped because the client to validate credentials is not implemented.', serviceName);
                   done();
                 }
-              } else done();
+              }
             });
         });
 

@@ -5,8 +5,8 @@
 var should = require('should');
 var sinon = require('sinon');
 var uuid = require('uuid');
-var service = require('../../../../lib/services/azuredocdb/service.json');
-var handlers = require('../../../../lib/services/azuredocdb/index');
+var service = require('../../../../lib/services/azurecosmosdb/service.json');
+var handlers = require('../../../../lib/services/azurecosmosdb/index');
 var msRestRequest = require('../../../../lib/common/msRestRequest');
 var request = require('request');
 
@@ -17,8 +17,8 @@ var generatedValidInstanceId = uuid.v4();
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
 
-describe('DocumentDb - Index - Provision', function() {
-    var validParams;
+describe('CosmosDb - Index - Provision', function() {
+    var validParams, invalidParams;
     
     before(function() {
         validParams = {
@@ -27,22 +27,36 @@ describe('DocumentDb - Index - Provision', function() {
             plan_id: service.plans[0].id,
             azure: azure,
             parameters: {
-                resourceGroup: 'docDbResourceGroup',
-                docDbAccountName: 'eDocDbAccount',
-                docDbName: 'eDocDb',
+                resourceGroup: 'cosmosDbResourceGroup',
+                cosmosDbAccountName: 'eCosmosDbAccount',
+                cosmosDbName: 'eCosmosDb',
                 location:'eastus'
             }
         };
         
+        invalidParams = {
+            instance_id: generatedValidInstanceId,
+            service_id: service.id,
+            plan_id: service.plans[0].id,
+            azure: azure,
+            parameters: {
+                resourceGroup: 'cosmosDbResourceGroup',
+                cosmosDbAccountName: 'eCosmosDbAccount',
+                cosmosDbName: 'eCosmosDb',
+                location:'eastus',
+                kind: 'invalid-kind'
+            }
+        };
+        
         msRestRequest.GET = sinon.stub();
-        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/docDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/eDocDbAccount')
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/cosmosDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/eCosmosDbAccount')
           .yields(null, {statusCode: 404});
           
         msRestRequest.PUT = sinon.stub();
-        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/docDbResourceGroup')
+        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cosmosDbResourceGroup')
           .yields(null, {statusCode: 200});
           
-        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/docDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/eDocDbAccount')
+        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/cosmosDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/eCosmosDbAccount')
           .yields(null, {statusCode: 200});
     });
     
@@ -60,9 +74,19 @@ describe('DocumentDb - Index - Provision', function() {
                         
         });
     });
+    
+    describe('Provision operation should fail', function() {        
+        it('if kind is invalid', function(done) {
+            handlers.provision(invalidParams, function(err, reply, result) {
+                should.exist(err);
+                done();
+            });
+                        
+        });
+    });
 });
 
-describe('DocumentDb - Index - Poll', function() {
+describe('CosmosDb - Index - Poll', function() {
     var validParams;
     before(function() {
         validParams = {
@@ -73,7 +97,7 @@ describe('DocumentDb - Index - Poll', function() {
             last_operation: 'provision',
             provisioning_result: {
                 'resourceGroupName': 'myRG',
-                'docDbAccountName': 'myaccount',
+                'cosmosDbAccountName': 'myaccount',
                 'database':
                 {
                     'id': 'abc',
@@ -81,9 +105,9 @@ describe('DocumentDb - Index - Poll', function() {
                 }
             },
             parameters: {
-                resourceGroup: 'docDbResourceGroup',
-                docDbAccountName: 'eDocDbAccount',
-                docDbName: 'eDocDb',
+                resourceGroup: 'cosmosDbResourceGroup',
+                cosmosDbAccountName: 'eCosmosDbAccount',
+                cosmosDbName: 'eCosmosDb',
                 location:'eastus',
 
             }
@@ -94,10 +118,9 @@ describe('DocumentDb - Index - Poll', function() {
 
         msRestRequest.POST = sinon.stub();
         msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
-          .yields(null, {statusCode: 200}, '{"primaryMasterKey":"fake-master-key"}');
+          .yields(null, {statusCode: 200}, '{"primaryMasterKey":"fake-master-key", "primaryReadonlyMasterKey":"fake-readonly-master-key"}');
 
         sinon.stub(request, 'post').yields(null, {statusCode: 201});
-
     });
     
     after(function() {
@@ -117,7 +140,7 @@ describe('DocumentDb - Index - Poll', function() {
     });
 });
 
-describe('DocumentDb - Index - Bind', function() {
+describe('CosmosDb - Index - Bind', function() {
     var validParams;
     
     before(function() {
@@ -128,7 +151,7 @@ describe('DocumentDb - Index - Bind', function() {
             azure: azure,
             provisioning_result: {
                 'resourceGroupName': 'myRG',
-                'docDbAccountName': 'myaccount',
+                'cosmosDbAccountName': 'myaccount',
                 'database':
                 {
                     'id': 'abc',
@@ -137,15 +160,15 @@ describe('DocumentDb - Index - Bind', function() {
             },
             parameters: {
               resourceGroupName: 'myRG',
-              docDbAccountName: 'eDocDbAccount',
-              docDbName: 'eDocDb',
+              cosmosDbAccountName: 'eCosmosDbAccount',
+              cosmosDbName: 'eCosmosDb',
               location:'eastus'
             }
         };
         
         msRestRequest.POST = sinon.stub();
         msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/myRG/providers/Microsoft.DocumentDB/databaseAccounts/myaccount/listKeys')
-          .yields(null, {statusCode: 200}, '{"primaryMasterKey":"fake-master-key"}');
+          .yields(null, {statusCode: 200}, '{"primaryMasterKey":"fake-master-key","primaryReadonlyMasterKey":"fake-readonly-master-key"}');
     });
 
     after(function() {
@@ -164,7 +187,7 @@ describe('DocumentDb - Index - Bind', function() {
     });
 });
 
-describe('DocumentDb - Index - Unbind', function() {
+describe('CosmosDb - Index - Unbind', function() {
     var validParams;
     
     before(function() {
@@ -175,7 +198,7 @@ describe('DocumentDb - Index - Unbind', function() {
             azure: azure,
             provisioning_result: {
                 'resourceGroupName': 'myRG',
-                'docDbAccountName': 'myaccount',
+                'cosmosDbAccountName': 'myaccount',
                 'database':
                 {
                     'id': 'abc',
@@ -198,7 +221,7 @@ describe('DocumentDb - Index - Unbind', function() {
     });
 });
 
-describe('DocumentDb - Index - De-provision', function() {
+describe('CosmosDb - Index - De-provision', function() {
     var validParams;
     
     before(function() {
@@ -209,7 +232,7 @@ describe('DocumentDb - Index - De-provision', function() {
             azure: azure,
             provisioning_result: {
                 'resourceGroupName': 'myRG',
-                'docDbAccountName': 'myaccount',
+                'cosmosDbAccountName': 'myaccount',
                 'database':
                 {
                     'id': 'abc',
@@ -218,8 +241,8 @@ describe('DocumentDb - Index - De-provision', function() {
             },
             parameters: {
                 resourceGroupName: 'myRG',
-                docDbAccountName: 'eDocDbAccount',
-                docDbName: 'eDocDb',
+                cosmosDbAccountName: 'eCosmosDbAccount',
+                cosmosDbName: 'eCosmosDb',
                 location: 'eastus'
             }
         };

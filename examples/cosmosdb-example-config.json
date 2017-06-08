@@ -1,0 +1,17 @@
+ /*
+{
+  "resourceGroup": "<resource-group-name>",         // [Required] Unique. Only allow up to 90 characters
+  "cosmosDbAccountName": "<CosmosDB-account-name>", // [Required] Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
+  "cosmosDbName": "<CosmosDB-database-name>",       // [Required if 'kind' is not 'MongoDB'] Unique. Can contain only lowercase letters, numbers, and the '-' character and must be between 3 and 50 characters.
+  "location": "<location>",                         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
+  "kind": "<kind>"                                  // [Optional] Acceptable values: 'DocumentDB', 'Graph', 'Table', 'MongoDB'. By default, 'DocumentDB'.
+}
+*/
+// Please delete all the comments before using this .json to create service instance.
+{
+  "resourceGroup": "my-resource-group-name",
+  "cosmosDbAccountName": "cosmosdbaccount123",
+  "cosmosDbName": "cosmosdb123",
+  "location": "westus",
+  "kind": "DocumentDB"
+}

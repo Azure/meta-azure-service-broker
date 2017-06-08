@@ -1,0 +1,28 @@
+{
+  "id": "405db572-c611-4496-abc3-382fe70f29d7",
+  "name": "azure-cosmosdb",
+  "description": "Azure CosmosDb Service",
+  "bindable": true,
+  "metadata": {
+    "displayName": "Azure CosmosDB",
+    "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/CosmosDB.png",
+    "longDescription": "Azure CosmosDB s a globally distributed database service designed to enable you to elastically and independently scale throughput and storage across any number of geographical regions with a comprehensive SLA. You can develop document, key/value, or graph databases with Cosmos DB using a series of popular APIs and programming models. Learn how to use Cosmos DB with our quickstarts, tutorials, and samples.",
+    "providerDisplayName": "Microsoft"
+  },
+  "plans": [{
+    "id": "19d433f0-ea86-4e81-84d1-92eb97e8a434",
+    "name": "standard",
+    "free":false,
+    "description": "The standard Azure CosmosDb plan. Your cost depends on your operations. Your cost  is billed hourly based on the amount of data stored (in GBs) and throughput reserved in units of 100 RUs/second: https://azure.microsoft.com/en-us/pricing/details/cosmos-db/.",
+    "metadata": {
+      "bullets": [],
+      "costs": [{
+        "amount": {
+          "usd": 0.00
+        },
+        "unit": "monthly estimate"
+      }],
+      "displayName": "Standard"
+    }
+  }]
+}
