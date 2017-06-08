@@ -2,7 +2,7 @@
 {
   "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
   "location": "<azure-region-name>",          // [Required] support westus and northeurope only
-  "mysqlServerName": "<server-name>",         // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+  "mysqlServerName": "<server-name>",         // [Required] Unique. Server name cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
   "mysqlServerParameters": {
       "allowMysqlServerFirewallRules": [      // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
           {
@@ -29,9 +29,9 @@
 
 // Please delete all the comments before using this .json to create service instance.
 {
-    "resourceGroup": "sqldbResourceGroup",
+    "resourceGroup": "mysqldbResourceGroup",
     "location": "westus",
-    "mysqlServerName": "sqlservera",
+    "mysqlServerName": "mysqlservera",
     "mysqlServerParameters": {
         "allowMysqlServerFirewallRules": [
             {
@@ -45,7 +45,7 @@
             "sslEnforcement": "Disabled",
             "storageMB": 51200,
             "administratorLogin": "myusername",
-            "administratorLoginPassword": "mypassword"
+            "administratorLoginPassword": "myPASSw0rd"
         }
     }
 }
