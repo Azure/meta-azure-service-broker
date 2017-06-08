@@ -66,7 +66,7 @@
   {
     "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
     "location": "<azure-region-name>",          // [Required] support westus and northeurope only
-    "postgresqlServerName": "<server-name>",    // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+    "postgresqlServerName": "<server-name>",    // [Required] Unique. Server name cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
     "postgresqlServerParameters": {
         "allowPostgresqlServerFirewallRules": [ // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
             {
@@ -83,7 +83,7 @@
         "properties": {
             "version": "9.5" | "9.6",
             "sslEnforcement": "Enabled" | "Disabled",
-            "storageMB": 51200,
+            "storageMB": 51200 | 128000 | ... | 947200,
             "administratorLogin": "<server-admin-name>",
             "administratorLoginPassword": "<server-admin-password>"
         }
@@ -115,9 +115,9 @@
           "properties": {
               "version": "9.6",
               "sslEnforcement": "Disabled",
-              "storageMB": 51200 | 128000 | ... | 947200,
+              "storageMB": 51200,
               "administratorLogin": "myusername",
-              "administratorLoginPassword": "mypassword"
+              "administratorLoginPassword": "myPASSw0rd"
           }
       }
   }
@@ -169,11 +169,11 @@
 
   ```
   "credentials": {
-    "postgresqlServerName": "fake-server",
-    "postgresqlServerFullyQualifiedDomainName": "fake-server.postgres.database.azure.com",
+    "postgresqlServerName": "postgresqlservera",
+    "postgresqlServerFullyQualifiedDomainName": "postgresqlservera.postgres.database.azure.com",
     "administratorLogin": "ulrich",
     "administratorLoginPassword": "u1r8chP@ss",
-    "jdbcUrl": "jdbc:postgresql://fake-server.postgres.database.azure.com:5432/{your_database}?user=ulrich@fake-server&password=u1r8chP@ss&ssl=true",
+    "jdbcUrl": "jdbc:postgresql://postgresqlservera.postgres.database.azure.com:5432/{your_database}?user=ulrich@fake-server&password=u1r8chP@ss&ssl=true"
   }
 
   ```

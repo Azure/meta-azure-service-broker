@@ -73,7 +73,7 @@
   {
     "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
     "location": "<azure-region-name>",          // [Required] support westus and northeurope only
-    "mysqlServerName": "<server-name>",         // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+    "mysqlServerName": "<server-name>",         // [Required] Unique. Server name cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
     "mysqlServerParameters": {
         "allowMysqlServerFirewallRules": [      // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
             {
@@ -90,7 +90,7 @@
         "properties": {
             "version": "5.6" | "5.7",
             "sslEnforcement": "Enabled" | "Disabled",
-            "storageMB": 51200,
+            "storageMB": 51200 | 128000 | ... | 947200,
             "administratorLogin": "<server-admin-name>",
             "administratorLoginPassword": "<server-admin-password>"
         }
@@ -122,9 +122,9 @@
           "properties": {
               "version": "5.6",
               "sslEnforcement": "Disabled",
-              "storageMB": 51200 | 128000 | ... | 947200,
+              "storageMB": 51200,
               "administratorLogin": "myusername",
-              "administratorLoginPassword": "mypassword"
+              "administratorLoginPassword": "myPASSw0rd"
           }
       }
   }
@@ -176,11 +176,11 @@
 
   ```
   "credentials": {
-    "mysqlServerName": "fake-server",
-    "mysqlServerFullyQualifiedDomainName": "fake-server.mysql.database.azure.com",
+    "mysqlServerName": "mysqlservera",
+    "mysqlServerFullyQualifiedDomainName": "mysqlservera.mysql.database.azure.com",
     "administratorLogin": "ulrich",
     "administratorLoginPassword": "u1r8chP@ss",
-    "jdbcUrl": "jdbc:mysql://fake-server.mysql.database.azure.com:3306/{your_database}?verifyServerCertificate=true&useSSL=true&requireSSL=false",
+    "jdbcUrl": "jdbc:mysql://mysqlservera.mysql.database.azure.com:3306/{your_database}?verifyServerCertificate=true&useSSL=true&requireSSL=false"
   }
 
   ```
