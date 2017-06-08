@@ -1,7 +1,7 @@
 'use strict';
 var crypto = require('crypto');
 
-module.exports.encryptText = function(key, iv, text) {
+export function encryptText(key: string, iv: string, text: string): string {
   var cipherAlg = 'aes256';
   iv = iv.replace(/-/g,'').substring(0,16);
   var cipher = crypto.createCipheriv(cipherAlg, key, iv);
@@ -11,9 +11,9 @@ module.exports.encryptText = function(key, iv, text) {
   result += cipher.final(encoding);
 
   return result;
-};
+}
 
-module.exports.decryptText = function(key, iv, text) {
+export function decryptText(key: string, iv: string, text: string): string {
   var cipherAlg = 'aes256';
   iv = iv.replace(/-/g,'').substring(0,16);
   var decipher = crypto.createDecipheriv(cipherAlg, key, iv);
@@ -23,4 +23,4 @@ module.exports.decryptText = function(key, iv, text) {
   result += decipher.final();
 
   return result;
-};
+}
