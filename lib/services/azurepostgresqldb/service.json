@@ -1,7 +1,7 @@
 {
   "id": "9569986f-c4d2-47e1-ba65-6763f08c3124",
   "name": "azure-postgresqldb",
-  "description": "Azure PostgreSQL Database Service",
+  "description": "Azure Database for PostgreSQL Service",
   "bindable": true,
   "tags": [
     "Azure",
@@ -9,9 +9,9 @@
     "Database"
   ],
   "metadata": {
-    "displayName": "Azure PostgreSQL Database Service",
+    "displayName": "Azure Database for PostgreSQL Service",
     "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/SQLDatabase.png",
-    "longDescription": "Azure PostgreSQL Database is a relational database service based on the open source Postgres database engine. It is a fully managed database as a service offering capable of handling mission-critical workloads with predictable performance, security, high availability, and dynamic scalability.  Develop applications with Azure Database for PostgreSQL leveraging the open source tools and platform of your choice.",
+    "longDescription": "Azure Database for PostgreSQL is a relational database service based on the open source Postgres database engine. It is a fully managed database as a service offering capable of handling mission-critical workloads with predictable performance, security, high availability, and dynamic scalability.  Develop applications with Azure Database for PostgreSQL leveraging the open source tools and platform of your choice.",
     "providerDisplayName": "Microsoft"
   },
   "plans": [

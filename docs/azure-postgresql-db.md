@@ -1,6 +1,6 @@
-﻿# Azure PostgreSQL Database Service
+﻿# Azure Database for PostgreSQL Service
 
-[Azure PostgreSQL Database](https://azure.microsoft.com/en-us/services/postgresql) is a relational database service based on the open source Postgres database engine. It is a fully managed database as a service offering capable of handling mission-critical workloads with predictable performance, security, high availability, and dynamic scalability.  Develop applications with Azure Database for PostgreSQL leveraging the open source tools and platform of your choice.
+[Azure Database for PostgreSQL](https://azure.microsoft.com/en-us/services/postgresql) is a relational database service based on the open source Postgres database engine. It is a fully managed database as a service offering capable of handling mission-critical workloads with predictable performance, security, high availability, and dynamic scalability.  Develop applications with Azure Database for PostgreSQL leveraging the open source tools and platform of your choice.
 
 ## Behaviors
 
@@ -30,7 +30,7 @@
 
   1. Check whether deleting server succeeds or not.
 
-## Create an Azure PostgreSQL Database service
+## Create an Azure Database for PostgreSQL service
 
 1. Get the service name and plans
 
