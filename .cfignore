@@ -1,8 +1,7 @@
-test/
-docs/
-scripts/
-examples/
-node_modules/
+/test
+/docs
+/scripts
+/examples
 .vscode/
 README.md
 .env
