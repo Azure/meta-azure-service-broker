@@ -83,8 +83,8 @@
     | Service Bus Service | yes | yes |
     | Storage Service | yes | yes |
     | SQL Database Service | yes | yes |
-    | MySQL Database Service (preview)  | yes | no |
-    | PostgreSQL Database Service (preview) | yes | no |
+    | Database for MySQL Service (preview)  | yes | no |
+    | Database for PostgreSQL Service (preview) | yes | no |
     
   * `SUBSCRIPTION_ID`
 

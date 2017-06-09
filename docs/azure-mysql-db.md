@@ -1,6 +1,6 @@
-﻿# Azure MySQL Database Service
+﻿# Azure Database for MySQL Service
 
-[Azure MySQL Database](https://azure.microsoft.com/en-us/services/mysql) is a relational database service in the Microsoft cloud based on MySQL Community Edition database engine. Azure Database for MySQL delivers:
+[Azure Database for MySQL](https://azure.microsoft.com/en-us/services/mysql) is a relational database service in the Microsoft cloud based on MySQL Community Edition database engine. Azure Database for MySQL delivers:
 
   * Predictable performance at multiple service levels
   
@@ -38,7 +38,7 @@
 
   1. Check whether deleting server succeeds or not.
 
-## Create an Azure MySQL Database service
+## Create an Azure Database for MySQL service
 
 1. Get the service name and plans
 

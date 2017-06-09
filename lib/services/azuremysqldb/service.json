@@ -1,7 +1,7 @@
 {
   "id": "e40b3635-01bc-4262-b2c5-0847bd7ab43b",
   "name": "azure-mysqldb",
-  "description": "Azure MySQL Database Service",
+  "description": "Azure Database for MySQL Service",
   "bindable": true,
   "tags": [
     "Azure",
@@ -9,9 +9,9 @@
     "Database"
   ],
   "metadata": {
-    "displayName": "Azure MySQL Database Service",
+    "displayName": "Azure Database for MySQL Service",
     "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/SQLDatabase.png",
-    "longDescription": "Azure MySQL Database is a relational database service in the Microsoft cloud based on MySQL Community Edition database engine.",
+    "longDescription": "Azure Database for MySQL is a relational database service in the Microsoft cloud based on MySQL Community Edition database engine.",
     "providerDisplayName": "Microsoft"
   },
   "plans": [
