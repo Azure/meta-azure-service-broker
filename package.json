@@ -25,21 +25,24 @@
   "main": "index.js",
   "license": "Apache-2.0",
   "dependencies": {
+    "@types/node": "^7.0.18",
     "async": "1.5.2",
     "config": "1.21.0",
     "http-status-codes": "1.0.6",
     "winston": "2.3.1",
     "ms-rest-azure": "1.14.5",
     "mssql": "3.1.2",
+    "nodemon": "^1.11.0",
     "request": "2.72.0",
     "restify": "4.3.0",
     "semver": "5.1.0",
     "string": "3.3.1",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.2",
     "underscore": "1.8.3",
     "uuid": "3.0.1"
   },
   "devDependencies": {
-    "@types/node": "^7.0.18",
     "azure": "0.10.6",
     "azure-storage": "0.9.0",
     "chai": "3.5.0",
@@ -57,8 +60,7 @@
     "mysql2": "1.2.0",
     "pg": "6.1.5",
     "mongodb": "2.2.27",
-    "compare-version": "0.1.2",
-    "typescript": "^2.3.2"
+    "compare-version": "0.1.2"
   },
   "homepage": "https://github.com/Azure/meta-azure-service-broker",
   "repository": {
