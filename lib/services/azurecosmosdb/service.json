@@ -13,7 +13,7 @@
     "id": "19d433f0-ea86-4e81-84d1-92eb97e8a434",
     "name": "standard",
     "free":false,
-    "description": "The standard Azure CosmosDb plan. Your cost depends on your operations. Your cost  is billed hourly based on the amount of data stored (in GBs) and throughput reserved in units of 100 RUs/second: https://azure.microsoft.com/en-us/pricing/details/cosmos-db/.",
+    "description": "The standard Azure CosmosDb plan. Your cost depends on your operations. Your cost is billed hourly based on the amount of data stored (in GBs) and throughput reserved in units of 100 RUs/second: https://azure.microsoft.com/en-us/pricing/details/cosmos-db/",
     "metadata": {
       "bullets": [],
       "costs": [{
