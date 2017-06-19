@@ -100,46 +100,6 @@ describe('PostgreSqlDb - provision command', function() {
       });
     });
 
-    it('should require postgresqlServerName', function() {
-      params.parameters.postgresqlServerName = null;
-      cp = new CmdProvision(params);
-      return cp.validate(pmc).should.be.rejected()
-      .then((err) => {
-        err.isValidationError.should.be.true();
-        err.invalidParams.should.deepEqual(['postgresqlServerName']);
-      });
-    });
-
-    it('should require postgresqldbName', function() {
-      params.parameters.postgresqldbName = null;
-      cp = new CmdProvision(params);
-      return cp.validate(pmc).should.be.rejected()
-      .then((err) => {
-        err.isValidationError.should.be.true();
-        err.invalidParams.should.deepEqual(['postgresqldbName']);
-      });
-    });
-
-    it('should require administratorLogin', function() {
-      params.parameters.postgresqlServerParameters.properties.administratorLogin = null;
-      cp = new CmdProvision(params);
-      return cp.validate(pmc).should.be.rejected().
-      then((err) => {
-        err.isValidationError.should.be.true();
-        err.invalidParams.should.deepEqual(['administratorLogin']);
-      });
-    });
-
-    it('should require administratorLoginPassword', function() {
-      params.parameters.postgresqlServerParameters.properties.administratorLoginPassword = null;
-      cp = new CmdProvision(params);
-      return cp.validate(pmc).should.be.rejected()
-      .then((err) => {
-        err.isValidationError.should.be.true();
-        err.invalidParams.should.deepEqual(['administratorLoginPassword']);
-      });
-    });
-
     describe('with firewall rules', function() {
 
       it('should require a ruleName', function() {
@@ -345,26 +305,6 @@ describe('PostgreSqlDb - provision command', function() {
 
     });
 
-    describe('no firewall rules specified', function() {
-
-      beforeEach(function() {
-        delete params.parameters.postgresqlServerParameters.allowPostgresqlServerFirewallRules;
-        cp = new CmdProvision(params);
-      });
-
-      it('should not create any firewall rules and provisioning should succeed', function() {
-        return cp.provision(pmc, rmc, dbc, provisionCallback).should.be.fulfilled()
-        .then(() => {
-          rmc.resourceGroups.createOrUpdate.should.not.be.called();
-          provisionCallback.should.be.be.calledOnce();
-          pmc.servers.createOrUpdate.should.be.calledOnce();
-          pmc.firewallRules.createOrUpdate.should.not.be.called();
-          pmc.databases.createOrUpdate.should.be.calledOnce();
-        });
-      });
-
-    });
-
     describe('multiple firewall rules', function() {
 
       beforeEach(function() {
@@ -491,19 +431,59 @@ describe('PostgreSqlDb - provision command', function() {
 
     });
 
-    // This is for the completely average case-- resource group exists, one
-    // firewall rule, and no errors
-    it('should provision', function() {
-      return cp.provision(pmc, rmc, dbc, provisionCallback).should.be.fulfilled()
-      .then(() => {
-        rmc.resourceGroups.createOrUpdate.should.not.be.called();
-        provisionCallback.should.be.be.calledOnce();
-        pmc.servers.createOrUpdate.should.be.calledOnce();
-        pmc.servers.get.should.be.calledOnce();
-        pmc.firewallRules.createOrUpdate.should.be.calledOnce();
-        pmc.databases.createOrUpdate.should.be.calledOnce();
-        pc.query.should.have.callCount(5);
+    describe('values provided', function() {
+
+      // This is for the completely average case-- resource group exists, one
+      // firewall rule, and no errors
+      it('should provision', function() {
+        return cp.provision(pmc, rmc, dbc, provisionCallback).should.be.fulfilled()
+        .then(() => {
+          rmc.resourceGroups.createOrUpdate.should.not.be.called();
+          provisionCallback.should.be.be.calledOnce();
+          pmc.servers.createOrUpdate.should.be.calledOnce();
+          pmc.servers.get.should.be.calledOnce();
+          pmc.firewallRules.createOrUpdate.should.be.calledOnce();
+          pmc.databases.createOrUpdate.should.be.calledOnce();
+          pc.query.should.have.callCount(5);
+        });
       });
+
+    });
+
+    describe('default values applied', function() {
+
+      beforeEach(function() {
+        params = {
+          parameters: {
+            resourceGroup: 'fake-resource-group-name',
+            location: 'westus',
+            postgresqlServerName: 'fake-server-name'
+          }
+        };
+        cp = new CmdProvision(params);
+      });
+
+      it('should provision', function() {
+        let callbackCalled = false;
+        provisionCallback = function(provisioningResult) {
+          callbackCalled = true;
+          provisioningResult.administratorLogin.should.not.be.undefined();
+          provisioningResult.administratorLoginPassword.should.not.be.undefined();
+          provisioningResult.postgresqlServerName.should.not.be.undefined();
+          provisioningResult.postgresqldbName.should.not.be.undefined();
+        };
+        return cp.provision(pmc, rmc, dbc, provisionCallback).should.be.fulfilled()
+        .then(() => {
+          rmc.resourceGroups.createOrUpdate.should.not.be.called();
+          callbackCalled.should.be.true();
+          pmc.servers.createOrUpdate.should.be.calledOnce();
+          pmc.servers.get.should.be.calledOnce();
+          pmc.firewallRules.createOrUpdate.should.be.calledOnce();
+          pmc.databases.createOrUpdate.should.be.calledOnce();
+          pc.query.should.have.callCount(5);
+        });
+      });
+
     });
 
   });
