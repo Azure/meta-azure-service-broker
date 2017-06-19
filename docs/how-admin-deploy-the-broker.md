@@ -165,7 +165,7 @@
 
     * Modules related configurations
 
-      Only SQL database service has the configurations for now. The default value of `AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER` is `true`. The default value of `AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION` is `false`. `AZURE_SQLDB_SQL_SERVER_POOL` is an array of SQL server credentials. Each element in the array should contain all the five parameters: resourceGroup, location, sqlServerName, administratorLogin and administratorLoginPassword.
+      It is allow to pre-configure some SQL server credentials for SQL database service. The default value of `AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER` is `true`. The default value of `AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION` is `false`. `AZURE_SQLDB_SQL_SERVER_POOL` is an array of SQL server credentials. Each element in the array should contain all the five parameters: resourceGroup, location, sqlServerName, administratorLogin and administratorLoginPassword.
 
       ```
       AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER: true | false
@@ -186,6 +186,89 @@
           "administratorLoginPassword": "REPLACE-ME"
         }
       ]'
+      ```
+      
+    * Modules default parameters
+    
+      Default parameters can be set. Please refer the configuration files in the docs for these modules.
+    
+      ```
+      ALLOW_TO_GENERATE_NAMES_AND_PASSWORDS_FOR_THE_MISSING: true
+    
+      DEFAULT_RESOURCE_GROUP: azure-service-broker
+      DEFAULT_LOCATION: eastus
+      
+      DEFAULT_PARAMETERS_AZURE_REDISCACHE: '{
+          "parameters": {
+              "enableNonSslPort": false,
+              "sku": {
+                  "name": "Basic",
+                  "family": "C",
+                  "capacity": 0
+              }
+          }
+      }'
+      DEFAULT_PARAMETERS_AZURE_SERVICEBUS: '{
+          "type": "Messaging",
+          "messagingTier": "Standard"
+      }'
+      DEFAULT_PARAMETERS_AZURE_STORAGE: '{
+          "accountType": "Standard_LRS"
+      }'
+      DEFAULT_PARAMETERS_AZURE_DOCDB: '{
+      }'
+      DEFAULT_PARAMETERS_AZURE_COSMOSDB: '{
+          "kind": "DocumentDB"
+      }'
+      DEFAULT_PARAMETERS_AZURE_MYSQLDB: '{
+          "mysqlServerParameters": {
+              "allowMysqlServerFirewallRules": [
+                  {
+                    "ruleName": "all",
+                    "startIpAddress": "0.0.0.0",
+                    "endIpAddress": "255.255.255.255"
+                  }
+              ],
+              "properties": {
+                  "version": "5.6",
+                  "sslEnforcement": "Disabled",
+                  "storageMB": 51200
+              }
+          }
+      }'
+      DEFAULT_PARAMETERS_AZURE_POSTGRESQLDB: '{
+          "postgresqlServerParameters": {
+              "allowPostgresqlServerFirewallRules": [
+                  {
+                    "ruleName": "all",
+                    "startIpAddress": "0.0.0.0",
+                    "endIpAddress": "255.255.255.255"
+                  }
+              ],
+              "properties": {
+                  "version": "9.6",
+                  "sslEnforcement": "Disabled",
+                  "storageMB": 51200
+              }
+          }
+      }'
+      DEFAULT_PARAMETERS_AZURE_SQLDB: '{
+          "sqlServerParameters": {
+              "allowSqlServerFirewallRules": [
+                  {
+                      "ruleName": "all",
+                      "startIpAddress": "0.0.0.0",
+                      "endIpAddress": "255.255.255.255"
+                  }
+              ]
+          },
+          "transparentDataEncryption": true,
+          "sqldbParameters": {
+              "properties": {
+                  "collation": "SQL_Latin1_General_CP1_CI_AS"
+              }
+          }
+      }'
       ```
 
 1. Install the Node dependencies for production environment.

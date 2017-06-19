@@ -14,7 +14,7 @@
 // Please delete all the comments before using this .json to create service instance.
 {
     "sqlServerName": "sqlservera",
-    "sqldbName": "sqlDbA",
+    "sqldbName": "generated-string",
     "transparentDataEncryption": true,
     "sqldbParameters": {
         "properties": {

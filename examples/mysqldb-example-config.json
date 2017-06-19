@@ -29,13 +29,13 @@
 
 // Please delete all the comments before using this .json to create service instance.
 {
-    "resourceGroup": "mysqldbResourceGroup",
-    "location": "westus",
-    "mysqlServerName": "mysqlservera",
+    "resourceGroup": "azure-service-broker",
+    "location": "eastus",
+    "mysqlServerName": "generated-string",
     "mysqlServerParameters": {
         "allowMysqlServerFirewallRules": [
             {
-              "ruleName": "newrule",
+              "ruleName": "all",
               "startIpAddress": "0.0.0.0",
               "endIpAddress": "255.255.255.255"
             }
@@ -44,8 +44,8 @@
             "version": "5.6",
             "sslEnforcement": "Disabled",
             "storageMB": 51200,
-            "administratorLogin": "myusername",
-            "administratorLoginPassword": "myPASSw0rd"
+            "administratorLogin": "generated-string",
+            "administratorLoginPassword": "generated-string"
         }
     }
 }

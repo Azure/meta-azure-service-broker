@@ -20,7 +20,6 @@ instanceId = uuid.v4();
 bindingId = uuid.v4();
 resourceGroupName = 'cloud-foundry-' + instanceId;
 var cacheName = 'cf' + instanceId;
-var hostname = cacheName + supportedEnvironments[environment]['redisCacheEndpointSuffix'];
 var azurerediscache = {
   serviceName: 'azure-rediscache',
   serviceId: '0346088a-d4b2-4478-aa32-f18e295ec1d9',
@@ -29,9 +28,9 @@ var azurerediscache = {
   bindingId: bindingId,
   provisioningParameters: {
     'resourceGroup': resourceGroupName,
+    'location': location,
     'cacheName': cacheName,
     'parameters': {
-      'location': location,
       'enableNonSslPort': false,
       'sku': {
         'name': 'Basic',
@@ -45,7 +44,7 @@ var azurerediscache = {
   },
   bindingParameters: {},
   credentials: {
-    'hostname': hostname,
+    'hostname': '<string>',
     'name': cacheName,
     'port': 6379,
     'primaryKey': '<string>',

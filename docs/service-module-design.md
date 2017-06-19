@@ -127,8 +127,8 @@ It should be an asynchronous operation.
       "service_id":"2e2fc314-37b6-4587-8127-8f9ee8b33fea",
       "space_guid":"66577389-4c40-4096-a75b-ab6f6ab97f9c",
       "parameters":{
-        "resource_group_name":"binxi031401",
-        "storage_account_name":"binxi031401sa"
+        "resourceGroup":"binxi031401",
+        "storageAccountName":"binxi031401sa"
       },
       "azure":{
         "ENVIRONMENT":"AzureCloud",
@@ -198,9 +198,9 @@ Handlers.poll = function(params, next)
   }
   ```
 
-  * If the last operation is provision, you can query the provisioning state of the service instance by name (e.g. resource_group_name /storage_account_name).
+  * If the last operation is provision, you can query the provisioning state of the service instance by name (e.g. resourceGroup /storageAccountName).
 
-  * If the last operation is deprovision, you can query the deprovisioning state of the service instance by name (e.g. resource_group_name /storage_account_name).
+  * If the last operation is deprovision, you can query the deprovisioning state of the service instance by name (e.g. resourceGroup /storageAccountName).
 
 * next(err, reply, result)
 
@@ -337,7 +337,7 @@ Handlers.bind = function(params, next)
       code: "Created",
       value: {
         credentials: {
-          storage_account_name: storageAccountName,
+          storageAccountName: storageAccountName,
           primary_access_key: primaryAccessKey,
           secondary_access_key: secondaryAccessKey,
         }
@@ -345,7 +345,7 @@ Handlers.bind = function(params, next)
     }
     ```
 
-    The contents of the credentials should be determined by your service module. Applications can use these credentials to access the service instance. E.g. For Azure storage service, the credentials are storage_account_name, primary_access_key and secondary_access_key. For SQL server service, the credentials should be the connection string.
+    The contents of the credentials should be determined by your service module. Applications can use these credentials to access the service instance. E.g. For Azure storage service, the credentials are storageAccountName, primary_access_key and secondary_access_key. For SQL server service, the credentials should be the connection string.
 
   * result should be a valid JSON object which is determined by the service module.
 

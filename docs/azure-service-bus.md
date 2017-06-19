@@ -60,11 +60,11 @@
   Supported configuration parameters:
   ```
   {
-    "resource_group_name": "<resource-group-name>", // [Required] Only allow up to 90 characters
-    "namespace_name": "<namespace-name>", // [Required] Between 6 and 50 characters long
-    "location": "<location>",             // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
-    "type": "<type>",                     // [Required] Possible values are `Messaging`, `EventHub` and `NotificationHub`
-    "messaging_tier": "<messaging-tier>"  // [Required] Possible values are `Basic`, `Standard` and `Premium` for type `Messaging`, `Basic` and `Standard` for type `EventHub`, `Standard` for type `NotificationHub`.
+    "resourceGroup": "<resource-group-name>", // [Required] Only allow up to 90 characters
+    "namespaceName": "<namespace-name>",      // [Required] Between 6 and 50 characters long
+    "location": "<location>",                 // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
+    "type": "<type>",                         // [Required] Possible values are `Messaging`, `EventHub` and `NotificationHub`
+    "messagingTier": "<messaging-tier>"       // [Required] Possible values are `Basic`, `Standard` and `Premium` for type `Messaging`, `Basic` and `Standard` for type `EventHub`, `Standard` for type `NotificationHub`.
   }
   ```
 
@@ -81,16 +81,26 @@
 
   ```
   {
-    "resource_group_name": "myResourceGroup",
-    "namespace_name": "myservicebus",
+    "resourceGroup": "azure-service-broker",
+    "namespaceName": "generated-string",
     "location": "eastus",
     "type": "Messaging",
-    "messaging_tier": "Standard"
+    "messagingTier": "Standard"
   }
   ```
 
-  >**NOTE:** Please remove the comments in the JSON file before you use it.
+  >**NOTE:**
+  
+    * Please remove the comments in the JSON file before you use it.
+    
+    * The names of parameters "resource_group_name", "namespace_name",and "messaging_tier" are deprecated since their formats are not unified with other services.
 
+  Above parameters are also the defaults if the broker operator doesn't change broker default settings. You can just run the following command to create a service instance without the json file:
+  
+  ```
+  cf create-service azure-servicebus standard myservicebus
+  ```
+  
 3. Check the operation status of creating the service instance
 
   The creating operation is asynchronous. You can get the operation status after the creating operation.

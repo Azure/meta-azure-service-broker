@@ -9,9 +9,9 @@
 */
 // Please delete all the comments before using this .json to create service instance.
 {
-  "resourceGroup": "my-resource-group-name",
-  "cosmosDbAccountName": "cosmosdbaccount123",
-  "cosmosDbName": "cosmosdb123",
-  "location": "westus",
+  "resourceGroup": "azure-service-broker",
+  "cosmosDbAccountName": "generated-string",
+  "cosmosDbName": "generated-string",
+  "location": "eastus",
   "kind": "DocumentDB"
 }

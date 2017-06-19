@@ -33,6 +33,7 @@ describe('PostgreSqlDb - Index - Provision', function() {
             }
         };
         
+        delete require.cache[require.resolve('../../../../lib/services/azurepostgresqldb/')];
         require('../../../../lib/services/azurepostgresqldb/cmd-provision');
         require.cache[require.resolve('../../../../lib/services/azurepostgresqldb/cmd-provision')].exports = function(_) {
           this.provision = function (_, callback) { 

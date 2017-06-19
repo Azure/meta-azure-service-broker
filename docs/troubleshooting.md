@@ -163,7 +163,7 @@ The following sections describe common issues you might encounter when attemptin
     for example:
   
     ```
-    SELECT * FROM instances WHERE parameters LIKE '%"storage_account_name":"storageil3l080br05no4n1"%'
+    SELECT * FROM instances WHERE parameters LIKE '%"storageAccountName":"storageil3l080br05no4n1"%'
     ```
   
     If deleting failed because of foreign key, please use following SQL to delete the corresponding record in the table **bindings**:

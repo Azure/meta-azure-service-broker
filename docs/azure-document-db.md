@@ -80,14 +80,20 @@
 
   ```
   {
-    "resourceGroup": "my-resource-group-name",
-    "docDbAccountName": "docdbaccount123",
-    "docDbName": "docdb123",
-    "location": "westus"
+    "resourceGroup": "azure-service-broker",
+    "docDbAccountName": "generated-string",
+    "docDbName": "generated-string",
+    "location": "eastus"
   }
   ```
 
   >**NOTE:** Please remove the comments in the JSON file before you use it.
+
+  Above parameters are also the defaults if the broker operator doesn't change broker default settings. You can just run the following command to create a service instance without the json file:
+  
+  ```
+  cf create-service azure-documentdb standard mydocdb
+  ```
 
 3. Check the operation status of creating the service instance
 

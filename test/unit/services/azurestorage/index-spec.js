@@ -54,10 +54,10 @@ var provisioningResult = {
 };
 
 var parameters = {
-  resource_group_name: resourceGroupName,
-  storage_account_name: storageAccountName,
+  resourceGroup: resourceGroupName,
+  storageAccountName: storageAccountName,
   location: location,
-  account_type: accountType
+  accountType: accountType
 };
 
 describe('Storage - Index - Provision', function() {

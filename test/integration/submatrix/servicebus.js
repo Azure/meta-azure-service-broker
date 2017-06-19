@@ -27,11 +27,11 @@ var azureservicebus = {
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
-    'resource_group_name': resourceGroupName,
-    'namespace_name': namespaceName,
+    'resourceGroup': resourceGroupName,
+    'namespaceName': namespaceName,
     'location': location,
     'type': 'Messaging',
-    'messaging_tier': 'Standard',
+    'messagingTier': 'Standard',
     'tags': {
       'foo': 'bar'
     }

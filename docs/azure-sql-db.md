@@ -86,12 +86,14 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
 
 2. Create a service instance
 
+#### Create a datbase on a new server
+
   Configuration parameters are supported with the provision request. These parameters are passed in a valid JSON object containing configuration parameters, provided either in-line or in a file.
 
   ```
   cf create-service azure-sqldb $service_plan $service_instance_name -c $path_to_parameters
   ```
-
+  
   Supported configuration parameters:
 
   ```
@@ -137,34 +139,29 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
 
   ```
   {
-    "resourceGroup": "sqldbResourceGroup",
-    "location": "westus",
-    "sqlServerName": "sqlservera",
-    "sqlServerParameters": {
-        "allowSqlServerFirewallRules": [
-            {
-                "ruleName": "rule0",
-                "startIpAddress": "1.1.1.1",
-                "endIpAddress": "1.1.1.10"
-            },
-            {
-                "ruleName": "rule1",
-                "startIpAddress": "2.2.2.2",
-                "endIpAddress": "2.2.2.20"
-            },
-        ],
-        "properties": {
-            "administratorLogin": "myusername",
-            "administratorLoginPassword": "mypassword"
-        }
-    },
-    "sqldbName": "sqlDbA",
-    "transparentDataEncryption": true,
-    "sqldbParameters": {
-        "properties": {
-            "collation": "SQL_Latin1_General_CP1_CI_AS"
-        }
-    }
+      "resourceGroup": "azure-service-broker",
+      "location": "eastus",
+      "sqlServerName": "generated-string",
+      "sqlServerParameters": {
+          "allowSqlServerFirewallRules": [
+              {
+                  "ruleName": "all",
+                  "startIpAddress": "0.0.0.0",
+                  "endIpAddress": "255.255.255.255"
+              }
+          ],
+          "properties": {
+              "administratorLogin": "generated-string",
+              "administratorLoginPassword": "generated-string"
+          }
+      },
+      "sqldbName": "generated-string",
+      "transparentDataEncryption": true,
+      "sqldbParameters": {
+          "properties": {
+              "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+      }
   }
   ```
 
@@ -183,6 +180,50 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
   * If you want to set more child parameters in sqldbParameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
 
   * Please remove the comments in the JSON file before you use it.
+  
+  Above parameters are also the defaults if the broker operator doesn't change broker default settings. You can just run the following command to create a service instance without the json file:
+  
+  ```
+  cf create-service azure-sqldb basic mysqldb
+  ```
+  
+#### Create a datbase on am existing server
+
+  Parameters can be simpler:
+  
+  ```
+  {
+      "sqlServerName": "<sql-server-name>",       // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+      "sqldbName": "<sql-database-name>",         // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
+      "transparentDataEncryption": true | false,  // Enable Transparent Data Encryption on the database. If not present, it follows the broker manifest. Defaults to false. 
+      "sqldbParameters": {                        // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+          "properties": {
+              "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
+          }
+      }
+  }
+  ```
+  
+  For example, to create a database on the existing server named `sqlservera`:
+  
+  ```
+  {
+      "sqlServerName": "sqlservera",
+      "sqldbName": "generated-string",
+      "transparentDataEncryption": true,
+      "sqldbParameters": {
+          "properties": {
+              "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+      }
+  }
+  ```
+  
+  Above parameters are also the defaults if the broker operator doesn't change broker default settings. You can just run the following command to create a service instance without the json file:
+  
+  ```
+  cf create-service azure-sqldb basic mysqldb -c '{"sqlServerName": "sqlservera"}'
+  ```
 
 3. Check the operation status of creating the service instance
 

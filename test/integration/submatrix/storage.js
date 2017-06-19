@@ -27,10 +27,10 @@ var azurestorage = {
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
-    'resource_group_name': resourceGroupName,
-    'storage_account_name': storageAccountName,
+    'resourceGroup': resourceGroupName,
+    'storageAccountName': storageAccountName,
     'location': location,
-    'account_type': 'Standard_RAGRS',
+    'accountType': 'Standard_RAGRS',
     'tags': {
       'foo': 'bar'
     }

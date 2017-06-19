@@ -32,7 +32,7 @@ describe('ServiceBus', function() {
       it('should return missing parameter error', function(done) {
         azureservicebus.provision(validParams, function(err, reply, result) {
           should.exist(err);
-          err.should.have.property('description', 'The parameters ["resource_group_name","namespace_name","location","type","messaging_tier"] are missing.');
+          err.should.have.property('description', 'The parameters ["resourceGroup","namespaceName","location","type","messagingTier"] are missing.');
           done();
         });
       });
@@ -46,10 +46,10 @@ describe('ServiceBus', function() {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
           azure: azure,
           parameters: {
-            resource_group_name: 'mysbtest',
-            namespace_name: 'mysb',
+            resourceGroup: 'mysbtest',
+            namespaceName: 'mysb',
             location: 'westus',
-            messaging_tier: 'Standard'
+            messagingTier: 'Standard'
           }
         };
       });
@@ -71,11 +71,11 @@ describe('ServiceBus', function() {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
           azure: azure,
           parameters: {
-            resource_group_name: 'mysbtest',
-            namespace_name: 'mysb',
+            resourceGroup: 'mysbtest',
+            namespaceName: 'mysb',
             location: 'westus',
             type: 'Messaging',
-            messaging_tier: 'Standard',
+            messagingTier: 'Standard',
             tags: {
               foo: 'bar'
             }
@@ -119,5 +119,61 @@ describe('ServiceBus', function() {
       });
     });
 
+    describe('When specific parameters are provided and valid but in deprecated format', function() {
+      var validParams = {};
+
+      before(function() {
+        validParams = {
+          instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
+          azure: azure,
+          parameters: {
+            resource_group_name: 'mysbtest',
+            namespace_name: 'mysb',
+            location: 'westus',
+            type: 'Messaging',
+            messaging_tier: 'Standard',
+            tags: {
+              foo: 'bar'
+            }
+          }
+        };
+        
+        msRestRequest.GET = sinon.stub();
+        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/mysbtest/providers/Microsoft.ServiceBus/namespaces/mysb')
+          .yields(null, {statusCode: 404});
+          
+        msRestRequest.PUT = sinon.stub();
+        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/mysbtest')
+          .yields(null, {statusCode: 200});
+          
+        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/mysbtest/providers/Microsoft.ServiceBus/namespaces/mysb')
+          .yields(null, {statusCode: 200});
+      });
+
+      after(function () {
+        mockingHelper.restore();
+      });
+    
+      it('should create the namespace', function(done) {
+        validParams.parameters = azureservicebus.fixParameters(validParams.parameters);
+        azureservicebus.provision(validParams, function(
+          err, reply, result) {
+          should.not.exist(err);
+          var replyExpected = {
+            statusCode: 202,
+            code: 'Accepted',
+            value: {}
+          };
+          reply.should.eql(replyExpected);
+          var resultExpected = {
+              'resourceGroupName': 'mysbtest',
+              'namespaceName': 'mysb',
+          };
+          result.should.eql(resultExpected);
+
+          done();
+        });
+      });
+    });
   });
 });
