@@ -9,8 +9,7 @@ var broker = require('../../brokerserver');
 
 module.exports = function(environment) {
   var clientName = 'azuresqldbClient';
-  common.getLogger(clientName, clientName);
-  var log = require('winston').loggers.get(clientName);
+  var log = common.getLogger(clientName);
 
   this.validateCredential = function(credential, next) {
     var Connection = require('tedious').Connection;

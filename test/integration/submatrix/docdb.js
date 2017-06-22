@@ -1,24 +1,28 @@
 var uuid = require('uuid');
-var util = require('util');
-var _ = require('underscore');
 
 var supportedEnvironments = require('../../utils/supportedEnvironments');
 
 var testMatrix = [];
 var instanceId;
 var bindingId;
-var resourceGroupName;
+var resourceGroupName, docDbAccountName;
 
 var environment = process.env['ENVIRONMENT'];
-if (!_.has(supportedEnvironments, environment)) {
-  throw new Error(util.format('The test does not support %s', environment));
-}
 
-var location = supportedEnvironments[environment]['location'];
+var location;
+if (supportedEnvironments[environment] === 'AzureUSGovernment') {
+  location = 'usgovtexas';
+} else {
+  location = supportedEnvironments[environment]['location'];
+}
 
 instanceId = uuid.v4();
 bindingId = uuid.v4();
 resourceGroupName = 'cloud-foundry-' + instanceId;
+// The limit of the length of the CosmosDB/DocumentDB account name is [50 characters – length of region name – 1 (length of ‘-‘)]
+// For the regions the test specify, 31 chars is suitable
+docDbAccountName = instanceId.slice(0, 31);
+
 var azuredocumentdb = {
   serviceName: 'azure-documentdb',
   serviceId: '3befc561-4f0c-4df3-ab26-48ac4e366b1c',
@@ -27,7 +31,7 @@ var azuredocumentdb = {
   bindingId: bindingId,
   provisioningParameters: {
     'resourceGroup': resourceGroupName,
-    'docDbAccountName': instanceId,
+    'docDbAccountName': docDbAccountName,
     'docDbName': instanceId,
     'location': location
   },

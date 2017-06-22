@@ -74,6 +74,10 @@ forms:
       default: true
     - name: AzureChinaCloud
       label: Azure China Cloud
+    - name: AzureGermanCloud
+      label: Azure German Cloud
+    - name: AzureUSGovernment
+      label: Azure US Government
   - name: subscription_id
     type: string
     label: Subscription Id

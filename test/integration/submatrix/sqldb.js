@@ -1,6 +1,4 @@
 var uuid = require('uuid');
-var util = require('util');
-var _ = require('underscore');
 
 var supportedEnvironments = require('../../utils/supportedEnvironments');
 
@@ -10,9 +8,6 @@ var bindingId;
 var resourceGroupName;
 
 var environment = process.env['ENVIRONMENT'];
-if (!_.has(supportedEnvironments, environment)) {
-  throw new Error(util.format('The test does not support %s', environment));
-}
 
 var location = supportedEnvironments[environment]['location'];
 var sqlServerName;
