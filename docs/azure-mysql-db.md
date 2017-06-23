@@ -90,7 +90,7 @@
         "properties": {
             "version": "5.6" | "5.7",
             "sslEnforcement": "Enabled" | "Disabled",
-            "storageMB": 51200 | 128000 | ... | 947200,
+            "storageMB": 51200 | 179200 | 307200 | ... | 947200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*3
             "administratorLogin": "<server-admin-name>",
             "administratorLoginPassword": "<server-admin-password>"
         }
