@@ -53,7 +53,7 @@ describe('CosmosDb - Provision - PreConditions incorrect', function() {
     
   describe('Provision should fail if ...', function() {
     it('parameters were not provided', function(done) {
-      (cp.verifyParameters()).should.equal(util.format('The parameters %j are missing.', ['resourceGroup','cosmosDbAccountName','cosmosDbName','location']));
+      (cp.verifyParameters()).should.equal(util.format('The parameters %j are missing.', ['resourceGroup','cosmosDbAccountName','location','cosmosDbName']));
       done();
     });        
   });
