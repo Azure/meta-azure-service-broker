@@ -18,36 +18,7 @@ var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
 
 describe('CosmosDb - Index - Provision', function() {
-    var validParams, invalidParams;
-    
     before(function() {
-        validParams = {
-            instance_id: generatedValidInstanceId,
-            service_id: service.id,
-            plan_id: service.plans[0].id,
-            azure: azure,
-            parameters: {
-                resourceGroup: 'cosmosDbResourceGroup',
-                cosmosDbAccountName: 'eCosmosDbAccount',
-                cosmosDbName: 'eCosmosDb',
-                location:'eastus'
-            }
-        };
-        
-        invalidParams = {
-            instance_id: generatedValidInstanceId,
-            service_id: service.id,
-            plan_id: service.plans[0].id,
-            azure: azure,
-            parameters: {
-                resourceGroup: 'cosmosDbResourceGroup',
-                cosmosDbAccountName: 'eCosmosDbAccount',
-                cosmosDbName: 'eCosmosDb',
-                location:'eastus',
-                kind: 'invalid-kind'
-            }
-        };
-        
         msRestRequest.GET = sinon.stub();
         msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/cosmosDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/eCosmosDbAccount')
           .yields(null, {statusCode: 404});
@@ -64,7 +35,23 @@ describe('CosmosDb - Index - Provision', function() {
         mockingHelper.restore();
     });
     
-    describe('Provision operation should succeed', function() {        
+    describe('With valid parameters, provision operation should succeed', function() {        
+        var validParams;
+        before(function(){
+          validParams = {
+            instance_id: generatedValidInstanceId,
+            service_id: service.id,
+            plan_id: service.plans[0].id,
+            azure: azure,
+            parameters: {
+                resourceGroup: 'cosmosDbResourceGroup',
+                cosmosDbAccountName: 'eCosmosDbAccount',
+                cosmosDbName: 'eCosmosDb',
+                location: 'eastus'
+            }
+          };
+        });
+        
         it('should not return an error and statusCode should be 202', function(done) {
             handlers.provision(validParams, function(err, reply, result) {
                 should.not.exist(err);
@@ -75,7 +62,49 @@ describe('CosmosDb - Index - Provision', function() {
         });
     });
     
-    describe('Provision operation should fail', function() {        
+    describe('With valid parameters for MongoDB, provision operation should succeed', function() {        
+        var validParamsForMongoDB;
+        before(function(){
+          validParamsForMongoDB = {
+            instance_id: generatedValidInstanceId,
+            service_id: service.id,
+            plan_id: service.plans[0].id,
+            azure: azure,
+            parameters: {
+                resourceGroup: 'cosmosDbResourceGroup',
+                cosmosDbAccountName: 'eCosmosDbAccount',
+                location: 'eastus',
+                kind: 'MongoDB'
+            }
+          };
+        });
+        it('should not return an error and statusCode should be 202', function(done) {
+            handlers.provision(validParamsForMongoDB, function(err, reply, result) {
+                should.not.exist(err);
+                reply.statusCode.should.equal(202);
+                done();
+            });
+                        
+        });
+    });
+    
+    describe('With invalidParams, provision operation should fail', function() {        
+        var invalidParams;
+        before(function(){
+          invalidParams = {
+            instance_id: generatedValidInstanceId,
+            service_id: service.id,
+            plan_id: service.plans[0].id,
+            azure: azure,
+            parameters: {
+                resourceGroup: 'cosmosDbResourceGroup',
+                cosmosDbAccountName: 'eCosmosDbAccount',
+                cosmosDbName: 'eCosmosDb',
+                location:'eastus',
+                kind: 'invalid-kind'
+            }
+          };
+        });
         it('if kind is invalid', function(done) {
             handlers.provision(invalidParams, function(err, reply, result) {
                 should.exist(err);
