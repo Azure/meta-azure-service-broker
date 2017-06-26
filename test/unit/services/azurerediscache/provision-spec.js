@@ -116,6 +116,10 @@ describe('RedisCache - Provision - Execution - Cache that doesn\'t previsouly ex
         };
         cp = new cmdProvision(validParams);
         
+        msRestRequest.HEAD = sinon.stub();
+        msRestRequest.HEAD.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup')
+          .yields(null, {statusCode: 404});
+
         msRestRequest.PUT = sinon.stub();
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup')
           .yields(null, {statusCode: 200});

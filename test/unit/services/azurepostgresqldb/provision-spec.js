@@ -105,6 +105,12 @@ describe('PostgreSqlDb - Provision - Execution', function () {
 
         cp = new cmdProvision(params);
         
+        msRestRequest.HEAD = sinon.stub();
+        
+        // check resource group existence
+        msRestRequest.HEAD.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name')
+            .yields(null, {statusCode: 404}); 
+
         msRestRequest.PUT = sinon.stub();
         
         // create resource group

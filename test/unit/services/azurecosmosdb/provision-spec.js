@@ -72,10 +72,14 @@ describe('CosmosDb - Provision - Execution - CosmosDb that doesn\'t previsouly e
         cosmosDbName: 'testCosmos',
         location: 'westus'
       },
-      azure : azure,
+      azure : azure
     };
     cp = new cmdProvision(validParams);
     
+    msRestRequest.HEAD = sinon.stub();
+    msRestRequest.HEAD.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cosmosDbResourceGroup')
+      .yields(null, {statusCode: 404});
+
     msRestRequest.GET = sinon.stub();
     msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/cosmosDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/testCosmosDbAccount')
       .yields(null, {statusCode: 404});

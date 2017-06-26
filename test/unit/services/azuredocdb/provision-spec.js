@@ -72,10 +72,14 @@ describe('DocumentDb - Provision - Execution - DocDb that doesn\'t previsouly ex
         docDbName: 'testDoc',
         location: 'westus'
       },
-      azure : azure,
+      azure : azure
     };
     cp = new cmdProvision(validParams);
     
+    msRestRequest.HEAD = sinon.stub();
+    msRestRequest.HEAD.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/docDbResourceGroup')
+      .yields(null, {statusCode: 404});
+
     msRestRequest.GET = sinon.stub();
     msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourcegroups/docDbResourceGroup/providers/Microsoft.DocumentDB/databaseAccounts/testDocDbAccount')
       .yields(null, {statusCode: 404});
