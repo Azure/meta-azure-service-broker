@@ -25,16 +25,20 @@
   "main": "index.js",
   "license": "Apache-2.0",
   "dependencies": {
+    "@types/node": "^7.0.18",
     "async": "1.5.2",
     "config": "1.21.0",
     "http-status-codes": "1.0.6",
     "winston": "2.3.1",
     "ms-rest-azure": "1.14.5",
     "mssql": "3.1.2",
+    "nodemon": "^1.11.0",
     "request": "2.72.0",
     "restify": "4.3.0",
     "semver": "5.1.0",
     "string": "3.3.1",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.2",
     "underscore": "1.8.3",
     "uuid": "3.0.1"
   },
@@ -43,16 +47,16 @@
     "azure-storage": "0.9.0",
     "chai": "3.5.0",
     "chai-http": "3.0.0",
+    "documentdb": "1.6.0",
     "eslint": "3.17.1",
     "istanbul": "^0.4.5",
     "jshint": "2.9.1",
     "mocha": "3.3.0",
+    "mock-require": "2.0.1",
     "redis": "2.6.1",
     "should": "11.2.1",
     "sinon": "1.17.3",
     "tedious": "^1.14.0",
-    "documentdb": "1.6.0",
-    "mock-require": "2.0.1",
     "mysql2": "1.2.0",
     "pg": "6.1.5",
     "mongodb": "2.2.27",
@@ -74,6 +78,7 @@
     "unit": "mocha --opts test/unit/mocha.opts test/unit/mockLogger test/unit/common/ --recursive test/unit/services/",
     "integration": "mocha --opts test/integration/mocha.opts test/integration/catalog.js test/integration/brokerdb.js test/integration/lifecycle.js",
     "cover": "istanbul cover ./node_modules/mocha/bin/_mocha -- --opts test/unit/mocha.opts test/unit/mockLogger test/unit/common/ --recursive test/unit/services/",
-    "start": "node index.js"
+    "start": "npm run build:live",
+    "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./index.ts"
   }
 }
