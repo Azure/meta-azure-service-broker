@@ -15,27 +15,49 @@ module.exports = function() {
         log.error('Client Error: ' + err);
         client.end(false);
       });
+      
+      var urlClient = redis.createClient(credential.redisUrl);
+      urlClient.on('error', function (err) {
+        log.error('Client created through url Error: ' + err);
+        urlClient.end(false);
+      });
+      
       var key = clientName + 'key' + Math.floor(Math.random()*1000);
       var value = clientName + 'value' + Math.floor(Math.random()*1000);
       async.waterfall([
         function(callback) {
           client.set(key, value, function(err, reply) {
             if(!err) {
-              callback(null, statusCode.PASS);
+              callback(null);
             } else {
               log.error('Failed to set a data. Error: ' + err);
               callback(err);
             }
           });
         },
-        function(result, callback) {
+        function(callback) {
           client.get(key,  function(err, reply) {
             if(!err) {
               if(reply == value) {
-                callback(null, statusCode.PASS);
+                callback(null);
               } else {
                 log.error('Data not match. expect: ' + value + ' got: ' + reply);
-                callback(new Error('value not match'), statusCode.FAIL);
+                callback(new Error('value not match'));
+              }
+            } else {
+              log.error('Failed to get data. Error: ' + err);
+              callback(err);
+            }
+          });
+        },
+        function(callback) {
+          urlClient.get(key,  function(err, reply) {
+            if(!err) {
+              if(reply == value) {
+                callback(null);
+              } else {
+                log.error('Data not match. expect: ' + value + ' got: ' + reply);
+                callback(new Error('value not match'));
               }
             } else {
               log.error('Failed to get data. Error: ' + err);
@@ -44,8 +66,10 @@ module.exports = function() {
           });
         }
       ],
-      function(err, result) {
-        if(err || result != statusCode.PASS) {
+      function(err) {
+        client.quit();
+        urlClient.quit();
+        if(err) {
           next(statusCode.FAIL);
         } else {
           next(statusCode.PASS);

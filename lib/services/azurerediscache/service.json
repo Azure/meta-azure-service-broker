@@ -3,6 +3,11 @@
   "name": "azure-rediscache",
   "description": "Azure Redis Cache Service",
   "bindable": true,
+  "tags": [
+    "Azure",
+    "Redis",
+    "Cache"
+  ],
   "metadata": {
     "displayName": "Azure Redis Cache",
     "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/RedisCache.png",
