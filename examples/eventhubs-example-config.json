@@ -1,0 +1,23 @@
+ /*
+{
+  "resourceGroup": "<resource-group-name>", // [Required] Only allow up to 90 characters
+  "location": "<location>"                  // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list'(cli v2: 'az account list-locations') to list all locations.
+  "namespaceName": "<namespace-name>",      // [Required] Between 6 and 50 characters long
+  "eventHubName": "generated-string",       // [Required] Between 6 and 50 characters long
+  "eventHubProperties": {                   // [Optional]
+    "messageRetentionInDays": <a-number>,   // 1-7
+    "partitionCount": <a-number>            // 2-32
+  }
+}
+*/
+// Please delete all the comments before using this .json to create service instance.
+{
+  "resourceGroup": "azure-service-broker",
+  "location": "eastus",
+  "namespaceName": "generated-string",
+  "eventHubName": "generated-string",
+  "eventHubProperties": {
+    "messageRetentionInDays": 7,
+    "partitionCount": 4
+  }
+}

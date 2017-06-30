@@ -1,0 +1,62 @@
+{
+  "id": "7bade660-32f1-4fd7-b9e6-d416d975170b",
+  "name": "azure-eventhubs",
+  "description": "Azure Event Hubs Service",
+  "bindable": true,
+  "tags": [
+    "Azure",
+    "Event Hubs"
+  ],
+  "metadata": {
+    "displayName": "Azure Event Hubs",
+    "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/EventHubs.png",
+    "longDescription": "Azure Event Hubs is a hyper-scale telemetry ingestion service that collects, transforms, and stores millions of events. As a distributed streaming platform, it gives you low latency and configurable time retention, which enables you to ingress massive amounts of telemetry into the cloud and read the data from multiple applications using publish-subscribe semantics.",
+    "providerDisplayName": "Microsoft"
+  },
+  "plans": [
+    {
+      "id": "80756db5-a20c-495d-ae70-62cf7d196a3c",
+      "name": "basic",
+      "free": false,
+      "description": "Message Size: 256 KB. Publisher policies: no. Consumer groups: 1. Brokered connections: 100 included. See details: https://azure.microsoft.com/en-us/pricing/details/event-hubs/",
+      "metadata": {
+        "bullets": [
+          "No upfront cost",
+          "No termination fees",
+          "Pay only for what you use"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 11.16
+            },
+            "unit": "MONTHLY(estimated)"
+          }
+        ],
+        "displayName": "basic"
+      }
+    },
+    {
+      "id": "264ab981-9e37-44ba-b6bb-2d0fe3e80565",
+      "name": "standard",
+      "free": false,
+      "description": "Message Size: 256 KB. Publisher policies: yes. Consumer groups: 20. Brokered connections: 1000 included. Additional Brokered connections: Yes.",
+      "metadata": {
+        "bullets": [
+          "No upfront cost",
+          "No termination fees",
+          "Pay only for what you use"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 22.32
+            },
+            "unit": "MONTHLY(estimated)"
+          }
+        ],
+        "displayName": "standard"
+      }
+    }
+  ]
+}

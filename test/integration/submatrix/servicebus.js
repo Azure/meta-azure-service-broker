@@ -25,8 +25,6 @@ var azureservicebus = {
     'resourceGroup': resourceGroupName,
     'namespaceName': namespaceName,
     'location': location,
-    'type': 'Messaging',
-    'messagingTier': 'Standard',
     'tags': {
       'foo': 'bar'
     }

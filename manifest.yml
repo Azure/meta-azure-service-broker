@@ -53,8 +53,12 @@ applications:
         }
     }'
     DEFAULT_PARAMETERS_AZURE_SERVICEBUS: '{
-        "type": "Messaging",
-        "messagingTier": "Standard"
+    }'
+    DEFAULT_PARAMETERS_AZURE_EVENTHUBS: '{
+        "eventHubProperties": {
+            "messageRetentionInDays": 1,
+            "partitionCount": 2
+        }
     }'
     DEFAULT_PARAMETERS_AZURE_STORAGE: '{
         "accountType": "Standard_LRS"

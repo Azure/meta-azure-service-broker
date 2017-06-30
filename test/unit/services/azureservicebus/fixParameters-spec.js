@@ -13,12 +13,10 @@ describe('ServiceBus', function() {
       process.env['DEFAULT_RESOURCE_GROUP'] = 'azure-service-broker';
       process.env['DEFAULT_LOCATION'] = 'eastus';
       process.env['DEFAULT_PARAMETERS_AZURE_SERVICEBUS'] = '{\
-        "type": "Messaging",\
-        "messagingTier": "Standard"\
       }';
     });
     
-    var paramsToValidate = ['resourceGroup', 'namespaceName', 'location', 'type', 'messagingTier'];
+    var paramsToValidate = ['resourceGroup', 'namespaceName', 'location'];
       
     describe('When no parameter passed in', function() {
       var parameters = {};
@@ -28,18 +26,6 @@ describe('ServiceBus', function() {
         paramsToValidate.forEach(function(param){
           should.exist(fixedParams[param]);
         });
-      });
-    });
-
-    describe('When part of parameters passed in: messagingTier', function() {
-      var parameters = {'messagingTier': 'Basic'};
-      
-      it('should fix the parameters', function() {
-        var fixedParams = azureservicebus.fixParameters(parameters);
-        paramsToValidate.forEach(function(param){
-          should.exist(fixedParams[param]);
-        });
-        fixedParams.messagingTier.should.equal('Basic');
       });
     });
     
