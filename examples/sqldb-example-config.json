@@ -33,23 +33,23 @@
 
 // Please delete all the comments before using this .json to create service instance.
 {
-    "resourceGroup": "sqldbResourceGroup",
-    "location": "westus",
-    "sqlServerName": "sqlservera",
+    "resourceGroup": "azure-service-broker",
+    "location": "eastus",
+    "sqlServerName": "generated-string",
     "sqlServerParameters": {
         "allowSqlServerFirewallRules": [
             {
-            "ruleName": "new rule",
-            "startIpAddress": "131.107.159.102",
-            "endIpAddress": "131.107.159.102"
+                "ruleName": "all",
+                "startIpAddress": "0.0.0.0",
+                "endIpAddress": "255.255.255.255"
             }
         ],
         "properties": {
-            "administratorLogin": "myusername",
-            "administratorLoginPassword": "mypassword"
+            "administratorLogin": "generated-string",
+            "administratorLoginPassword": "generated-string"
         }
     },
-    "sqldbName": "sqlDbA",
+    "sqldbName": "generated-string",
     "transparentDataEncryption": true,
     "sqldbParameters": {
         "properties": {

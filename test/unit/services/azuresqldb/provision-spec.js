@@ -70,7 +70,7 @@ describe('SqlDb - Provision - PreConditions', function () {
         });
     });
 
-    describe('a depreciated parameter "sqlServerCreateIfNotExist" is provided', function () {
+    describe('a deprecated parameter "sqlServerCreateIfNotExist" is provided', function () {
         before(function () {
             params = {
                 instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',

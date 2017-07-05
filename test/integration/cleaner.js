@@ -6,7 +6,7 @@ var should = chai.should();
 var util = require('util');
 
 exports.clean = function(provisioningParameters, done) {
-  var resourceGroupName = provisioningParameters.resourceGroup || provisioningParameters.resource_group_name;
+  var resourceGroupName = provisioningParameters.resourceGroup;
   if (!resourceGroupName) {
     return done();
   }

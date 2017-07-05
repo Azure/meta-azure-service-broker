@@ -61,10 +61,10 @@
 
   ```
   {
-    "resource_group_name": "<resource-group-name>",   // [Required] Unique. Only allow up to 90 characters
-    "storage_account_name": "<storage-account-name>", // [Required] Unique. Can contain only lowercase letters and numbers. Name must be between 3 and 24 characters.
-    "location": "<location>",                         // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
-    "account_type": "Standard_LRS | <other-account-type>"  // [Required] Possible value: Standard_LRS | Standard_ZRS | Standard_GRS | Standard_RAGRS | Premium_LRS . See more details: https://azure.microsoft.com/en-us/pricing/details/storage/
+    "resourceGroup": "<resource-group-name>",             // [Required] Unique. Only allow up to 90 characters
+    "storageAccountName": "<storage-account-name>",       // [Required] Unique. Can contain only lowercase letters and numbers. Name must be between 3 and 24 characters.
+    "location": "<location>",                             // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
+    "accountType": "Standard_LRS | <other-account-type>"  // [Required] Possible value: Standard_LRS | Standard_ZRS | Standard_GRS | Standard_RAGRS | Premium_LRS . See more details: https://azure.microsoft.com/en-us/pricing/details/storage/
   }
   ```
 
@@ -78,14 +78,24 @@
 
   ```
   {
-    "resource_group_name": "myResourceGroup",
-    "storage_account_name": "mystorageaccount",
+    "resourceGroup": "azure-service-broker",
+    "storageAccountName": "generated-string",
     "location": "eastus",
-    "account_type": "Standard_LRS"
+    "accountType": "Standard_LRS"
   }
   ```
 
-  >**NOTE:** Please remove the comments in the JSON file before you use it.
+  >**NOTE:**
+  
+    * Please remove the comments in the JSON file before you use it.
+    
+    * The names of parameters "resource_group_name", "storage_account_name",and "account_type" are deprecated since their formats are not unified with other services.
+  
+  Above parameters are also the defaults if the broker operator doesn't change broker default settings. You can just run the following command to create a service instance without the json file:
+  
+  ```
+  cf create-service azure-storage standard mystorageservice
+  ```
 
 3. Check the operation status of creating the service instance
 
@@ -128,7 +138,7 @@ In the application, you can use Azure SDK for Python to operate your storage acc
   ```
   service_name = 'azure-storage'
   vcap_services = json.loads(os.environ['VCAP_SERVICES'])
-  account_name = vcap_services[service_name][0]['credentials']['storage_account_name']
+  account_name = vcap_services[service_name][0]['credentials']['storageAccountName']
   account_key = vcap_services[service_name][0]['credentials']['primary_access_key']
   ```
 

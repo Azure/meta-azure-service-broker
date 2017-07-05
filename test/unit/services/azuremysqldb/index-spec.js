@@ -33,6 +33,7 @@ describe('MySqlDb - Index - Provision', function() {
             }
         };
         
+        delete require.cache[require.resolve('../../../../lib/services/azuremysqldb/')];
         require('../../../../lib/services/azuremysqldb/cmd-provision');
         require.cache[require.resolve('../../../../lib/services/azuremysqldb/cmd-provision')].exports = function(_) {
           this.provision = function (_, callback) { 

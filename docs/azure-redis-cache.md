@@ -62,9 +62,9 @@
   ```
   {
     "resourceGroup": "<resource-group-name>", // [Required] Unique. Only allow up to 90 characters
+    "location": "<location>",                 // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
     "cacheName": "<cache-name>",              // [Required] Unique. Must be between 3 and 63 characters long. Can only contain numbers, letters, and the - character. The cache name cannot start or end with the - character, and consecutive - characters are not valid.
     "parameters": {
-      "location": "<location>",               // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
       "enableNonSslPort": true | false,
       "sku": {                                // [Required] EXAMPLE: Basic C 0 for cache size 250MB, low network performance and 256 client connections. See more skus: https://azure.microsoft.com/en-us/pricing/details/cache/
         "name": "<sku-name>",
@@ -85,10 +85,10 @@
 
   ```
   {
-    "resourceGroup": "redisResourceGroup",
-    "cacheName": "mycache",
+    "resourceGroup": "azure-service-broker",
+    "location": "eastus",
+    "cacheName": "generated-string",
     "parameters": {
-      "location": "eastus",
       "enableNonSslPort": false,
       "sku": {
         "name": "Basic",
@@ -100,6 +100,12 @@
   ```
   
   >**NOTE:** Please remove the comments in the JSON file before you use it.
+  
+  Above parameters are also the defaults if the broker operator doesn't change broker default settings. You can just run the following command to create a service instance without the json file:
+  
+  ```
+  cf create-service azure-rediscache basic myrediscache
+  ```
 
 3. Check the operation status of creating the service instance
 

@@ -108,13 +108,13 @@
 
   ```
   {
-      "resourceGroup": "mysqldbResourceGroup",
-      "location": "westus",
-      "mysqlServerName": "mysqlservera",
+      "resourceGroup": "azure-service-broker",
+      "location": "eastus",
+      "mysqlServerName": "generated-string",
       "mysqlServerParameters": {
           "allowMysqlServerFirewallRules": [
               {
-                "ruleName": "newrule",
+                "ruleName": "all",
                 "startIpAddress": "0.0.0.0",
                 "endIpAddress": "255.255.255.255"
               }
@@ -123,16 +123,20 @@
               "version": "5.6",
               "sslEnforcement": "Disabled",
               "storageMB": 51200,
-              "administratorLogin": "myusername",
-              "administratorLoginPassword": "myPASSw0rd"
+              "administratorLogin": "generated-string",
+              "administratorLoginPassword": "generated-string"
           }
       }
   }
   ```
 
-**NOTE:**
-
-  * Please remove the comments in the JSON file before you use it.
+  >**NOTE:** Please remove the comments in the JSON file before you use it.
+  
+  Above parameters are also the defaults if the broker operator doesn't change broker default settings. You can just run the following command to create a service instance without the json file:
+  
+  ```
+  cf create-service azure-mysqldb basic100 mysqldb
+  ```
 
 3. Check the operation status of creating the service instance
 

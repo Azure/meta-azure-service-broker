@@ -8,8 +8,8 @@
 */
 // Please delete all the comments before using this .json to create service instance.
 {
-  "resourceGroup": "my-resource-group-name",
-  "docDbAccountName": "docdbaccount123",
-  "docDbName": "docdb123",
-  "location": "westus"
+  "resourceGroup": "azure-service-broker",
+  "docDbAccountName": "generated-string",
+  "docDbName": "generated-string",
+  "location": "eastus"
 }

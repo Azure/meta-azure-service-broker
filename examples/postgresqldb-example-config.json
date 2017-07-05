@@ -29,13 +29,13 @@
 
 // Please delete all the comments before using this .json to create service instance.
 {
-    "resourceGroup": "postgresqldbResourceGroup",
-    "location": "westus",
-    "postgresqlServerName": "postgresqlservera",
+    "resourceGroup": "azure-service-broker",
+    "location": "eastus",
+    "postgresqlServerName": "generated-string",
     "postgresqlServerParameters": {
         "allowPostgresqlServerFirewallRules": [
             {
-              "ruleName": "newrule",
+              "ruleName": "all",
               "startIpAddress": "0.0.0.0",
               "endIpAddress": "255.255.255.255"
             }
@@ -44,8 +44,8 @@
             "version": "9.6",
             "sslEnforcement": "Disabled",
             "storageMB": 51200,
-            "administratorLogin": "myusername",
-            "administratorLoginPassword": "myPASSw0rd"
+            "administratorLogin": "generated-string",
+            "administratorLoginPassword": "generated-string"
         }
     }
 }
