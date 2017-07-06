@@ -71,30 +71,31 @@
 
   ```
   {
-    "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
-    "location": "<azure-region-name>",          // [Required] support westus and northeurope only
-    "mysqlServerName": "<server-name>",         // [Required] Unique. Server name cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
-    "mysqlServerParameters": {
-        "allowMysqlServerFirewallRules": [      // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
-            {
-                "ruleName": "<rule-name-0>",    // The rule name can only contain 0-9, a-z, A-Z, -, _, and cannot exceed 128 characters
-                "startIpAddress": "xx.xx.xx.xx",
-                "endIpAddress": "xx.xx.xx.xx"
-            },
-            {
-                "ruleName": "<rule-name-1>",
-                "startIpAddress": "xx.xx.xx.xx",
-                "endIpAddress": "xx.xx.xx.xx"
-            }
-        ],
-        "properties": {
-            "version": "5.6" | "5.7",
-            "sslEnforcement": "Enabled" | "Disabled",
-            "storageMB": 51200 | 179200 | 307200 | ... | 947200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*3
-            "administratorLogin": "<server-admin-name>",
-            "administratorLoginPassword": "<server-admin-password>"
-        }
-    }
+      "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
+      "location": "<azure-region-name>",          // [Required] support westus and northeurope only
+      "mysqlServerName": "<server-name>",         // [Required] Unique. Server name cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+      "mysqlServerParameters": {
+          "allowMysqlServerFirewallRules": [      // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
+              {
+                  "ruleName": "<rule-name-0>",    // The rule name can only contain 0-9, a-z, A-Z, -, _, and cannot exceed 128 characters
+                  "startIpAddress": "xx.xx.xx.xx",
+                  "endIpAddress": "xx.xx.xx.xx"
+              },
+              {
+                  "ruleName": "<rule-name-1>",
+                  "startIpAddress": "xx.xx.xx.xx",
+                  "endIpAddress": "xx.xx.xx.xx"
+              }
+          ],
+          "properties": {
+              "version": "5.6" | "5.7",
+              "sslEnforcement": "Enabled" | "Disabled",
+              "storageMB": 51200 | 179200 | 307200 | ... | 947200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*3
+              "administratorLogin": "<server-admin-name>",
+              "administratorLoginPassword": "<server-admin-password>"
+          }
+      },
+      "mysqlDatabaseName": "<database-name>"      // [Required] Unique. Database name cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
   }
   ```
 
@@ -126,7 +127,8 @@
               "administratorLogin": "generated-string",
               "administratorLoginPassword": "generated-string"
           }
-      }
+      },
+      "mysqlDatabaseName": "generated-string"
   }
   ```
 
@@ -181,17 +183,14 @@
   ```
   "credentials": {
     "mysqlServerName": "mysqlservera",
+    "mysqlDatabaseName": "mysqldba",
     "mysqlServerFullyQualifiedDomainName": "mysqlservera.mysql.database.azure.com",
     "administratorLogin": "ulrich",
     "administratorLoginPassword": "u1r8chP@ss",
-    "jdbcUrl": "jdbc:mysql://mysqlservera.mysql.database.azure.com:3306/{your_database}?verifyServerCertificate=true&useSSL=true&requireSSL=false"
+    "jdbcUrl": "jdbc:mysql://mysqlservera.mysql.database.azure.com:3306/mysqldba?user=<administratorLogin>&password=<administratorLoginPassword>&verifyServerCertificate=true&useSSL=true&requireSSL=false"
   }
 
   ```
-  
-**NOTE:**
-
-  * The character "&" in JDBC url is encoded into "\u0026" by the Cloud Controller. Your app may need to handle this.
   
 ## Unbinding
 

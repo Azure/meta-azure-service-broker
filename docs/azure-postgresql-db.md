@@ -64,30 +64,31 @@
 
   ```
   {
-    "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
-    "location": "<azure-region-name>",          // [Required] support westus and northeurope only
-    "postgresqlServerName": "<server-name>",    // [Required] Unique. Server name cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
-    "postgresqlServerParameters": {
-        "allowPostgresqlServerFirewallRules": [ // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
-            {
-                "ruleName": "<rule-name-0>",    // The rule name can only contain 0-9, a-z, A-Z, -, _, and cannot exceed 128 characters
-                "startIpAddress": "xx.xx.xx.xx",
-                "endIpAddress": "xx.xx.xx.xx"
-            },
-            {
-                "ruleName": "<rule-name-1>",
-                "startIpAddress": "xx.xx.xx.xx",
-                "endIpAddress": "xx.xx.xx.xx"
-            }
-        ],
-        "properties": {
-            "version": "9.5" | "9.6",
-            "sslEnforcement": "Enabled" | "Disabled",
-            "storageMB": 51200 | 179200 | 307200 | ... | 947200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*3
-            "administratorLogin": "<server-admin-name>",
-            "administratorLoginPassword": "<server-admin-password>"
-        }
-    }
+      "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
+      "location": "<azure-region-name>",          // [Required] support westus and northeurope only
+      "postgresqlServerName": "<server-name>",    // [Required] Unique. Server name cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+      "postgresqlServerParameters": {
+          "allowPostgresqlServerFirewallRules": [ // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
+              {
+                  "ruleName": "<rule-name-0>",    // The rule name can only contain 0-9, a-z, A-Z, -, _, and cannot exceed 128 characters
+                  "startIpAddress": "xx.xx.xx.xx",
+                  "endIpAddress": "xx.xx.xx.xx"
+              },
+              {
+                  "ruleName": "<rule-name-1>",
+                  "startIpAddress": "xx.xx.xx.xx",
+                  "endIpAddress": "xx.xx.xx.xx"
+              }
+          ],
+          "properties": {
+              "version": "9.5" | "9.6",
+              "sslEnforcement": "Enabled" | "Disabled",
+              "storageMB": 51200 | 179200 | 307200 | ... | 947200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*3
+              "administratorLogin": "<server-admin-name>",
+              "administratorLoginPassword": "<server-admin-password>"
+          }
+      },
+      "postgresqlDatabaseName": "<database-name>" // [Required] Unique. Database name cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
   }
   ```
 
@@ -119,7 +120,8 @@
               "administratorLogin": "generated-string",
               "administratorLoginPassword": "generated-string"
           }
-      }
+      },
+      "postgresqlDatabaseName": "generated-string"
   }
   ```
 
@@ -174,17 +176,14 @@
   ```
   "credentials": {
     "postgresqlServerName": "postgresqlservera",
+    "postgresqlDatabaseName": "postgresqldba",
     "postgresqlServerFullyQualifiedDomainName": "postgresqlservera.postgres.database.azure.com",
     "administratorLogin": "ulrich",
     "administratorLoginPassword": "u1r8chP@ss",
-    "jdbcUrl": "jdbc:postgresql://postgresqlservera.postgres.database.azure.com:5432/{your_database}?user=ulrich@fake-server&password=u1r8chP@ss&ssl=true"
+    "jdbcUrl": "jdbc:postgresql://postgresqlservera.postgres.database.azure.com:5432/postgresqldba?user=ulrich@fake-server&password=u1r8chP@ss&ssl=true"
   }
 
   ```
-  
-**NOTE:**
-
-  * The character "&" in JDBC url is encoded into "\u0026" by the Cloud Controller. Your app may need to handle this.
   
 ## Unbinding
 

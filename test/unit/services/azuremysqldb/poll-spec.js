@@ -39,7 +39,8 @@ var afterProvisionValidParams = {
                 administratorLogin: 'xxxx',
                 administratorLoginPassword: 'xxxxxxx'
             }
-        }
+        },
+        mysqlDatabaseName: 'mydb'
     },
     last_operation: 'provision',
     provisioning_result: {
@@ -48,6 +49,7 @@ var afterProvisionValidParams = {
       'serverPollingUrl': 'fake-serverPollingUrl',
       'administratorLogin': 'xxxx',
       'administratorLoginPassword': 'xxxxxxx',
+      'mysqlDatabaseName': 'mydb'
     },
     azure: azure
 };
@@ -74,7 +76,8 @@ var afterDeprovisionValidParams = {
                 administratorLogin: 'xxxx',
                 administratorLoginPassword: 'xxxxxxx'
             }
-        }
+        },
+        mysqlDatabaseName: 'mydb'
     },
     last_operation: 'deprovision',
     provisioning_result: {
@@ -83,6 +86,7 @@ var afterDeprovisionValidParams = {
       'serverPollingUrl': 'fake-serverPollingUrl',
       'administratorLogin': 'xxxx',
       'administratorLoginPassword': 'xxxxxxx',
+      'mysqlDatabaseName': 'mydb'
     },
     azure: azure
 };
@@ -145,9 +149,15 @@ describe('MySqlDb - Poll - polling mysql server after creation is complete', fun
         msRestRequest.PUT = sinon.stub();
         // create firewall rule
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.DBforMySQL/servers/golive4/firewallRules/newrule')
-          .yields(null, {statusCode: 202, headers: {'azure-asyncoperation': 'fake-firewall-status-url'}});
+          .yields(null, {statusCode: 202, headers: {'azure-asyncoperation': 'fake-firewall-polling-url'}});
         // check firewall rule
-        msRestRequest.GET.withArgs('fake-firewall-status-url')
+        msRestRequest.GET.withArgs('fake-firewall-polling-url')
+          .yields(null, {statusCode: 200}, '{"name":"8772dacd-eb4a-4a59-b81b-6af617bcc010","status":"Succeeded","startTime":"2017-04-19T05:39:13.033Z"}');
+        // create db
+        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/sqldbResourceGroup/providers/Microsoft.DBforMySQL/servers/golive4/databases/mydb')
+          .yields(null, {statusCode: 202, headers: {'azure-asyncoperation': 'fake-db-polling-url'}});
+        // check db
+        msRestRequest.GET.withArgs('fake-database-polling-url')
           .yields(null, {statusCode: 200}, '{"name":"8772dacd-eb4a-4a59-b81b-6af617bcc010","status":"Succeeded","startTime":"2017-04-19T05:39:13.033Z"}');
     });
 
@@ -155,17 +165,18 @@ describe('MySqlDb - Poll - polling mysql server after creation is complete', fun
         mockingHelper.restore();
     });
 
-    describe('created server but not created firewall rules', function () {
+    describe('created server, but not created firewall rules', function () {
         it('should return \'in progress\'', function (done) {
             var cp = new cmdPoll(afterProvisionValidParams);
             cp.poll(mysqldbOps, function (err, result) {
                 should.not.exist(err);
                 result.body.resourceGroup.should.equal('sqldbResourceGroup');
                 result.body.mysqlServerName.should.equal('golive4');
+                result.body.mysqlDatabaseName.should.equal('mydb');
                 result.body.administratorLogin.should.equal('xxxx');
                 result.body.administratorLoginPassword.should.equal('xxxxxxx');
                 result.body.fullyQualifiedDomainName.should.equal('fake-fqdn');
-                result.body.ruleStatusUrls.length.should.equal(1);
+                result.body.rulePollingUrls.length.should.equal(1);
                 should.not.exist(result.body.serverPollingUrl);
                 
                 result.value.state.should.equal('in progress');
@@ -176,24 +187,51 @@ describe('MySqlDb - Poll - polling mysql server after creation is complete', fun
         
     });
     
-    describe('created server but not created firewall rules', function () {
+    describe('created server and created firewall rules, but not created database', function () {
         it('should return \'in progress\'', function (done) {
             delete afterProvisionValidParams.provisioning_result.serverPollingUrl;
-            afterProvisionValidParams.provisioning_result.ruleStatusUrls = ['fake-firewall-status-url'];
+            afterProvisionValidParams.provisioning_result.rulePollingUrls = ['fake-firewall-polling-url'];
             
             var cp = new cmdPoll(afterProvisionValidParams);
             cp.poll(mysqldbOps, function (err, result) {
                 should.not.exist(err);
                 result.body.resourceGroup.should.equal('sqldbResourceGroup');
                 result.body.mysqlServerName.should.equal('golive4');
+                result.body.mysqlDatabaseName.should.equal('mydb');
                 result.body.administratorLogin.should.equal('xxxx');
                 result.body.administratorLoginPassword.should.equal('xxxxxxx');
                 result.body.fullyQualifiedDomainName.should.equal('fake-fqdn');
-                result.body.ruleStatusUrls.length.should.equal(0);
+                result.body.databasePollingUrl.should.equal('fake-db-polling-url');
+                should.not.exist(result.body.rulePollingUrls);
+                should.not.exist(result.body.serverPollingUrl);
+                
+                result.value.state.should.equal('in progress');
+                result.value.description.should.equal('Created server golive4. Created firewall rules. Creating database mydb.');
+                done();
+            });
+        });
+    });
+    
+    describe('created server, created firewall rules, and created database', function () {
+        it('should return \'succeeded\'', function (done) {
+            delete afterProvisionValidParams.provisioning_result.rulePollingUrls;
+            afterProvisionValidParams.provisioning_result.databasePollingUrl = 'fake-database-polling-url';
+            
+            var cp = new cmdPoll(afterProvisionValidParams);
+            cp.poll(mysqldbOps, function (err, result) {
+                should.not.exist(err);
+                result.body.resourceGroup.should.equal('sqldbResourceGroup');
+                result.body.mysqlServerName.should.equal('golive4');
+                result.body.mysqlDatabaseName.should.equal('mydb');
+                result.body.administratorLogin.should.equal('xxxx');
+                result.body.administratorLoginPassword.should.equal('xxxxxxx');
+                result.body.fullyQualifiedDomainName.should.equal('fake-fqdn');
+                should.not.exist(result.body.databasePollingUrl);
+                should.not.exist(result.body.rulePollingUrls);
                 should.not.exist(result.body.serverPollingUrl);
                 
                 result.value.state.should.equal('succeeded');
-                result.value.description.should.equal('Created server golive4. Created firewall rules.');
+                result.value.description.should.equal('Created server golive4. Created firewall rules. Created database mydb.');
                 done();
             });
         });

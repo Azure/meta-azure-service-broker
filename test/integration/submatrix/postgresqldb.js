@@ -43,13 +43,15 @@ azurepostgresqldb = {
       'tags': {
         'foo': 'bar'
       }
-    }
+    },
+    'postgresqlDatabaseName': 'testpgsqldb'
   },
   bindingParameters: {},
   credentials: {
     'administratorLogin': '<string>',
     'administratorLoginPassword': '<string>',
     'postgresqlServerName': postgresqlServerName,
+    'postgresqlDatabaseName': 'testpgsqldb',
     'postgresqlServerFullyQualifiedDomainName': '<string>',
     'jdbcUrl': '<string>'
   },

@@ -43,7 +43,8 @@ azuremysqldb = {
       'tags': {
         'foo': 'bar'
       }
-    }
+    },
+    'mysqlDatabaseName': 'testmysqldb'
   },
   bindingParameters: {},
   credentials: {
@@ -51,6 +52,7 @@ azuremysqldb = {
     'administratorLoginPassword': '<string>',
     'mysqlServerName': mysqlServerName,
     'mysqlServerFullyQualifiedDomainName': '<string>',
+    'mysqlDatabaseName': 'testmysqldb',
     'jdbcUrl': '<string>'
   },
   e2e: true

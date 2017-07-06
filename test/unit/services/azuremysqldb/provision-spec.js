@@ -37,7 +37,8 @@ describe('MySqlDb - Provision - PreConditions', function () {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
                         }
-                    }
+                    },
+                    mysqlDatabaseName: 'fake-db-name'
                 },
                 azure: azure
             };
@@ -61,13 +62,14 @@ describe('MySqlDb - Provision - PreConditions', function () {
         });
 
         it('should fail to validate the parameters', function () {
-            (cp.getInvalidParams().length).should.equal(5);
+            (cp.getInvalidParams().length).should.equal(6);
             cp.getInvalidParams().should.deepEqual([
                 'resourceGroupName',
                 'location',
                 'mysqlServerName',
                 'administratorLogin',
-                'administratorLoginPassword'
+                'administratorLoginPassword',
+                'mysqlDatabaseName'
             ]);
         });
     });
@@ -95,7 +97,8 @@ describe('MySqlDb - Provision - Execution', function () {
                         administratorLogin: 'fake-server-name',
                         administratorLoginPassword: 'c1oudc0w'
                     }
-                }
+                },
+                mysqlDatabaseName: 'fake-db-name'
             },
             azure: azure
         };
@@ -128,6 +131,12 @@ describe('MySqlDb - Provision - Execution', function () {
         it('should not callback error', function (done) {
             cp.provision(mysqldbOps, function (err, result) {
                 should.not.exist(err);
+                result.body.resourceGroup.should.equal(params.parameters.resourceGroup);
+                result.body.mysqlServerName.should.equal(params.parameters.mysqlServerName);
+                result.body.administratorLogin.should.equal(params.parameters.mysqlServerParameters.properties.administratorLogin);
+                result.body.administratorLoginPassword.should.equal(params.parameters.mysqlServerParameters.properties.administratorLoginPassword);
+                result.body.serverPollingUrl.should.equal('fake-serverPollingUrl');
+                result.body.mysqlDatabaseName.should.equal(params.parameters.mysqlDatabaseName);
                 done();
             });
         });
@@ -174,7 +183,8 @@ describe('MySqlDb - Provision - Firewall rules', function () {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
                         }
-                    }
+                    },
+                    mysqlDatabaseName: 'fake-db-name'
                 },
                 azure: azure
             };
@@ -201,7 +211,8 @@ describe('MySqlDb - Provision - Firewall rules', function () {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
                         }
-                    }
+                    },
+                    mysqlDatabaseName: 'fake-db-name'
                 },
                 azure: azure
             };
