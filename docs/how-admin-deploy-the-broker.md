@@ -21,14 +21,12 @@
 
   3. By default, the tables `instances` and `bindings` are created when the broker starts. If not, please create them manually with the following steps.
 
-    Use your favorite way to connect to the SQL database.
+    Use your favorite way to connect to the SQL database. For example:
 
-      For example:
-
-      ```
-      sudo npm install -g sql-cli
-      mssql --server "<server-name>.database.windows.net" --database <database> --user <username>@<server-name> --pass <pass> --encrypt
-      ```
+    ```
+    sudo npm install -g sql-cli
+    mssql --server "<server-name>.database.windows.net" --database <database> --user <username>@<server-name> --pass <pass> --encrypt
+    ```
 
     In the `mssql` command line, create tables `instances` and `bindings` by loading [schema.sql](../lib/broker/db/sqlserver/schema.sql).
 
@@ -41,11 +39,9 @@
     ```
     git clone https://github.com/Azure/meta-azure-service-broker
     cd meta-azure-service-broker
-  ```
+    ```
 
-1. Update `manifest.yml` with your credentials.
-
-    The contents of `manifest.yml` are:
+1. Update `manifest.yml` with your credentials. The contents of `manifest.yml` are:
 
     ```
     ---
