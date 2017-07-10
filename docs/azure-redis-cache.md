@@ -99,12 +99,22 @@
   }
   ```
   
-  >**NOTE:** Please remove the comments in the JSON file before you use it.
+  >**NOTE:**
+  
+    * Please remove the comments in the JSON file before you use it.
+    
+    * Please set `enableNonSslPort: true` for redis instances bound to Spring apps.
   
   Above parameters are also the defaults if the broker operator doesn't change broker default settings. You can just run the following command to create a service instance without the json file:
   
   ```
   cf create-service azure-rediscache basic myrediscache
+  ```
+  
+  To create redis instances for Spring apps, you need to run:
+  
+  ```
+  cf create-service azure-rediscache basic myrediscache -c '{"parameters":{"enableNonSslPort":true}}'
   ```
 
 3. Check the operation status of creating the service instance
@@ -154,7 +164,8 @@
      "port": 6379,
      "primaryKey": "<primary-key>",
      "secondaryKey": "<secondary-key>",
-     "sslPort": 6380
+     "sslPort": 6380,
+     "redisUrl": "redis://<cache-name>:<primary-key>@<cache-name>.redis.cache.windows.net:6379"
   }
   ```
 

@@ -31,7 +31,7 @@ var azurerediscache = {
     'location': location,
     'cacheName': cacheName,
     'parameters': {
-      'enableNonSslPort': false,
+      'enableNonSslPort': true,
       'sku': {
         'name': 'Basic',
         'family': 'C',
@@ -49,7 +49,8 @@ var azurerediscache = {
     'port': 6379,
     'primaryKey': '<string>',
     'secondaryKey': '<string>',
-    'sslPort': 6380
+    'sslPort': 6380,
+    'redisUrl': '<string>'
   }
 };
 testMatrix.push(azurerediscache);
