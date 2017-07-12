@@ -67,21 +67,21 @@
 
     * `ENVIRONMENT`
 
-      Two options `AzureCloud` and `AzureChinaCloud` are supported as an `ENVIRONMENT`. For example, if you want to create services in `AzureChinaCloud`, you should specify `AzureChinaCloud` as the `ENVIRONMENT`.
+      Four options `AzureCloud`, `AzureChinaCloud`, `AzureUSGovernment`, and `AzureGermanCloud` are supported as an `ENVIRONMENT`. For example, if you want to create services in `AzureChinaCloud`, you should specify `AzureChinaCloud` as the `ENVIRONMENT`.
 
       The following table is about the support for each service in different environments.
 
-      | Service Name | AzureCloud | AzureChinaCloud |
-      |:---|:---|:---|
-      | DocumentDB Service (deprecated) | yes | yes |
-      | CosmosDB Service | yes | no |
-      | Event Hub Service | yes | yes |
-      | Redis Cache Service | yes | yes |
-      | Service Bus Service | yes | yes |
-      | Storage Service | yes | yes |
-      | SQL Database Service | yes | yes |
-      | Database for MySQL Service (preview)  | yes | no |
-      | Database for PostgreSQL Service (preview) | yes | no |
+      | Service Name | AzureCloud | AzureChinaCloud | AzureUSGovernment | AzureGermanCloud |
+      |:---|:---|:---|:---|:---|
+      | DocumentDB Service (deprecated) | yes | yes | yes | yes |
+      | CosmosDB Service | yes | no | no | yes |
+      | Event Hub Service | yes | yes | yes | yes |
+      | Redis Cache Service | yes | yes | yes | yes |
+      | Service Bus Service | yes | yes | yes | yes |
+      | Storage Service | yes | yes | yes | yes |
+      | SQL Database Service | yes | yes | yes | yes |
+      | Database for MySQL Service (preview)  | yes | no | no | no |
+      | Database for PostgreSQL Service (preview) | yes | no | no | no |
 
     * `SUBSCRIPTION_ID`
 

@@ -6,8 +6,7 @@ var supportedEnvironments = require('./supportedEnvironments');
 
 module.exports = function(environment) {
   var clientName = 'azurestorageClient';
-  common.getLogger(clientName, clientName);
-  var log = require('winston').loggers.get(clientName);
+  var log = common.getLogger(clientName);
   
   var validate = function(accountName, accountKey, callback) {
     var context = {};
@@ -52,7 +51,7 @@ module.exports = function(environment) {
       for(var i=0, len=results.length; i < len; i++) {
         if(results[i].status != statusCode.PASS) {
           result = statusCode.FAIL;
-          log.error('FAIL result: ' + results[i]);
+          log.error('FAIL result: %j', results[i]);
         }
       }
       next(result);

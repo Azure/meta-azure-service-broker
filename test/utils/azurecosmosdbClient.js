@@ -4,8 +4,7 @@ var _ = require('underscore');
 
 module.exports = function() {
   var clientName = 'azurecosmosdbClient';
-  common.getLogger(clientName, clientName);
-  var log = require('winston').loggers.get(clientName);
+  var log = common.getLogger(clientName);
   
   this.validateCredential = function(credential, next) {
     log.debug(credential);

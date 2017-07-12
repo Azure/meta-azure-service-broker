@@ -1,24 +1,23 @@
 var uuid = require('uuid');
-var util = require('util');
-var _ = require('underscore');
 
 var supportedEnvironments = require('../../utils/supportedEnvironments');
 
 var testMatrix = [];
 var instanceId;
 var bindingId;
-var resourceGroupName;
+var resourceGroupName, cosmosDbAccountName;
 
 var environment = process.env['ENVIRONMENT'];
-if (!_.has(supportedEnvironments, environment)) {
-  throw new Error(util.format('The test does not support %s', environment));
-}
 
 var location = supportedEnvironments[environment]['location'];
 
 instanceId = uuid.v4();
 bindingId = uuid.v4();
 resourceGroupName = 'cloud-foundry-' + instanceId;
+// The limit of the length of the CosmosDB/DocumentDB account name is [50 characters – length of region name – 1 (length of ‘-‘)]
+// For the regions the test specify, 31 chars is suitable
+cosmosDbAccountName = instanceId.slice(0, 31);
+
 var azurecosmosdb = {
   serviceName: 'azure-cosmosdb',
   serviceId: '405db572-c611-4496-abc3-382fe70f29d7',
@@ -27,7 +26,7 @@ var azurecosmosdb = {
   bindingId: bindingId,
   provisioningParameters: {
     'resourceGroup': resourceGroupName,
-    'cosmosDbAccountName': instanceId,
+    'cosmosDbAccountName': cosmosDbAccountName,
     'cosmosDbName': instanceId,
     'location': location
   },
@@ -45,6 +44,10 @@ testMatrix.push(azurecosmosdb);
 instanceId = uuid.v4();
 bindingId = uuid.v4();
 resourceGroupName = 'cloud-foundry-' + instanceId;
+cosmosDbAccountName = instanceId;
+if (environment === 'AzureGermanCloud') { // The max length of account name is 31 on AzureGermanCloud
+  cosmosDbAccountName = cosmosDbAccountName.slice(0, 31);
+}
 azurecosmosdb = {
   serviceName: 'azure-cosmosdb',
   serviceId: '405db572-c611-4496-abc3-382fe70f29d7',
@@ -53,7 +56,7 @@ azurecosmosdb = {
   bindingId: bindingId,
   provisioningParameters: {
     'resourceGroup': resourceGroupName,
-    'cosmosDbAccountName': instanceId,
+    'cosmosDbAccountName': cosmosDbAccountName,
     'cosmosDbName': instanceId,
     'location': location,
     'kind': 'MongoDB',

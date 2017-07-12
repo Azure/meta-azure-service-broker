@@ -6,8 +6,7 @@ var supportedEnvironments = require('./supportedEnvironments');
 
 module.exports = function(environment) {
   var clientName = 'azureservicebusClient';
-  common.getLogger(clientName, clientName);
-  var log = require('winston').loggers.get(clientName);
+  var log = common.getLogger(clientName);
   
   this.validateCredential = function(credential, next) {
     var connectionString = 'Endpoint=sb://' + credential['namespace_name'] + supportedEnvironments[environment]['serviceBusEndpointSuffix'] + '/;SharedAccessKeyName=' + credential['shared_access_key_name'] + ';SharedAccessKey=' + credential['shared_access_key_value']; 

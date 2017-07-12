@@ -5,8 +5,7 @@ var statusCode = require('./statusCode');
 
 module.exports = function() {
   var clientName = 'azurerediscacheClient';
-  common.getLogger(clientName, clientName);
-  var log = require('winston').loggers.get(clientName);
+  var log = common.getLogger(clientName);
   
   this.validateCredential = function(credential, next) {
     try {

@@ -47,7 +47,7 @@ fs.readdir(servicesPath, function(err, files) {
     serviceModule.catalog(params, function(err, service) {
       if (err) {
         throw err;
-      } else {
+      } else if (service) {
         log.info('Adding listeners for the service %s...', service.name);
         addListeners(service.id, serviceModule);
         services.push(service);
