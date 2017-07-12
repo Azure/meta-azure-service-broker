@@ -10,7 +10,8 @@ var resourceGroupName, docDbAccountName;
 var environment = process.env['ENVIRONMENT'];
 
 var location;
-if (supportedEnvironments[environment] === 'AzureUSGovernment') {
+// List of available regions for the 'Microsoft.DocumentDB/databaseAccounts' is 'usgovarizona,usgovtexas'.
+if (environment === 'AzureUSGovernment') {
   location = 'usgovtexas';
 } else {
   location = supportedEnvironments[environment]['location'];
