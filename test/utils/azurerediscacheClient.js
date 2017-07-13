@@ -8,6 +8,7 @@ module.exports = function() {
   var log = common.getLogger(clientName);
   
   this.validateCredential = function(credential, next) {
+    log.debug('credential: %j', credential);
     try {
       var client = redis.createClient(credential.sslPort, credential.hostname, {'auth_pass': credential.primaryKey, 'tls': {servername: credential.hostname}});
       client.on('error', function (err) {
