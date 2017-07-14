@@ -41,7 +41,8 @@
     "typescript": "^2.3.2",
     "underscore": "1.8.3",
     "uuid": "3.0.1",
-    "deep-extend": "0.5.0"
+    "deep-extend": "0.5.0",
+    "urlencode": "1.1.0"
   },
   "devDependencies": {
     "azure": "0.10.6",
