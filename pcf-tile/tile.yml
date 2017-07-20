@@ -124,11 +124,22 @@ forms:
     configurable: true
     default: true
     label: Allow to Create Sql Server
+  - name: azure_sqldb_enable_transparent_data_encryption
+    type: boolean
+    configurable: true
+    default: false
+    label: Enable Transparent Data Encryption
   - name: azure_sqldb_sql_server_pool
     type: collection
     configurable: true
     optional: true
     property_blueprints:
+      - name: resourceGroup
+        type: string
+        label: Resource Group of the SQL Server
+      - name: location
+        type: string
+        label: Location of the SQL Server
       - name: sqlServerName
         type: string
         label: SQL Server Name
@@ -139,7 +150,136 @@ forms:
         type: secret
         label: SQL Server Administrator Login Password
     label: Sql Server Pool
-    
+- name: default-parameters-config-form
+  label: Default Parameters Config
+  properties:
+  - name: allow_to_generate_names_and_passwords_for_the_missing
+    type: boolean
+    configurable: true
+    default: true
+    label: Allow to Generate Names and Passwords for the Missing
+  - name: default_resource_group
+    type: string
+    configurable: true
+    default: azure-service-broker
+    label: Default Resource Group 
+  - name: default_location
+    type: string
+    configurable: true
+    default: eastus
+    label: Default Location
+  - name: default_parameters_azure_rediscache
+    type: text
+    configurable: true
+    default: |
+      {
+        "parameters": {
+            "enableNonSslPort": false,
+            "sku": {
+                "name": "Basic",
+                "family": "C",
+                "capacity": 0
+            }
+        }
+      }
+    label: Default Parameters of Azure Redis Cache service
+  - name: default_parameters_azure_servicebus
+    type: text
+    configurable: true
+    default: |
+      {
+        "type": "Messaging",
+        "messagingTier": "Standard"
+      }
+    label: Default Parameters of Azure Service Bus service
+  - name: default_parameters_azure_storage
+    type: text
+    configurable: true
+    default: |
+      {
+        "accountType": "Standard_LRS"
+      }
+    label: Default Parameters of Azure Storage service
+  - name: default_parameters_azure_docdb
+    type: text
+    configurable: true
+    default: |
+      {
+      }
+    label: Default Parameters of Azure DocumentDB service
+  - name: default_parameters_azure_cosmosdb
+    type: text
+    configurable: true
+    default: |
+      {
+        "kind": "DocumentDB"
+      }
+    label: Default Parameters of Azure CosmosDB service
+  - name: default_parameters_azure_mysqldb
+    type: text
+    configurable: true
+    default: |
+      {
+        "mysqlServerParameters": {
+            "allowMysqlServerFirewallRules": [
+                {
+                  "ruleName": "all",
+                  "startIpAddress": "0.0.0.0",
+                  "endIpAddress": "255.255.255.255"
+                }
+            ],
+            "properties": {
+                "version": "5.6",
+                "sslEnforcement": "Disabled",
+                "storageMB": 51200
+            }
+        }
+      }
+    label: Default Parameters of Azure Database for MySQL service
+  - name: default_parameters_azure_postgresqldb
+    type: text
+    configurable: true
+    default: |
+      {
+        "postgresqlServerParameters": {
+            "allowPostgresqlServerFirewallRules": [
+                {
+                  "ruleName": "all",
+                  "startIpAddress": "0.0.0.0",
+                  "endIpAddress": "255.255.255.255"
+                }
+            ],
+            "properties": {
+                "version": "9.6",
+                "sslEnforcement": "Disabled",
+                "storageMB": 51200
+            }
+        }
+      }
+    label: Default Parameters of Azure Database for PostgreSQL service
+  - name: default_parameters_azure_sqldb
+    type: text
+    configurable: true
+    default: |
+      {
+        "sqlServerParameters": {
+            "allowSqlServerFirewallRules": [
+                {
+                    "ruleName": "all",
+                    "startIpAddress": "0.0.0.0",
+                    "endIpAddress": "255.255.255.255"
+                }
+            ]
+        },
+        "transparentDataEncryption": true,
+        "sqldbParameters": {
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS"
+            }
+        }
+      }
+    label: Default Parameters of Azure SQL Database service
+
 # Add any dependencies your tile has on other installed products.
 # This is often appropriate when using automatic service provisioning
 # for any of your packages above, with services provided by other
