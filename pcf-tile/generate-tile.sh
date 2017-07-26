@@ -1,7 +1,7 @@
 #!/bin/bash
 pushd ..
   rm -f pcf-tile/resources/meta-azure-service-broker.zip
-  zip -r pcf-tile/resources/meta-azure-service-broker.zip brokerserver.js index.js lib LICENSE NOTICE package.json winston.json node_modules
+  zip -r pcf-tile/resources/meta-azure-service-broker.zip brokerserver.js index.ts lib LICENSE NOTICE package.json winston.json node_modules
 popd
 if [ "$1" = "-major" ]; then
   tile build major
