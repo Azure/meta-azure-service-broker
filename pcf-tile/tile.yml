@@ -188,10 +188,19 @@ forms:
     configurable: true
     default: |
       {
-        "type": "Messaging",
-        "messagingTier": "Standard"
       }
     label: Default Parameters of Azure Service Bus service
+  - name: default_parameters_azure_eventhubs
+    type: text
+    configurable: true
+    default: |
+      {
+        "eventHubProperties": {
+            "messageRetentionInDays": 1,
+            "partitionCount": 2
+        }
+      }
+    label: Default Parameters of Azure Event Hubs service
   - name: default_parameters_azure_storage
     type: text
     configurable: true

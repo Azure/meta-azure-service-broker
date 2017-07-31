@@ -13,26 +13,72 @@
     "longDescription": "Azure Service Bus is a generic, cloud-based messaging system for connecting just about anything—applications, services, and devices—wherever they are. Connect apps running on Azure, on-premises systems, or both. You can even use Service Bus to connect household appliances, sensors, and other devices like tablets or phones to a central application or to each other.",
     "providerDisplayName": "Microsoft"
   },
-  "plans": [{
-    "id": "6be0d8b5-381f-4d68-bdfd-a131425d3835",
-    "name": "standard",
-    "free": false,
-    "description": "Your cost depends on your operations. See details: https://azure.microsoft.com/en-us/pricing/details/service-bus/",
-    "metadata": {
-      "bullets": [
-        "No upfront cost",
-        "No termination fees",
-        "Pay only for what you use"
-      ],
-      "costs": [
-        {
-          "amount": {
-            "usd": 0
-          },
-          "unit": "MONTHLY"
-        }
-      ],
-      "displayName": "standard"
+  "plans": [
+    {
+      "id": "d06817b1-87ea-4320-8942-14b1d060206a",
+      "name": "basic",
+      "free": false,
+      "description": "Support queues and scheduled messages. Message Size: 256 KB. Brokered connections included: 100. See details: https://azure.microsoft.com/en-us/pricing/details/service-bus/",
+      "metadata": {
+        "bullets": [
+          "No upfront cost",
+          "No termination fees",
+          "Pay only for what you use"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 0.05
+            },
+            "unit": "MONTHLY(estimated)"
+          }
+        ],
+        "displayName": "basic"
+      }
+    },
+    {
+      "id": "6be0d8b5-381f-4d68-bdfd-a131425d3835",
+      "name": "standard",
+      "free": false,
+      "description": "Support queues, scheduled messages, topics, transactions, and so on. Message Size: 256 KB. Brokered connections included: 1000.",
+      "metadata": {
+        "bullets": [
+          "No upfront cost",
+          "No termination fees",
+          "Pay only for what you use"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 10.00
+            },
+            "unit": "MONTHLY(estimated)"
+          }
+        ],
+        "displayName": "standard"
+      }
+    },
+    {
+      "id": "cec378a7-6452-4203-beca-d34898edbadc",
+      "name": "premium",
+      "free": false,
+      "description": "Support queues, scheduled messages, topics, transactions, and so on. Message Size: 1 MB. Brokered connections included: 1000 per MU.",
+      "metadata": {
+        "bullets": [
+          "No upfront cost",
+          "No termination fees",
+          "Pay only for what you use"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 690.06
+            },
+            "unit": "MONTHLY(estimated)"
+          }
+        ],
+        "displayName": "premium"
+      }
     }
-  }]
+  ]
 }

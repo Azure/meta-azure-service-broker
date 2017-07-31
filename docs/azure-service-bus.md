@@ -146,6 +146,7 @@
     "namespace_name": "cf-2eac2d52-bfc9-4d0f-af28-c02187689d72",
     "key_name": "KEY-NAME",
     "key_value": "KEY-VALUE",
+    "connection_string": "Endpoint=sb://<namespace_endpoint>/;SharedAccessKeyName=<shared_access_key_name>;SharedAccessKey=<shared_access_key_value>",
   }
   ```
 

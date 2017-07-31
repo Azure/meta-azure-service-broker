@@ -5,6 +5,7 @@ switch(process.env['ENVIRONMENT']) {
         submatrix = [
           'storage',
           'servicebus',
+          'eventhubs',
           'docdb',
           'cosmosdb',
           'sqldb',
@@ -17,6 +18,7 @@ switch(process.env['ENVIRONMENT']) {
         submatrix = [
           'storage',
           'servicebus',
+          'eventhubs',
           'docdb',
           'sqldb',
           'rediscache'
@@ -26,6 +28,7 @@ switch(process.env['ENVIRONMENT']) {
         submatrix = [
           'storage',
           'servicebus',
+          'eventhubs',
           'docdb',
           'sqldb',
           'rediscache'
@@ -35,6 +38,7 @@ switch(process.env['ENVIRONMENT']) {
         submatrix = [
           'storage',
           'servicebus',
+          'eventhubs',
           'docdb',
           'cosmosdb',
           'sqldb',

@@ -62,7 +62,9 @@
     "mysql2": "1.2.0",
     "pg": "6.1.5",
     "mongodb": "2.2.27",
-    "compare-version": "0.1.2"
+    "compare-version": "0.1.2",
+    "eventhubs-js": "1.1.3",
+    "promise": "8.0.1"
   },
   "homepage": "https://github.com/Azure/meta-azure-service-broker",
   "repository": {

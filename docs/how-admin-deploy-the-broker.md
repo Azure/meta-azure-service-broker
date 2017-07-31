@@ -75,7 +75,7 @@
       |:---|:---|:---|:---|:---|
       | DocumentDB Service (deprecated) | yes | yes | yes | yes |
       | CosmosDB Service | yes | no | no | yes |
-      | Event Hub Service | yes | yes | yes | yes |
+      | Event Hubs Service | yes | yes | yes | yes |
       | Redis Cache Service | yes | yes | yes | yes |
       | Service Bus Service | yes | yes | yes | yes |
       | Storage Service | yes | yes | yes | yes |
@@ -205,8 +205,8 @@
           }
       }'
       DEFAULT_PARAMETERS_AZURE_SERVICEBUS: '{
-          "type": "Messaging",
-          "messagingTier": "Standard"
+      }'
+      DEFAULT_PARAMETERS_AZURE_EVENTHUBS: '{
       }'
       DEFAULT_PARAMETERS_AZURE_STORAGE: '{
           "accountType": "Standard_LRS"

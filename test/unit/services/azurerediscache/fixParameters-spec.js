@@ -37,7 +37,7 @@ describe('RedisCache', function() {
       });
     });
 
-    describe('When part of parameters passed in: messagingTier', function() {
+    describe('When part of parameters passed in: sku.name', function() {
       var parameters = {'parameters': {'sku': {'name': 'Standard'}} };
       
       it('should fix the parameters', function() {

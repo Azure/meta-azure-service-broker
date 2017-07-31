@@ -9,14 +9,14 @@
 
 var should = require('should');
 var sinon = require('sinon');
-var azureservicebus = require('../../../../lib/services/azureservicebus/');
+var azureeventhubs = require('../../../../lib/services/azureeventhubs/');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
 
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
 
-describe('ServiceBus', function() {
+describe('EventHubs', function() {
 
   describe('Binding', function() {
 
@@ -26,12 +26,16 @@ describe('ServiceBus', function() {
       before(function() {
         validParams = {
           instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-          provisioning_result: {'resourceGroupName':'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5','namespaceName':'cfe77a25d2f58c11e5b93300'},
+          provisioning_result: {
+            'resourceGroupName':'cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5',
+            'namespaceName':'cfe77a25d2f58c11e5b93300',
+            'eventHubName': 'testeh'
+          },
           azure: azure
         };
         
         msRestRequest.POST = sinon.stub();
-        msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5/providers/Microsoft.ServiceBus/namespaces/cfe77a25d2f58c11e5b93300/authorizationRules/RootManageSharedAccessKey/ListKeys')
+        msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-e77a25d2-f58c-11e5-b933-000d3a80e5f5/providers/Microsoft.EventHub/namespaces/cfe77a25d2f58c11e5b93300/authorizationRules/RootManageSharedAccessKey/ListKeys')
           .yields(null, {statusCode: 200}, '{"primaryKey":"fake-primary-key"}');
       });
       
@@ -40,7 +44,7 @@ describe('ServiceBus', function() {
       });
       
       it('should return the credentials', function(done) {
-        azureservicebus.bind(validParams, function(
+        azureeventhubs.bind(validParams, function(
           err, reply, result) {
           should.not.exist(err);
 
@@ -52,7 +56,9 @@ describe('ServiceBus', function() {
                 namespace_name: 'cfe77a25d2f58c11e5b93300',
                 shared_access_key_name: 'RootManageSharedAccessKey',
                 shared_access_key_value: 'fake-primary-key',
-                connection_string: 'Endpoint=sb://cfe77a25d2f58c11e5b93300.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=fake-primary-key'
+                event_hub_name: 'testeh',
+                namespace_connection_string: 'Endpoint=sb://cfe77a25d2f58c11e5b93300.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=fake-primary-key',
+                event_hub_connection_string: 'Endpoint=sb://cfe77a25d2f58c11e5b93300.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=fake-primary-key;EntityPath=testeh'
               },
             },
           };

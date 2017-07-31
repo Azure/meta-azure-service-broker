@@ -32,32 +32,7 @@ describe('ServiceBus', function() {
       it('should return missing parameter error', function(done) {
         azureservicebus.provision(validParams, function(err, reply, result) {
           should.exist(err);
-          err.should.have.property('description', 'The parameters ["resourceGroup","namespaceName","location","type","messagingTier"] are missing.');
-          done();
-        });
-      });
-    });
-
-    describe('When specific parameters are provided and but incompleted', function() {
-      var validParams = {};
-
-      before(function() {
-        validParams = {
-          instance_id: 'e77a25d2-f58c-11e5-b933-000d3a80e5f5',
-          azure: azure,
-          parameters: {
-            resourceGroup: 'mysbtest',
-            namespaceName: 'mysb',
-            location: 'westus',
-            messagingTier: 'Standard'
-          }
-        };
-      });
-
-      it('should return missing parameter error', function(done) {
-        azureservicebus.provision(validParams, function(
-          err, reply, result) {
-          err.should.have.property('description', 'The parameters ["type"] are missing.');
+          err.should.have.property('description', 'The parameters ["resourceGroup","namespaceName","location"] are missing.');
           done();
         });
       });
@@ -74,8 +49,6 @@ describe('ServiceBus', function() {
             resourceGroup: 'mysbtest',
             namespaceName: 'mysb',
             location: 'westus',
-            type: 'Messaging',
-            messagingTier: 'Standard',
             tags: {
               foo: 'bar'
             }
@@ -130,8 +103,6 @@ describe('ServiceBus', function() {
             resource_group_name: 'mysbtest',
             namespace_name: 'mysb',
             location: 'westus',
-            type: 'Messaging',
-            messaging_tier: 'Standard',
             tags: {
               foo: 'bar'
             }
