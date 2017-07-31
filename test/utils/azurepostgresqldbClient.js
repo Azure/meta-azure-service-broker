@@ -14,7 +14,7 @@ module.exports = function(environment) {
     var serverSuffix = supportedEnvironments[environment]['postgresqlServerEndpointSuffix'];
     var config = {
       user: util.format('%s@%s',  credential.administratorLogin, credential.postgresqlServerName),
-      database: 'postgres',
+      database: credential.postgresqlDatabaseName,
       password: credential.administratorLoginPassword,
       host: credential.postgresqlServerName + serverSuffix,
       port: 5432,
@@ -35,24 +35,9 @@ module.exports = function(environment) {
     var client = new pg.Client(config);
     async.waterfall([
       function(callback) {
-        log.debug('Connecting to PostgreSQL server %s%s', credential.postgresqlServerName, serverSuffix);
+        log.debug('Connecting to PostgreSQL DB %s%s', credential.postgresqlServerName, serverSuffix);
         client.connect(function(err) {
-          var message = 'The PostgreSQL Server can %sbe connected.';
-          nextStep(err, message, callback);
-        });
-      },
-      function(callback) {
-        client.query('CREATE DATABASE testdb', function(err) {
-          var message = 'The user can %screate a new database in the PostgreSQL Server.';
-          nextStep(err, message, callback);
-        });
-      },
-      function(callback) {
-        client.end();
-        config.database = 'testdb';
-        client = new pg.Client(config);
-        client.connect(function(err) {
-          var message = 'The user can %sconnect to the new database in the PostgreSQL Server.';
+          var message = 'The PostgreSQL DB can %sbe connected.';
           nextStep(err, message, callback);
         });
       },

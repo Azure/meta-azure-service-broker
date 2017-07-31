@@ -37,7 +37,8 @@ describe('PostgreSqlDb - Provision - PreConditions', function () {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
                         }
-                    }
+                    },
+                    postgresqlDatabaseName: 'fake-db-name'
                 },
                 azure: azure
             };
@@ -61,13 +62,14 @@ describe('PostgreSqlDb - Provision - PreConditions', function () {
         });
 
         it('should fail to validate the parameters', function () {
-            (cp.getInvalidParams().length).should.equal(5);
+            (cp.getInvalidParams().length).should.equal(6);
             cp.getInvalidParams().should.deepEqual([
                 'resourceGroupName',
                 'location',
                 'postgresqlServerName',
                 'administratorLogin',
-                'administratorLoginPassword'
+                'administratorLoginPassword',
+                'postgresqlDatabaseName'
             ]);
         });
     });
@@ -95,7 +97,8 @@ describe('PostgreSqlDb - Provision - Execution', function () {
                         administratorLogin: 'fake-server-name',
                         administratorLoginPassword: 'c1oudc0w'
                     }
-                }
+                },
+                postgresqlDatabaseName: 'fake-db-name'
             },
             azure: azure
         };
@@ -128,6 +131,12 @@ describe('PostgreSqlDb - Provision - Execution', function () {
         it('should not callback error', function (done) {
             cp.provision(postgresqldbOps, function (err, result) {
                 should.not.exist(err);
+                result.body.resourceGroup.should.equal(params.parameters.resourceGroup);
+                result.body.postgresqlServerName.should.equal(params.parameters.postgresqlServerName);
+                result.body.administratorLogin.should.equal(params.parameters.postgresqlServerParameters.properties.administratorLogin);
+                result.body.administratorLoginPassword.should.equal(params.parameters.postgresqlServerParameters.properties.administratorLoginPassword);
+                result.body.serverPollingUrl.should.equal('fake-serverPollingUrl');
+                result.body.postgresqlDatabaseName.should.equal(params.parameters.postgresqlDatabaseName);
                 done();
             });
         });
@@ -173,7 +182,8 @@ describe('PostgreSqlDb - Provision - Firewall rules', function () {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
                         }
-                    }
+                    },
+                    postgresqlDatabaseName: 'fake-db-name'
                 },
                 azure: azure
             };
@@ -200,7 +210,8 @@ describe('PostgreSqlDb - Provision - Firewall rules', function () {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
                         }
-                    }
+                    },
+                    postgresqlDatabaseName: 'fake-db-name'
                 },
                 azure: azure
             };

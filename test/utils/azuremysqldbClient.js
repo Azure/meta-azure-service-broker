@@ -16,7 +16,7 @@ module.exports = function(environment) {
         host: credential.mysqlServerName + serverSuffix,
         user: util.format('%s@%s',  credential.administratorLogin, credential.mysqlServerName),
         password: credential.administratorLoginPassword,
-        database: 'mysql',
+        database: credential.mysqlDatabaseName,
         port: 3306
     };
     
@@ -35,25 +35,20 @@ module.exports = function(environment) {
       function(callback) {
         log.debug('Connecting to MySQL server %s%s', credential.mysqlServerName, serverSuffix);
         conn.connect(function(err) {
-          var message = 'The MySQL Server can %sbe connected.';
+          var message = 'The MySQL server can %sbe connected.';
           nextStep(err, message, callback);
         });
       },
       function(callback) {
-        conn.query('CREATE DATABASE testdb', function(err) {
-          var message = 'The user can %screate a new database in the MySQL Server.';
-          nextStep(err, message, callback);
-        });
-      },
-      function(callback) {
-        conn.query('USE testdb', function(err) {
-          var message = 'The user can %sswitch to the new database in the MySQL Server.';
+        log.debug('Switching to MySQL database %s', credential.mysqlDatabaseName);
+        conn.query('USE ' + credential.mysqlDatabaseName, function(err) {
+          var message = 'The user can %sswtich to MySQL Database.';
           nextStep(err, message, callback);
         });
       },
       function(callback) {
         conn.query('CREATE TABLE testtable(aaa char(10))', function(err) {
-          var message = 'The user can %screate a new table in the MySQL Database.';
+          var message = 'The user can %screate a new table on the MySQL Database.';
           nextStep(err, message, callback);
         });
       },
@@ -66,6 +61,12 @@ module.exports = function(environment) {
       function(callback) {
         conn.query('SELECT * FROM testtable', function(err) {
           var message = 'The user can %sget the row inserted.';
+          nextStep(err, message, callback);
+        });
+      },
+      function(callback) {
+        conn.query('CREATE DATABASE testdb', function(err) {
+          var message = 'The user can %screate another new database on the MySQL Server.';
           nextStep(err, message, callback);
         });
       }
