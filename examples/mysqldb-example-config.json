@@ -6,7 +6,7 @@
     "mysqlServerParameters": {
         "allowMysqlServerFirewallRules": [      // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
             {
-                "ruleName": "<rule-name-0>",    // // The rule name can only contain 0-9, a-z, A-Z, -, _, and cannot exceed 128 characters
+                "ruleName": "<rule-name-0>",    // The rule name can only contain 0-9, a-z, A-Z, -, _, and cannot exceed 128 characters
                 "startIpAddress": "xx.xx.xx.xx",
                 "endIpAddress": "xx.xx.xx.xx"
             },
@@ -19,12 +19,12 @@
         "properties": {
             "version": "5.6" | "5.7",
             "sslEnforcement": "Enabled" | "Disabled",
-            "storageMB": 51200 | 179200 | 307200 | ... | 947200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*3
+            "storageMB": 51200 | 179200 | 307200 | ... | 1075200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*8
             "administratorLogin": "<server-admin-name>",
             "administratorLoginPassword": "<server-admin-password>"
         }
     },
-    "mysqlDatabaseName": "<database-name>"      // [Required] Unique. Database name cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters. 
+    "mysqlDatabaseName": "<database-name>"      // [Required]
 }
 */
 

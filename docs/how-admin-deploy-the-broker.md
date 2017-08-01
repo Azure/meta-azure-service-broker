@@ -184,7 +184,13 @@
 
       * Modules default parameters
 
-          Default parameters can be set. Please refer the configuration files in the docs for these modules.
+          Default parameters can be set.
+          
+          1. If `Allow to Generate Names and Passwords for the Missing` set to `true`, the broker can fix those missing names and passwords in the parameters for creating service instances. Check `generated-string` in the [json examples](../examples/) for details.
+
+          1. `Default Resource Group` and `Default Location` can be set to fix missing resource group and location in the parameters for creating service instances.
+
+          1. For each service, you can set default parameters for it. The broker can fix those missing parameters in the parameters for creating service instances. Set them with `{}` if you don't require any fixing. The priority of this rule is higher than the rules above.
 
           ```
           ALLOW_TO_GENERATE_NAMES_AND_PASSWORDS_FOR_THE_MISSING: true
@@ -203,8 +209,12 @@
               }
           }'
           DEFAULT_PARAMETERS_AZURE_SERVICEBUS: '{
-              "type": "Messaging",
-              "messagingTier": "Standard"
+          }'
+          DEFAULT_PARAMETERS_AZURE_EVENTHUBS: '{
+              "eventHubProperties": {
+                  "messageRetentionInDays": 1,
+                  "partitionCount": 2
+              }
           }'
           DEFAULT_PARAMETERS_AZURE_STORAGE: '{
               "accountType": "Standard_LRS"
