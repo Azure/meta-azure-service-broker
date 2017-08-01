@@ -3,13 +3,22 @@ var statusCode = require('./statusCode');
 var supportedEnvironments = require('./supportedEnvironments');
 var async = require('async');
 var util = require('util');
+var mysql = require('mysql2');
+
+var MAX_RETRY = 3;
 
 module.exports = function(environment) {
   var clientName = 'azuremysqldbClient';
   var log = common.getLogger(clientName);
 
-  this.validateCredential = function(credential, next) {
-    var mysql = require('mysql2');
+  this.validateCredential = function validateCredential(credential, next, retryCount) {
+    if (retryCount === undefined) {
+      retryCount = 0;
+    }
+    
+    if (retryCount > 0) {
+      log.info('Retry E2E test, retryCount: %d', retryCount);
+    }
     
     var serverSuffix = supportedEnvironments[environment]['mysqlServerEndpointSuffix'];
     var config = {
@@ -30,6 +39,8 @@ module.exports = function(environment) {
       }
     }
 
+    var tableName = 'testtable' + Math.floor((Math.random() * 10000) + 1);
+    
     var conn = mysql.createConnection(config);
     async.waterfall([
       function(callback) {
@@ -47,19 +58,22 @@ module.exports = function(environment) {
         });
       },
       function(callback) {
-        conn.query('CREATE TABLE testtable(aaa char(10))', function(err) {
+        var query = util.format('CREATE TABLE %s(aaa char(10))', tableName);
+        conn.query(query, function(err) {
           var message = 'The user can %screate a new table on the MySQL Database.';
           nextStep(err, message, callback);
         });
       },
       function(callback) {
-        conn.query('INSERT INTO testtable(aaa) values (\'bbb\')', function(err) {
+        var qurey = util.format('INSERT INTO %s(aaa) values (\'bbb\')', tableName);
+        conn.query(qurey, function(err) {
           var message = 'The user can %sinsert a new row to the new table.';
           nextStep(err, message, callback);
         });
       },
       function(callback) {
-        conn.query('SELECT * FROM testtable', function(err) {
+        var qurey = util.format('SELECT * FROM %s', tableName);
+        conn.query(qurey, function(err) {
           var message = 'The user can %sget the row inserted.';
           nextStep(err, message, callback);
         });
@@ -73,7 +87,12 @@ module.exports = function(environment) {
     ],function(err){
       conn.end();
       if (err) {
-        next(statusCode.FAIL);
+        if (retryCount < MAX_RETRY) {
+          log.warn('E2E test failed. It is going to retry.');
+          setTimeout(function(){validateCredential(credential, next, retryCount + 1);}, 3000);
+        } else {
+          next(statusCode.FAIL);
+        }
       } else {
         next(statusCode.PASS);
       }
