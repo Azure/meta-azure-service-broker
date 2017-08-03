@@ -61,7 +61,7 @@
   1. Check whether deleting database succeeds or not.
 
 ### Update
-  1. Change the SQL Server password in the broker database to the supplied one.
+  1. Change the SQL Server password in the broker database to the supplied one or change the service plan.
 
 ## Create an Azure SQL Database service
 
@@ -365,3 +365,15 @@ If the SQL server credentials are modified, the service broker needs to be infor
 ```
 
 2) Inform the broker. `cf update-service mydb -c config.json`
+
+## Update the service plan
+
+This can be used to change the amount of resources allocated to the service instance.
+1) Get the name of the desired new service plan from `cf marketplace`
+2) Change the service plan `cf update-service mysqldb -p StandardS0`
+
+***Note:***
+
+Certain updates are not possible. For example, it is not possible to update from a standard plan to a datawarehouse one. 
+
+Example error message for this situation : `"code":"40882","message":"Can not change SLO from DataWarehouse edition to other SQL DB editions and vice versa."`

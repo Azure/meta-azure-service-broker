@@ -6,7 +6,8 @@
     "Greg Oliver <golive@microsoft.com>",
     "Zhongyi Zhang <zhongz@microsoft.com>",
     "Guoxun Wei <guwe@microsoft.com>",
-    "Abel Hu <abelch@microsoft.com>"
+    "Abel Hu <abelch@microsoft.com>",
+    "Nicolas Roy <niroy@microsoft.com>"
   ],
   "engines": {
     "node": ">= 4.2.4"

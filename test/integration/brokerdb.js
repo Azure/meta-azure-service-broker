@@ -32,7 +32,8 @@ var instance = {
     'provisioning_result': {
         'administratorLogin': 'user',
         'administratorLoginPassword': 'currentPassword425'
-    }
+    },
+    'state': {}
 };
 
 describe('Broker', function(){
