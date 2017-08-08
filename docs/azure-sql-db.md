@@ -117,11 +117,12 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
       "properties": {
          "administratorLogin": "<sql-server-admin-name>",
          "administratorLoginPassword": "<sql-server-admin-password>"
-      }
+      },
+      "connectionPolicy": "<policy>"            // [Optional] The acceptable values are: "Default" | "Redirect" | "Proxy". See details: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-connectivity-architecture
     },
-    "sqldbName": "<sql-database-name>",                         // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
-    "transparentDataEncryption": true | false,                  // Enable Transparent Data Encryption on the database. Defaults to false.
-    "sqldbParameters": {                                        // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+    "sqldbName": "<sql-database-name>",         // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
+    "transparentDataEncryption": true | false,  // Enable Transparent Data Encryption on the database. Defaults to false.
+    "sqldbParameters": {                        // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
       "properties": {
         "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
       }

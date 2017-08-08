@@ -38,6 +38,7 @@ describe('SqlDb - Provision - PreConditions', function () {
                             administratorLogin: 'fake-server-name',
                             administratorLoginPassword: 'c1oudc0w'
                         },
+                        connectionPolicy: 'Proxy',
                         tags: {
                             foo: 'bar'
                         }
@@ -244,6 +245,10 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
         
         // create firewall rule
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/firewallRules/newrule')
+            .yields(null, {statusCode: 200});
+        
+        // create connection policy
+        msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/connectionPolicies/Default')
             .yields(null, {statusCode: 200});
         
         // create db
