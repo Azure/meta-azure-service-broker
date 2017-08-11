@@ -53,7 +53,13 @@ azurepostgresqldb = {
     'postgresqlServerName': postgresqlServerName,
     'postgresqlDatabaseName': 'testpgsqldb',
     'postgresqlServerFullyQualifiedDomainName': '<string>',
-    'jdbcUrl': '<string>'
+    'jdbcUrl': '<string>',
+    'hostname': '<string>',
+    'port': 5432,
+    'name': '<string>',
+    'username': '<string>',
+    'password': '<string>',
+    'uri': '<string>'
   },
   e2e: true
 };

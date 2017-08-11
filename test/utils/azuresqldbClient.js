@@ -6,6 +6,7 @@ var msRestRequest = require('../../lib/common/msRestRequest');
 var util = require('util');
 var _ = require('underscore');
 var broker = require('../../brokerserver');
+var mssql = require('mssql');
 
 module.exports = function(environment) {
   var clientName = 'azuresqldbClient';
@@ -35,6 +36,14 @@ module.exports = function(environment) {
 
     var connection;
     async.waterfall([
+      function(callback) {
+        log.debug('Connecting to SQL server with uri: %s', credential.uri);
+        var conn = mssql.connect(credential.uri, function(err) {
+          conn.close();
+          var message = 'The SQL Database can %sbe connected with uri.';
+          nextStep(err, message, callback);
+        });
+      },
       function(callback) {
         log.debug('Connecting to SQL server %s%s and database %s', credential.sqlServerName, serverSuffix, credential.sqldbName);
         connection = new Connection(config);

@@ -180,10 +180,18 @@
     "postgresqlServerFullyQualifiedDomainName": "postgresqlservera.postgres.database.azure.com",
     "administratorLogin": "ulrich",
     "administratorLoginPassword": "u1r8chP@ss",
-    "jdbcUrl": "jdbc:postgresql://postgresqlservera.postgres.database.azure.com:5432/postgresqldba?user=ulrich@fake-server&password=u1r8chP@ss&ssl=true"
+    "jdbcUrl": "jdbc:postgresql://postgresqlservera.postgres.database.azure.com:5432/postgresqldba?user=ulrich@fake-server&password=u1r8chP@ss&ssl=true",
+    "hostname": "postgresqlservera.postgres.database.azure.com",
+    "port": 5432,
+    "name": "postgresqldba",
+    "username": "ulrich", 
+    "password": "u1r8chP@ss",
+    "uri": "postgres://ulrich@postgresqlservera:u1r8chP@ss@postgresqlservera.postgres.database.azure.com:5432/postgresqldba"
   }
 
   ```
+  
+  >**NOTE:** The part `hostname` - `uri` is compatible with [Cloud Foundry MySQL Release](https://github.com/cloudfoundry/cf-mysql-release).
   
 ## Unbinding
 

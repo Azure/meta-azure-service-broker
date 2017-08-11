@@ -187,10 +187,18 @@
     "mysqlServerFullyQualifiedDomainName": "mysqlservera.mysql.database.azure.com",
     "administratorLogin": "ulrich",
     "administratorLoginPassword": "u1r8chP@ss",
-    "jdbcUrl": "jdbc:mysql://mysqlservera.mysql.database.azure.com:3306/mysqldba?user=<administratorLogin>&password=<administratorLoginPassword>&verifyServerCertificate=true&useSSL=true&requireSSL=false"
+    "jdbcUrl": "jdbc:mysql://mysqlservera.mysql.database.azure.com:3306/mysqldba?user=<administratorLogin>&password=<administratorLoginPassword>&verifyServerCertificate=true&useSSL=true&requireSSL=false",
+    "hostname": "mysqlservera.mysql.database.azure.com",
+    "port": 3306,
+    "name": "mysqldba",
+    "username": "ulrich", 
+    "password": "u1r8chP@ss",
+    "uri": "mysql://ulrich@mysqlservera:u1r8chP@ss@mysqlservera.mysql.database.azure.com:3306/mysqldba?ssl=true"
   }
 
   ```
+  
+  >**NOTE:** The part `hostname` - `uri` is compatible with [Cloud Foundry MySQL Release](https://github.com/cloudfoundry/cf-mysql-release).
   
 ## Unbinding
 
