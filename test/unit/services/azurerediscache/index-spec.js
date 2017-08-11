@@ -65,11 +65,13 @@ describe('RedisCache - Index - Provision', function() {
             }
         };
         sinon.stub(redisClient, 'provision').yields(null, provisioningResult);
+        sinon.stub(resourceGroupClient, 'checkExistence').yields(null, false);
         sinon.stub(resourceGroupClient, 'createOrUpdate').yields(null);
     });
     
     after(function() {
         redisClient.provision.restore();
+        resourceGroupClient.checkExistence.restore();
         resourceGroupClient.createOrUpdate.restore();
     });
     

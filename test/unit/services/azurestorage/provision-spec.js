@@ -59,7 +59,11 @@ describe('Storage', function() {
           msRestRequest.POST = sinon.stub();
           msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/providers/Microsoft.Storage/checkNameAvailability')
             .yields(null, {statusCode: 200}, {nameAvailable: true});
-            
+          
+          msRestRequest.HEAD = sinon.stub();
+          msRestRequest.HEAD.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/test031702')
+            .yields(null, {statusCode: 404});
+
           msRestRequest.PUT = sinon.stub();
           msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/test031702')
             .yields(null, {statusCode: 200});
