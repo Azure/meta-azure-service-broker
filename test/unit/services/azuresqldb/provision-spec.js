@@ -226,12 +226,17 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
         cp = new cmdProvision(params);
         cp.fixupParameters();
         
+        msRestRequest.HEAD = sinon.stub();
         msRestRequest.PUT = sinon.stub();
         msRestRequest.GET = sinon.stub();
         
+        // check resource group existence
+        msRestRequest.HEAD.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name')
+            .yields(null, {statusCode: 404});
+            
         // create resource group
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name')
-            .yields(null, {statusCode: 200});  
+            .yields(null, {statusCode: 200});
         
         // create server
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')

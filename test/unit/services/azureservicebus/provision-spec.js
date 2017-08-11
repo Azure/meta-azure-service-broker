@@ -112,6 +112,10 @@ describe('ServiceBus', function() {
         msRestRequest.GET = sinon.stub();
         msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/mysbtest/providers/Microsoft.ServiceBus/namespaces/mysb')
           .yields(null, {statusCode: 404});
+        
+        msRestRequest.HEAD = sinon.stub();
+        msRestRequest.HEAD.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/mysbtest')
+          .yields(null, {statusCode: 404});
           
         msRestRequest.PUT = sinon.stub();
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/mysbtest')

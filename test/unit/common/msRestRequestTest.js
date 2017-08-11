@@ -36,15 +36,15 @@ describe('msRestRequest', function() {
 
   describe('when the token is not expired, statusCode is in AZURE_RETRY_ERROR_CODES, and retry successfully', function() {
     
-    var callTimes = 0;
+    var countCall;
     
     before(function() {
       require('request');
       require.cache[require.resolve('request')].exports = function(_, callback) {
-        ++callTimes;
-        if (callTimes == 1) {
+        ++countCall;
+        if (countCall == 1) {
           callback(null, {statusCode: 502}, {});
-        } else if (callTimes == 2) {
+        } else if (countCall == 2) {
           callback(null, {statusCode: 200}, {});
         } else {
           callback(Error('unexpected error'));
@@ -54,13 +54,45 @@ describe('msRestRequest', function() {
       msRestRequest = require('../../../lib/common/msRestRequest');
     });
     
+    beforeEach(function() {
+      countCall = 0;
+    });
+    
     after(function(){
       delete require.cache[require.resolve('request')];
     });
     
-    it('should not exist error', function(done) {
+    it('HEAD should not exist error', function(done) {
+      this.timeout(6000);
+      msRestRequest.HEAD('', {}, '', function(err) {
+        done(err);
+      });
+    });
+    
+    it('GET should not exist error', function(done) {
       this.timeout(6000);
       msRestRequest.GET('', {}, '', function(err) {
+        done(err);
+      });
+    });
+    
+    it('PUT should not exist error', function(done) {
+      this.timeout(6000);
+      msRestRequest.PUT('', {}, '', undefined, function(err) {
+        done(err);
+      });
+    });
+    
+    it('POST should not exist error', function(done) {
+      this.timeout(6000);
+      msRestRequest.POST('', {}, '', undefined, function(err) {
+        done(err);
+      });
+    });
+    
+    it('DELETE should not exist error', function(done) {
+      this.timeout(6000);
+      msRestRequest.DELETE('', {}, '', function(err) {
         done(err);
       });
     });
@@ -68,15 +100,15 @@ describe('msRestRequest', function() {
   
   describe('when the token is expired, statusCode is not in AZURE_RETRY_ERROR_CODES, and retry successfully', function() {
     
-    var callTimes = 0;
+    var countCall = 0;
     
     before(function() {
       require('request');
       require.cache[require.resolve('request')].exports = function(_, callback) {
-        ++callTimes;
-        if (callTimes == 1) {
+        ++countCall;
+        if (countCall == 1) {
           callback(null, {statusCode: 401}, {});
-        } else if (callTimes == 2) {
+        } else if (countCall == 2) {
           callback(null, {statusCode: 200}, {});
         } else {
           callback(Error('unexpected error'));
