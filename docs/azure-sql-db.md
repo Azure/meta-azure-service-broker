@@ -75,7 +75,7 @@
 
   ```
   service         plans                                                                                                                                                            description
-azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, PremiumP1*, PremiumP2*, PremiumP4*, PremiumP6*, PremiumP11*, DataWarehouse100*, DataWarehouse1200*   Azure SQL Database Service
+  azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, PremiumP1*, PremiumP2*, PremiumP4*, PremiumP6*, PremiumP11*, DataWarehouse100*, DataWarehouse1200*   Azure SQL Database Service
   ```
 
   If you can not find the service name, please use the following command to make the plans public.
@@ -280,7 +280,7 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
     "name": "sqlDbA",
     "username": "ulrich", 
     "password": "u1r8chP@ss",
-    "uri": "mssql://ulrich:u1r8chP@ss@fake-server.database.windows.net:1433/sqlDbA?encrypt=true"
+    "uri": "mssql://ulrich:u1r8chP@ss@fake-server.database.windows.net:1433/sqlDbA?encrypt=true&TrustServerCertificate=false&HostNameInCertificate=*.database.windows.net"
   }
 
   ```
