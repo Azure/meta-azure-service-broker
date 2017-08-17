@@ -59,7 +59,13 @@ azuresqldb = {
     'sqlServerFullyQualifiedDomainName': '<string>',
     'sqldbName': sqldbName,
     'jdbcUrl': '<string>',
-    'jdbcUrlForAuditingEnabled': '<string>'
+    'jdbcUrlForAuditingEnabled': '<string>',
+    'hostname': '<string>',
+    'port': 1433,
+    'name': '<string>',
+    'username': '<string>',
+    'password': '<string>',
+    'uri': '<string>'
   },
   e2e: true
 };

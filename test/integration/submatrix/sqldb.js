@@ -64,7 +64,13 @@ azuresqldb = {
     'sqlServerFullyQualifiedDomainName': '<string>',
     'sqldbName': sqldbName,
     'jdbcUrl': '<string>',
-    'jdbcUrlForAuditingEnabled': '<string>'
+    'jdbcUrlForAuditingEnabled': '<string>',
+    'hostname': '<string>',
+    'port': 1433,
+    'name': '<string>',
+    'username': '<string>',
+    'password': '<string>',
+    'uri': '<string>'
   },
   e2e: false,
   updateParameters: {
@@ -106,7 +112,8 @@ azuresqldb = {
       },
       'tags': {
         'foo': 'bar'
-      }
+      },
+      'connectionPolicy': 'Proxy'
     },
     'sqldbName': sqldbName,
     'transparentDataEncryption': true,
@@ -127,7 +134,13 @@ azuresqldb = {
     'sqlServerFullyQualifiedDomainName': '<string>',
     'sqldbName': sqldbName,
     'jdbcUrl': '<string>',
-    'jdbcUrlForAuditingEnabled': '<string>'
+    'jdbcUrlForAuditingEnabled': '<string>',
+    'hostname': '<string>',
+    'port': 1433,
+    'name': '<string>',
+    'username': '<string>',
+    'password': '<string>',
+    'uri': '<string>'
   },
   e2e: true
 };

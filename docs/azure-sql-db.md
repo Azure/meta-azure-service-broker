@@ -117,11 +117,12 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
       "properties": {
          "administratorLogin": "<sql-server-admin-name>",
          "administratorLoginPassword": "<sql-server-admin-password>"
-      }
+      },
+      "connectionPolicy": "<policy>"            // [Optional] The acceptable values are: "Default" | "Redirect" | "Proxy". The default value is "Default". See details: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-connectivity-architecture
     },
-    "sqldbName": "<sql-database-name>",                         // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
-    "transparentDataEncryption": true | false,                  // Enable Transparent Data Encryption on the database. Defaults to false.
-    "sqldbParameters": {                                        // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
+    "sqldbName": "<sql-database-name>",         // [Required] Not more than 128 characters. Can't end with '.' or ' ', can't contain '<,>,*,%,&,:,\,/,?' or control characters.
+    "transparentDataEncryption": true | false,  // Enable Transparent Data Encryption on the database. Defaults to false.
+    "sqldbParameters": {                        // If you want to set more child parameters, see details here: https://msdn.microsoft.com/en-us/library/azure/mt163685.aspx
       "properties": {
         "collation": "SQL_Latin1_General_CP1_CI_AS | <or-other-valid-sqldb-collation>"
       }
@@ -273,7 +274,13 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
     "databaseLogin": "ulrich",
     "databaseLoginPassword": "u1r8chP@ss",
     "jdbcUrl": "jdbc:sqlserver://fake-server.database.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password;Encrypt=true;TrustServerCertificate=false;HostNameInCertificate=*.database.windows.net;loginTimeout=30",
-    "jdbcUrlForAuditingEnabled": "jdbc:sqlserver://fake-server.database.secure.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password;Encrypt=true;TrustServerCertificate=false;HostNameInCertificate=*.database.secure.windows.net;loginTimeout=30"
+    "jdbcUrlForAuditingEnabled": "jdbc:sqlserver://fake-server.database.secure.windows.net:1433;database=fake-database;user=fake-admin;password=fake-password;Encrypt=true;TrustServerCertificate=false;HostNameInCertificate=*.database.secure.windows.net;loginTimeout=30",
+    "hostname": "fake-server.database.windows.net",
+    "port": 1433,
+    "name": "sqlDbA",
+    "username": "ulrich", 
+    "password": "u1r8chP@ss",
+    "uri": "mssql://ulrich:u1r8chP@ss@fake-server.database.windows.net:1433/sqlDbA?encrypt=true"
   }
 
   ```
@@ -287,6 +294,8 @@ azure-sqldb     basic*, StandardS0*, StandardS1*, StandardS2*, StandardS3*, Prem
       2. Follow this [doc](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/jre-open_jdk_jre.md#custom-ca-certificates), fork the [official java buildpack](https://github.com/cloudfoundry/java-buildpack) and add the `cacerts`.
 
       3. Push your app with the customized buildpack in #2.
+  
+  * The part `hostname` - `uri` is compatible with the community MySQL/PostgreSQL service broker.
 
 ## Unbinding
 

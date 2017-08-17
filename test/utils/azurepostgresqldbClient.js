@@ -1,8 +1,6 @@
 var common = require('../../lib/common');
 var statusCode = require('./statusCode');
-var supportedEnvironments = require('./supportedEnvironments');
 var async = require('async');
-var util = require('util');
 
 module.exports = function(environment) {
   var clientName = 'azurepostgresqldbClient';
@@ -10,17 +8,8 @@ module.exports = function(environment) {
 
   this.validateCredential = function(credential, next) {
     var pg = require('pg');
-    
-    var serverSuffix = supportedEnvironments[environment]['postgresqlServerEndpointSuffix'];
-    var config = {
-      user: util.format('%s@%s',  credential.administratorLogin, credential.postgresqlServerName),
-      database: credential.postgresqlDatabaseName,
-      password: credential.administratorLoginPassword,
-      host: credential.postgresqlServerName + serverSuffix,
-      port: 5432,
-      max: 10, // max number of clients in the pool
-      idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
-    };
+
+    var uri = credential.uri;
     
     function nextStep(err, message, callback) {
       if (err) {
@@ -32,10 +21,10 @@ module.exports = function(environment) {
       }
     }
 
-    var client = new pg.Client(config);
+    var client = new pg.Client(uri);
     async.waterfall([
       function(callback) {
-        log.debug('Connecting to PostgreSQL DB %s%s', credential.postgresqlServerName, serverSuffix);
+        log.debug('Connecting to PostgreSQL DB with uri: %s', uri);
         client.connect(function(err) {
           var message = 'The PostgreSQL DB can %sbe connected.';
           nextStep(err, message, callback);

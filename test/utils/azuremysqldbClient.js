@@ -1,6 +1,5 @@
 var common = require('../../lib/common');
 var statusCode = require('./statusCode');
-var supportedEnvironments = require('./supportedEnvironments');
 var async = require('async');
 var util = require('util');
 var mysql = require('mysql2');
@@ -19,15 +18,8 @@ module.exports = function(environment) {
     if (retryCount > 0) {
       log.info('Retry E2E test, retryCount: %d', retryCount);
     }
-    
-    var serverSuffix = supportedEnvironments[environment]['mysqlServerEndpointSuffix'];
-    var config = {
-        host: credential.mysqlServerName + serverSuffix,
-        user: util.format('%s@%s',  credential.administratorLogin, credential.mysqlServerName),
-        password: credential.administratorLoginPassword,
-        database: credential.mysqlDatabaseName,
-        port: 3306
-    };
+
+    var uri = credential.uri;
     
     function nextStep(err, message, callback) {
       if (err) {
@@ -41,12 +33,12 @@ module.exports = function(environment) {
 
     var tableName = 'testtable' + Math.floor((Math.random() * 10000) + 1);
     
-    var conn = mysql.createConnection(config);
+    var conn = mysql.createConnection(uri);
     async.waterfall([
       function(callback) {
-        log.debug('Connecting to MySQL server %s%s', credential.mysqlServerName, serverSuffix);
+        log.debug('Connecting to MySQL DB with uri: %s', uri);
         conn.connect(function(err) {
-          var message = 'The MySQL server can %sbe connected.';
+          var message = 'The MySQL DB can %sbe connected.';
           nextStep(err, message, callback);
         });
       },

@@ -83,7 +83,7 @@
           "properties": {
               "version": "9.5" | "9.6",
               "sslEnforcement": "Enabled" | "Disabled",
-              "storageMB": 51200 | 179200 | 307200 | ... | 947200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*3
+              "storageMB": 51200 | 179200 | 307200 | ... | 1075200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*8
               "administratorLogin": "<server-admin-name>",
               "administratorLoginPassword": "<server-admin-password>"
           }
@@ -180,10 +180,18 @@
     "postgresqlServerFullyQualifiedDomainName": "postgresqlservera.postgres.database.azure.com",
     "administratorLogin": "ulrich",
     "administratorLoginPassword": "u1r8chP@ss",
-    "jdbcUrl": "jdbc:postgresql://postgresqlservera.postgres.database.azure.com:5432/postgresqldba?user=ulrich@fake-server&password=u1r8chP@ss&ssl=true"
+    "jdbcUrl": "jdbc:postgresql://postgresqlservera.postgres.database.azure.com:5432/postgresqldba?user=ulrich@fake-server&password=u1r8chP@ss&ssl=true",
+    "hostname": "postgresqlservera.postgres.database.azure.com",
+    "port": 5432,
+    "name": "postgresqldba",
+    "username": "ulrich", 
+    "password": "u1r8chP@ss",
+    "uri": "postgres://ulrich@postgresqlservera:u1r8chP@ss@postgresqlservera.postgres.database.azure.com:5432/postgresqldba"
   }
 
   ```
+  
+  >**NOTE:** The part `hostname` - `uri` is compatible with [Cloud Foundry MySQL Release](https://github.com/cloudfoundry/cf-mysql-release).
   
 ## Unbinding
 

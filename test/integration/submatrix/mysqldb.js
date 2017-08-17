@@ -53,7 +53,13 @@ azuremysqldb = {
     'mysqlServerName': mysqlServerName,
     'mysqlServerFullyQualifiedDomainName': '<string>',
     'mysqlDatabaseName': 'testmysqldb',
-    'jdbcUrl': '<string>'
+    'jdbcUrl': '<string>',
+    'hostname': '<string>',
+    'port': 3306,
+    'name': '<string>',
+    'username': '<string>',
+    'password': '<string>',
+    'uri': '<string>'
   },
   e2e: true
 };

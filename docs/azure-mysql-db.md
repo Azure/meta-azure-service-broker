@@ -90,7 +90,7 @@
           "properties": {
               "version": "5.6" | "5.7",
               "sslEnforcement": "Enabled" | "Disabled",
-              "storageMB": 51200 | 179200 | 307200 | ... | 947200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*3
+              "storageMB": 51200 | 179200 | 307200 | ... | 1075200, // 51200, 51200+128000*1, 51200+128000*2 ... 51200+128000*8
               "administratorLogin": "<server-admin-name>",
               "administratorLoginPassword": "<server-admin-password>"
           }
@@ -187,10 +187,18 @@
     "mysqlServerFullyQualifiedDomainName": "mysqlservera.mysql.database.azure.com",
     "administratorLogin": "ulrich",
     "administratorLoginPassword": "u1r8chP@ss",
-    "jdbcUrl": "jdbc:mysql://mysqlservera.mysql.database.azure.com:3306/mysqldba?user=<administratorLogin>&password=<administratorLoginPassword>&verifyServerCertificate=true&useSSL=true&requireSSL=false"
+    "jdbcUrl": "jdbc:mysql://mysqlservera.mysql.database.azure.com:3306/mysqldba?user=<administratorLogin>&password=<administratorLoginPassword>&verifyServerCertificate=true&useSSL=true&requireSSL=false",
+    "hostname": "mysqlservera.mysql.database.azure.com",
+    "port": 3306,
+    "name": "mysqldba",
+    "username": "ulrich", 
+    "password": "u1r8chP@ss",
+    "uri": "mysql://ulrich@mysqlservera:u1r8chP@ss@mysqlservera.mysql.database.azure.com:3306/mysqldba?ssl=true"
   }
 
   ```
+  
+  >**NOTE:** The part `hostname` - `uri` is compatible with [Cloud Foundry MySQL Release](https://github.com/cloudfoundry/cf-mysql-release).
   
 ## Unbinding
 
