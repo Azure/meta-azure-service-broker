@@ -108,7 +108,7 @@ describe('EventHubs', function() {
             statusCode: 200,
             code: 'OK',
             value: {
-              description: 'Creating the namespace, state: Creating',
+              description: 'Creating the namespace, provisioningState: Creating',
               state: 'in progress'
             }
           };
@@ -126,57 +126,7 @@ describe('EventHubs', function() {
       });
     });
 
-    describe('When the provisioning state is Activating', function() {
-
-      before(function() {
-        validParams = {
-          instance_id: 'a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
-          last_operation: 'provision',
-          provisioning_result: {
-            'resourceGroupName':'cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
-            'namespaceName':'cfa6c5953cf5b211e5a5b700',
-            'eventHubName': 'testeh'
-          },
-          azure: azure,
-        };
-
-        msRestRequest.GET = sinon.stub();
-        msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5/providers/Microsoft.EventHub/namespaces/cfa6c5953cf5b211e5a5b700')
-          .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Activating"}}');
-      });
-
-      after(function () {
-        mockingHelper.restore();
-      });
-      
-      it('should return the state: in progress', function(done) {
-        azureeventhubs.poll(validParams, function(err, lastOperation, reply, result) {
-          should.not.exist(err);
-          lastOperation.should.equal('provision');
-
-          var replyExpected = {
-            statusCode: 200,
-            code: 'OK',
-            value: {
-              description: 'Creating the namespace, state: Activating',
-              state: 'in progress'
-            }
-          };
-          reply.should.eql(replyExpected);
-
-          var resultExpected = {
-              resourceGroupName: 'cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
-              namespaceName: 'cfa6c5953cf5b211e5a5b700',
-              eventHubName: 'testeh'
-          };
-          result.should.eql(resultExpected);
-
-          done();
-        });
-      });
-    });
-
-    describe('When the provisioning state is Enabling', function() {
+    describe('When the provisioning state is Failed', function() {
 
       before(function() {
         validParams = {
@@ -192,35 +142,18 @@ describe('EventHubs', function() {
         
         msRestRequest.GET = sinon.stub();
         msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5/providers/Microsoft.EventHub/namespaces/cfa6c5953cf5b211e5a5b700')
-          .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Enabling"}}');
+          .yields(null, {statusCode: 200}, '{"properties":{"provisioningState":"Failed"}}');
       });
 
       after(function () {
         mockingHelper.restore();
       });
       
-      it('should return the state: in progress', function(done) {
+      it('should return an error', function(done) {
         azureeventhubs.poll(validParams, function(err, lastOperation, reply, result) {
-          should.not.exist(err);
+          should.exist(err);
+          err.description.should.equal('Failed to provision the namespace');
           lastOperation.should.equal('provision');
-
-          var replyExpected = {
-            statusCode: 200,
-            code: 'OK',
-            value: {
-              description: 'Creating the namespace, state: Enabling',
-              state: 'in progress'
-            }
-          };
-          reply.should.eql(replyExpected);
-
-          var resultExpected = {
-              resourceGroupName: 'cloud-foundry-a6c5953c-f5b2-11e5-a5b7-000d3a80e5f5',
-              namespaceName: 'cfa6c5953cf5b211e5a5b700',
-              eventHubName: 'testeh'
-          };
-          result.should.eql(resultExpected);
-
           done();
         });
       });
