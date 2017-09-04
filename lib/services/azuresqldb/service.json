@@ -69,8 +69,7 @@
                     "createMode": "Default",
                     "edition": "Standard",
                     "maxSizeBytes": "268435456000",
-                    "requestedServiceObjectiveName": "S0",
-                    "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b"
+                    "requestedServiceObjectiveName": "S0"
                 }
             }
         }, {
@@ -100,8 +99,7 @@
                     "createMode": "Default",
                     "edition": "Standard",
                     "maxSizeBytes": "268435456000",
-                    "requestedServiceObjectiveName": "S1",
-                    "requestedServiceObjectiveId": "1b1ebd4d-d903-4baa-97f9-4ea675f5e928"
+                    "requestedServiceObjectiveName": "S1"
                 }
             }
         }, {
