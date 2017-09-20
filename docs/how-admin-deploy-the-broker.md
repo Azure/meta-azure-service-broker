@@ -4,6 +4,8 @@
 
 * Install git on your machine, no matter it is a local workstation or the devbox on Azure.
 
+* [Install NodeJS](https://nodejs.org/en/download/package-manager/).
+
 * Install [CF CLI](https://github.com/cloudfoundry/cli), and login to Cloud Foundry. Please refer to [Login CF](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/get-started/push-demo-app.md#1-configure-cf-environment).
 
 * A SQL database to store the data of the meta service broker
@@ -305,12 +307,19 @@ cf create-service-broker demo-service-broker demouser demopassword http://meta-a
 ## Make the plans public
 
 ```
-cf enable-service-access $service-name
+cf enable-service-access <service-name>
 ```
 
 For example:
 
 ```
+cf enable-service-access azure-cosmosdb
+cf enable-service-access azure-eventhubs
+cf enable-service-access azure-mysqldb
+cf enable-service-access azure-postgresqldb
+cf enable-service-access azure-rediscache
+cf enable-service-access azure-servicebus
+cf enable-service-access azure-sqldb
 cf enable-service-access azure-storage
 ```
 
