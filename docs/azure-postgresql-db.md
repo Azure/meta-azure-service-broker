@@ -184,9 +184,9 @@
     "hostname": "postgresqlservera.postgres.database.azure.com",
     "port": 5432,
     "name": "postgresqldba",
-    "username": "ulrich", 
+    "username": "ulrich@postgresqlservera", 
     "password": "u1r8chP@ss",
-    "uri": "postgres://ulrich@postgresqlservera:u1r8chP@ss@postgresqlservera.postgres.database.azure.com:5432/postgresqldba"
+    "uri": "postgres://ulrich%40postgresqlservera:u1r8chP@ss@postgresqlservera.postgres.database.azure.com:5432/postgresqldba"
   }
 
   ```
