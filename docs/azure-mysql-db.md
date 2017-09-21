@@ -191,9 +191,9 @@
     "hostname": "mysqlservera.mysql.database.azure.com",
     "port": 3306,
     "name": "mysqldba",
-    "username": "ulrich", 
+    "username": "ulrich@mysqlservera", 
     "password": "u1r8chP@ss",
-    "uri": "mysql://ulrich@mysqlservera:u1r8chP@ss@mysqlservera.mysql.database.azure.com:3306/mysqldba?ssl=true"
+    "uri": "mysql://ulrich%40mysqlservera:u1r8chP@ss@mysqlservera.mysql.database.azure.com:3306/mysqldba?ssl=true"
   }
 
   ```
