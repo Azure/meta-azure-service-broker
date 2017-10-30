@@ -30,7 +30,7 @@ packages:
     cf delete-quota -f azure-service-broker-org-quota
   manifest:
     path: resources/meta-azure-service-broker.zip
-    buildpack: https://github.com/cloudfoundry/nodejs-buildpack
+    buildpack: nodejs_buildpack
     instances: 1
 
 # Include stemcell criteria if you don't want to accept the default.

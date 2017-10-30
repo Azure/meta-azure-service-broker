@@ -26,5 +26,6 @@
   "sub": true,
   "trailing": true,
   "undef": true,
-  "unused": false
+  "unused": false,
+  "esversion": 6
 }

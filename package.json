@@ -10,9 +10,9 @@
     "Nicolas Roy <niroy@microsoft.com>"
   ],
   "engines": {
-    "node": ">= 4.2.4"
+    "node": ">= 6.10.0"
   },
-  "version": "1.4.0",
+  "version": "1.5.2",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
   "tags": [
     "service broker",
