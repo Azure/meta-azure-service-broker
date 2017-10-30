@@ -7,7 +7,7 @@ services:
 - docker
 sudo: required
 node_js:
-- '4.2'
+- '6.10'
 script:
 - npm test
 - make docker-build
