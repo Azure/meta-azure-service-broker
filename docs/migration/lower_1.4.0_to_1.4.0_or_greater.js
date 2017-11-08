@@ -1,5 +1,5 @@
 /* 
- * This is a script for migrating Azure Service Broker from 1.2.1 to 1.3.0 or greater.
+ * This is a script for migrating Azure Service Broker from lower than 1.4.0 to 1.4.0 or greater.
  * Usage: "node migration.js <path-to-manifest.yml>"
  * NOTE: The version of node module 'mssql' is 3.1.2.
  *       The version of node module 'js-yaml' is 3.1.0.
