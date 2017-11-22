@@ -1,0 +1,92 @@
+# Migrate to new azure service broker
+
+This is a guidance how to migrate meta-azure-service-broker to [azure-service-broker](https://github.com/Azure/azure-service-broker).
+
+## Prerequisites
+
+* The Azure environment of meta-azure-service-broker is public Azure (as azure-service-broker only supports public Azure currently). 
+
+* The meta-azure-service-broker version in using is equal or greater than 1.4.0.
+
+* You have succeeded to `cf push` [azure-service-broker](https://github.com/Azure/azure-service-broker) and haven't used `cf create-service-broker` to register it as service broker.
+
+* There is no existing instance for the services listed:
+  * azure-mysqldb
+  * azure-postgresqldb
+  * azure-cosmosdb
+  * azure-documentdb
+
+* Have NodeJS 6 or greater installed. Have NPM 3.x installed.
+
+* Have Golang 1.8.3 installed.
+
+## Migration Steps
+
+### 1. Purge services offering via CF CLI
+
+As above listed services are not able to migrate. We need to purge them via CF CLI. run:
+
+```
+$ cf purge-service-offering azure-mysqldb -f
+$ cf purge-service-offering azure-postgresqldb -f
+$ cf purge-service-offering azure-cosmosdb -f
+$ cf purge-service-offering azure-documentdb -f
+```
+
+>>**WARNING**: `cf purge-service-offering SERVICE` assumes that the service broker responsible for this service offering is no longer available, and all service instances have been deleted. The resources of these instances are still on Azure. You can manually migrate them.
+
+### 2. Migrate service instances records from meta-azure-service-broker database(the SQL one) to azure-service-broker database(the redis one).
+
+1. Download migration scripts:
+
+```
+curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker.sh
+curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker.js
+curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker_helper_pc.go
+curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker_helper_bc.go
+```
+
+2. Get the `manifest.yml`(filled for `cf push`) of both meta-azure-service-broker and azure-service-broker.
+
+3. Run:
+
+```
+$ chmod +x migrate_to_new_azure_service_broker.sh
+$ ./migrate_to_new_azure_service_broker.sh <path-to-masb-manifest> <path-to-asb-manifest>
+```
+
+The broker database migration succeeds if the script ends with no error message.
+
+### 3. Update service broker via CF CLI
+
+Run:
+
+```
+$ cf update-service-broker <service-broker-name> <admin-to-new-broker> <password-to-new-broker> <url-to-new-broker>
+```
+
+The `<service-broker-name>` can be checked by `cf service-brokers` if you forget which name meta-azure-service-broker was registered with.
+
+## Notes (IMPORTANT)
+
+* The bound apps possiblely need some code changes, as the format of credentials delivered by the broker have some changes. Please refer to [azure-service-broker docs](fake-link) and [meta-azure-service-broker docs](https://github.com/Azure/meta-azure-service-broker/tree/master/docs) to see the differences module-by-module in detail. Note that the credentials just change in new bindings. Credentials in existing bindings won't change.
+
+* The provisioning parameters changes. If you use script to provide provisioning parameters for new service instance creation, remember to update it.
+
+## Troubleshooting
+
+* If you hit `invalid_client` issue, `tenant` issue, or `subscription` issue:
+
+  Please check following credentials in the meta-azure-service-broker manifest:
+    * SUBSCRIPTION_ID
+    * TENANT_ID
+    * CLIENT_ID
+    * CLIENT_SECRET
+  
+* If you hit `Broken instance record` issue:
+  
+  Please check if the record is valid in meta-azure-service-broker database by running `select * from instances where instanceID='<instanceID>'`. Delete it and retry if it is invalid.
+
+* If you hit `Broken binding record` issue:
+  
+  Please check if the record is valid in meta-azure-service-broker database by running `select * from bindings where bindingID='<bindingID>'`. Delete it and retry if it is invalid.

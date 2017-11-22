@@ -1,5 +1,7 @@
 # Meta Azure Service Broker
 
+**This repo has been in maintenance mode. We strongly recommend the new [azure service broker](https://github.com/Azure/azure-service-broker). You can follow the [migration document](/docs/migration/migrate_to_new_azure_service_broker.md) if you have existing service instances created by meta-azure-service-broker.**
+
 [![Build Status](https://api.travis-ci.org/Azure/meta-azure-service-broker.svg?branch=master)](https://travis-ci.org/Azure/meta-azure-service-broker)
 
 [Cloud Foundry on Azure is generally available.](https://azure.microsoft.com/en-us/blog/general-availability-of-cloud-foundry-and-preview-access-of-pivotal-cloud-foundry/) If you want to try it, please follow [the guidance](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md).
