@@ -142,12 +142,13 @@ function getSpConfigurations(env) {
   return config;
 };
 
-function insert_pc(instanceID, serviceID, planID, pc, redis_config, callback){
+function insert_pc(instanceID, serviceID, planID, rg, pc, redis_config, callback){
   var goCmd = util.format(
-    'go run migrate_to_new_azure_service_broker_helper_pc.go \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\"',
+    'go run migrate_to_new_azure_service_broker_helper_pc.go \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\"',
     instanceID,
     serviceID,
     planID,
+    rg,
     pc,
     redis_config['host'],
     redis_config['password'],
@@ -228,8 +229,7 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
         function(callback){
           // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/mssql/types.go
           var pc = util.format(
-            '{\\\"resourceGroup\\\":\\\"%s\\\",' +
-              '\\\"armDeployment\\\":\\\"test\\\",' +
+            '{\\\"armDeployment\\\":\\\"test\\\",' +
               '\\\"server\\\":\\\"%s\\\",' +
               '\\\"isNewServer\\\":false,' +
               '\\\"location\\\":\\\"%s\\\",' +
@@ -237,7 +237,6 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
               '\\\"administratorLoginPassword\\\":\\\"%s\\\",' +
               '\\\"database\\\":\\\"%s\\\",' +
               '\\\"fullyQualifiedDomainName\\\":\\\"%s\\\"}',
-            rg,
             server,
             location,
             administratorLogin,
@@ -246,7 +245,7 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
             fullyQualifiedDomainName
           );
 
-          insert_pc(instanceID, serviceID, planID, pc, redis_config, callback);
+          insert_pc(instanceID, serviceID, planID, rg, pc, redis_config, callback);
         },
         function(callback){
           var sql = util.format('SELECT * FROM bindings WHERE instanceId=\'%s\'', instanceID);
@@ -332,18 +331,16 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
         function(callback){
           // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/rediscache/types.go
           var pc = util.format(
-            '{\\\"resourceGroup\\\":\\\"%s\\\",' +
-              '\\\"armDeployment\\\":\\\"test\\\",' +
+            '{\\\"armDeployment\\\":\\\"test\\\",' +
               '\\\"server\\\":\\\"%s\\\",' +
               '\\\"primaryKey\\\":\\\"%s\\\",' +
               '\\\"fullyQualifiedDomainName\\\":\\\"%s\\\"}',
-            rg,
             server,
             key,
             fqdn
           );
 
-          insert_pc(instanceID, serviceID, planID, pc, redis_config, callback);
+          insert_pc(instanceID, serviceID, planID, rg, pc, redis_config, callback);
         },
         function(callback){
           var sql = util.format('SELECT * FROM bindings WHERE instanceId=\'%s\'', instanceID);
@@ -421,17 +418,15 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
         function(callback){
           // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/storage/types.go
           var pc = util.format(
-            '{\\\"resourceGroup\\\":\\\"%s\\\",' +
-              '\\\"armDeployment\\\":\\\"test\\\",' +
+            '{\\\"armDeployment\\\":\\\"test\\\",' +
               '\\\"storageAccountName\\\":\\\"%s\\\",' +
               '\\\"accessKey\\\":\\\"%s\\\",' +
               '\\\"containerName\\\":\\\"\\\"}',
-            rg,
             accountName,
             key
           );
 
-          insert_pc(instanceID, serviceID, planID, pc, redis_config, callback);
+          insert_pc(instanceID, serviceID, planID, rg, pc, redis_config, callback);
         },
         function(callback){
           var sql = util.format('SELECT * FROM bindings WHERE instanceId=\'%s\'', instanceID);
@@ -511,18 +506,16 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
         function(callback){
           // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/servicebus/types.go
           var pc = util.format(
-            '{\\\"resourceGroup\\\":\\\"%s\\\",' +
-              '\\\"armDeployment\\\":\\\"test\\\",' +
+            '{\\\"armDeployment\\\":\\\"test\\\",' +
               '\\\"serviceBusNamespaceName\\\":\\\"%s\\\",' +
               '\\\"connectionString\\\":\\\"%s\\\",' +
               '\\\"primaryKey\\\":\\\"%s\\\"}',
-            rg,
             namespaceName,
             connectionString,
             key
           );
 
-          insert_pc(instanceID, serviceID, planID, pc, redis_config, callback);
+          insert_pc(instanceID, serviceID, planID, rg, pc, redis_config, callback);
         },
         function(callback){
           var sql = util.format('SELECT * FROM bindings WHERE instanceId=\'%s\'', instanceID);
@@ -601,22 +594,20 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
           });
         },
         function(callback){
-          // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/eventhub/types.go
+          // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/eventhub/types.go          
           var pc = util.format(
-            '{\\\"resourceGroup\\\":\\\"%s\\\",' +
-              '\\\"armDeployment\\\":\\\"test\\\",' +
+            '{\\\"armDeployment\\\":\\\"test\\\",' +
               '\\\"eventHubName\\\":\\\"%s\\\",' +
               '\\\"eventHubNamespace\\\":\\\"%s\\\",' +
               '\\\"connectionString\\\":\\\"%s\\\",' +
               '\\\"primaryKey\\\":\\\"%s\\\"}',
-            rg,
             eventhubName,
             namespaceName,
             connectionString,
             key
           );
 
-          insert_pc(instanceID, serviceID, planID, pc, redis_config, callback);
+          insert_pc(instanceID, serviceID, planID, rg, pc, redis_config, callback);
         },
         function(callback){
           var sql = util.format('SELECT * FROM bindings WHERE instanceId=\'%s\'', instanceID);
