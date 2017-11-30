@@ -225,19 +225,21 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
         return callback(Error('Broken instance record.'));
       }
       
+      var isNewServer = (new_sql_servers.indexOf(instanceID) > -1) ? true : false;
       async.waterfall([
         function(callback){
           // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/mssql/types.go
           var pc = util.format(
             '{\\\"armDeployment\\\":\\\"test\\\",' +
               '\\\"server\\\":\\\"%s\\\",' +
-              '\\\"isNewServer\\\":false,' +
+              '\\\"isNewServer\\\":%s,' +
               '\\\"location\\\":\\\"%s\\\",' +
               '\\\"administratorLogin\\\":\\\"%s\\\",' +
               '\\\"administratorLoginPassword\\\":\\\"%s\\\",' +
               '\\\"database\\\":\\\"%s\\\",' +
               '\\\"fullyQualifiedDomainName\\\":\\\"%s\\\"}',
             server,
+            isNewServer,
             location,
             administratorLogin,
             administratorLoginPassword,
@@ -652,6 +654,15 @@ var sp_config = getSpConfigurations(doc.applications[0].env);
 assert(process.argv[3] != undefined);
 var doc2 = yaml.safeLoad(fs.readFileSync(process.argv[3], 'utf8'));
 var redis_config = getRedisConfigurations(doc2.applications[0].env);
+
+var new_sql_servers = [];
+if (process.argv[4] != undefined) {
+  var buf = fs.readFileSync(process.argv[4], "utf8");
+
+  new_sql_servers = buf.replace(new RegExp('\r', 'g'), '')
+                       .split('\n')
+                       .map(Function.prototype.call, String.prototype.trim);
+}
 
 async.waterfall([
   function(callback){

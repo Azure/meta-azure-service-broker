@@ -22,7 +22,21 @@ This is a guidance how to migrate meta-azure-service-broker to [azure-service-br
 
 ## Migration Steps
 
-### 1. Purge services offering via CF CLI
+### 1. If you have azure-sqldb instances which are not on an existing server, prepare a list of their instance GUIDs.
+
+With the format in a plain text file:
+
+```
+d008a572-1ded-45b0-a2fe-4bb0fdedb645
+325aedac-c2c3-47f4-a8fa-0b6dc343f94f
+6641fdfb-abef-4303-ad29-f055c1ca66cc
+```
+
+>>Tip: The CF CLI command `cf service <instance-name> --guid` can check the GUID of a service instance.
+
+For the azure-sqldb instances without the list, the migration script will treat them as existing server case.
+
+### 2. Purge services offering via CF CLI
 
 As above listed services are not able to migrate. We need to purge them via CF CLI. run:
 
@@ -35,7 +49,7 @@ $ cf purge-service-offering azure-documentdb -f
 
 >>**WARNING**: `cf purge-service-offering SERVICE` assumes that the service broker responsible for this service offering is no longer available, and all service instances have been deleted. The resources of these instances are still on Azure. You can manually migrate them.
 
-### 2. Migrate service instances records from meta-azure-service-broker database(the SQL one) to azure-service-broker database(the redis one).
+### 3. Migrate service instances records from meta-azure-service-broker database(the SQL one) to azure-service-broker database(the redis one).
 
 1. Download migration scripts:
 
@@ -52,12 +66,12 @@ curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/mas
 
 ```
 $ chmod +x migrate_to_new_azure_service_broker.sh
-$ ./migrate_to_new_azure_service_broker.sh <path-to-masb-manifest> <path-to-asb-manifest>
+$ ./migrate_to_new_azure_service_broker.sh <path-to-masb-manifest> <path-to-asb-manifest> (<path-to-new-sql-server-list>)
 ```
 
 The broker database migration succeeds if the script ends with no error message.
 
-### 3. Update service broker via CF CLI
+### 4. Update service broker via CF CLI
 
 Run:
 
