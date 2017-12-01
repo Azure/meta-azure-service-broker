@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/Azure/azure-service-broker/pkg/crypto/aes256"
-	"github.com/Azure/azure-service-broker/pkg/service"
+	"github.com/Azure/open-service-broker-azure/pkg/crypto/aes256"
+	"github.com/Azure/open-service-broker-azure/pkg/service"
 	"github.com/go-redis/redis"
 )
 

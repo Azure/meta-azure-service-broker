@@ -1,14 +1,14 @@
 # Migrate to new azure service broker
 
-This is a guidance how to migrate meta-azure-service-broker to [azure-service-broker](https://github.com/Azure/azure-service-broker).
+This is a guidance how to migrate meta-azure-service-broker to [open-service-broker-azure](https://github.com/Azure/open-service-broker-azure).
 
 ## Prerequisites
 
-* The Azure environment of meta-azure-service-broker is public Azure (as azure-service-broker only supports public Azure currently). 
+* The Azure environment of meta-azure-service-broker is public Azure (as open-service-broker-azure only supports public Azure currently). 
 
 * The meta-azure-service-broker version in using is equal or greater than 1.4.0.
 
-* You have succeeded to `cf push` [azure-service-broker](https://github.com/Azure/azure-service-broker) and haven't used `cf create-service-broker` to register it as service broker.
+* You have succeeded to `cf push` [open-service-broker-azure](https://github.com/Azure/open-service-broker-azure) and haven't used `cf create-service-broker` to register it as service broker.
 
 * There is no existing instance for the services listed:
   * azure-mysqldb
@@ -49,7 +49,7 @@ $ cf purge-service-offering azure-documentdb -f
 
 >>**WARNING**: `cf purge-service-offering SERVICE` assumes that the service broker responsible for this service offering is no longer available, and all service instances have been deleted. The resources of these instances are still on Azure. You can manually migrate them.
 
-### 3. Migrate service instances records from meta-azure-service-broker database(the SQL one) to azure-service-broker database(the redis one).
+### 3. Migrate service instances records from meta-azure-service-broker database(the SQL one) to open-service-broker-azure database(the redis one).
 
 1. Download migration scripts:
 
@@ -60,7 +60,7 @@ curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/mas
 curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker_helper_bc.go
 ```
 
-2. Get the `manifest.yml`(filled for `cf push`) of both meta-azure-service-broker and azure-service-broker.
+2. Get the `manifest.yml`(filled for `cf push`) of both meta-azure-service-broker and open-service-broker-azure.
 
 3. Run:
 
@@ -83,7 +83,7 @@ The `<service-broker-name>` can be checked by `cf service-brokers` if you forget
 
 ## Notes (IMPORTANT)
 
-* The bound apps possiblely need some code changes, as the format of credentials delivered by the broker have some changes. Please refer to [azure-service-broker docs](fake-link) and [meta-azure-service-broker docs](https://github.com/Azure/meta-azure-service-broker/tree/master/docs) to see the differences module-by-module in detail. Note that the credentials just change in new bindings. Credentials in existing bindings won't change.
+* The bound apps possiblely need some code changes, as the format of credentials delivered by the broker have some changes. Please refer to [open-service-broker-azure docs](fake-link) and [meta-azure-service-broker docs](https://github.com/Azure/meta-azure-service-broker/tree/master/docs) to see the differences module-by-module in detail. Note that the credentials just change in new bindings. Credentials in existing bindings won't change.
 
 * The provisioning parameters changes. If you use script to provide provisioning parameters for new service instance creation, remember to update it.
 

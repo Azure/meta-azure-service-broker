@@ -1,6 +1,6 @@
 # Meta Azure Service Broker
 
-**This repo has been in maintenance mode. We strongly recommend the new [azure service broker](https://github.com/Azure/azure-service-broker). You can follow the [migration document](/docs/migration/migrate_to_new_azure_service_broker.md) if you have existing service instances created by meta-azure-service-broker.**
+**This repo has been in maintenance mode. We strongly recommend the new [azure service broker](https://github.com/Azure/open-service-broker-azure). You can follow the [migration document](/docs/migration/migrate_to_new_azure_service_broker.md) if you have existing service instances created by meta-azure-service-broker.**
 
 [![Build Status](https://api.travis-ci.org/Azure/meta-azure-service-broker.svg?branch=master)](https://travis-ci.org/Azure/meta-azure-service-broker)
 
