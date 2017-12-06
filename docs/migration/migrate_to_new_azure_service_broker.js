@@ -51,7 +51,6 @@ function listKeys(sp_config, rg, provider, name, api_version, callback) {
         return callback(error);
       }
       if (response.statusCode == 200) {
-        console.log(body);
         callback(null, JSON.parse(body));
       } else {
         callback(response.statusCode + ' ' + body);
@@ -126,6 +125,7 @@ function getMssqlConfigurations(env) {
 function getRedisConfigurations(env) {
   var config = {
     'host': env['REDIS_HOST'],
+    'port': env['REDIS_PORT'],
     'password': env['REDIS_PASSWORD'],
     'aes_key': env['AES256_KEY']
   };
@@ -150,7 +150,7 @@ function insert_pc(instanceID, serviceID, planID, rg, pc, redis_config, callback
     planID,
     rg,
     pc,
-    redis_config['host'],
+    redis_config['host'] + ":" + redis_config['port'],
     redis_config['password'],
     redis_config['aes_key']
   );
@@ -171,11 +171,11 @@ function insert_pc(instanceID, serviceID, planID, rg, pc, redis_config, callback
 
 function insert_bc(bindingID, instanceID, bc, redis_config, callback){
   var goCmd2 = util.format(
-    'go run migrate_to_new_azure_service_broker_helper_bc.go \"%s\" \"%s\" \"%s\" ',
+    'go run migrate_to_new_azure_service_broker_helper_bc.go \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" ',
     bindingID,
     instanceID,
     bc,
-    redis_config['host'],
+    redis_config['host'] + ":" + redis_config['port'],
     redis_config['password'],
     redis_config['aes_key']
   );
@@ -193,16 +193,16 @@ function insert_bc(bindingID, instanceID, bc, redis_config, callback){
     callback(null);
   });
 }
-            
+
 function migrate_azure_sqldb(mssql_config, redis_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-sqldb-%\'';
-  
+
   console.log('Getting records of azure-sqldb instances...');
   executeSql(mssql_config, sql, function(err, results) {
     if (err) {
       callback(err);
     }
-    
+
     async.eachSeries(results, function(result, callback){
       var instanceID = result.instanceId;
       console.log('  Migrating instance with ID %s ...', instanceID);
@@ -210,7 +210,7 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
       var planID = result.planId;
       var parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
       var provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
-      
+
       var rg = provisioningResult.resourceGroup ? provisioningResult.resourceGroup : parameters.resourceGroup;
       var server = provisioningResult.sqlServerName ? provisioningResult.sqlServerName : parameters.sqlServerName;
       var location = provisioningResult.location ? provisioningResult.location : parameters.location;
@@ -218,13 +218,13 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
       var administratorLoginPassword = provisioningResult.administratorLoginPassword;
       var database = provisioningResult.name ? provisioningResult.name : parameters.sqldbName;
       var fullyQualifiedDomainName = provisioningResult.fullyQualifiedDomainName;
-      
+
       if (!(instanceID && serviceID && planID && rg && server && location &&
             administratorLogin && administratorLoginPassword &&
             database && fullyQualifiedDomainName)) {
         return callback(Error('Broken instance record.'));
       }
-      
+
       var isNewServer = (new_sql_servers.indexOf(instanceID) > -1) ? true : false;
       async.waterfall([
         function(callback){
@@ -255,20 +255,20 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
             if (err) {
               callback(err);
             }
-            
+
             async.eachSeries(results, function(result, callback) {
               var bindingResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.bindingId, result.bindingResult));
               var bindingID = result.bindingId;
               console.log('    Migrating binding with id %s ...', bindingID);
               var databaseLogin = bindingResult.databaseLogin;
-              
+
               if (!databaseLogin) {
                 return callback(Error('Broken binding record without databaseLogin.'));
               }
               if (!bindingID) {
                 return callback(Error('Broken binding record without bindingID.'));
               }
-              
+
               var bc = util.format(
                 '{\\\"loginName\\\":\\\"%s\\\"}',
                 databaseLogin
@@ -278,7 +278,7 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
             }, function(err){
               callback(err);
             });
-            
+
           });
         }
       ], function(err){
@@ -287,19 +287,19 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
     }, function(err) {
       callback(err);
     });
-    
+
   });
 }
-      
+
 function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-rediscache-%\'';
-  
+
   console.log('Getting records of azure-rediscache instances...');
   executeSql(mssql_config, sql, function(err, results) {
     if (err) {
       callback(err);
     }
-    
+
     async.eachSeries(results, function(result, callback){
       var instanceID = result.instanceId;
       console.log('  Migrating instance with ID %s ...', instanceID);
@@ -307,16 +307,16 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
       var planID = result.planId;
       var parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
       var provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
-      
+
       var rg = provisioningResult.resourceGroup ? provisioningResult.resourceGroup : parameters.resourceGroup;
       var server = provisioningResult.name ? provisioningResult.name : parameters.cacheName;
       var key;
       var fqdn = provisioningResult.hostName;
-      
+
       if (!(instanceID && serviceID && planID && rg && server && fqdn)) {
         return callback(Error('Broken instance record.'));
       }
-      
+
       async.waterfall([
         function(callback){
           listKeys(sp_config, rg, 'Microsoft.Cache/Redis', server, '2016-04-01', function(err, keys){
@@ -350,23 +350,23 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
             if (err) {
               callback(err);
             }
-            
+
             async.eachSeries(results, function(result, callback) {
               var bindingResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.bindingId, result.bindingResult));
               var bindingID = result.bindingId;
               console.log('    Migrating binding with id %s ...', bindingID);
-              
+
               if (!bindingID) {
                 return callback(Error('Broken binding record without bindingID.'));
               }
-              
+
               var bc = '{}';
 
               insert_bc(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
-            
+
           });
         }
       ], function(err){
@@ -375,19 +375,19 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
     }, function(err) {
       callback(err);
     });
-    
+
   });
 }
 
 function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-storage-%\'';
-  
+
   console.log('Getting records of azure-storage instances...');
   executeSql(mssql_config, sql, function(err, results) {
     if (err) {
       callback(err);
     }
-    
+
     async.eachSeries(results, function(result, callback){
       var instanceID = result.instanceId;
       console.log('  Migrating instance with ID %s ...', instanceID);
@@ -399,11 +399,11 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
       var rg = provisioningResult.resourceGroupResult.resourceGroupName;
       var accountName = provisioningResult.storageAccountResult.storageAccountName;
       var key;
-      
+
       if (!(serviceID && planID && rg && accountName)) {
         return callback(Error('Broken instance record.'));
       }
-      
+
       async.waterfall([
         function(callback){
           listKeys(sp_config, rg, 'Microsoft.Storage/storageAccounts', accountName, '2016-01-01', function(err, keys){
@@ -436,23 +436,23 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
             if (err) {
               callback(err);
             }
-            
+
             async.eachSeries(results, function(result, callback) {
               var bindingResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.bindingId, result.bindingResult));
               var bindingID = result.bindingId;
               console.log('    Migrating binding with id %s ...', bindingID);
-              
+
               if (!bindingID) {
                 return callback(Error('Broken binding record without bindingID.'));
               }
-              
+
               var bc = '{}';
 
               insert_bc(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
-            
+
           });
         }
       ], function(err){
@@ -461,19 +461,19 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
     }, function(err) {
       callback(err);
     });
-    
+
   });
 }
 
 function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-servicebus-%\'';
-  
+
   console.log('Getting records of azure-servicebus instances...');
   executeSql(mssql_config, sql, function(err, results) {
     if (err) {
       callback(err);
     }
-    
+
     async.eachSeries(results, function(result, callback){
       var instanceID = result.instanceId;
       console.log('  Migrating instance with ID %s ...', instanceID);
@@ -486,11 +486,11 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
       var namespaceName = provisioningResult.namespaceName;
       var key;
       var connectionString;
-      
+
       if (!(instanceID && serviceID && planID && rg && namespaceName)) {
         return callback(Error('Broken instance record.'));
       }
-      
+
       async.waterfall([
         function(callback){
           listKeys(sp_config, rg, 'Microsoft.ServiceBus/Namespaces', namespaceName + '/authorizationRules/RootManageSharedAccessKey', '2015-08-01', function(err, keys){
@@ -525,23 +525,23 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
             if (err) {
               callback(err);
             }
-            
+
             async.eachSeries(results, function(result, callback) {
               var bindingResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.bindingId, result.bindingResult));
               var bindingID = result.bindingId;
               console.log('    Migrating binding with id %s ...', bindingID);
-              
+
               if (!bindingID) {
                 return callback(Error('Broken binding record without bindingID.'));
               }
-              
+
               var bc = '{}';
 
               insert_bc(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
-            
+
           });
         }
       ], function(err){
@@ -550,19 +550,19 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
     }, function(err) {
       callback(err);
     });
-    
+
   });
 }
 
 function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-eventhubs-%\'';
-  
+
   console.log('Getting records of azure-eventhubs instances...');
   executeSql(mssql_config, sql, function(err, results) {
     if (err) {
       callback(err);
     }
-    
+
     async.eachSeries(results, function(result, callback){
       var instanceID = result.instanceId;
       console.log('  Migrating instance with ID %s ...', instanceID);
@@ -576,11 +576,11 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
       var eventhubName = provisioningResult.eventHubName;
       var key;
       var connectionString;
-      
+
       if (!(instanceID && serviceID && planID && rg && namespaceName && eventhubName)) {
         return
       }
-      
+
       async.waterfall([
         function(callback){
           listKeys(sp_config, rg, 'Microsoft.EventHub/namespaces', namespaceName + '/authorizationRules/RootManageSharedAccessKey', '2015-08-01', function(err, keys){
@@ -596,7 +596,7 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
           });
         },
         function(callback){
-          // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/eventhub/types.go          
+          // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/eventhub/types.go
           var pc = util.format(
             '{\\\"armDeployment\\\":\\\"test\\\",' +
               '\\\"eventHubName\\\":\\\"%s\\\",' +
@@ -617,23 +617,23 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
             if (err) {
               callback(err);
             }
-            
+
             async.eachSeries(results, function(result, callback) {
               var bindingResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.bindingId, result.bindingResult));
               var bindingID = result.bindingId;
               console.log('    Migrating binding with id %s ...', bindingID);
-              
+
               if (!bindingID) {
                 return callback(Error('Broken binding record without bindingID.'));
               }
-              
+
               var bc = '{}';
 
               insert_bc(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
-            
+
           });
         }
       ], function(err){
@@ -642,7 +642,7 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
     }, function(err) {
       callback(err);
     });
-    
+
   });
 }
 
@@ -650,7 +650,7 @@ assert(process.argv[2] != undefined);
 var doc = yaml.safeLoad(fs.readFileSync(process.argv[2], 'utf8'));
 var mssql_config = getMssqlConfigurations(doc.applications[0].env);
 var sp_config = getSpConfigurations(doc.applications[0].env);
-  
+
 assert(process.argv[3] != undefined);
 var doc2 = yaml.safeLoad(fs.readFileSync(process.argv[3], 'utf8'));
 var redis_config = getRedisConfigurations(doc2.applications[0].env);
