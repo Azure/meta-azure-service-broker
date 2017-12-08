@@ -1,14 +1,12 @@
-# Migrate to new azure service broker
+# Migrate to Open Service Broker for Azure
 
-This is a guidance how to migrate meta-azure-service-broker to [open-service-broker-azure](https://github.com/Azure/open-service-broker-azure).
+This is a guidance how to migrate meta-azure-service-broker(MASB) to [open-service-broker-azure](https://github.com/Azure/open-service-broker-azure)(OSBA).
 
 ## Prerequisites
 
-* The Azure environment of meta-azure-service-broker is public Azure (as open-service-broker-azure only supports public Azure currently). 
+* The Azure environment of MASB is public Azure (as OSBA only supports public Azure currently). 
 
-* The meta-azure-service-broker version in using is equal or greater than 1.4.0.
-
-* You have succeeded to `cf push` [open-service-broker-azure](https://github.com/Azure/open-service-broker-azure) and haven't used `cf create-service-broker` to register it as service broker.
+* The MASB version in using is equal or greater than 1.4.0.
 
 * There is no existing instance for the services listed:
   * azure-mysqldb
@@ -49,7 +47,11 @@ $ cf purge-service-offering azure-documentdb -f
 
 >>**WARNING**: `cf purge-service-offering SERVICE` assumes that the service broker responsible for this service offering is no longer available, and all service instances have been deleted. The resources of these instances are still on Azure. You can manually migrate them.
 
-### 3. Migrate service instances records from meta-azure-service-broker database(the SQL one) to open-service-broker-azure database(the redis one).
+### 3. Install Open Service Broker for Azure
+
+Follow the [doc](https://github.com/Azure/open-service-broker-azure/tree/master/contrib/cf) to install OSBA.
+
+### 4. Migrate service instances records from MASB database(the SQL one) to OSBA database(the redis one).
 
 1. Download migration scripts:
 
@@ -60,13 +62,13 @@ curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/mas
 curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker_helper_bc.go
 ```
 
-2. Get the `manifest.yml`(filled for `cf push`) of both meta-azure-service-broker and open-service-broker-azure.
+2. Get the `manifest.yml`(filled for `cf push`) of both MASB and OSBA.
 
 3. Run:
 
 ```
 $ chmod +x migrate_to_new_azure_service_broker.sh
-$ ./migrate_to_new_azure_service_broker.sh <path-to-masb-manifest> <path-to-asb-manifest> (<path-to-new-sql-server-list>)
+$ ./migrate_to_new_azure_service_broker.sh <path-to-masb-manifest> <path-to-osba-manifest> (<path-to-new-sql-server-list>)
 ```
 
 The broker database migration succeeds if the script ends with no error message.
@@ -91,7 +93,7 @@ The `<service-broker-name>` can be checked by `cf service-brokers` if you forget
 
 * If you hit `invalid_client` issue, `tenant` issue, or `subscription` issue:
 
-  Please check following credentials in the meta-azure-service-broker manifest:
+  Please check following credentials in the MASB manifest:
     * SUBSCRIPTION_ID
     * TENANT_ID
     * CLIENT_ID
@@ -99,8 +101,8 @@ The `<service-broker-name>` can be checked by `cf service-brokers` if you forget
   
 * If you hit `Broken instance record` issue:
   
-  Please check if the record is valid in meta-azure-service-broker database by running `select * from instances where instanceID='<instanceID>'`. Delete it and retry if it is invalid.
+  Please check if the record is valid in MASB database by running `select * from instances where instanceID='<instanceID>'`. Delete it and retry if it is invalid.
 
 * If you hit `Broken binding record` issue:
   
-  Please check if the record is valid in meta-azure-service-broker database by running `select * from bindings where bindingID='<bindingID>'`. Delete it and retry if it is invalid.
+  Please check if the record is valid in MASB database by running `select * from bindings where bindingID='<bindingID>'`. Delete it and retry if it is invalid.
