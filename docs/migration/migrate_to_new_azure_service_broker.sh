@@ -6,7 +6,7 @@ npm install request@2.72.0
 npm install async@1.5.2
 
 go get "github.com/go-redis/redis"
-go get "github.com/Azure/azure-service-broker/pkg/crypto/aes256"
-go get "github.com/Azure/azure-service-broker/pkg/service"
+go get "github.com/Azure/open-service-broker-azure/pkg/crypto/aes256"
+go get "github.com/Azure/open-service-broker-azure/pkg/service"
 
 node migrate_to_new_azure_service_broker.js $1 $2 $3
