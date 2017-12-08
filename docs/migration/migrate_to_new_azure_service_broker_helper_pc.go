@@ -1,8 +1,10 @@
 package main
 
 import (
+  "crypto/tls"
 	"fmt"
 	"os"
+  "strings"
 	"time"
 
 	"github.com/Azure/open-service-broker-azure/pkg/crypto/aes256"
@@ -46,11 +48,19 @@ func main() {
 		return
 	}
 
-	client := redis.NewClient(&redis.Options{
-		Addr:     os.Args[6],
-		Password: os.Args[7],
-		DB:       0,
-	})
+  redisOpts := &redis.Options{
+		Addr:       os.Args[6],
+		Password:   os.Args[7],
+		DB:         0,
+		MaxRetries: 5,
+	}
+	if strings.HasSuffix(os.Args[6], "6380") {
+		redisOpts.TLSConfig = &tls.Config{
+			ServerName: os.Args[6][:len(os.Args[6])-5],
+		}
+	}
+
+	client := redis.NewClient(redisOpts)
 	if err := client.Set(instance.InstanceID, json, 0).Err(); err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		return
