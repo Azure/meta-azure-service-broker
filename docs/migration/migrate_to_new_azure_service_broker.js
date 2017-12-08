@@ -97,7 +97,7 @@ function executeSql(config, sql, callback, retry, retryInterval) {
       if (retry === 0) {
         return callback(err);
       } else {
-        return setTimeout(executeSql(config, sql, callback, retry-1, retryInterval), retryInterval);
+        return setTimeout(function(){executeSql(config, sql, callback, retry-1, retryInterval);}, retryInterval);
       }
     }
     var req = new sqlDb.Request(conn);
