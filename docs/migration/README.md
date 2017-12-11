@@ -71,7 +71,7 @@ $ chmod +x migrate_to_new_azure_service_broker.sh
 $ ./migrate_to_new_azure_service_broker.sh <path-to-masb-manifest> <path-to-osba-manifest> (<path-to-new-sql-server-list>)
 ```
 
-The broker database migration succeeds if the script ends with no error message.
+The broker database migration succeeds if the script ends with no failed instance IDs, bindings IDs, or other error messages. If not, please check the [troubleshooting](#troubleshooting) below.
 
 ### 4. Update service broker via CF CLI
 
@@ -101,8 +101,6 @@ The `<service-broker-name>` can be checked by `cf service-brokers` if you forget
   
 * If you hit `Broken instance record` issue:
   
-  Please check if the record is valid in MASB database by running `select * from instances where instanceID='<instanceID>'`. Delete it and retry if it is invalid.
-
-* If you hit `Broken binding record` issue:
+  Please confirm if it's an orphan record, the resouce on Azure in no longer existed, and the service instance is not in use. If yes, delete it in MASB database by running `delete from bindings where instanceID='<instanceID>'; delete from instances where instanceID='<instanceID>';` and retry the migration script.
   
-  Please check if the record is valid in MASB database by running `select * from bindings where bindingID='<bindingID>'`. Delete it and retry if it is invalid.
+* If your issue locates in none of above, feel free to file your issue in [MASB issue section](https://github.com/Azure/meta-azure-service-broker/issues).
