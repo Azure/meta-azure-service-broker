@@ -219,11 +219,11 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
         parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
         provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
       } catch (e) {
-        console.log(util.format('Failed to decrypt record: \n' + 
-                                  '  encryted parameters: %s\n' +
-                                  '  encryted provisioningResult: %s\n',
-                                  parameters,
-                                  provisioningResult
+        console.log(util.format('    Failed to decrypt record: \n' + 
+                                '      encryted parameters: %s\n' +
+                                '      encryted provisioningResult: %s\n',
+                                parameters,
+                                provisioningResult
                                 ));
         failedToDecrypt = true;
       }
@@ -243,27 +243,27 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
       if (!(instanceID && serviceID && planID && rg && server && location &&
             administratorLogin && administratorLoginPassword &&
             database && fullyQualifiedDomainName)) {
-        console.log(util.format('Broken instance record: \n' + 
-                                  '  instanceID: %s\n' +
-                                  '  serviceID: %s\n' +
-                                  '  planID: %s\n' +
-                                  '  resource group: %s\n' +
-                                  '  server name: %s\n' +
-                                  '  location: %s\n' +
-                                  '  administrator login: %s\n' +
-                                  '  administrator login password: %s\n' +
-                                  '  database name: %s\n' +
-                                  '  FQDN: %s\n',
-                                  instanceID,
-                                  serviceID,
-                                  planID,
-                                  rg,
-                                  server,
-                                  location,
-                                  administratorLogin,
-                                  administratorLoginPassword,
-                                  database,
-                                  fullyQualifiedDomainName
+        console.log(util.format('    Broken instance record: \n' + 
+                                '      instanceID: %s\n' +
+                                '      serviceID: %s\n' +
+                                '      planID: %s\n' +
+                                '      resource group: %s\n' +
+                                '      server name: %s\n' +
+                                '      location: %s\n' +
+                                '      administrator login: %s\n' +
+                                '      administrator login password: %s\n' +
+                                '      database name: %s\n' +
+                                '      FQDN: %s\n',
+                                instanceID,
+                                serviceID,
+                                planID,
+                                rg,
+                                server,
+                                location,
+                                administratorLogin,
+                                administratorLoginPassword,
+                                database,
+                                fullyQualifiedDomainName
                                 ));
         failed_iids.push(instanceID);
         return callback(null);
@@ -307,12 +307,12 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
               var databaseLogin = bindingResult.databaseLogin;
               
               if (!databaseLogin) {
-                console.log('Broken binding record without databaseLogin.');
+                console.log('      Broken binding record without databaseLogin.');
                 failed_bids.push(bindingID);
                 return callback(null);
               }
               if (!bindingID) {
-                console.log('Broken binding record without bindingID.');
+                console.log('      Broken binding record without bindingID.');
                 failed_bids.push(bindingID);
                 return callback(null);
               }
@@ -331,7 +331,7 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
         }
       ], function(err){
         if (err) {
-          console.log(err);
+          console.log('    ', err);
           failed_iids.push(instanceID);
         } else {
           success += 1;
@@ -366,11 +366,11 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
         parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
         provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
       } catch (e) {
-        console.log(util.format('Failed to decrypt record: \n' + 
-                                  '  encryted parameters: %s\n' +
-                                  '  encryted provisioningResult: %s\n',
-                                  parameters,
-                                  provisioningResult
+        console.log(util.format('    Failed to decrypt record: \n' + 
+                                '      encryted parameters: %s\n' +
+                                '      encryted provisioningResult: %s\n',
+                                parameters,
+                                provisioningResult
                                 ));
         failedToDecrypt = true;
       }
@@ -385,19 +385,19 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
       var fqdn = provisioningResult.hostName;
       
       if (!(instanceID && serviceID && planID && rg && server && fqdn)) {
-        console.log(util.format('Broken instance record: \n' + 
-                                  '  instanceID: %s\n' +
-                                  '  serviceID: %s\n' +
-                                  '  planID: %s\n' +
-                                  '  resource group: %s\n' +
-                                  '  server name: %s\n' +
-                                  '  FQDN: %s\n',
-                                  instanceID,
-                                  serviceID,
-                                  planID,
-                                  rg,
-                                  server,
-                                  fullyQualifiedDomainName
+        console.log(util.format('    Broken instance record: \n' + 
+                                '      instanceID: %s\n' +
+                                '      serviceID: %s\n' +
+                                '      planID: %s\n' +
+                                '      resource group: %s\n' +
+                                '      server name: %s\n' +
+                                '      FQDN: %s\n',
+                                instanceID,
+                                serviceID,
+                                planID,
+                                rg,
+                                server,
+                                fullyQualifiedDomainName
                                 ));
         failed_iids.push(instanceID);
         return callback(null);
@@ -444,7 +444,7 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
               
               if (!bindingID) {
                 failed_bids.push(bindingID);
-                console.log('Broken binding record without bindingID.');
+                console.log('      Broken binding record without bindingID.');
                 return callback(null);
               }
               
@@ -459,7 +459,7 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
         }
       ], function(err){
         if (err) {
-          console.log(err);
+          console.log('    ', err);
           failed_iids.push(instanceID);
         } else {
           success += 1;
@@ -494,11 +494,11 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
         parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
         provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
       } catch (e) {
-        console.log(util.format('Failed to decrypt record: \n' + 
-                                  '  encryted parameters: %s\n' +
-                                  '  encryted provisioningResult: %s\n',
-                                  parameters,
-                                  provisioningResult
+        console.log(util.format('    Failed to decrypt record: \n' + 
+                                '      encryted parameters: %s\n' +
+                                '      encryted provisioningResult: %s\n',
+                                parameters,
+                                provisioningResult
                                 ));
         failedToDecrypt = true;
       }
@@ -512,17 +512,17 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
       var key;
       
       if (!(instanceID && serviceID && planID && rg && accountName)) {
-        console.log(util.format('Broken instance record: \n' + 
-                                  '  instanceID: %s\n' +
-                                  '  serviceID: %s\n' +
-                                  '  planID: %s\n' +
-                                  '  resource group: %s\n' +
-                                  '  account name: %s\n',
-                                  instanceID,
-                                  serviceID,
-                                  planID,
-                                  rg,
-                                  accountName
+        console.log(util.format('    Broken instance record: \n' + 
+                                '      instanceID: %s\n' +
+                                '      serviceID: %s\n' +
+                                '      planID: %s\n' +
+                                '      resource group: %s\n' +
+                                '      account name: %s\n',
+                                instanceID,
+                                serviceID,
+                                planID,
+                                rg,
+                                accountName
                                 ));
         failed_iids.push(instanceID);
         return callback(null);
@@ -568,7 +568,7 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
               
               if (!bindingID) {
                 failed_bids.push(bindingID);
-                console.log('Broken binding record without bindingID.');
+                console.log('      Broken binding record without bindingID.');
                 return callback(null);
               }
               
@@ -583,7 +583,7 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
         }
       ], function(err){
         if (err) {
-          console.log(err);
+          console.log('    ', err);
           failed_iids.push(instanceID);
         } else {
           success += 1;
@@ -618,11 +618,11 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
         parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
         provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
       } catch (e) {
-        console.log(util.format('Failed to decrypt record: \n' + 
-                                  '  encryted parameters: %s\n' +
-                                  '  encryted provisioningResult: %s\n',
-                                  parameters,
-                                  provisioningResult
+        console.log(util.format('    Failed to decrypt record: \n' + 
+                                '      encryted parameters: %s\n' +
+                                '      encryted provisioningResult: %s\n',
+                                parameters,
+                                provisioningResult
                                 ));
         failedToDecrypt = true;
       }
@@ -637,17 +637,17 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
       var connectionString;
       
       if (!(instanceID && serviceID && planID && rg && namespaceName)) {
-        console.log(util.format('Broken instance record: \n' + 
-                                  '  instanceID: %s\n' +
-                                  '  serviceID: %s\n' +
-                                  '  planID: %s\n' +
-                                  '  resource group: %s\n' +
-                                  '  namespace name: %s\n',
-                                  instanceID,
-                                  serviceID,
-                                  planID,
-                                  rg,
-                                  namespaceName
+        console.log(util.format('    Broken instance record: \n' + 
+                                '      instanceID: %s\n' +
+                                '      serviceID: %s\n' +
+                                '      planID: %s\n' +
+                                '      resource group: %s\n' +
+                                '      namespace name: %s\n',
+                                instanceID,
+                                serviceID,
+                                planID,
+                                rg,
+                                namespaceName
                                 ));
         failed_iids.push(instanceID);
         return callback(null);
@@ -695,7 +695,7 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
               
               if (!bindingID) {
                 failed_bids.push(bindingID);
-                console.log('Broken binding record without bindingID.');
+                console.log('      Broken binding record without bindingID.');
                 return callback(null);
               }
               
@@ -710,7 +710,7 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
         }
       ], function(err){
         if (err) {
-          console.log(err);
+          console.log('    ', err);
           failed_iids.push(instanceID);
         } else {
           success += 1;
@@ -745,11 +745,11 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
         parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
         provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
       } catch (e) {
-        console.log(util.format('Failed to decrypt record: \n' + 
-                                  '  encryted parameters: %s\n' +
-                                  '  encryted provisioningResult: %s\n',
-                                  parameters,
-                                  provisioningResult
+        console.log(util.format('    Failed to decrypt record: \n' + 
+                                '      encryted parameters: %s\n' +
+                                '      encryted provisioningResult: %s\n',
+                                parameters,
+                                provisioningResult
                                 ));
         failedToDecrypt = true;
       }
@@ -765,19 +765,19 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
       var connectionString;
       
       if (!(instanceID && serviceID && planID && rg && namespaceName && eventhubName)) {
-        console.log(util.format('Broken instance record: \n' + 
-                                  '  instanceID: %s\n' +
-                                  '  serviceID: %s\n' +
-                                  '  planID: %s\n' +
-                                  '  resource group: %s\n' +
-                                  '  namespace name: %s\n' +
-                                  '  eventhub name: %s\n',
-                                  instanceID,
-                                  serviceID,
-                                  planID,
-                                  rg,
-                                  namespaceName,
-                                  eventhubName
+        console.log(util.format('    Broken instance record: \n' + 
+                                '      instanceID: %s\n' +
+                                '      serviceID: %s\n' +
+                                '      planID: %s\n' +
+                                '      resource group: %s\n' +
+                                '      namespace name: %s\n' +
+                                '      eventhub name: %s\n',
+                                instanceID,
+                                serviceID,
+                                planID,
+                                rg,
+                                namespaceName,
+                                eventhubName
                                 ));
         failed_iids.push(instanceID);
         return callback(null);
@@ -827,7 +827,7 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
               
               if (!bindingID) {
                 failed_bids.push(bindingID);
-                console.log('Broken binding record without bindingID.');
+                console.log('      Broken binding record without bindingID.');
                 return callback(null);
               }
               
@@ -842,7 +842,7 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
         }
       ], function(err){
         if (err) {
-          console.log(err);
+          console.log('    ', err);
           failed_iids.push(instanceID);
         } else {
           success += 1;
