@@ -85,7 +85,9 @@ The `<service-broker-name>` can be checked by `cf service-brokers` if you forget
 
 ## Notes (IMPORTANT)
 
-* The bound apps possiblely need some code changes, as the format of credentials delivered by the broker have some changes. Please refer to [open-service-broker-azure docs](https://github.com/Azure/open-service-broker-azure/tree/master/docs/modules) and [meta-azure-service-broker docs](https://github.com/Azure/meta-azure-service-broker/tree/master/docs) to see the differences module-by-module in detail. Note that the credentials just change in new bindings. Credentials in existing bindings won't change.
+* The bound apps possiblely need some code changes, as the format of credentials delivered by the broker have some changes. Please refer to [open-service-broker-azure docs](https://github.com/Azure/open-service-broker-azure/tree/master/docs/modules) and [meta-azure-service-broker docs](https://github.com/Azure/meta-azure-service-broker/tree/master/docs) to see the differences module-by-module in details.
+
+  * The credentials just change in new bindings. Credentials in existing bindings won't change. So if your app has already done the code change for the new credentials provided by OSBA, you should unbind and re-bind the service instance to your app.
 
 * The provisioning parameters changes. If you use script to provide provisioning parameters for new service instance creation, remember to update it.
 
