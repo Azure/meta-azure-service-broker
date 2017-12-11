@@ -8,6 +8,7 @@ var child_process = require('child_process');
 var request = require('request');
 var async = require('async');
 
+var success = 0;
 var failed_iids = [];
 var failed_bids = [];
 
@@ -196,29 +197,29 @@ function insert_bc(bindingID, instanceID, bc, redis_config, callback){
     callback(null);
   });
 }
-
+            
 function migrate_azure_sqldb(mssql_config, redis_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-sqldb-%\'';
-
+  
   console.log('Getting records of azure-sqldb instances...');
   executeSql(mssql_config, sql, function(err, results) {
     if (err) {
       callback(err);
     }
-
+    
     async.eachSeries(results, function(result, callback){
       var instanceID = result.instanceId;
       console.log('  Migrating instance with ID %s ...', instanceID);
       var serviceID = result.serviceId;
       var planID = result.planId;
-
+      
       var parameters, provisioningResult;
       var failedToDecrypt = false;
       try {
         parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
         provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
       } catch (e) {
-        console.log(util.format('Failed to decrypt record: \n' +
+        console.log(util.format('Failed to decrypt record: \n' + 
                                   '  encryted parameters: %s\n' +
                                   '  encryted provisioningResult: %s\n',
                                   parameters,
@@ -230,7 +231,7 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
         failed_iids.push(instanceID);
         return callback(null);
       }
-
+      
       var rg = provisioningResult.resourceGroup ? provisioningResult.resourceGroup : parameters.resourceGroup;
       var server = provisioningResult.sqlServerName ? provisioningResult.sqlServerName : parameters.sqlServerName;
       var location = provisioningResult.location ? provisioningResult.location : parameters.location;
@@ -238,11 +239,11 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
       var administratorLoginPassword = provisioningResult.administratorLoginPassword;
       var database = provisioningResult.name ? provisioningResult.name : parameters.sqldbName;
       var fullyQualifiedDomainName = provisioningResult.fullyQualifiedDomainName;
-
+      
       if (!(instanceID && serviceID && planID && rg && server && location &&
             administratorLogin && administratorLoginPassword &&
             database && fullyQualifiedDomainName)) {
-        console.log(util.format('Broken instance record: \n' +
+        console.log(util.format('Broken instance record: \n' + 
                                   '  instanceID: %s\n' +
                                   '  serviceID: %s\n' +
                                   '  planID: %s\n' +
@@ -267,7 +268,7 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
         failed_iids.push(instanceID);
         return callback(null);
       }
-
+      
       var isNewServer = (new_sql_servers.indexOf(instanceID) > -1) ? true : false;
       async.waterfall([
         function(callback){
@@ -298,13 +299,13 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
             if (err) {
               callback(err);
             }
-
+            
             async.eachSeries(results, function(result, callback) {
               var bindingResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.bindingId, result.bindingResult));
               var bindingID = result.bindingId;
               console.log('    Migrating binding with id %s ...', bindingID);
               var databaseLogin = bindingResult.databaseLogin;
-
+              
               if (!databaseLogin) {
                 console.log('Broken binding record without databaseLogin.');
                 failed_bids.push(bindingID);
@@ -315,7 +316,7 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
                 failed_bids.push(bindingID);
                 return callback(null);
               }
-
+              
               var bc = util.format(
                 '{\\\"loginName\\\":\\\"%s\\\"}',
                 databaseLogin
@@ -325,45 +326,47 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
             }, function(err){
               callback(err);
             });
-
+            
           });
         }
       ], function(err){
         if (err) {
           console.log(err);
           failed_iids.push(instanceID);
+        } else {
+          success += 1;
         }
         callback(null);
       });
     }, function(err) {
       callback(err);
     });
-
+    
   });
 }
-
+      
 function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-rediscache-%\'';
-
+  
   console.log('Getting records of azure-rediscache instances...');
   executeSql(mssql_config, sql, function(err, results) {
     if (err) {
       callback(err);
     }
-
+    
     async.eachSeries(results, function(result, callback){
       var instanceID = result.instanceId;
       console.log('  Migrating instance with ID %s ...', instanceID);
       var serviceID = result.serviceId;
       var planID = result.planId;
-
+      
       var parameters, provisioningResult;
       var failedToDecrypt = false;
       try {
         parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
         provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
       } catch (e) {
-        console.log(util.format('Failed to decrypt record: \n' +
+        console.log(util.format('Failed to decrypt record: \n' + 
                                   '  encryted parameters: %s\n' +
                                   '  encryted provisioningResult: %s\n',
                                   parameters,
@@ -375,14 +378,14 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
         failed_iids.push(instanceID);
         return callback(null);
       }
-
+      
       var rg = provisioningResult.resourceGroup ? provisioningResult.resourceGroup : parameters.resourceGroup;
       var server = provisioningResult.name ? provisioningResult.name : parameters.cacheName;
       var key;
       var fqdn = provisioningResult.hostName;
-
+      
       if (!(instanceID && serviceID && planID && rg && server && fqdn)) {
-        console.log(util.format('Broken instance record: \n' +
+        console.log(util.format('Broken instance record: \n' + 
                                   '  instanceID: %s\n' +
                                   '  serviceID: %s\n' +
                                   '  planID: %s\n' +
@@ -399,7 +402,7 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
         failed_iids.push(instanceID);
         return callback(null);
       }
-
+      
       async.waterfall([
         function(callback){
           listKeys(sp_config, rg, 'Microsoft.Cache/Redis', server, '2016-04-01', function(err, keys){
@@ -433,63 +436,65 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
             if (err) {
               callback(err);
             }
-
+            
             async.eachSeries(results, function(result, callback) {
               var bindingResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.bindingId, result.bindingResult));
               var bindingID = result.bindingId;
               console.log('    Migrating binding with id %s ...', bindingID);
-
+              
               if (!bindingID) {
                 failed_bids.push(bindingID);
                 console.log('Broken binding record without bindingID.');
                 return callback(null);
               }
-
+              
               var bc = '{}';
 
               insert_bc(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
-
+            
           });
         }
       ], function(err){
         if (err) {
           console.log(err);
           failed_iids.push(instanceID);
+        } else {
+          success += 1;
         }
         callback(null);
       });
     }, function(err) {
       callback(err);
     });
-
+    
   });
 }
 
 function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-storage-%\'';
-
+  
   console.log('Getting records of azure-storage instances...');
   executeSql(mssql_config, sql, function(err, results) {
     if (err) {
       callback(err);
     }
-
+    
     async.eachSeries(results, function(result, callback){
       var instanceID = result.instanceId;
       console.log('  Migrating instance with ID %s ...', instanceID);
       var serviceID = result.serviceId;
       var planID = result.planId;
-
+      
       var parameters, provisioningResult;
       var failedToDecrypt = false;
       try {
         parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
         provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
       } catch (e) {
-        console.log(util.format('Failed to decrypt record: \n' +
+        console.log(util.format('Failed to decrypt record: \n' + 
                                   '  encryted parameters: %s\n' +
                                   '  encryted provisioningResult: %s\n',
                                   parameters,
@@ -505,9 +510,9 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
       var rg = provisioningResult.resourceGroupResult.resourceGroupName;
       var accountName = provisioningResult.storageAccountResult.storageAccountName;
       var key;
-
+      
       if (!(instanceID && serviceID && planID && rg && accountName)) {
-        console.log(util.format('Broken instance record: \n' +
+        console.log(util.format('Broken instance record: \n' + 
                                   '  instanceID: %s\n' +
                                   '  serviceID: %s\n' +
                                   '  planID: %s\n' +
@@ -522,7 +527,7 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
         failed_iids.push(instanceID);
         return callback(null);
       }
-
+      
       async.waterfall([
         function(callback){
           listKeys(sp_config, rg, 'Microsoft.Storage/storageAccounts', accountName, '2016-01-01', function(err, keys){
@@ -555,63 +560,65 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
             if (err) {
               callback(err);
             }
-
+            
             async.eachSeries(results, function(result, callback) {
               var bindingResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.bindingId, result.bindingResult));
               var bindingID = result.bindingId;
               console.log('    Migrating binding with id %s ...', bindingID);
-
+              
               if (!bindingID) {
                 failed_bids.push(bindingID);
                 console.log('Broken binding record without bindingID.');
                 return callback(null);
               }
-
+              
               var bc = '{}';
 
               insert_bc(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
-
+            
           });
         }
       ], function(err){
         if (err) {
           console.log(err);
           failed_iids.push(instanceID);
+        } else {
+          success += 1;
         }
         callback(null);
       });
     }, function(err) {
       callback(err);
     });
-
+    
   });
 }
 
 function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-servicebus-%\'';
-
+  
   console.log('Getting records of azure-servicebus instances...');
   executeSql(mssql_config, sql, function(err, results) {
     if (err) {
       callback(err);
     }
-
+    
     async.eachSeries(results, function(result, callback){
       var instanceID = result.instanceId;
       console.log('  Migrating instance with ID %s ...', instanceID);
       var serviceID = result.serviceId;
       var planID = result.planId;
-
+      
       var parameters, provisioningResult;
       var failedToDecrypt = false;
       try {
         parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
         provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
       } catch (e) {
-        console.log(util.format('Failed to decrypt record: \n' +
+        console.log(util.format('Failed to decrypt record: \n' + 
                                   '  encryted parameters: %s\n' +
                                   '  encryted provisioningResult: %s\n',
                                   parameters,
@@ -628,9 +635,9 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
       var namespaceName = provisioningResult.namespaceName;
       var key;
       var connectionString;
-
+      
       if (!(instanceID && serviceID && planID && rg && namespaceName)) {
-        console.log(util.format('Broken instance record: \n' +
+        console.log(util.format('Broken instance record: \n' + 
                                   '  instanceID: %s\n' +
                                   '  serviceID: %s\n' +
                                   '  planID: %s\n' +
@@ -645,7 +652,7 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
         failed_iids.push(instanceID);
         return callback(null);
       }
-
+      
       async.waterfall([
         function(callback){
           listKeys(sp_config, rg, 'Microsoft.ServiceBus/Namespaces', namespaceName + '/authorizationRules/RootManageSharedAccessKey', '2015-08-01', function(err, keys){
@@ -680,63 +687,65 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
             if (err) {
               callback(err);
             }
-
+            
             async.eachSeries(results, function(result, callback) {
               var bindingResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.bindingId, result.bindingResult));
               var bindingID = result.bindingId;
               console.log('    Migrating binding with id %s ...', bindingID);
-
+              
               if (!bindingID) {
                 failed_bids.push(bindingID);
                 console.log('Broken binding record without bindingID.');
                 return callback(null);
               }
-
+              
               var bc = '{}';
 
               insert_bc(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
-
+            
           });
         }
       ], function(err){
         if (err) {
           console.log(err);
           failed_iids.push(instanceID);
+        } else {
+          success += 1;
         }
         callback(null);
       });
     }, function(err) {
       callback(err);
     });
-
+    
   });
 }
 
 function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-eventhubs-%\'';
-
+  
   console.log('Getting records of azure-eventhubs instances...');
   executeSql(mssql_config, sql, function(err, results) {
     if (err) {
       callback(err);
     }
-
+    
     async.eachSeries(results, function(result, callback){
       var instanceID = result.instanceId;
       console.log('  Migrating instance with ID %s ...', instanceID);
       var serviceID = result.serviceId;
       var planID = result.planId;
-
+      
       var parameters, provisioningResult;
       var failedToDecrypt = false;
       try {
         parameters = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.parameters));
         provisioningResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.instanceId, result.provisioningResult));
       } catch (e) {
-        console.log(util.format('Failed to decrypt record: \n' +
+        console.log(util.format('Failed to decrypt record: \n' + 
                                   '  encryted parameters: %s\n' +
                                   '  encryted provisioningResult: %s\n',
                                   parameters,
@@ -754,9 +763,9 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
       var eventhubName = provisioningResult.eventHubName;
       var key;
       var connectionString;
-
+      
       if (!(instanceID && serviceID && planID && rg && namespaceName && eventhubName)) {
-        console.log(util.format('Broken instance record: \n' +
+        console.log(util.format('Broken instance record: \n' + 
                                   '  instanceID: %s\n' +
                                   '  serviceID: %s\n' +
                                   '  planID: %s\n' +
@@ -773,7 +782,7 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
         failed_iids.push(instanceID);
         return callback(null);
       }
-
+      
       async.waterfall([
         function(callback){
           listKeys(sp_config, rg, 'Microsoft.EventHub/namespaces', namespaceName + '/authorizationRules/RootManageSharedAccessKey', '2015-08-01', function(err, keys){
@@ -789,7 +798,7 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
           });
         },
         function(callback){
-          // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/eventhub/types.go
+          // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/eventhub/types.go          
           var pc = util.format(
             '{\\\"armDeployment\\\":\\\"test\\\",' +
               '\\\"eventHubName\\\":\\\"%s\\\",' +
@@ -810,38 +819,40 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
             if (err) {
               callback(err);
             }
-
+            
             async.eachSeries(results, function(result, callback) {
               var bindingResult = JSON.parse(decryptText(mssql_config.encryptionKey, result.bindingId, result.bindingResult));
               var bindingID = result.bindingId;
               console.log('    Migrating binding with id %s ...', bindingID);
-
+              
               if (!bindingID) {
                 failed_bids.push(bindingID);
                 console.log('Broken binding record without bindingID.');
                 return callback(null);
               }
-
+              
               var bc = '{}';
 
               insert_bc(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
-
+            
           });
         }
       ], function(err){
         if (err) {
           console.log(err);
           failed_iids.push(instanceID);
+        } else {
+          success += 1;
         }
         callback(null);
       });
     }, function(err) {
       callback(err);
     });
-
+    
   });
 }
 
@@ -849,7 +860,7 @@ assert(process.argv[2] != undefined);
 var doc = yaml.safeLoad(fs.readFileSync(process.argv[2], 'utf8'));
 var mssql_config = getMssqlConfigurations(doc.applications[0].env);
 var sp_config = getSpConfigurations(doc.applications[0].env);
-
+  
 assert(process.argv[3] != undefined);
 var doc2 = yaml.safeLoad(fs.readFileSync(process.argv[3], 'utf8'));
 var redis_config = getRedisConfigurations(doc2.applications[0].env);
@@ -890,10 +901,13 @@ async.waterfall([
   }
 
   console.log('Summary:');
+  console.log(util.format('  Succeeded to migrate %s intances.', success));
   if (failed_iids.length > 0) {
+    console.log(util.format('  Failed to migrate %s intances.', failed_iids.length));
     console.log('  Failed Instance IDs:', failed_iids);
   }
   if (failed_bids.length > 0) {
+    console.log(util.format('  Failed to migrate %s bindings.', failed_bids.length));
     console.log('  Failed Binding IDs:', failed_bids);
   }
 });
