@@ -17,8 +17,9 @@ func main() {
 	serviceID := os.Args[2]
 	planID := os.Args[3]
 	rg := os.Args[4]
-  pc := os.Args[5]
-	aeskey := []byte(os.Args[8])
+  location := os.Args[5]
+  pc := os.Args[6]
+	aeskey := []byte(os.Args[9])
 
 	codec, err := aes256.NewCodec(aeskey)
 	if err != nil {
@@ -39,6 +40,7 @@ func main() {
 		Created:    time.Now(),
     StandardProvisioningContext: service.StandardProvisioningContext{
       ResourceGroup: rg,
+      Location: location,
     },
 		EncryptedProvisioningContext: epc,
 	}
@@ -49,17 +51,17 @@ func main() {
 	}
 
   redisOpts := &redis.Options{
-		Addr:       os.Args[6],
-		Password:   os.Args[7],
+		Addr:       os.Args[7],
+		Password:   os.Args[8],
 		DB:         0,
 		MaxRetries: 5,
 	}
-	if strings.HasSuffix(os.Args[6], "6380") {
+	if strings.HasSuffix(os.Args[7], "6380") {
 		redisOpts.TLSConfig = &tls.Config{
-			ServerName: os.Args[6][:len(os.Args[6])-5],
+			ServerName: os.Args[7][:len(os.Args[7])-5],
 		}
 	}
-
+  
 	client := redis.NewClient(redisOpts)
 	if err := client.Set(instance.InstanceID, json, 0).Err(); err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
