@@ -63,6 +63,39 @@ function listKeys(sp_config, rg, provider, name, api_version, callback) {
   });
 }
 
+function getResource(sp_config, rg, provider, name, api_version, callback) {
+  getToken(sp_config, function(err, token){
+    if (err) {
+      return callback(err);
+    }
+    var url = util.format(
+      'https://management.azure.com/subscriptions/%s/resourceGroups/%s/providers/%s/%s',
+      sp_config['sub_id'],
+      rg,
+      provider,
+      name
+    );
+    request({
+      url: url,
+      qs: {'api-version' : api_version},
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }, function(error, response, body){
+      if (error) {
+        return callback(error);
+      }
+      if (response.statusCode == 200) {
+        callback(null);
+      } else {
+        callback(response.statusCode + ' ' + body);
+      }
+    });
+  });
+}
+
 function encryptText(key, iv, text) {
   var cipherAlg = 'aes256';
   iv = iv.replace(/-/g,'').substring(0,16);
@@ -199,7 +232,7 @@ function insert_bc(bindingID, instanceID, bc, redis_config, callback){
   });
 }
             
-function migrate_azure_sqldb(mssql_config, redis_config, callback) {
+function migrate_azure_sqldb(mssql_config, redis_config, sp_config, callback) {
   var sql = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-sqldb-%\'';
   
   console.log('Getting records of azure-sqldb instances...');
@@ -269,9 +302,17 @@ function migrate_azure_sqldb(mssql_config, redis_config, callback) {
         failed_iids.push(instanceID);
         return callback(null);
       }
-      
+
       var isNewServer = (new_sql_servers.indexOf(instanceID) > -1) ? true : false;
       async.waterfall([
+        function(callback){
+          getResource(sp_config, rg, util.format('Microsoft.Sql/servers/%s', server), database, '2014-04-01-preview', function(err){
+            if (err) {
+              return callback(err);
+            }
+            callback(null);
+          });
+        },
         function(callback){
           // https://github.com/Azure/azure-service-broker/blob/master/pkg/services/sqldb/types.go
           var pc = util.format(
@@ -407,6 +448,14 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
       
       async.waterfall([
         function(callback){
+          getResource(sp_config, rg, 'Microsoft.Cache/Redis', server, '2016-04-01', function(err){
+            if (err) {
+              return callback(err);
+            }
+            callback(null);
+          });
+        },
+        function(callback){
           listKeys(sp_config, rg, 'Microsoft.Cache/Redis', server, '2016-04-01', function(err, keys){
             if (err) {
               return callback(err);
@@ -533,6 +582,14 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
       }
       
       async.waterfall([
+        function(callback){
+          getResource(sp_config, rg, 'Microsoft.Storage/storageAccounts', accountName, '2016-01-01', function(err){
+            if (err) {
+              return callback(err);
+            }
+            callback(null);
+          });
+        },
         function(callback){
           listKeys(sp_config, rg, 'Microsoft.Storage/storageAccounts', accountName, '2016-01-01', function(err, keys){
             if (err) {
@@ -661,6 +718,14 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
       }
       
       async.waterfall([
+        function(callback){
+          getResource(sp_config, rg, 'Microsoft.ServiceBus/Namespaces', namespaceName, '2015-08-01', function(err){
+            if (err) {
+              return callback(err);
+            }
+            callback(null);
+          });
+        },
         function(callback){
           listKeys(sp_config, rg, 'Microsoft.ServiceBus/Namespaces', namespaceName + '/authorizationRules/RootManageSharedAccessKey', '2015-08-01', function(err, keys){
             if (err) {
@@ -795,6 +860,14 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
       
       async.waterfall([
         function(callback){
+          getResource(sp_config, rg, 'Microsoft.EventHub/Namespaces', namespaceName, '2015-08-01', function(err){
+            if (err) {
+              return callback(err);
+            }
+            callback(null);
+          });
+        },
+        function(callback){
           listKeys(sp_config, rg, 'Microsoft.EventHub/namespaces', namespaceName + '/authorizationRules/RootManageSharedAccessKey', '2015-08-01', function(err, keys){
             if (err) {
               return callback(err);
@@ -887,7 +960,7 @@ if (process.argv[4] != undefined) {
 async.waterfall([
   function(callback){
     // migrate azure-sqldb
-    migrate_azure_sqldb(mssql_config, redis_config, callback);
+    migrate_azure_sqldb(mssql_config, redis_config, sp_config, callback);
   },
   function(callback){
     // migrate azure-rediscache
