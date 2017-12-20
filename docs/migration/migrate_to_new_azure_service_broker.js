@@ -179,9 +179,9 @@ function getSpConfigurations(env) {
   return config;
 };
 
-function insert_pc(instanceID, serviceID, planID, rg, location, pc, redis_config, callback){
+function insert_pd(instanceID, serviceID, planID, rg, location, pc, redis_config, callback){
   var goCmd = util.format(
-    'go run migrate_to_new_azure_service_broker_helper_pc.go \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\"',
+    'go run migrate_to_new_azure_service_broker_helper_pd.go \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\"',
     instanceID,
     serviceID,
     planID,
@@ -195,21 +195,21 @@ function insert_pc(instanceID, serviceID, planID, rg, location, pc, redis_config
   console.log('    Inserting record to redis...');
   child_process.exec(goCmd, (err, stdout, stderr) => {
     if (err) {
-      console.error('    Failed to insert record to redis', err);
-      return callback(err);
+      console.error('    Failed to insert record to redis');
+      return callback(err.message);
     }
     if (stderr) {
-      console.error('    Failed to insert record to redis', stderr);
-      return callback(Error(stderr));
+      console.error('    Failed to insert record to redis');
+      return callback(stderr);
     }
     console.log('    Succeeded.');
     callback(null);
   });
 }
 
-function insert_bc(bindingID, instanceID, bc, redis_config, callback){
+function insert_bd(bindingID, instanceID, bc, redis_config, callback){
   var goCmd2 = util.format(
-    'go run migrate_to_new_azure_service_broker_helper_bc.go \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" ',
+    'go run migrate_to_new_azure_service_broker_helper_bd.go \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" ',
     bindingID,
     instanceID,
     bc,
@@ -220,12 +220,12 @@ function insert_bc(bindingID, instanceID, bc, redis_config, callback){
   console.log('      Inserting record to redis...');
   child_process.exec(goCmd2, (err, stdout, stderr) => {
     if (err) {
-      console.error('      Failed to insert record to redis', err);
-      return callback(err);
+      console.error('      Failed to insert record to redis');
+      return callback(err.message);
     }
     if (stderr) {
-      console.error('      Failed to insert record to redis', stderr);
-      return callback(Error(stderr));
+      console.error('      Failed to insert record to redis');
+      return callback(stderr);
     }
     console.log('      Succeeded.');
     callback(null);
@@ -331,7 +331,7 @@ function migrate_azure_sqldb(mssql_config, redis_config, sp_config, callback) {
             fullyQualifiedDomainName
           );
 
-          insert_pc(instanceID, serviceID, planID, rg, location, pc, redis_config, callback);
+          insert_pd(instanceID, serviceID, planID, rg, location, pc, redis_config, callback);
         },
         function(callback){
           var sql = util.format('SELECT * FROM bindings WHERE instanceId=\'%s\'', instanceID);
@@ -362,7 +362,7 @@ function migrate_azure_sqldb(mssql_config, redis_config, sp_config, callback) {
                 databaseLogin
               );
 
-              insert_bc(bindingID, instanceID, bc, redis_config, callback);
+              insert_bd(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
@@ -479,7 +479,7 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
             fqdn
           );
 
-          insert_pc(instanceID, serviceID, planID, rg, location, pc, redis_config, callback);
+          insert_pd(instanceID, serviceID, planID, rg, location, pc, redis_config, callback);
         },
         function(callback){
           var sql = util.format('SELECT * FROM bindings WHERE instanceId=\'%s\'', instanceID);
@@ -501,7 +501,7 @@ function migrate_azure_rediscache(mssql_config, redis_config, sp_config, callbac
               
               var bc = '{}';
 
-              insert_bc(bindingID, instanceID, bc, redis_config, callback);
+              insert_bd(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
@@ -613,7 +613,7 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
             key
           );
 
-          insert_pc(instanceID, serviceID, planID, rg, location, pc, redis_config, callback);
+          insert_pd(instanceID, serviceID, planID, rg, location, pc, redis_config, callback);
         },
         function(callback){
           var sql = util.format('SELECT * FROM bindings WHERE instanceId=\'%s\'', instanceID);
@@ -635,7 +635,7 @@ function migrate_azure_storage(mssql_config, redis_config, sp_config, callback) 
               
               var bc = '{}';
 
-              insert_bc(bindingID, instanceID, bc, redis_config, callback);
+              insert_bd(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
@@ -751,7 +751,7 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
             key
           );
 
-          insert_pc(instanceID, serviceID, planID, rg, location, pc, redis_config, callback);
+          insert_pd(instanceID, serviceID, planID, rg, location, pc, redis_config, callback);
         },
         function(callback){
           var sql = util.format('SELECT * FROM bindings WHERE instanceId=\'%s\'', instanceID);
@@ -773,7 +773,7 @@ function migrate_azure_servicebus(mssql_config, redis_config, sp_config, callbac
               
               var bc = '{}';
 
-              insert_bc(bindingID, instanceID, bc, redis_config, callback);
+              insert_bd(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });
@@ -894,7 +894,7 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
             key
           );
 
-          insert_pc(instanceID, serviceID, planID, rg, location, pc, redis_config, callback);
+          insert_pd(instanceID, serviceID, planID, rg, location, pc, redis_config, callback);
         },
         function(callback){
           var sql = util.format('SELECT * FROM bindings WHERE instanceId=\'%s\'', instanceID);
@@ -916,7 +916,7 @@ function migrate_azure_eventhubs(mssql_config, redis_config, sp_config, callback
               
               var bc = '{}';
 
-              insert_bc(bindingID, instanceID, bc, redis_config, callback);
+              insert_bd(bindingID, instanceID, bc, redis_config, callback);
             }, function(err){
               callback(err);
             });

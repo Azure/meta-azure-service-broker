@@ -58,8 +58,8 @@ Follow the [doc](https://github.com/Azure/open-service-broker-azure/tree/master/
 ```
 curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker.sh
 curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker.js
-curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker_helper_pc.go
-curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker_helper_bc.go
+curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker_helper_pd.go
+curl -L -O https://raw.githubusercontent.com/Azure/meta-azure-service-broker/master/docs/migration/migrate_to_new_azure_service_broker_helper_bd.go
 ```
 
 2. Get the `manifest.yml`(filled for `cf push`) of both MASB and OSBA.

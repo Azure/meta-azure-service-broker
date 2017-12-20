@@ -2,6 +2,7 @@ package main
 
 import (
   "crypto/tls"
+  "encoding/json"
 	"fmt"
 	"os"
   "strings"
@@ -18,7 +19,7 @@ func main() {
 	planID := os.Args[3]
 	rg := os.Args[4]
   location := os.Args[5]
-  pc := os.Args[6]
+  pd := os.Args[6]
 	aeskey := []byte(os.Args[9])
 
 	codec, err := aes256.NewCodec(aeskey)
@@ -26,7 +27,7 @@ func main() {
     fmt.Fprintln(os.Stderr, err.Error())
 		return
 	}
-	epc, err := codec.Encrypt([]byte(pc))
+	epd, err := codec.Encrypt([]byte(pd))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		return
@@ -37,14 +38,12 @@ func main() {
 		ServiceID:  serviceID,
 		PlanID:     planID,
 		Status:     service.InstanceStateProvisioned,
-		Created:    time.Now(),
-    StandardProvisioningContext: service.StandardProvisioningContext{
-      ResourceGroup: rg,
-      Location: location,
-    },
-		EncryptedProvisioningContext: epc,
+    ResourceGroup: rg,
+    Location: location,
+		EncryptedDetails: epd,
+    Created:    time.Now(),
 	}
-	json, err := instance.ToJSON()
+	data, err := json.Marshal(instance)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		return
@@ -63,7 +62,7 @@ func main() {
 	}
   
 	client := redis.NewClient(redisOpts)
-	if err := client.Set(instance.InstanceID, json, 0).Err(); err != nil {
+	if err := client.Set(instance.InstanceID, data, 0).Err(); err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		return
 	}

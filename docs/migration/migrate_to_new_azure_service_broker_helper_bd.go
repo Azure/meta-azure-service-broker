@@ -2,6 +2,7 @@ package main
 
 import (
   "crypto/tls"
+  "encoding/json"
 	"fmt"
 	"os"
   "strings"
@@ -15,7 +16,7 @@ import (
 func main() {
   bindingID := os.Args[1]
 	instanceID := os.Args[2]
-	bc := os.Args[3]
+	bd := os.Args[3]
 	aeskey := []byte(os.Args[6])
 
 	codec, err := aes256.NewCodec(aeskey)
@@ -23,7 +24,7 @@ func main() {
     fmt.Fprintln(os.Stderr, err.Error())
 		return
 	}
-	ebc, err := codec.Encrypt([]byte(bc))
+	ebd, err := codec.Encrypt([]byte(bd))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		return
@@ -33,10 +34,10 @@ func main() {
     BindingID: bindingID,
 		InstanceID: instanceID,
 		Status:     service.BindingStateBound,
-		Created:    time.Now(),
-		EncryptedBindingContext: ebc,
+		EncryptedDetails: ebd,
+    Created:    time.Now(),
 	}
-	json, err := binding.ToJSON()
+	data, err := json.Marshal(binding)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		return
@@ -53,9 +54,9 @@ func main() {
 			ServerName: os.Args[4][:len(os.Args[4])-5],
 		}
 	}
-
+  
 	client := redis.NewClient(redisOpts)
-	if err := client.Set(binding.BindingID, json, 0).Err(); err != nil {
+	if err := client.Set(binding.BindingID, data, 0).Err(); err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		return
 	}
