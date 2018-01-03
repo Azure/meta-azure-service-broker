@@ -54,9 +54,10 @@ func main() {
 			ServerName: os.Args[4][:len(os.Args[4])-5],
 		}
 	}
-  
+
+  key := fmt.Sprintf("bindings:%s", bindingID)
 	client := redis.NewClient(redisOpts)
-	if err := client.Set(binding.BindingID, data, 0).Err(); err != nil {
+	if err := client.Set(key, data, 0).Err(); err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		return
 	}
