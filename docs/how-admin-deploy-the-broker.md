@@ -46,7 +46,7 @@
   | SQL | 1433 |
   | Storage | 443 |
   
-  For meta Azure service broker app, ports `443` and `3306` should be available.
+  **For meta Azure service broker app, ports `443` and `3306` should be available.**
 
 ## Deploy the meta Azure service broker as an application in Cloud Foundry
 
