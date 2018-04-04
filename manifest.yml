@@ -44,7 +44,7 @@ applications:
     
     DEFAULT_PARAMETERS_AZURE_REDISCACHE: '{
         "parameters": {
-            "enableNonSslPort": true,
+            "enableNonSslPort": false,
         }
     }'
     DEFAULT_PARAMETERS_AZURE_SERVICEBUS: '{
