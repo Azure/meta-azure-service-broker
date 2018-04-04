@@ -27,11 +27,6 @@ var azurerediscache = {
     'cacheName': cacheName,
     'parameters': {
       'enableNonSslPort': true,
-      'sku': {
-        'name': 'Basic',
-        'family': 'C',
-        'capacity': 0
-      },
       'tags': {
         'foo': 'bar'
       }
