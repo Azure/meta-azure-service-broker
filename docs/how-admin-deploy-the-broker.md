@@ -31,6 +31,22 @@
       ```
 
       In the `mssql` command line, create tables `instances` and `bindings` by loading [schema.sql](../lib/broker/db/sqlserver/schema.sql).
+      
+* The following outbound ports are available for your app:
+
+  | Service Name | Ports |
+  |:---|:---|
+  | CosmoDB | 443, 10255 |
+  | DocumentDB | 443 |
+  | Event Hubs | 5671, 5672 |
+  | MySQL | 3306 |
+  | Postgres | 5432 |
+  | Redis | 6379, 6380 |
+  | Service Bus | 5671, 5672 |
+  | SQL | 1433 |
+  | Storage | 443 |
+  
+  For meta Azure service broker app, ports `443` and `3306` should be available.
 
 ## Deploy the meta Azure service broker as an application in Cloud Foundry
 
