@@ -173,8 +173,8 @@
         "250 MB",
         "Up to 256 connections",
         "Configure Redis (key space notifications, etc)",
-        "99.9% SLA"
-        "SSL",
+        "99.9% SLA",
+        "SSL"
       ],
       "displayName": "Standard C0",
       "details": {
@@ -195,8 +195,8 @@
         "1 GB",
         "Up to 1000 connections",
         "Configure Redis (key space notifications, etc)",
-        "99.9% SLA"
-        "SSL",
+        "99.9% SLA",
+        "SSL"
       ],
       "displayName": "Standard C1",
       "details": {
@@ -217,8 +217,8 @@
         "2.5 GB",
         "Up to 2000 connections",
         "Configure Redis (key space notifications, etc)",
-        "99.9% SLA"
-        "SSL",
+        "99.9% SLA",
+        "SSL"
       ],
       "displayName": "Standard C2",
       "details": {
@@ -239,8 +239,8 @@
         "6 GB",
         "Up to 5000 connections",
         "Configure Redis (key space notifications, etc)",
-        "99.9% SLA"
-        "SSL",
+        "99.9% SLA",
+        "SSL"
       ],
       "displayName": "Standard C3",
       "details": {
@@ -261,8 +261,8 @@
         "13 GB",
         "Up to 10000 connections",
         "Configure Redis (key space notifications, etc)",
-        "99.9% SLA"
-        "SSL",
+        "99.9% SLA",
+        "SSL"
       ],
       "displayName": "Standard C4",
       "details": {
@@ -283,8 +283,8 @@
         "26 GB",
         "Up to 15000 connections",
         "Configure Redis (key space notifications, etc)",
-        "99.9% SLA"
-        "SSL",
+        "99.9% SLA",
+        "SSL"
       ],
       "displayName": "Standard C5",
       "details": {
@@ -305,8 +305,8 @@
         "53 GB",
         "Up to 20000 connections",
         "Configure Redis (key space notifications, etc)",
-        "99.9% SLA"
-        "SSL",
+        "99.9% SLA",
+        "SSL"
       ],
       "displayName": "Standard C6",
       "details": {
@@ -326,11 +326,16 @@
         "6 GB",
         "Up to 10000 connections",
         "Redis cluster",
-        "Disaster recovery"
+        "Disaster recovery",
         "99.9% SLA",
         "SSL"
       ],
-      "displayName": "Premium P1"
+      "displayName": "Premium P1",
+      "details": {
+        "name": "Premium",
+        "family": "P",
+        "capacity": 1
+      }
     }
   }, {
     "id": "b5e23653-a6c3-4313-abed-858e5236c264",
@@ -343,11 +348,16 @@
         "13 GB",
         "Up to 15000 connections",
         "Redis cluster",
-        "Disaster recovery"
+        "Disaster recovery",
         "99.9% SLA",
         "SSL"
       ],
-      "displayName": "Premium P2"
+      "displayName": "Premium P2",
+      "details": {
+        "name": "Premium",
+        "family": "P",
+        "capacity": 2
+      }
     }
   }, {
     "id": "3ad4e649-8f6d-4716-b5d1-680a71e2b8b5",
@@ -360,11 +370,16 @@
         "26 GB",
         "Up to 30000 connections",
         "Redis cluster",
-        "Disaster recovery"
+        "Disaster recovery",
         "99.9% SLA",
         "SSL"
       ],
-      "displayName": "Premium P3"
+      "displayName": "Premium P3",
+      "details": {
+        "name": "Premium",
+        "family": "P",
+        "capacity": 3
+      }
     }
   }, {
     "id": "be82f22e-1207-4e09-bca4-e684b92377a5",
@@ -377,11 +392,16 @@
         "53 GB",
         "Up to 40000 connections",
         "Redis cluster",
-        "Disaster recovery"
+        "Disaster recovery",
         "99.9% SLA",
         "SSL"
       ],
-      "displayName": "Premium P4"
+      "displayName": "Premium P4",
+      "details": {
+        "name": "Premium",
+        "family": "P",
+        "capacity": 4
+      }
     }
   }]
 }
