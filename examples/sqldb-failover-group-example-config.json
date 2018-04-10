@@ -1,0 +1,16 @@
+/*
+{
+  "primaryServerName": "<sql-server-name>",    // [Required] The resource group name, admin login, and admin login password of this server should be provided in broker manifest.
+  "primaryDbName": "<sql-database-name>",      // [Required] The existing database on the primary server.
+  "secondaryServerName": "<sql-server-name>",  // [Required] The resource group name, admin login, and admin login password of this server should be provided in broker manifest.
+  "failoverGroupName": "<failover-group-name>" // [Required] The name of the new failover group.
+}
+*/
+
+// Please delete all the comments before using this .json to create service instance.
+{
+    "primaryServerName": "sqlservera",
+    "primaryDbName": "sqldba",
+    "secondaryServerName": "sqlserverb",
+    "failoverGroupName": "failovergroupa"
+}
