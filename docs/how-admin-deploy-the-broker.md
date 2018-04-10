@@ -16,7 +16,7 @@
 
       * [Create an Azure SQL database](https://azure.microsoft.com/en-us/documentation/articles/sql-database-get-started/)
       * Create a SQL server VM on Azure
-    
+
   2. Configure an Azure SQL Database server-level firewall rule
 
       Please follow the [steps](https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/) to make sure the SQL database can be accessed by the service broker.
@@ -31,21 +31,21 @@
       ```
 
       In the `mssql` command line, create tables `instances` and `bindings` by loading [schema.sql](../lib/broker/db/sqlserver/schema.sql).
-      
-* The following outbound ports are available for your app:
 
-  | Service Name | Ports |
-  |:---|:---|
-  | CosmoDB | 443, 10255 |
-  | DocumentDB | 443 |
-  | Event Hubs | 5671, 5672 |
-  | MySQL | 3306 |
-  | Postgres | 5432 |
-  | Redis | 6379, 6380 |
-  | Service Bus | 5671, 5672 |
-  | SQL | 1433 |
-  | Storage | 443 |
-  
+* The following outbound ports and endpoints are available for your app:
+
+  | Service Name | Ports | Azure Cloud Endpoint | Azure China Cloud Endpoint | Azure German Cloud Endpoint | Azure US Government Endpoint |
+  |:---|:---|:---|:---|:---|:---|
+  | CosmoDB | 443, 10255 | \*.documents.azure.com | \*.documents.chinacloudapi.cn | \*.documents.cloudapi.de | \*.documents.usgovcloudapi.net |
+  | DocumentDB | 443 | \*.documents.azure.com | \*.documents.chinacloudapi.cn | \*.documents.cloudapi.de | \*.documents.usgovcloudapi.net |
+  | Event Hubs | 443, 5671, 5672 | \*.servicebus.windows.net | \*.servicebus.chinacloudapi.cn | \*.servicebus.cloudapi.de | \*.servicebus.usgovcloudapi.net |
+  | MySQL | 3306 | \*.mysql.database.azure.com | / | / | / |
+  | Postgres | 5432 | \*.postgres.database.azure.com | / | / | / |
+  | Redis | 6379, 6380 | \*.redis.cache.windows.net | \*.redis.cache.chinacloudapi.cn | \*.redis.cache.cloudapi.de | \*.redis.cache.usgovcloudapi.net |
+  | Service Bus | 443, 5671, 5672 | \*.servicebus.windows.net | \*.servicebus.chinacloudapi.cn | \*.servicebus.cloudapi.de | \*.servicebus.usgovcloudapi.net |
+  | SQL | 1433 | \*.database.windows.net | \*.database.chinacloudapi.cn | \*.database.cloudapi.de | \*.database.usgovcloudapi.net |
+  | Storage | 443 | \*.core.windows.net | \*.core.chinacloudapi.cn | \*.core.cloudapi.de | \*.core.usgovcloudapi.net |
+
   **For meta Azure service broker app, ports `443` and `3306` should be available.**
 
 ## Deploy the meta Azure service broker as an application in Cloud Foundry
@@ -203,7 +203,7 @@
       * Modules default parameters
 
           Default parameters can be set.
-          
+
           1. If `Allow to Generate Names and Passwords for the Missing` set to `true`, the broker can fix those missing names and passwords in the parameters for creating service instances. Check `generated-string` in the [json examples](../examples/) for details.
 
           1. `Default Resource Group` and `Default Location` can be set to fix missing resource group and location in the parameters for creating service instances.
