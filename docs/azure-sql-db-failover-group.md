@@ -203,8 +203,6 @@
 
 ## Delete the service instance
 
-  **The broker only deletes the SQL database on Azure, and don't delete the SQL server.**
-
   ```
   cf delete-service $service_instance_name -f
   ```
