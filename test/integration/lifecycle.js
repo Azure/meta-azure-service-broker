@@ -19,8 +19,8 @@ function runLifecycle(testMatrix) {
     delete require.cache[require.resolve('../../lib/broker/v2/')];
     delete require.cache[require.resolve('../../lib/broker/v2/api-handlers')];
 
-    if (service.setEnvVars) {
-      var envVars = service.setEnvVars;
+    if (service.envVars) {
+      var envVars = service.envVars;
       for (var key in envVars) {
         if (envVars.hasOwnProperty(key)) {
           process.env[key] = envVars[key];
