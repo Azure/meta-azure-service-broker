@@ -26,19 +26,17 @@
 
 **NOTE:**
 
-  * Binding would fail after failover because of the change of the primary role. You need to fail back before binding. If you do have a case which needs to bind after failover, please open a Github issue to request our improvement.
+  * Binding would fail after failover because of the change of the primary role. Please bind before failover or fail back to bind. If you do have a case which has to bind after failover, please open a Github issue to request our improvement.
 
   * Permission "CONTROL" has full permissions in a database: https://msdn.microsoft.com/en-us/library/ms178569.aspx
 
 ### Unbind
 
-  1. Login to the primary database, drop the user for the Login.
-
-  2. Login to the master database of the server, drop the Login.
+  1. Login to the primary database, drop the user.
 
 **NOTE**:
 
-  * Unbinding would fail after failover because of the change of the primary role. You need to fail back before unbinding. If you do have a case which needs to unbind after failover, please open a Github issue to request our improvement.
+  * Unbinding would fail after failover because of the change of the primary role. Please bind before failover or fail back to unbind. If you do have a case which has to unbind after failover, please open a Github issue to request our improvement.
 
 ### Deprovision
 
@@ -84,7 +82,7 @@
   cf create-service azure-sqldb-failover-group SecondaryDatabaseWithFailoverGroup $service_instance_name -c $path_to_parameters
   ```
 
-  Required configuration parameters in the JSON file `$path_to_parameters`:
+  Required provisioning parameters in the JSON file `$path_to_parameters` are:
 
   ```
   {
@@ -97,7 +95,25 @@
 
 **NOTE:**
 
-  * Again, this module assumes you already have two existing servers and a database on the primary server, and these servers are provided in the meta service broker manifest file. See the "Modules related configurations" section [here](https://github.com/Azure/meta-azure-service-broker/blob/master/docs/how-admin-deploy-the-broker.md#deploy-the-meta-azure-service-broker-as-an-application-in-cloud-foundry) for details.
+  * Again, this module assumes you already have two existing servers and a database on the primary server, and these servers are provided in the meta service broker manifest file. See the "Modules related configurations" section [here](https://github.com/Azure/meta-azure-service-broker/blob/master/docs/how-admin-deploy-the-broker.md#deploy-the-meta-azure-service-broker-as-an-application-in-cloud-foundry) for details. For example, the above provisioning parameters should have the following servers provided in the broker manifest:
+```
+  AZURE_SQLDB_SQL_SERVER_POOL: '[
+      {
+        "resourceGroup": "rga",
+        "location": "locationa",
+        "sqlServerName": "sqlservera",
+        "administratorLogin": "admina",
+        "administratorLoginPassword": "adminpwdb"
+      },
+      {
+        "resourceGroup": "rgb",
+        "location": "locationb",
+        "sqlServerName": "sqlserverb",
+        "administratorLogin": "adminb",
+        "administratorLoginPassword": "adminpwdb"
+      }
+    ]'
+```
 
 #### Register an existing database in an existing failover group
 
@@ -105,7 +121,7 @@
   cf create-service azure-sqldb-failover-group ExistingDatabaseInFailoverGroup $service_instance_name -c $path_to_parameters
   ```
 
-  Same as above, required configuration parameters in the JSON file `$path_to_parameters`:
+  Same as above, required provisioning parameters in the JSON file `$path_to_parameters` are:
 
   ```
   {
