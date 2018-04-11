@@ -8,7 +8,7 @@
 
 **NOTE:**
 
-  * This module assumes you already have two existing servers and a database on the primary server, and these servers are provided in the meta service broker manifest file. See the "Modules related configurations" section [here](https://github.com/Azure/meta-azure-service-broker/blob/master/docs/how-admin-deploy-the-broker.md#deploy-the-meta-azure-service-broker-as-an-application-in-cloud-foundry) for details.
+  * This module assumes you already have two existing servers and the target database on the primary server to get geo-replication, and these servers are provided in the meta service broker manifest file. See the "Modules related configurations" section [here](https://github.com/Azure/meta-azure-service-broker/blob/master/docs/how-admin-deploy-the-broker.md#deploy-the-meta-azure-service-broker-as-an-application-in-cloud-foundry) for details.
 
   * For the service plan `ExistingDatabaseInFailoverGroup`, the broker only registers the failover as a service instance and won't create a new failover group.
 
@@ -95,7 +95,7 @@
 
 **NOTE:**
 
-  * Again, this module assumes you already have two existing servers and a database on the primary server, and these servers are provided in the meta service broker manifest file. See the "Modules related configurations" section [here](https://github.com/Azure/meta-azure-service-broker/blob/master/docs/how-admin-deploy-the-broker.md#deploy-the-meta-azure-service-broker-as-an-application-in-cloud-foundry) for details. For example, the above provisioning parameters should have the following servers provided in the broker manifest:
+  * Again, this module assumes you already have two existing servers and the target database on the primary server to get geo-replication, and these servers are provided in the meta service broker manifest file. See the "Modules related configurations" section [here](https://github.com/Azure/meta-azure-service-broker/blob/master/docs/how-admin-deploy-the-broker.md#deploy-the-meta-azure-service-broker-as-an-application-in-cloud-foundry) for details. For example, the above provisioning parameters should have the following servers provided in the broker manifest:
 ```
   AZURE_SQLDB_SQL_SERVER_POOL: '[
       {
