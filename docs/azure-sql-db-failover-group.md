@@ -1,5 +1,7 @@
 # Azure SQL Database Failover Group Service
 
+[Azure SQL Database auto-failover groups (in-preview)](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-geo-replication-overview) is a SQL Database feature designed to automatically manage geo-replication relationship, connectivity, and failover at scale. With it, the customers gain the ability to automatically recover multiple related databases in the secondary region after catastrophic regional failures or other unplanned events that result in full or partial loss of the SQL Database service’s availability in the primary region.
+
 ## Behaviors
 
 ### Provision
@@ -206,3 +208,29 @@
   ```
   cf delete-service $service_instance_name -f
   ```
+
+## Typical User Scenario
+
+### Description
+
+1.	The user has two Cloud Foundry foundations in two Azure regions.
+
+2.	The user wants to deploy the same app in both regions.
+
+3.	The app consumes Azure SQL database.
+
+4.	The data of these apps must be consistent.
+
+### Prerequisites
+
+1. Two Azure SQL Servers in different Regions
+
+2. Provided the servers in the meta service broker manifest file. See the "Modules related configurations" section [here](https://github.com/Azure/meta-azure-service-broker/blob/master/docs/how-admin-deploy-the-broker.md#deploy-the-meta-azure-service-broker-as-an-application-in-cloud-foundry) for details.
+
+3. The primary server has the target database. (You can create the primary server or just the primary database by [this module](./azure-sql-db.md) in the service broker.)
+
+### Operator Steps
+
+1. Install the service broker in your primary CF foundation, create a failover group service instance by the service plan `SecondaryDatabaseWithFailoverGroup`, and bind the instance to your app.
+
+2. Install the service broker in your secondary CF foundation, register the failover group created in 1# as a service instance by the service plan `ExistingDatabaseInFailoverGroup`, and bind the instance to your app.
