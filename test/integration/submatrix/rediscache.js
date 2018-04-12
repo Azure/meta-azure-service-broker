@@ -18,7 +18,7 @@ var cacheName = 'cf' + instanceId;
 var azurerediscache = {
   serviceName: 'azure-rediscache',
   serviceId: '0346088a-d4b2-4478-aa32-f18e295ec1d9',
-  planId: '362b3d1b-5b57-4289-80ad-4a15a760c29c',
+  planId: '060fb892-dcb1-4a1a-a292-b67516dcdcad',
   instanceId: instanceId,
   bindingId: bindingId,
   provisioningParameters: {
@@ -27,11 +27,6 @@ var azurerediscache = {
     'cacheName': cacheName,
     'parameters': {
       'enableNonSslPort': true,
-      'sku': {
-        'name': 'Basic',
-        'family': 'C',
-        'capacity': 0
-      },
       'tags': {
         'foo': 'bar'
       }

@@ -15,68 +15,393 @@
     "providerDisplayName": "Microsoft"
   },
   "plans": [{
-    "id": "362b3d1b-5b57-4289-80ad-4a15a760c29c",
-    "name": "basic",
+    "id": "c883290a-e86c-4b76-af53-1cc90ca4f7f8",
+    "name": "basicc0",
     "free":false,
-    "description": "Low network bandwidth, shared infrastructure, up to 256 connections, SSL.",
+    "description": "Low network bandwidth, single node, no SLA, 250 MB, up to 256 connections, SSL.",
     "metadata": {
       "bullets": [
         "Low network bandwidth",
-        "Shared infrastructure",
+        "Single node",
+        "No SLA",
+        "250 MB",
         "SSL",
         "Up to 256 connections"
       ],
-      "costs": [{
-        "amount": {
-          "usd": 16.37
-        },
-        "unit": "monthly estimate"
-      }],
-      "displayName": "Basic"
+      "displayName": "Basic C0",
+      "details": {
+        "name": "Basic",
+        "family": "C",
+        "capacity": 0
+      }
     }
   }, {
-    "id": "4af8bbd1-962d-4e26-84f1-f72d1d959d87",
-    "name": "standard",
+    "id": "1e4cc5c4-0b38-49b3-a353-07fc662a4015",
+    "name": "basicc1",
     "free":false,
-    "description": "Low network bandwidth, dedicated infrastructure, up to 1000 connections, redis config, SSL.",
+    "description": "Low network bandwidth, single node, no SLA, 1 GB, up to 1000 connections, SSL.",
     "metadata": {
       "bullets": [
         "Low network bandwidth",
-        "Dedicated service",
+        "Single node",
+        "No SLA",
+        "1 GB",
         "SSL",
-        "Up to 1000 connections",
-        "Configure Redis (key space notifications, etc)",
-        "99.9% SLA"
+        "Up to 1000 connections"
       ],
-      "costs": [{
-        "amount": {
-          "usd": 102.67
-        },
-        "unit": "monthly estimate"
-      }],
-      "displayName": "Standard"
+      "displayName": "Basic C1",
+      "details": {
+        "name": "Basic",
+        "family": "C",
+        "capacity": 1
+      }
     }
   }, {
-    "id": "b1057a8f-9a01-423a-bc35-e168d5c04cf0",
-    "name": "premium",
+    "id": "fd64f658-1c5c-4562-a23c-58bcbb1f7a73",
+    "name": "basicc2",
     "free":false,
-    "description": "Moderate network bandwidth, all standard features, data persistence, virtual network, redis cluster, SSL.",
+    "description": "Moderate network bandwidth, single node, no SLA, 2.5 GB, up to 2000 connections, SSL.",
     "metadata": {
       "bullets": [
         "Moderate network bandwidth",
-        "All Standard features",
-        "Data Persistence",
-        "Virtual Network",
-        "Redis cluster",
-        "99.9% SLA"
+        "Single node",
+        "No SLA",
+        "2.5 GB",
+        "SSL",
+        "Up to 2000 connections"
       ],
-      "costs": [{
-        "amount": {
-          "usd": 412.92
-        },
-        "unit": "monthly estimate per shard"
-      }],
-      "displayName": "Premium"
+      "displayName": "Basic C2",
+      "details": {
+        "name": "Basic",
+        "family": "C",
+        "capacity": 2
+      }
+    }
+  }, {
+    "id": "2cf510b8-a7e5-4ef9-ae45-e3049fb1dad2",
+    "name": "basicc3",
+    "free":false,
+    "description": "Moderate network bandwidth, single node, no SLA, 6 GB, up to 5000 connections, SSL.",
+    "metadata": {
+      "bullets": [
+        "Moderate network bandwidth",
+        "Single node",
+        "No SLA",
+        "6 GB",
+        "SSL",
+        "Up to 5000 connections"
+      ],
+      "displayName": "Basic C3",
+      "details": {
+        "name": "Basic",
+        "family": "C",
+        "capacity": 3
+      }
+    }
+  }, {
+    "id": "3810f1cf-78e4-4955-a9b4-938991cb7a59",
+    "name": "basicc4",
+    "free":false,
+    "description": "Moderate network bandwidth, single node, no SLA, 13 GB, up to 10000 connections, SSL.",
+    "metadata": {
+      "bullets": [
+        "Moderate network bandwidth",
+        "Single node",
+        "No SLA",
+        "13 GB",
+        "SSL",
+        "Up to 10000 connections"
+      ],
+      "displayName": "Basic C4",
+      "details": {
+        "name": "Basic",
+        "family": "C",
+        "capacity": 4
+      }
+    }
+  }, {
+    "id": "5e7a01af-dfc3-4d92-98c4-37650849d580",
+    "name": "basicc5",
+    "free":false,
+    "description": "High network bandwidth, single node, no SLA, 26 GB, up to 15000 connections, SSL.",
+    "metadata": {
+      "bullets": [
+        "High network bandwidth",
+        "Single node",
+        "No SLA",
+        "26 GB",
+        "SSL",
+        "Up to 15000 connections"
+      ],
+      "displayName": "Basic C5",
+      "details": {
+        "name": "Basic",
+        "family": "C",
+        "capacity": 5
+      }
+    }
+  }, {
+    "id": "32cf6fd1-7876-4fd9-88c9-e9c7620bbebf",
+    "name": "basicc6",
+    "free":false,
+    "description": "Highest network bandwidth, single node, no SLA, 53 GB, up to 20000 connections, SSL.",
+    "metadata": {
+      "bullets": [
+        "Highest network bandwidth",
+        "Single node",
+        "No SLA",
+        "53 GB",
+        "SSL",
+        "Up to 20000 connections"
+      ],
+      "displayName": "Basic C6",
+      "details": {
+        "name": "Basic",
+        "family": "C",
+        "capacity": 6
+      }
+    }
+  }, {
+    "id": "060fb892-dcb1-4a1a-a292-b67516dcdcad",
+    "name": "standardc0",
+    "free":false,
+    "description": "Low network bandwidth, two nodes with automatic replication, 250 MB, up to 256 connections, Redis config, high-availability SLA, SSL.",
+    "metadata": {
+      "bullets": [
+        "Low network bandwidth",
+        "Two nodes with automatic replication",
+        "250 MB",
+        "Up to 256 connections",
+        "Configure Redis (key space notifications, etc)",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Standard C0",
+      "details": {
+        "name": "Standard",
+        "family": "C",
+        "capacity": 0
+      }
+    }
+  }, {
+    "id": "170fb362-990d-4373-8f47-5d43c593b978",
+    "name": "standardc1",
+    "free":false,
+    "description": "Low network bandwidth, two nodes with automatic replication, 1 GB, up to 1000 connections, Redis config, high-availability SLA, SSL.",
+    "metadata": {
+      "bullets": [
+        "Low network bandwidth",
+        "Two nodes with automatic replication",
+        "1 GB",
+        "Up to 1000 connections",
+        "Configure Redis (key space notifications, etc)",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Standard C1",
+      "details": {
+        "name": "Standard",
+        "family": "C",
+        "capacity": 1
+      }
+    }
+  }, {
+    "id": "f83543d7-9ba6-4c9d-a81b-4b62c2df535d",
+    "name": "standardc2",
+    "free":false,
+    "description": "Moderate network bandwidth, two nodes with automatic replication, 2.5 GB, up to 2000 connections, Redis config, high-availability SLA, SSL.",
+    "metadata": {
+      "bullets": [
+        "Moderate network bandwidth",
+        "Two nodes with automatic replication",
+        "2.5 GB",
+        "Up to 2000 connections",
+        "Configure Redis (key space notifications, etc)",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Standard C2",
+      "details": {
+        "name": "Standard",
+        "family": "C",
+        "capacity": 2
+      }
+    }
+  }, {
+    "id": "0ea2e867-5f07-4b4d-9743-dc8b6010e806",
+    "name": "standardc3",
+    "free":false,
+    "description": "Moderate network bandwidth, two nodes with automatic replication, 6 GB, up to 5000 connections, Redis config, high-availability SLA, SSL.",
+    "metadata": {
+      "bullets": [
+        "Moderate network bandwidth",
+        "Two nodes with automatic replication",
+        "6 GB",
+        "Up to 5000 connections",
+        "Configure Redis (key space notifications, etc)",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Standard C3",
+      "details": {
+        "name": "Standard",
+        "family": "C",
+        "capacity": 3
+      }
+    }
+  }, {
+    "id": "719b9390-22b0-4b40-a8dd-ad8b068a1dd8",
+    "name": "standardc4",
+    "free":false,
+    "description": "Moderate network bandwidth, two nodes with automatic replication, 13 GB, up to 10000 connections, Redis config, high-availability SLA, SSL.",
+    "metadata": {
+      "bullets": [
+        "Moderate network bandwidth",
+        "Two nodes with automatic replication",
+        "13 GB",
+        "Up to 10000 connections",
+        "Configure Redis (key space notifications, etc)",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Standard C4",
+      "details": {
+        "name": "Standard",
+        "family": "C",
+        "capacity": 4
+      }
+    }
+  }, {
+    "id": "5a22e9b8-f602-4f9c-b6da-0d3f997cf559",
+    "name": "standardc5",
+    "free":false,
+    "description": "High network bandwidth, two nodes with automatic replication, 26 GB, up to 15000 connections, Redis config, high-availability SLA, SSL.",
+    "metadata": {
+      "bullets": [
+        "High network bandwidth",
+        "Two nodes with automatic replication",
+        "26 GB",
+        "Up to 15000 connections",
+        "Configure Redis (key space notifications, etc)",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Standard C5",
+      "details": {
+        "name": "Standard",
+        "family": "C",
+        "capacity": 5
+      }
+    }
+  }, {
+    "id": "94db500b-279e-4766-8efe-161ce9781141",
+    "name": "standardc6",
+    "free":false,
+    "description": "Highest network bandwidth, two nodes with automatic replication, 53 GB, up to 20000 connections, Redis config, high-availability SLA, SSL.",
+    "metadata": {
+      "bullets": [
+        "Highest network bandwidth",
+        "Two nodes with automatic replication",
+        "53 GB",
+        "Up to 20000 connections",
+        "Configure Redis (key space notifications, etc)",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Standard C6",
+      "details": {
+        "name": "Standard",
+        "family": "C",
+        "capacity": 6
+      }
+    }
+  }, {
+    "id": "4b0b6ab8-1166-4699-8b3a-a1623133be97",
+    "name": "premiump1",
+    "free":false,
+    "description": "Moderate network bandwidth, 6 GB, up to 10000 connections, Redis cluster, disaster recovery, and enhanced security, SSL.",
+    "metadata": {
+      "bullets": [
+        "Moderate network bandwidth",
+        "6 GB",
+        "Up to 10000 connections",
+        "Redis cluster",
+        "Disaster recovery",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Premium P1",
+      "details": {
+        "name": "Premium",
+        "family": "P",
+        "capacity": 1
+      }
+    }
+  }, {
+    "id": "b5e23653-a6c3-4313-abed-858e5236c264",
+    "name": "premiump2",
+    "free":false,
+    "description": "Moderate network bandwidth, 13 GB, up to 15000 connections, Redis cluster, disaster recovery, and enhanced security, SSL.",
+    "metadata": {
+      "bullets": [
+        "Moderate network bandwidth",
+        "13 GB",
+        "Up to 15000 connections",
+        "Redis cluster",
+        "Disaster recovery",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Premium P2",
+      "details": {
+        "name": "Premium",
+        "family": "P",
+        "capacity": 2
+      }
+    }
+  }, {
+    "id": "3ad4e649-8f6d-4716-b5d1-680a71e2b8b5",
+    "name": "premiump3",
+    "free":false,
+    "description": "High network bandwidth, 26 GB, up to 30000 connections, Redis cluster, disaster recovery, and enhanced security, SSL.",
+    "metadata": {
+      "bullets": [
+        "High network bandwidth",
+        "26 GB",
+        "Up to 30000 connections",
+        "Redis cluster",
+        "Disaster recovery",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Premium P3",
+      "details": {
+        "name": "Premium",
+        "family": "P",
+        "capacity": 3
+      }
+    }
+  }, {
+    "id": "be82f22e-1207-4e09-bca4-e684b92377a5",
+    "name": "premiump4",
+    "free":false,
+    "description": "Highest network bandwidth, 53 GB, up to 40000 connections, Redis cluster, disaster recovery, and enhanced security, SSL.",
+    "metadata": {
+      "bullets": [
+        "Highest network bandwidth",
+        "53 GB",
+        "Up to 40000 connections",
+        "Redis cluster",
+        "Disaster recovery",
+        "99.9% SLA",
+        "SSL"
+      ],
+      "displayName": "Premium P4",
+      "details": {
+        "name": "Premium",
+        "family": "P",
+        "capacity": 4
+      }
     }
   }]
 }
