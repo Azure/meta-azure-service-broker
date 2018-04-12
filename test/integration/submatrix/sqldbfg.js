@@ -122,32 +122,33 @@ azuresqldbfg = {
 
     sqldb.provision(opParams, function(err) {
       if (err) return callback(err);
-      opParams.last_operation = 'provision';
-      opParams.defaultSettings = {sqldb: {transparentDataEncryption: false}};
-      var state;
-      async.whilst(
-        function() {
-          return (state !== 'succeeded');
-        },
-        function(cb) {
-          sqldb.poll(opParams, function(err, lastOp, result) {
-            if (err) return cb(err);
-            state = result.value.state;
-          });
-        },
-        function(err) {
-          if (err) return callback(err);
-          delete opParams.last_operation;
-          delete opParams.defaultSettings;
-          opParams.parameters.sqlServerName = secondaryServerName;
-          opParams.parameters.sqldbName = 'cf' + uuid.v4();
-          opParams.parameters.location = secLocation;
-          sqldb.provision(opParams, function(err) {
-            if (err) return callback(err);
-            callback(null);
-          });
-        }
-      );
+
+      opParams.parameters.sqlServerName = secondaryServerName;
+      opParams.parameters.sqldbName = 'cf' + uuid.v4();
+      opParams.parameters.location = secLocation;
+      sqldb.provision(opParams, function(err) {
+        if (err) return callback(err);
+        opParams.parameters.sqlServerName = primaryServerName;
+        opParams.parameters.sqldbName = primaryDbName;
+        opParams.parameters.location = location;
+        opParams.last_operation = 'provision';
+        opParams.defaultSettings = {sqldb: {transparentDataEncryption: false}};
+        var state;
+        async.whilst(
+          function() {
+            return (state !== 'succeeded');
+          },
+          function(cb) {
+            sqldb.poll(opParams, function(err, lastOp, result) {
+              if (err) return cb(err);
+              state = result.value.state;
+            });
+          },
+          function(err) {
+            callback(err);
+          }
+        );
+      });
     });
   }
 };
