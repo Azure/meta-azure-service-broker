@@ -132,6 +132,9 @@ azuresqldbfg = {
         opParams.parameters.sqldbName = primaryDbName;
         opParams.parameters.location = location;
         opParams.last_operation = 'provision';
+        opParams.provisioning_result = {
+          'resourceGroup': resourceGroupName
+        };
         opParams.defaultSettings = {sqldb: {transparentDataEncryption: false}};
         var state;
         async.whilst(
