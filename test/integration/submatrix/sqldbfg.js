@@ -1,4 +1,6 @@
+/*jshint camelcase: false */
 var uuid = require('uuid');
+var async = require('async');
 
 var sqldb = require('../../../lib/services/azuresqldb/');
 var common = require('../../../lib/common/');
@@ -121,11 +123,11 @@ azuresqldbfg = {
     sqldb.provision(opParams, function(err) {
       if (err) return callback(err);
       opParams.last_operation = 'provision';
-
+      opParams.defaultSettings = {sqldb: {transparentDataEncryption: false}};
       var state;
       async.whilst(
         function() {
-          return (state === 'succeeded');
+          return (state !== 'succeeded');
         },
         function(cb) {
           sqldb.poll(opParams, function(err, lastOp, result) {
@@ -136,6 +138,7 @@ azuresqldbfg = {
         function(err) {
           if (err) return callback(err);
           delete opParams.last_operation;
+          delete opParams.defaultSettings;
           opParams.parameters.sqlServerName = secondaryServerName;
           opParams.parameters.sqldbName = 'cf' + uuid.v4();
           opParams.parameters.location = secLocation;

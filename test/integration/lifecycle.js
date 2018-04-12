@@ -66,7 +66,7 @@ function runLifecycle(testMatrix) {
 
       describe('Successful lifecycle', function() {
         it('should do preProvision successfully', function(done) {
-          this.timeout(120000);
+          this.timeout(150000);
           if (service.preProvision) {
             service.preProvision(done);
           } else {
