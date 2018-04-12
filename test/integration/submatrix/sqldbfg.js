@@ -131,22 +131,23 @@ azuresqldbfg = {
           sqldb.poll(opParams, function(err, lastOp, result) {
             if (err) return cb(err);
             state = result.value.state;
-          },
-          function(err) {
+          });
+        },
+        function(err) {
+          if (err) return callback(err);
+          delete opParams.last_operation;
+          opParams.parameters.sqlServerName = secondaryServerName;
+          opParams.parameters.sqldbName = 'cf' + uuid.v4();
+          opParams.parameters.location = secLocation;
+          sqldb.provision(opParams, function(err) {
             if (err) return callback(err);
-            delete opParams.last_operation;
-            opParams.parameters.sqlServerName = secondaryServerName;
-            opParams.parameters.sqldbName = 'cf' + uuid.v4();
-            opParams.parameters.location = secLocation;
-            sqldb.provision(opParams, function(err) {
-              if (err) return callback(err);
-              callback(null);
-            });
-          }
-        );
-      });
-    }
-  };
-  testMatrix.push(azuresqldbfg);
+            callback(null);
+          });
+        }
+      );
+    });
+  }
+};
+testMatrix.push(azuresqldbfg);
 
-  module.exports = testMatrix;
+module.exports = testMatrix;
