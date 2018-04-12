@@ -80,7 +80,7 @@ azuresqldbfg = {
   e2e: false,
   envVars: envVars,
   preProvision: function(callback) {
-    var provisioningParams = {
+    var opParams = {
       'organization_guid': uuid.v4(),
       'plan_id': '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
       'service_id': 'fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5',
@@ -118,19 +118,35 @@ azuresqldbfg = {
       'azure': common.getConfigurations().azure
     };
 
-    sqldb.provision(provisioningParams, function(err) {
+    sqldb.provision(opParams, function(err) {
       if (err) return callback(err);
-      // TODO: call sqldb.poll to check result.value.state to confirm primary db existence
-      provisioningParams.parameters.sqlServerName = secondaryServerName;
-      provisioningParams.parameters.sqldbName = 'cf' + uuid.v4();
-      provisioningParams.parameters.location = secLocation;
-      sqldb.provision(provisioningParams, function(err) {
-        if (err) return callback(err);
-        callback(null);
-      });
-    });
-  }
-};
-testMatrix.push(azuresqldbfg);
+      opParams.last_operation = 'provision';
 
-module.exports = testMatrix;
+      var state;
+      async.whilst(
+        function() {
+          return (state === 'succeeded');
+        },
+        function(cb) {
+          sqldb.poll(opParams, function(err, lastOp, result) {
+            if (err) return cb(err);
+            state = result.value.state;
+          },
+          function(err) {
+            if (err) return callback(err);
+            delete opParams.last_operation;
+            opParams.parameters.sqlServerName = secondaryServerName;
+            opParams.parameters.sqldbName = 'cf' + uuid.v4();
+            opParams.parameters.location = secLocation;
+            sqldb.provision(opParams, function(err) {
+              if (err) return callback(err);
+              callback(null);
+            });
+          }
+        );
+      });
+    }
+  };
+  testMatrix.push(azuresqldbfg);
+
+  module.exports = testMatrix;
