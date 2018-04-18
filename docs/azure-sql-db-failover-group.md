@@ -98,24 +98,24 @@
 **NOTE:**
 
   * Again, this module assumes you already have two existing servers and the target database on the primary server to get geo-replication, and these servers are provided in the meta service broker manifest file. See the "Modules related configurations" section [here](https://github.com/Azure/meta-azure-service-broker/blob/master/docs/how-admin-deploy-the-broker.md#deploy-the-meta-azure-service-broker-as-an-application-in-cloud-foundry) for details. For example, the above provisioning parameters should have the following servers provided in the broker manifest:
-```
+  ```
   AZURE_SQLDB_SQL_SERVER_POOL: '[
-      {
-        "resourceGroup": "rga",
-        "location": "locationa",
-        "sqlServerName": "sqlservera",
-        "administratorLogin": "admina",
-        "administratorLoginPassword": "adminpwdb"
-      },
-      {
-        "resourceGroup": "rgb",
-        "location": "locationb",
-        "sqlServerName": "sqlserverb",
-        "administratorLogin": "adminb",
-        "administratorLoginPassword": "adminpwdb"
-      }
-    ]'
-```
+    {
+      "resourceGroup": "rga",
+      "location": "locationa",
+      "sqlServerName": "sqlservera",
+      "administratorLogin": "admina",
+      "administratorLoginPassword": "adminpwdb"
+    },
+    {
+      "resourceGroup": "rgb",
+      "location": "locationb",
+      "sqlServerName": "sqlserverb",
+      "administratorLogin": "adminb",
+      "administratorLoginPassword": "adminpwdb"
+    }
+  ]'
+  ```
 
 #### Register an existing database in an existing failover group
 
