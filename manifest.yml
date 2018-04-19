@@ -45,11 +45,6 @@ applications:
     DEFAULT_PARAMETERS_AZURE_REDISCACHE: '{
         "parameters": {
             "enableNonSslPort": false,
-            "sku": {
-                "name": "Basic",
-                "family": "C",
-                "capacity": 0
-            }
         }
     }'
     DEFAULT_PARAMETERS_AZURE_SERVICEBUS: '{
