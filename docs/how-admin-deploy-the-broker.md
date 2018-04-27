@@ -16,7 +16,7 @@
 
       * [Create an Azure SQL database](https://azure.microsoft.com/en-us/documentation/articles/sql-database-get-started/)
       * Create a SQL server VM on Azure
-    
+
   2. Configure an Azure SQL Database server-level firewall rule
 
       Please follow the [steps](https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/) to make sure the SQL database can be accessed by the service broker.
@@ -80,6 +80,7 @@
           | Service Bus Service | yes | yes | yes | yes |
           | Storage Service | yes | yes | yes | yes |
           | SQL Database Service | yes | yes | yes | yes |
+          | SQL Database Failover Group Service | yes | yes | yes | yes |
           | Database for MySQL Service (preview)  | yes | no | no | no |
           | Database for PostgreSQL Service (preview) | yes | no | no | no |
 
@@ -187,7 +188,7 @@
       * Modules default parameters
 
           Default parameters can be set.
-          
+
           1. If `Allow to Generate Names and Passwords for the Missing` set to `true`, the broker can fix those missing names and passwords in the parameters for creating service instances. Check `generated-string` in the [json examples](../examples/) for details.
 
           1. `Default Resource Group` and `Default Location` can be set to fix missing resource group and location in the parameters for creating service instances.
@@ -320,6 +321,7 @@ cf enable-service-access azure-postgresqldb
 cf enable-service-access azure-rediscache
 cf enable-service-access azure-servicebus
 cf enable-service-access azure-sqldb
+cf enable-service-access azure-sqldb-failover-group
 cf enable-service-access azure-storage
 ```
 
