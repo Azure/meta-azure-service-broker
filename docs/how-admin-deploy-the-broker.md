@@ -96,6 +96,7 @@
           | Service Bus Service | yes | yes | yes | yes |
           | Storage Service | yes | yes | yes | yes |
           | SQL Database Service | yes | yes | yes | yes |
+          | SQL Database Failover Group Service (preview) | yes | yes | yes | yes |
           | Database for MySQL Service (preview)  | yes | no | no | no |
           | Database for PostgreSQL Service (preview) | yes | no | no | no |
 
@@ -336,6 +337,7 @@ cf enable-service-access azure-postgresqldb
 cf enable-service-access azure-rediscache
 cf enable-service-access azure-servicebus
 cf enable-service-access azure-sqldb
+cf enable-service-access azure-sqldb-failover-group
 cf enable-service-access azure-storage
 ```
 

@@ -1,0 +1,39 @@
+{
+    "id": "5b4c1577-fc23-491e-bfca-a01d00eee5b8",
+    "name": "azure-sqldb-failover-group",
+    "description": "Azure SQL Database Failover Group Service",
+    "bindable": true,
+    "plan_updateable": true,
+    "metadata": {
+        "displayName": "Azure SQL Database Failover Group Service",
+        "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/SQLDatabase.png",
+        "longDescription": "Azure SQL Database auto-failover groups (in-preview) is a SQL Database feature designed to automatically manage geo-replication relationship, connectivity, and failover at scale. ",
+        "providerDisplayName": "Microsoft"
+    },
+    "plans": [
+        {
+            "id": "437c321c-6b21-4fef-b84b-0a1fd9ba6991",
+            "name": "SecondaryDatabaseWithFailoverGroup",
+            "free":false,
+            "description": "Online secondary database with a new failover group, read-only, same size to the source database.",
+            "metadata": {
+                "bullets": [
+                    "Read-only"
+                ],
+                "displayName": "Online Secondary With Failover Group"
+            }
+        },
+        {
+            "id": "5a75ffc1-555d-4193-b60b-eb464069f913",
+            "name": "ExistingDatabaseInFailoverGroup",
+            "free":true,
+            "description": "Register an existing database in a failover group as a service instance. It won't be deleted in deprovisioning.",
+            "metadata": {
+                "bullets": [
+                    "Existing database"
+                ],
+                "displayName": "Existing Database In Failover Group"
+            }
+        }
+    ]
+}

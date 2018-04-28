@@ -9,6 +9,7 @@ switch(process.env['ENVIRONMENT']) {
           'docdb',
           'cosmosdb',
           'sqldb',
+          'sqldbfg',
           'rediscache',
           'mysqldb',
           'postgresqldb'
@@ -21,6 +22,7 @@ switch(process.env['ENVIRONMENT']) {
           'eventhubs',
           'docdb',
           'sqldb',
+          'sqldbfg',
           'rediscache'
         ];
         break;
@@ -31,6 +33,7 @@ switch(process.env['ENVIRONMENT']) {
           'eventhubs',
           'docdb',
           'sqldb',
+          'sqldbfg',
           'rediscache'
         ];
         break;
@@ -42,6 +45,7 @@ switch(process.env['ENVIRONMENT']) {
           'docdb',
           'cosmosdb',
           'sqldb',
+          'sqldbfg',
           'rediscache'
         ];
         break;

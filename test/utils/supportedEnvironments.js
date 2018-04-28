@@ -1,6 +1,7 @@
 var supportedEnvironment = {
   AzureCloud: {
     location: 'eastus',
+    secLocation: 'westus',
     redisCacheEndpointSuffix: '.redis.cache.windows.net',
     sqlServerEndpointSuffix: '.database.windows.net',
     mysqlServerEndpointSuffix: '.mysql.database.azure.com',
@@ -10,6 +11,7 @@ var supportedEnvironment = {
   },
   AzureChinaCloud: {
     location: 'chinaeast',
+    secLocation: 'chinanorth',
     redisCacheEndpointSuffix: '.redis.cache.chinacloudapi.cn',
     sqlServerEndpointSuffix: '.database.chinacloudapi.cn',
     serviceBusEndpointSuffix: '.servicebus.chinacloudapi.cn',
@@ -17,6 +19,7 @@ var supportedEnvironment = {
   },
   AzureGermanCloud: {
     location: 'germanycentral',
+    secLocation: 'germanynorth',
     redisCacheEndpointSuffix: '.redis.cache.cloudapi.de',
     sqlServerEndpointSuffix: '.database.cloudapi.de',
     serviceBusEndpointSuffix: '.servicebus.cloudapi.de',
@@ -24,6 +27,7 @@ var supportedEnvironment = {
   },
   AzureUSGovernment: {
     location: 'usgovvirginia',
+    secLocation: 'usgovtexas',
     redisCacheEndpointSuffix: '.redis.cache.usgovcloudapi.net',
     sqlServerEndpointSuffix: '.database.usgovcloudapi.net',
     serviceBusEndpointSuffix: '.servicebus.usgovcloudapi.net',

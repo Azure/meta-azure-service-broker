@@ -25,6 +25,7 @@ The services provided by the broker:
 * [Azure DocumentDB Service](./docs/azure-document-db.md)
 * [Azure Service Bus and Event Hub Service](./docs/azure-service-bus.md)
 * [Azure SQL Database Service](./docs/azure-sql-db.md)
+* [Azure SQL Database Failover Group Service (Preview)](./docs/azure-sql-db-failover-group.md)
 * [Azure Database for MySQL Service (Preview)](./docs/azure-mysql-db.md)
 * [Azure Database for PostgreSQL Service (Preview)](./docs/azure-postgresql-db.md)
 * [Azure CosmosDB Service (Preview)](./docs/azure-cosmos-db.md)
@@ -33,7 +34,7 @@ The user-provided services:
 
 * [Azure Key Vault Service](./docs/user-provided-services/How-to-use-Azure-Key-Vault-in-Cloud-Foundry.md)
 
-## Troubleshooting 
+## Troubleshooting
 
 Have troubles? Check out our [Troubleshooting Doc](./docs/troubleshooting.md)
 
