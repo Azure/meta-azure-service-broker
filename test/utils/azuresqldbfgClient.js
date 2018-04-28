@@ -2,10 +2,6 @@ var common = require('../../lib/common');
 var statusCode = require('./statusCode');
 var supportedEnvironments = require('./supportedEnvironments');
 var async = require('async');
-var msRestRequest = require('../../lib/common/msRestRequest');
-var util = require('util');
-var _ = require('underscore');
-var broker = require('../../brokerserver');
 var mssql = require('mssql');
 
 module.exports = function(environment) {
