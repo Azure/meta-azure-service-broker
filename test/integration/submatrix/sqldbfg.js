@@ -145,6 +145,7 @@ azuresqldbfg = {
             sqldb.poll(opParams, function(err, lastOp, result) {
               if (err) return cb(err);
               state = result.value.state;
+              cb(null);
             });
           },
           function(err) {
