@@ -5,13 +5,13 @@
 ## Behaviors
 
 ### Provision
-  
+
   1. Create a Redis Cache.
-  
+
 ### Provision-Poll
-  
+
   1. Check whether creating the Redis Cache succeeds or not.
-  
+
 ### Bind
 
   1. Collect credentials.
@@ -19,7 +19,7 @@
 ### Unbind
 
   Do nothing.
-  
+
 ### Deprovision
 
   1. Delete the Redis Cache.
@@ -27,7 +27,7 @@
 ### Deprovision-Poll
 
   1. Check whether deleting the Redis Cache succeeds or not.
-  
+
 ## Create an Azure Redis Cache service
 
 1. Get the service name and plans
@@ -65,12 +65,7 @@
     "location": "<location>",                 // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
     "cacheName": "<cache-name>",              // [Required] Unique. Must be between 3 and 63 characters long. Can only contain numbers, letters, and the - character. The cache name cannot start or end with the - character, and consecutive - characters are not valid.
     "parameters": {
-      "enableNonSslPort": true | false,
-      "sku": {                                // [Required] EXAMPLE: Basic C 0 for cache size 250MB, low network performance and 256 client connections. See more skus: https://azure.microsoft.com/en-us/pricing/details/cache/
-        "name": "<sku-name>",
-        "family": "<sku-family>",
-        "capacity": <capacity>
-      }
+      "enableNonSslPort": true | false
     }
   }
   ```
@@ -89,30 +84,25 @@
     "location": "eastus",
     "cacheName": "generated-string",
     "parameters": {
-      "enableNonSslPort": false,
-      "sku": {
-        "name": "Basic",
-        "family": "C",
-        "capacity": 0
-      }
+      "enableNonSslPort": false
     }
   }
   ```
-  
+
   >**NOTE:**
-  
+
     * Please remove the comments in the JSON file before you use it.
-    
+
     * Please set `enableNonSslPort: true` for redis instances bound to Spring apps.
-  
+
   Above parameters are also the defaults if the broker operator doesn't change broker default settings. You can just run the following command to create a service instance without the json file:
-  
+
   ```
   cf create-service azure-rediscache basic myrediscache
   ```
-  
+
   To create redis instances for Spring apps, you need to run:
-  
+
   ```
   cf create-service azure-rediscache basic myrediscache -c '{"parameters":{"enableNonSslPort":true}}'
   ```
@@ -156,7 +146,7 @@
   ```
 
   The credentials have the following format:
-  
+
   ```
   "credentials": {
      "hostname": "<cache-name>.redis.cache.windows.net",
