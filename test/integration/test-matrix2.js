@@ -22,6 +22,7 @@ for (var server in servers) {
     sqlServerName = server;
     administratorLogin = servers[server]['administratorLogin'];
     administratorLoginPassword = servers[server]['administratorLoginPassword'];
+    break;
   }
 }
 
