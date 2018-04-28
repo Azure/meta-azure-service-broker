@@ -84,7 +84,7 @@ try {
 
   // update instances
   
-  var sql1 = 'SELECT * FROM instances WHERE azureInstanceId like 'azure-sqldb-%';
+  var sql1 = 'SELECT * FROM instances WHERE azureInstanceId like \'azure-sqldb-%\'';
   
   executeSql(mssql_config, sql1, function(err, results) {
     if (err) {
