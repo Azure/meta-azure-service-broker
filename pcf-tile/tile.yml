@@ -162,7 +162,7 @@ forms:
     type: string
     configurable: true
     default: azure-service-broker
-    label: Default Resource Group 
+    label: Default Resource Group
   - name: default_location
     type: string
     configurable: true
@@ -174,12 +174,7 @@ forms:
     default: |
       {
         "parameters": {
-            "enableNonSslPort": false,
-            "sku": {
-                "name": "Basic",
-                "family": "C",
-                "capacity": 0
-            }
+            "enableNonSslPort": false
         }
       }
     label: Default Parameters of Azure Redis Cache service

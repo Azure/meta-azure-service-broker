@@ -4,7 +4,7 @@
   "location": "<location>",               // [Required  e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
   "cacheName": "<cache-name>",              // [Required] Unique. Must be between 3 and 63 characters long. Can only contain numbers, letters, and the - character. The cache name cannot start or end with the - character, and consecutive - characters are not valid.
   "parameters": {
-    "enableNonSslPort": true | false,
+    "enableNonSslPort": true | false
   }
 }
 */
@@ -14,6 +14,6 @@
   "location": "eastus",
   "cacheName": "generated-string",
   "parameters": {
-    "enableNonSslPort": false,
+    "enableNonSslPort": false
   }
 }
