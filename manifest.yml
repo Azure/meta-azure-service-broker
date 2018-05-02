@@ -17,7 +17,7 @@ applications:
     AZURE_BROKER_DATABASE_PASSWORD: REPLACE-ME
     AZURE_BROKER_DATABASE_NAME: REPLACE-ME
     AZURE_BROKER_DATABASE_ENCRYPTION_KEY: REPLACE-ME
-    
+
     AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER: true | false
     AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION: true | false
     AZURE_SQLDB_SQL_SERVER_POOL: '[
@@ -36,15 +36,15 @@ applications:
         "administratorLoginPassword": "REPLACE-ME"
       }
     ]'
-    
+
     ALLOW_TO_GENERATE_NAMES_AND_PASSWORDS_FOR_THE_MISSING: true
-    
+
     DEFAULT_RESOURCE_GROUP: azure-service-broker
     DEFAULT_LOCATION: eastus
-    
+
     DEFAULT_PARAMETERS_AZURE_REDISCACHE: '{
         "parameters": {
-            "enableNonSslPort": false,
+            "enableNonSslPort": false
         }
     }'
     DEFAULT_PARAMETERS_AZURE_SERVICEBUS: '{
