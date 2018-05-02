@@ -13,7 +13,7 @@ var statusCode = require('../utils/statusCode');
 var cleaner = require('./cleaner');
 
 function runLifecycle(testMatrix) {
-  testMatrix.forEach(function(service) {
+  var lifecycle = function(service) {
     // Invalidate node cache
     delete require.cache[require.resolve('../../brokerserver')];
     delete require.cache[require.resolve('../../lib/broker/v2/')];
@@ -310,7 +310,9 @@ function runLifecycle(testMatrix) {
 
     });
 
-  });
+  };
+
+  _.each(testMatrix, lifecycle);
 }
 
 runLifecycle(require('./test-matrix'));
