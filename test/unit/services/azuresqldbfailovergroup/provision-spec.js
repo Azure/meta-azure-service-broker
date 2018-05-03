@@ -32,7 +32,8 @@ describe('SqlDbFailoverGroup - Provision - PreConditions', function () {
           'primaryServerName': 'fakeservera',
           'primaryDbName': 'sqldba',
           'secondaryServerName': 'fakeserverb',
-          'failoverGroupName': 'failovergroupa'
+          'failoverGroupName': 'failovergroupa',
+          'userRoles': ['db_owner']
         },
         azure: azure,
         accountPool: {
@@ -71,7 +72,8 @@ describe('SqlDbFailoverGroup - Provision - PreConditions', function () {
           'primaryServerName': 'fakeservera',
           'primaryDbName': 'sqldba',
           'secondaryServerName': 'fakeserverb',
-          'failoverGroupName': 'failovergroupa'
+          'failoverGroupName': 'failovergroupa',
+          'userRoles': ['db_owner']
         },
         azure: azure,
         accountPool: {}
@@ -101,12 +103,13 @@ describe('SqlDbFailoverGroup - Provision - PreConditions', function () {
     });
 
     it('should fail to validate the parameters', function () {
-      (cp.getInvalidParams().length).should.equal(4);
+      (cp.getInvalidParams().length).should.equal(5);
       cp.getInvalidParams().should.deepEqual([
         'primaryServerName',
         'primaryDbName',
         'secondaryServerName',
-        'failoverGroupName'
+        'failoverGroupName',
+        'userRoles'
       ]);
     });
   });

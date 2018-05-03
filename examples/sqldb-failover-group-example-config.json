@@ -1,9 +1,10 @@
 /*
 {
-  "primaryServerName": "<sql-server-name>",    // [Required] The resource group name, admin login, and admin login password of this server should be provided in broker manifest.
-  "primaryDbName": "<sql-database-name>",      // [Required] The existing database on the primary server.
-  "secondaryServerName": "<sql-server-name>",  // [Required] The resource group name, admin login, and admin login password of this server should be provided in broker manifest.
-  "failoverGroupName": "<failover-group-name>" // [Required] The name of the new failover group.
+    "primaryServerName": "<sql-server-name>",     // [Required] The resource group name, admin login, and admin login password of this server should be provided in broker manifest.
+    "primaryDbName": "<sql-database-name>",       // [Required] The existing database on the primary server.
+    "secondaryServerName": "<sql-server-name>",   // [Required] The resource group name, admin login, and admin login password of this server should be provided in broker manifest.
+    "failoverGroupName": "<failover-group-name>", // [Required] The name of the new failover group.
+    "userRoles": "<an-array-of-fixed-roles>"      // [Optional] If not present, default to db_owner in the broker manifest. See about fixed roles: https://docs.microsoft.com/en-us/sql/relational-databases/security/authentication-access/database-level-roles?view=sql-server-2017#fixed-database-roles.
 }
 */
 
@@ -12,5 +13,6 @@
     "primaryServerName": "sqlservera",
     "primaryDbName": "sqldba",
     "secondaryServerName": "sqlserverb",
-    "failoverGroupName": "failovergroupa"
+    "failoverGroupName": "failovergroupa",
+    "userRoles": ["db_datareader", "db_datawriter"]
 }

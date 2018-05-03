@@ -61,7 +61,8 @@ azuresqldbfg = {
     'primaryServerName': primaryServerName,
     'primaryDbName': primaryDbName,
     'secondaryServerName': secondaryServerName,
-    'failoverGroupName': failoverGroupName
+    'failoverGroupName': failoverGroupName,
+    'userRoles': ['db_owner']
   },
   bindingParameters: {},
   credentials: {
