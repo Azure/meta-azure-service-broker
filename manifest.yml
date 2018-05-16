@@ -112,3 +112,6 @@ applications:
             }
         }
     }'
+    DEFAULT_PARAMETERS_AZURE_SQLDB_FAILOVER_GROUP: '{
+        "userRoles": ["db_owner"]
+    }'

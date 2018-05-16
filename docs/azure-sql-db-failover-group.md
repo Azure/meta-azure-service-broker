@@ -22,7 +22,7 @@
 
   1. Login to the primary database, create a new user with password.
 
-  2. Grant permission "CONTROL" to the user.
+  2. Alter roles (default to db_owner) to the user.
 
   3. Collect [credentials](./azure-sql-db-failover-group.md#format-of-credentials).
 
@@ -30,7 +30,7 @@
 
   * Binding would fail after failover because of the change of the primary role. Please bind before failover or fail back to bind. If you do have a case which has to bind after failover, please open a Github issue to request our improvement.
 
-  * Permission "CONTROL" has full permissions in a database: https://msdn.microsoft.com/en-us/library/ms178569.aspx
+  * See details about fixed roles: https://docs.microsoft.com/en-us/sql/relational-databases/security/authentication-access/database-level-roles?view=sql-server-2017#fixed-database-roles.
 
 ### Unbind
 
@@ -92,6 +92,20 @@
     "primaryDbName": "sqldba",
     "secondaryServerName": "sqlserverb",
     "failoverGroupName": "failovergroupa"
+  }
+  ```
+
+  And here is an optional provisioning parameter `userRoles` you can add to the json file, to specify the roles of the new users created in binding. If not present, the default role is db_owner. More details about roles: https://docs.microsoft.com/en-us/sql/relational-databases/security/authentication-access/database-level-roles?view=sql-server-2017#fixed-database-roles.
+
+  For example,
+
+  ```
+  {
+    "primaryServerName": "sqlservera",
+    "primaryDbName": "sqldba",
+    "secondaryServerName": "sqlserverb",
+    "failoverGroupName": "failovergroupa",
+    "userRoles": ["db_datareader", "db_datawriter"]
   }
   ```
 
