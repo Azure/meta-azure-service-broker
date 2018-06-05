@@ -21,8 +21,8 @@ var azuresqldbfg;
 instanceId = uuid.v4();
 bindingId = uuid.v4();
 var resourceGroupName = 'cloud-foundry-' + instanceId;
-var primaryServerName = 'cf' + instanceId;
-var primaryDbName = 'cf' + instanceId;
+var primaryServerName = 'cf-' + instanceId;
+var primaryDbName = 'cf-' + instanceId;
 var secondaryServerName = primaryServerName + '-2';
 var failoverGroupName = primaryServerName + '-fg';
 
@@ -80,7 +80,7 @@ azuresqldbfg = {
     'password': '<string>',
     'uri': '<string>'
   },
-  e2e: false,
+  e2e: true,
   envVars: envVars,
   preProvision: function(callback) {
     var opParams = {
