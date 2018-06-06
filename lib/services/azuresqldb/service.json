@@ -1,377 +1,571 @@
 {
-    "id": "fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5",
-    "name": "azure-sqldb",
-    "description": "Azure SQL Database Service",
-    "bindable": true,
-    "plan_updateable": true,
-    "metadata": {
-        "displayName": "Azure SQL Database Service",
-        "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/SQLDatabase.png",
-        "longDescription": "SQL Database is a cloud relational database service that helps you focus on rapid app development, accelerating your time to market instead of managing virtual machines and infrastructure.",
-        "providerDisplayName": "Microsoft"
-    },
-    "plans": [
-        {
-            "id": "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
-            "name": "basic",
-            "free":false,
-            "description": "Basic, 5 DTU, 2GB, 7 days point-in-time restore, auditing, optional active geo-replication.",
-            "metadata": {
-                "bullets": [
-                    "Up to 2GB of data",
-                    "5 DTU (database throughput units)",
-                    "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 7 days",
-                    "Auditing",
-                    "Pricing based on 744 hours per month of usage"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 5.00
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Basic",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "Basic",
-                    "maxSizeBytes": "2147483648",
-                    "requestedServiceObjectiveName": "Basic"
-                }
-            }
-        },
-        {
-            "id": "2497b7f3-341b-4ac6-82fb-d4a48c005e19",
-            "name": "StandardS0",
-            "free": false,
-            "description": "Standard S0, 10 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
-            "metadata": {
-                "bullets": [
-                    "Up to 250GB of data",
-                    "10 DTU (database throughput units)",
-                    "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 35 days",
-                    "Auditing",
-                    "Pricing based on 744 hours per month of usage"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 15.00
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Standard S0",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "Standard",
-                    "maxSizeBytes": "268435456000",
-                    "requestedServiceObjectiveName": "S0"
-                }
-            }
-        }, {
-            "id":"17725188-76a2-4d6c-8e86-49f146766eeb",
-            "name": "StandardS1",
-            "free": false,
-            "description": "Standard S1, 20 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
-            "metadata": {
-                "bullets": [
-                    "Up to 250GB of data",
-                    "20 DTU (database throughput units)",
-                    "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 35 days",
-                    "Auditing",
-                    "Pricing based on 744 hours per month of usage"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 30.00
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Standard S1",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "Standard",
-                    "maxSizeBytes": "268435456000",
-                    "requestedServiceObjectiveName": "S1"
-                }
-            }
-        }, {
-            "id":"a5537f8e-d816-4b0e-9546-a13811944bdd",
-            "name": "StandardS2",
-            "free": false,
-            "description": "Standard S2, 50 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
-            "metadata": {
-                "bullets": [
-                    "Up to 250GB of data",
-                    "50 DTU (database throughput units)",
-                    "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 35 days",
-                    "Auditing",
-                    "Pricing based on 744 hours per month of usage"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 75.02
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Standard S2",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "Standard",
-                    "maxSizeBytes": "268435456000",
-                    "requestedServiceObjectiveName": "S2"
-                }
-            }
-        }, {
-            "id":"26cf84bf-f700-4e65-8048-cbfa9c319d5f",
-            "name": "StandardS3",
-            "free": false,
-            "description": "Standard S3, 100 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
-            "metadata": {
-                "bullets": [
-                    "Up to 250GB of data",
-                    "100 DTU (database throughput units)",
-                    "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 35 days",
-                    "Auditing",
-                    "Pricing based on 744 hours per month of usage"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 150.00
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Standard S3",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "Standard",
-                    "maxSizeBytes": "268435456000",
-                    "requestedServiceObjectiveName": "S3"
-                }
-            }
-        }, {
-            "id":"f9a3cc8e-a6e2-474d-b032-9837ea3dfcaa",
-            "name": "PremiumP1",
-            "free": false,
-            "description": "Premium P1, 125 DTU, 500GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
-            "metadata": {
-                "bullets": [
-                    "Up to 500GB of data",
-                    "125 DTU (database throughput units)",
-                    "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 35 days",
-                    "Auditing",
-                    "Pricing based on 744 hours per month of usage"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 465.00
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Premium P1",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "Premium",
-                    "maxSizeBytes": "536870912000",
-                    "requestedServiceObjectiveName": "P1"
-                }
-            }
-        }, {
-            "id":"2bbbcc59-a0e0-4153-841b-2833cb417d43",
-            "name": "PremiumP2",
-            "free": false,
-            "description": "Premium P2, 250 DTU, 500GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
-            "metadata": {
-                "bullets": [
-                    "Up to 500GB of data",
-                    "250 DTU (database throughput units)",
-                    "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 35 days",
-                    "Auditing",
-                    "Pricing based on 744 hours per month of usage"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 930.00
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Premium P2",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "Premium",
-                    "maxSizeBytes": "536870912000",
-                    "requestedServiceObjectiveName": "P2"
-                }
-            }
-        }, {
-            "id":"85d54d69-55ee-4fe8-a207-66bc96ecf9e7",
-            "name": "PremiumP4",
-            "free": false,
-            "description": "Premium P4, 500 DTU, 500GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
-            "metadata": {
-                "bullets": [
-                    "Up to 500GB of data",
-                    "500 DTU (database throughput units)",
-                    "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 35 days",
-                    "Auditing",
-                    "Pricing based on 744 hours per month of usage"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 1860.00
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Premium P4",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "Premium",
-                    "maxSizeBytes": "536870912000",
-                    "requestedServiceObjectiveName": "P4"
-                }
-            }
-        }, {
-            "id":"af3dc76f-5b31-4cad-8adc-a9e756640a57",
-            "name": "PremiumP6",
-            "free": false,
-            "description": "Premium P6, 1000 DTU, 500GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
-            "metadata": {
-                "bullets": [
-                    "Up to 500GB of data",
-                    "1000 DTU (database throughput units)",
-                    "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 35 days",
-                    "Auditing",
-                    "Pricing based on 744 hours per month of usage"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 3720.00
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Premium P6",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "Premium",
-                    "maxSizeBytes": "536870912000",
-                    "requestedServiceObjectiveName": "P6"
-                }
-            }
-        }, {
-            "id":"408f5f35-5f5e-48f3-98cf-9e10c1abc4e5",
-            "name": "PremiumP11",
-            "free": false,
-            "description": "Premium P11, 1750 DTU, 1024GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
-            "metadata": {
-                "bullets": [
-                    "Up to 1024GB of data",
-                    "1750 DTU (database throughput units)",
-                    "Active Geo-replication (optional)",
-                    "Point-in-Time restore, 35 days",
-                    "Auditing",
-                    "Pricing based on 744 hours per month of usage"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 7000.11
-                        },
-                        "unit": "monthly estimate"
-                    }
-                ],
-                "displayName": "Premium P11",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "Premium",
-                    "maxSizeBytes": "1099511627776",
-                    "requestedServiceObjectiveName": "P11"
-                }
-            }
-        },
-        {
-            "id":"b69af389-7af5-47bd-9ccf-c1ffdc2620d9",
-            "name": "DataWarehouse100",
-            "free": false,
-            "description": "SQL Data Warehouse, 100 DWU, 1024GB",
-            "metadata": {
-                "bullets": [
-                    "Combines the SQL Server relational database with Azure cloud scale-out capabilities",
-                    "Decouples storage from compute",
-                    "Enables increasing, decreasing, pausing, or resuming compute",
-                    "Utilizes SQL Server Transact-SQL (T-SQL) and tools",
-                    "Complies with various legal and business security requirements such as SOC and ISO"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 1.51
-                        },
-                        "unit": "hourly estimate"
-                    }
-                ],
-                "displayName": "SQL Date warehouse 100 DWU",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "DataWarehouse",
-                    "maxSizeBytes": "1099511627776",
-                    "requestedServiceObjectiveName": "DW100"
-                }
-            }
-        },
-        {
-            "id":"470a869b-1b02-474b-b5e5-10ca0ea488df",
-            "name": "DataWarehouse1200",
-            "free": false,
-            "description": "SQL Data Warehouse, 1200 DWU, 1024GB",
-            "metadata": {
-                "bullets": [
-                    "Combines the SQL Server relational database with Azure cloud scale-out capabilities",
-                    "Decouples storage from compute",
-                    "Enables increasing, decreasing, pausing, or resuming compute",
-                    "Utilizes SQL Server Transact-SQL (T-SQL) and tools",
-                    "Complies with various legal and business security requirements such as SOC and ISO"
-                ],
-                "costs": [
-                    {
-                        "amount": {
-                            "usd": 18.15
-                        },
-                        "unit": "hourly estimate"
-                    }
-                ],
-                "displayName": "SQL Date warehouse 1200 DWU",
-                "details": {
-                    "createMode": "Default",
-                    "edition": "DataWarehouse",
-                    "maxSizeBytes": "1099511627776",
-                    "requestedServiceObjectiveName": "DW1200"
-                }
-            }
+  "id": "fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5",
+  "name": "azure-sqldb",
+  "description": "Azure SQL Database Service",
+  "bindable": true,
+  "plan_updateable": true,
+  "metadata": {
+    "displayName": "Azure SQL Database Service",
+    "imageUrl": "https://cloudfoundry.blob.core.windows.net/assets/SQLDatabase.png",
+    "longDescription": "SQL Database is a cloud relational database service that helps you focus on rapid app development, accelerating your time to market instead of managing virtual machines and infrastructure.",
+    "providerDisplayName": "Microsoft"
+  },
+  "plans": [
+    {
+      "id": "3819fdfa-0aaa-11e6-86f4-000d3a002ed5",
+      "name": "basic",
+      "free":false,
+      "description": "Basic, 5 DTU, 2GB, 7 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 2GB of data",
+          "5 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 7 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 5.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Basic",
+        "details": {
+          "createMode": "Default",
+          "edition": "Basic",
+          "maxSizeBytes": "2147483648",
+          "requestedServiceObjectiveName": "Basic"
         }
-    ]
+      }
+    },
+    {
+      "id": "2497b7f3-341b-4ac6-82fb-d4a48c005e19",
+      "name": "StandardS0",
+      "free": false,
+      "description": "Standard S0, 10 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 250GB of data",
+          "10 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 15.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Standard S0",
+        "details": {
+          "createMode": "Default",
+          "edition": "Standard",
+          "maxSizeBytes": "268435456000",
+          "requestedServiceObjectiveName": "S0"
+        }
+      }
+    },
+    {
+      "id": "17725188-76a2-4d6c-8e86-49f146766eeb",
+      "name": "StandardS1",
+      "free": false,
+      "description": "Standard S1, 20 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 250GB of data",
+          "20 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 30.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Standard S1",
+        "details": {
+          "createMode": "Default",
+          "edition": "Standard",
+          "maxSizeBytes": "268435456000",
+          "requestedServiceObjectiveName": "S1"
+        }
+      }
+    },
+    {
+      "id": "a5537f8e-d816-4b0e-9546-a13811944bdd",
+      "name": "StandardS2",
+      "free": false,
+      "description": "Standard S2, 50 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 250GB of data",
+          "50 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 75.02
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Standard S2",
+        "details": {
+          "createMode": "Default",
+          "edition": "Standard",
+          "maxSizeBytes": "268435456000",
+          "requestedServiceObjectiveName": "S2"
+        }
+      }
+    },
+    {
+      "id": "26cf84bf-f700-4e65-8048-cbfa9c319d5f",
+      "name": "StandardS3",
+      "free": false,
+      "description": "Standard S3, 100 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 250GB of data",
+          "100 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 150.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Standard S3",
+        "details": {
+          "createMode": "Default",
+          "edition": "Standard",
+          "maxSizeBytes": "268435456000",
+          "requestedServiceObjectiveName": "S3"
+        }
+      }
+    },
+    {
+      "id": "65e60111-81f8-42d7-bf09-58083612cd94",
+      "name": "StandardS4",
+      "free": false,
+      "description": "Standard S4, 200 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 250GB of data",
+          "200 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 290.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Standard S4",
+        "details": {
+          "createMode": "Default",
+          "edition": "Standard",
+          "maxSizeBytes": "268435456000",
+          "requestedServiceObjectiveName": "S4"
+        }
+      }
+    },
+    {
+      "id": "f187e743-bbc8-43a7-bbe0-ee09da9e4946",
+      "name": "StandardS6",
+      "free": false,
+      "description": "Standard S6, 400 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 250GB of data",
+          "400 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 580.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Standard S6",
+        "details": {
+          "createMode": "Default",
+          "edition": "Standard",
+          "maxSizeBytes": "268435456000",
+          "requestedServiceObjectiveName": "S6"
+        }
+      }
+    },
+    {
+      "id": "2584753f-7333-4327-bb44-410087648253",
+      "name": "StandardS7",
+      "free": false,
+      "description": "Standard S7, 800 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 250GB of data",
+          "800 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 1161.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Standard S7",
+        "details": {
+          "createMode": "Default",
+          "edition": "Standard",
+          "maxSizeBytes": "268435456000",
+          "requestedServiceObjectiveName": "S7"
+        }
+      }
+    },
+    {
+      "id": "e865fc61-57e9-4e72-88d4-d6d156ec5109",
+      "name": "StandardS9",
+      "free": false,
+      "description": "Standard S9, 1600 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 250GB of data",
+          "1600 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 2322.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Standard S9",
+        "details": {
+          "createMode": "Default",
+          "edition": "Standard",
+          "maxSizeBytes": "268435456000",
+          "requestedServiceObjectiveName": "S9"
+        }
+      }
+    },
+    {
+      "id": "a24192ce-b445-4868-b648-f02cdbe55830",
+      "name": "StandardS12",
+      "free": false,
+      "description": "Standard S12, 3000 DTU, 250GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 250GB of data",
+          "3000 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 4355.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Standard S12",
+        "details": {
+          "createMode": "Default",
+          "edition": "Standard",
+          "maxSizeBytes": "268435456000",
+          "requestedServiceObjectiveName": "S12"
+        }
+      }
+    },
+    {
+      "id": "f9a3cc8e-a6e2-474d-b032-9837ea3dfcaa",
+      "name": "PremiumP1",
+      "free": false,
+      "description": "Premium P1, 125 DTU, 500GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 500GB of data",
+          "125 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 465.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Premium P1",
+        "details": {
+          "createMode": "Default",
+          "edition": "Premium",
+          "maxSizeBytes": "536870912000",
+          "requestedServiceObjectiveName": "P1"
+        }
+      }
+    },
+    {
+      "id": "2bbbcc59-a0e0-4153-841b-2833cb417d43",
+      "name": "PremiumP2",
+      "free": false,
+      "description": "Premium P2, 250 DTU, 500GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 500GB of data",
+          "250 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 930.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Premium P2",
+        "details": {
+          "createMode": "Default",
+          "edition": "Premium",
+          "maxSizeBytes": "536870912000",
+          "requestedServiceObjectiveName": "P2"
+        }
+      }
+    },
+    {
+      "id": "85d54d69-55ee-4fe8-a207-66bc96ecf9e7",
+      "name": "PremiumP4",
+      "free": false,
+      "description": "Premium P4, 500 DTU, 500GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 500GB of data",
+          "500 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 1860.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Premium P4",
+        "details": {
+          "createMode": "Default",
+          "edition": "Premium",
+          "maxSizeBytes": "536870912000",
+          "requestedServiceObjectiveName": "P4"
+        }
+      }
+    },
+    {
+      "id": "af3dc76f-5b31-4cad-8adc-a9e756640a57",
+      "name": "PremiumP6",
+      "free": false,
+      "description": "Premium P6, 1000 DTU, 500GB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 500GB of data",
+          "1000 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 3720.00
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Premium P6",
+        "details": {
+          "createMode": "Default",
+          "edition": "Premium",
+          "maxSizeBytes": "536870912000",
+          "requestedServiceObjectiveName": "P6"
+        }
+      }
+    },
+    {
+      "id": "408f5f35-5f5e-48f3-98cf-9e10c1abc4e5",
+      "name": "PremiumP11",
+      "free": false,
+      "description": "Premium P11, 1750 DTU, 4TB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 4TB of data",
+          "1750 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 7000.11
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Premium P11",
+        "details": {
+          "createMode": "Default",
+          "edition": "Premium",
+          "maxSizeBytes": "4398046511104",
+          "requestedServiceObjectiveName": "P11"
+        }
+      }
+    },
+    {
+      "id": "2929eeff-c0a0-4204-84cf-0f0982127652",
+      "name": "PremiumP15",
+      "free": false,
+      "description": "Premium P15, 4000 DTU, 4TB, 35 days point-in-time restore, auditing, optional active geo-replication.",
+      "metadata": {
+        "bullets": [
+          "Up to 4TB of data",
+          "4000 DTU (database throughput units)",
+          "Active Geo-replication (optional)",
+          "Point-in-Time restore, 35 days",
+          "Auditing",
+          "Pricing based on 744 hours per month of usage"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 15487.2
+            },
+            "unit": "monthly estimate"
+          }
+        ],
+        "displayName": "Premium P15",
+        "details": {
+          "createMode": "Default",
+          "edition": "Premium",
+          "maxSizeBytes": "4398046511104",
+          "requestedServiceObjectiveName": "P15"
+        }
+      }
+    },
+    {
+      "id": "b69af389-7af5-47bd-9ccf-c1ffdc2620d9",
+      "name": "DataWarehouse100",
+      "free": false,
+      "description": "SQL Data Warehouse, 100 DWU, 1024GB",
+      "metadata": {
+        "bullets": [
+          "Combines the SQL Server relational database with Azure cloud scale-out capabilities",
+          "Decouples storage from compute",
+          "Enables increasing, decreasing, pausing, or resuming compute",
+          "Utilizes SQL Server Transact-SQL (T-SQL) and tools",
+          "Complies with various legal and business security requirements such as SOC and ISO"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 1.51
+            },
+            "unit": "hourly estimate"
+          }
+        ],
+        "displayName": "SQL Date warehouse 100 DWU",
+        "details": {
+          "createMode": "Default",
+          "edition": "DataWarehouse",
+          "maxSizeBytes": "1099511627776",
+          "requestedServiceObjectiveName": "DW100"
+        }
+      }
+    },
+    {
+      "id": "470a869b-1b02-474b-b5e5-10ca0ea488df",
+      "name": "DataWarehouse1200",
+      "free": false,
+      "description": "SQL Data Warehouse, 1200 DWU, 1024GB",
+      "metadata": {
+        "bullets": [
+          "Combines the SQL Server relational database with Azure cloud scale-out capabilities",
+          "Decouples storage from compute",
+          "Enables increasing, decreasing, pausing, or resuming compute",
+          "Utilizes SQL Server Transact-SQL (T-SQL) and tools",
+          "Complies with various legal and business security requirements such as SOC and ISO"
+        ],
+        "costs": [
+          {
+            "amount": {
+              "usd": 18.15
+            },
+            "unit": "hourly estimate"
+          }
+        ],
+        "displayName": "SQL Date warehouse 1200 DWU",
+        "details": {
+          "createMode": "Default",
+          "edition": "DataWarehouse",
+          "maxSizeBytes": "1099511627776",
+          "requestedServiceObjectiveName": "DW1200"
+        }
+      }
+    }
+  ]
 }

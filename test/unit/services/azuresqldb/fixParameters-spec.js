@@ -30,12 +30,12 @@ describe('SqlDb', function() {
         }\
       }';
     });
-    
+
     var paramsToValidate = ['resourceGroup', 'sqlServerName', 'location', 'sqlServerParameters', 'sqldbName', 'transparentDataEncryption', 'sqldbParameters'];
-      
-    describe('When no parameter passed in', function() {
+
+    describe('When no provisioning parameter passed in', function() {
       var parameters = {};
-      
+
       it('should fix the parameters', function() {
         var fixedParams = azuresqldb.fixParameters(parameters);
         paramsToValidate.forEach(function(param){
@@ -44,9 +44,9 @@ describe('SqlDb', function() {
       });
     });
 
-    describe('When part of parameters passed in: collation', function() {
+    describe('When part of parameters passed in:', function() {
       var parameters = {'sqldbParameters': { 'properties': {'collation': 'fake-collation'}}};
-      
+
       it('should fix the parameters', function() {
         var fixedParams = azuresqldb.fixParameters(parameters);
         paramsToValidate.forEach(function(param){
@@ -55,10 +55,10 @@ describe('SqlDb', function() {
         fixedParams.sqldbParameters.properties.collation.should.equal('fake-collation');
       });
     });
-    
+
     describe('When part of parameters passed in: sqldbName', function() {
       var parameters = {'sqldbName': 'fake-name'};
-      
+
       it('should fix the parameters', function() {
         var fixedParams = azuresqldb.fixParameters(parameters);
         paramsToValidate.forEach(function(param){
@@ -68,29 +68,31 @@ describe('SqlDb', function() {
       });
     });
   });
-  
-  describe('fixParameters - existing server', function() {
-    process.env['ALLOW_TO_GENERATE_NAMES_AND_PASSWORDS_FOR_THE_MISSING'] = 'true';
-    process.env['DEFAULT_RESOURCE_GROUP'] = 'azure-service-broker';
-    process.env['DEFAULT_LOCATION'] = 'eastus';
-    process.env['DEFAULT_PARAMETERS_AZURE_SQLDB'] = '{\
-      "sqlServerParameters": {\
-        "allowSqlServerFirewallRules": [\
-          {\
-            "ruleName": "all",\
-            "startIpAddress": "0.0.0.0",\
-            "endIpAddress": "255.255.255.255"\
+
+  describe('fixParameters - existing server - server name provided by provisioning parameters', function() {
+    before(function() {
+      process.env['ALLOW_TO_GENERATE_NAMES_AND_PASSWORDS_FOR_THE_MISSING'] = 'true';
+      process.env['DEFAULT_RESOURCE_GROUP'] = 'azure-service-broker';
+      process.env['DEFAULT_LOCATION'] = 'eastus';
+      process.env['DEFAULT_PARAMETERS_AZURE_SQLDB'] = '{\
+        "sqlServerParameters": {\
+          "allowSqlServerFirewallRules": [\
+            {\
+              "ruleName": "all",\
+              "startIpAddress": "0.0.0.0",\
+              "endIpAddress": "255.255.255.255"\
+            }\
+          ]\
+        },\
+        "transparentDataEncryption": true,\
+        "sqldbParameters": {\
+          "properties": {\
+            "collation": "SQL_Latin1_General_CP1_CI_AS"\
           }\
-        ]\
-      },\
-      "transparentDataEncryption": true,\
-      "sqldbParameters": {\
-        "properties": {\
-          "collation": "SQL_Latin1_General_CP1_CI_AS"\
         }\
-      }\
-    }';
-    
+      }';
+    });
+
     var accountPool = {
       'sqldb': {
         'sqlservera': {
@@ -101,23 +103,71 @@ describe('SqlDb', function() {
         }
       }
     };
-    
+
     var paramsToValidate = ['sqlServerName', 'sqldbName', 'transparentDataEncryption', 'sqldbParameters'];
-    
-    describe('When only server name passed in: collation', function() {
+
+    describe('When only server name passed in:', function() {
       var parameters = {'sqlServerName': 'sqlservera'};
-      
+
       it('should fix the parameters', function() {
         var fixedParams = azuresqldb.fixParameters(parameters, accountPool);
         paramsToValidate.forEach(function(param){
           should.exist(fixedParams[param]);
         });
-        
+
         should.not.exist(fixedParams['resourceGroup']);
         should.not.exist(fixedParams['location']);
         should.not.exist(fixedParams['sqlServerParameters']);
+        should.not.exist(fixedParams['administratorLogin']);
+        should.not.exist(fixedParams['administratorLoginPassword']);
       });
     });
   });
-  
+
+  describe('fixParameters - existing server - server name provided by default parameters', function() {
+    before(function() {
+      process.env['ALLOW_TO_GENERATE_NAMES_AND_PASSWORDS_FOR_THE_MISSING'] = 'true';
+      process.env['DEFAULT_RESOURCE_GROUP'] = 'azure-service-broker';
+      process.env['DEFAULT_LOCATION'] = 'eastus';
+      process.env['DEFAULT_PARAMETERS_AZURE_SQLDB'] = '{\
+        "sqlServerName": "sqlservera",\
+        "transparentDataEncryption": true,\
+        "sqldbParameters": {\
+          "properties": {\
+            "collation": "SQL_Latin1_General_CP1_CI_AS"\
+          }\
+        }\
+      }';
+    });
+
+    var accountPool = {
+      'sqldb': {
+        'sqlservera': {
+          'resourceGroup': 'fake-rg',
+          'location': 'fake-location',
+          'administratorLogin': 'fake-admin',
+          'administratorLoginPassword': 'fake-pwd'
+        }
+      }
+    };
+
+    var paramsToValidate = ['sqlServerName', 'sqldbName', 'transparentDataEncryption', 'sqldbParameters'];
+
+    describe('When no provisioning parameter passed in:', function() {
+      var parameters = {};
+
+      it('should fix the parameters', function() {
+        var fixedParams = azuresqldb.fixParameters(parameters, accountPool);
+        paramsToValidate.forEach(function(param){
+          should.exist(fixedParams[param]);
+        });
+
+        should.not.exist(fixedParams['resourceGroup']);
+        should.not.exist(fixedParams['location']);
+        should.not.exist(fixedParams['sqlServerParameters']);
+        should.not.exist(fixedParams['administratorLogin']);
+        should.not.exist(fixedParams['administratorLoginPassword']);
+      });
+    });
+  });
 });
