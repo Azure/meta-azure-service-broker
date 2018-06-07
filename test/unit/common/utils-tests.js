@@ -53,7 +53,7 @@ describe('Util', function() {
             'authUser': environmentVariablesToSet['SECURITY_USER_NAME'],
             'authPassword': environmentVariablesToSet['SECURITY_USER_PASSWORD']
           },
-          'spaceScopingEnabled': environmentVariablesToSet['SPACE_SCOPING_ENABLED']
+          'spaceScopingEnabled': false
         },
         'database': {
           'provider': environmentVariablesToSet['AZURE_BROKER_DATABASE_PROVIDER'],
