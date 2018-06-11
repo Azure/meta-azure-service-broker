@@ -9,10 +9,10 @@ var request = require('request');
 var Common = require('../../../lib/common');
 var Token = require('../../../lib/common/token');
 
-describe('Util', function() {
+describe('Util', function () {
 
-  describe('config', function() {
-    context('when configurations are set via environment variables', function() {
+  describe('config', function () {
+    context('when configurations are set via environment variables', function () {
       var keys = [
         'ENVIRONMENT',
         'SUBSCRIPTION_ID',
@@ -30,12 +30,12 @@ describe('Util', function() {
       ];
 
       var environmentVariablesToBackup = {};
-      keys.forEach(function(key){
+      keys.forEach(function (key) {
         environmentVariablesToBackup[key] = process.env[key];
       });
 
       var environmentVariablesToSet = {};
-      keys.forEach(function(key){
+      keys.forEach(function (key) {
         environmentVariablesToSet[key] = 'fake-' + key;
       });
       environmentVariablesToSet['AZURE_BROKER_DATABASE_ENCRYPTION_KEY'] = 'abcdefghijklmnopqrstuvwxyz123456'; // The key size must be 32
@@ -77,30 +77,30 @@ describe('Util', function() {
           }
         }
       };
-      
-      describe('in case AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER and AZURE_SQLDB_SQL_SERVER_POOL are not in environment variables', function() {
-        before(function() {
-          keys.forEach(function(key){
+
+      describe('in case AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER and AZURE_SQLDB_SQL_SERVER_POOL are not in environment variables', function () {
+        before(function () {
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToSet[key];
           });
           delete process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'];
           delete process.env['AZURE_SQLDB_SQL_SERVER_POOL'];
         });
 
-        after(function() {
-          keys.forEach(function(key){
+        after(function () {
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToBackup[key];
           });
         });
 
-        it('should fetch configurations from environment variables', function() {
+        it('should fetch configurations from environment variables', function () {
           var actualConfig = Common.getConfigurations();
           actualConfig.should.eql(expectedConfig);
         });
       });
-      
-      describe('in case AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER is true', function() {
-        before(function() {
+
+      describe('in case AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER is true', function () {
+        before(function () {
           process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'] = 'true';
           process.env['AZURE_SQLDB_SQL_SERVER_POOL'] = '[ \
             { \
@@ -118,7 +118,7 @@ describe('Util', function() {
               "administratorLoginPassword": "fake-pwd1" \
             } \
           ]';
-        
+
           expectedConfig['privilege']['sqldb']['allowToCreateSqlServer'] = true;
           expectedConfig['accountPool']['sqldb'] = {
             'fake-server0': {
@@ -134,26 +134,26 @@ describe('Util', function() {
               'administratorLoginPassword': 'fake-pwd1'
             }
           };
-          
-          keys.forEach(function(key){
+
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToSet[key];
           });
         });
 
-        after(function() {
-          keys.forEach(function(key){
+        after(function () {
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToBackup[key];
           });
         });
-        
-        it('should fetch configurations from environment variables - 2', function() {
+
+        it('should fetch configurations from environment variables - 2', function () {
           var actualConfig = Common.getConfigurations();
           actualConfig.should.eql(expectedConfig);
         });
       });
-        
-      describe('in case AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER is false, and administratorLoginPassword is in pcf-tile format', function() {
-        before(function() {
+
+      describe('in case AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER is false, and administratorLoginPassword is in pcf-tile format', function () {
+        before(function () {
           process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'] = 'false';
           process.env['AZURE_SQLDB_SQL_SERVER_POOL'] = '[ \
             { \
@@ -171,7 +171,7 @@ describe('Util', function() {
               "administratorLoginPassword": {"secret": "fake-pwd1"} \
             } \
           ]';
-          
+
           expectedConfig['privilege']['sqldb']['allowToCreateSqlServer'] = false;
           expectedConfig['accountPool']['sqldb'] = {
             'fake-server0': {
@@ -187,88 +187,88 @@ describe('Util', function() {
               'administratorLoginPassword': 'fake-pwd1'
             }
           };
-          
-          keys.forEach(function(key){
+
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToSet[key];
           });
         });
 
-        after(function() {
-          keys.forEach(function(key){
+        after(function () {
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToBackup[key];
           });
         });
-        
-        it('should fetch configurations from environment variables - 3', function() {
+
+        it('should fetch configurations from environment variables - 3', function () {
           var actualConfig = Common.getConfigurations();
           actualConfig.should.eql(expectedConfig);
         });
       });
-      
-      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is true', function() {
-        before(function() {
+
+      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is true', function () {
+        before(function () {
           process.env['AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION'] = 'true';
-          
+
           expectedConfig['defaultSettings']['sqldb']['transparentDataEncryption'] = true;
-          
-          keys.forEach(function(key){
+
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToSet[key];
           });
         });
 
-        after(function() {
-          keys.forEach(function(key){
+        after(function () {
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToBackup[key];
           });
         });
-        
-        it('should fetch configurations from environment variables - 4', function() {
+
+        it('should fetch configurations from environment variables - 4', function () {
           var actualConfig = Common.getConfigurations();
           actualConfig.should.eql(expectedConfig);
         });
       });
-      
-      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is false', function() {
-        before(function() {
+
+      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is false', function () {
+        before(function () {
           process.env['AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION'] = 'false';
-          
+
           expectedConfig['defaultSettings']['sqldb']['transparentDataEncryption'] = false;
-          
-          keys.forEach(function(key){
+
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToSet[key];
           });
         });
 
-        after(function() {
-          keys.forEach(function(key){
+        after(function () {
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToBackup[key];
           });
         });
-        
-        it('should fetch configurations from environment variables - 5', function() {
+
+        it('should fetch configurations from environment variables - 5', function () {
           var actualConfig = Common.getConfigurations();
           actualConfig.should.eql(expectedConfig);
         });
       });
-      
-      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is not present', function() {
-        before(function() {
+
+      describe('in case AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION is not present', function () {
+        before(function () {
           delete process.env['AZURE_SQLDB_ENABLE_TRANSPARENT_DATA_ENCRYPTION'];
-          
+
           expectedConfig['defaultSettings']['sqldb']['transparentDataEncryption'] = false;
-          
-          keys.forEach(function(key){
+
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToSet[key];
           });
         });
 
-        after(function() {
-          keys.forEach(function(key){
+        after(function () {
+          keys.forEach(function (key) {
             process.env[key] = environmentVariablesToBackup[key];
           });
         });
-        
-        it('should fetch configurations from environment variables - 3', function() {
+
+        it('should fetch configurations from environment variables - 3', function () {
           var actualConfig = Common.getConfigurations();
           actualConfig.should.eql(expectedConfig);
         });
@@ -276,8 +276,8 @@ describe('Util', function() {
     });
   });
 
-  describe('getEnvironment()', function() {
-    it('should get the environment by the name', function() {
+  describe('getEnvironment()', function () {
+    it('should get the environment by the name', function () {
       var envName = 'AzureCloud';
       var env = Common.getEnvironment(envName);
       env.should.be.exactly(AzureEnvironment.Azure);
@@ -287,99 +287,248 @@ describe('Util', function() {
     });
   });
 
-  describe('logHttpResponse()', function() {
-    before(function() {
+  describe('logHttpResponse()', function () {
+    before(function () {
       sinon.stub(log, 'debug');
     });
 
-    after(function() {
+    after(function () {
       log.debug.restore();
     });
 
-    it('should call log.debug with correct message when logging body', function() {
+    it('should call log.debug with correct message when logging body', function () {
       var operation = 'operationx';
       Common.logHttpResponse({
-                               statusCode: '123',
-                               headers: {
-                                 'x-ms-request-id': 'aaa',
-                                 'x-ms-correlation-request-id': 'bbb',
-                                 'x-ms-routing-request-id': 'ccc'
-                               },
-                               'body': {}
-                             },
-                             operation,
-                             true);
+        statusCode: '123',
+        headers: {
+          'x-ms-request-id': 'aaa',
+          'x-ms-correlation-request-id': 'bbb',
+          'x-ms-routing-request-id': 'ccc'
+        },
+        'body': {}
+      },
+        operation,
+        true);
 
       var message = util.format('receive from: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n',
-                                operation,
-                                'statusCode', '123',
-                                'x-ms-request-id', 'aaa',
-                                'x-ms-correlation-request-id', 'bbb',
-                                'x-ms-routing-request-id', 'ccc',
-                                'body', '{}');
+        operation,
+        'statusCode', '123',
+        'x-ms-request-id', 'aaa',
+        'x-ms-correlation-request-id', 'bbb',
+        'x-ms-routing-request-id', 'ccc',
+        'body', '{}');
       sinon.assert.calledWithMatch(log.debug, 'HTTP Response: %s', message);
     });
 
-    it('should call log.debug with correct message when not logging body', function() {
+    it('should call log.debug with correct message when not logging body', function () {
       var operation = 'operationx';
       Common.logHttpResponse({
-                               statusCode: '123',
-                               headers: {
-                                 'x-ms-request-id': 'aaa',
-                                 'x-ms-correlation-request-id': 'bbb',
-                                 'x-ms-routing-request-id': 'ccc'
-                               },
-                               'body': 'ddd'
-                             },
-                             operation,
-                             false);
+        statusCode: '123',
+        headers: {
+          'x-ms-request-id': 'aaa',
+          'x-ms-correlation-request-id': 'bbb',
+          'x-ms-routing-request-id': 'ccc'
+        },
+        'body': 'ddd'
+      },
+        operation,
+        false);
 
       var message = util.format('receive from: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s\n',
-                                operation,
-                                'statusCode', '123',
-                                'x-ms-request-id', 'aaa',
-                                'x-ms-correlation-request-id', 'bbb',
-                                'x-ms-routing-request-id', 'ccc',
-                                'response.body cannot be logged because it may contain credentials.');
+        operation,
+        'statusCode', '123',
+        'x-ms-request-id', 'aaa',
+        'x-ms-correlation-request-id', 'bbb',
+        'x-ms-routing-request-id', 'ccc',
+        'response.body cannot be logged because it may contain credentials.');
       sinon.assert.calledWithMatch(log.debug, 'HTTP Response: %s', message);
     });
   });
-  
-  describe('getToken()', function() {
-    describe('when the status code of response is 200', function() {
-      before(function() {
+
+  describe('getToken()', function () {
+    describe('when the status code of response is 200', function () {
+      before(function () {
         Token.init({}, {});
-        sinon.stub(request, 'post').yields(null, {statusCode: 200}, '{"access_token": "asdasdasd"}');
+        sinon.stub(request, 'post').yields(null, { statusCode: 200 }, '{"access_token": "asdasdasd"}');
       });
 
-      after(function() {
+      after(function () {
         request.post.restore();
       });
-      
-      it('should get the token', function() {
-        Token.getToken(true, function(err, token) {
+
+      it('should get the token', function () {
+        Token.getToken(true, function (err, token) {
           should.not.exist(err);
           token.should.be.exactly('asdasdasd');
         });
       });
     });
-    
-    describe('when the status code of response is 403', function() {
-      before(function() {
+
+    describe('when the status code of response is 403', function () {
+      before(function () {
         Token.init({}, {});
-        sinon.stub(request, 'post').yields(null, {statusCode: 403});
+        sinon.stub(request, 'post').yields(null, { statusCode: 403 });
       });
 
-      after(function() {
+      after(function () {
         request.post.restore();
       });
-      
-      it('should get an error', function() {
-        Token.getToken(true, function(err, token) {
+
+      it('should get an error', function () {
+        Token.getToken(true, function (err, token) {
           should.exist(err);
           err.statusCode.should.equal(403);
         });
       });
     });
   });
+
+  describe('fixNamesIfSpaceScopingEnabled()', function () {
+
+    var vcapApplicationJson = '{ "space_id": "575e0353-f98d-4a01-8d95-26f595436af9", "space_name": "fake_space" }';
+    var vcapApplicationJsonAlternate = '{ "space_id": "9811f187-dfb5-4aab-b2f0-fa4ad77e8bee", "space_name": "fake_space" }';
+
+    var testServiceConfig = {
+      'id': '405db572-c611-4496-abc3-382fe70f29d7',
+      'name': 'fake-service',
+      'description': 'fake service description',
+      'bindable': true,
+      'metadata': {
+        'displayName': 'fake service display name',
+        'imageUrl': 'https://cloudfoundry.blob.core.windows.net/assets/CosmosDB.png',
+        'longDescription': 'fake service long description',
+        'providerDisplayName': 'Microsoft'
+      },
+      'plans': [{
+        'id': '19d433f0-ea86-4e81-84d1-92eb97e8a434',
+        'name': 'fake-plan-01',
+        'free': false,
+        'description': 'fake-plan-01 long description',
+        'metadata': {
+          'bullets': [],
+          'costs': [{
+            'amount': {
+              'usd': 0.00
+            },
+            'unit': 'monthly estimate'
+          }],
+          'displayName': 'Standard'
+        }
+      }, 
+      {
+        'id': '98d433f0-ea86-4e81-84d1-92eb97e8a545',
+        'name': 'fake-plan-02',
+        'free':false,
+        'description': 'fake-plan-02 long description',
+        'metadata': {
+          'bullets': [],
+          'costs': [{
+            'amount': {
+              'usd': 0.00
+            },
+            'unit': 'monthly estimate'
+          }],
+          'displayName': 'Standard'
+        }
+      }]
+    };
+
+    var expectedServiceConfig = {
+      'id': 'f2a9f3f9-83c0-548f-842e-651e8260ea9a',
+      'name': 'fake-service-575e0353-f98d-4a01-8d95-26f595436af9',
+      'description': 'fake service description (fake_space)',
+      'bindable': true,
+      'metadata': {
+        'displayName': 'fake service display name',
+        'imageUrl': 'https://cloudfoundry.blob.core.windows.net/assets/CosmosDB.png',
+        'longDescription': 'fake service long description',
+        'providerDisplayName': 'Microsoft'
+      },
+      'plans': [{
+        'id': '75272ae5-33fd-5120-9420-96866327a7f1',
+        'name': 'fake-plan-01',
+        'free': false,
+        'description': 'fake-plan-01 long description',
+        'metadata': {
+          'bullets': [],
+          'costs': [{
+            'amount': {
+              'usd': 0.00
+            },
+            'unit': 'monthly estimate'
+          }],
+          'displayName': 'Standard'
+        }
+      }, 
+      {
+        'id': 'e6f68426-1348-53db-8e8d-909275fa2b87',
+        'name': 'fake-plan-02',
+        'free':false,
+        'description': 'fake-plan-02 long description',
+        'metadata': {
+          'bullets': [],
+          'costs': [{
+            'amount': {
+              'usd': 0.00
+            },
+            'unit': 'monthly estimate'
+          }],
+          'displayName': 'Standard'
+        }
+      }]
+    };
+
+    function copyTestServiceConfig() {
+      // Needs to copy the test service configuration to ensure its not overwritten as part of testing
+      // I know its not the most effective way, but it was the fastest way to get the tests completed, quickly
+      return JSON.parse(JSON.stringify(testServiceConfig));
+    }
+
+    context('space scoping is enabled', function () {
+
+      before(function () {
+        process.env['SPACE_SCOPING_ENABLED'] = 'true';
+        process.env['VCAP_APPLICATION'] = vcapApplicationJson;
+      });
+
+      after(function () {
+        // no clean-up required
+      });
+
+      it('should update service IDs, service names and plan IDs if space scoping is enabled', function () {
+        var actualServiceConfig = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
+        actualServiceConfig.should.eql(expectedServiceConfig);
+      });
+
+      it('should have repeatable, unique service IDs, service names and plan IDs for space-scoped instances', function () {
+        var actualServiceConfigFirst = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
+        var actualServiceConfigSecond = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
+        
+        process.env['VCAP_APPLICATION'] = vcapApplicationJsonAlternate;
+
+        var actualServiceConfigThird = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
+        var actualServiceConfigFourth = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
+
+        actualServiceConfigFirst.should.eql(actualServiceConfigSecond);
+        actualServiceConfigThird.should.eql(actualServiceConfigFourth);
+      });
+    });
+
+    context('space scoping is disabled', function() {
+      before(function () {
+        process.env['SPACE_SCOPING_ENABLED'] = 'false';
+        process.env['VCAP_APPLICATION'] = JSON.stringify(vcapApplicationJson);
+      });
+
+      after(function () {
+        // no clean-up required
+      });
+
+      it('should not modify service configurations if space scoping is disabled', function() {
+        var actualServiceConfig = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
+        actualServiceConfig.should.eql(testServiceConfig); 
+      });
+    });
+  });
+
 });
