@@ -5,6 +5,7 @@ var sinon = require('sinon');
 var util = require('util');
 var AzureEnvironment = require('ms-rest-azure').AzureEnvironment;
 var request = require('request');
+var underscore = require('underscore');
 
 var Common = require('../../../lib/common');
 var Token = require('../../../lib/common/token');
@@ -478,12 +479,6 @@ describe('Util', function () {
       }]
     };
 
-    function copyTestServiceConfig() {
-      // Needs to copy the test service configuration to ensure its not overwritten as part of testing
-      // I know its not the most effective way, but it was the fastest way to get the tests completed, quickly
-      return JSON.parse(JSON.stringify(testServiceConfig));
-    }
-
     context('space scoping is enabled', function () {
 
       before(function () {
@@ -496,18 +491,18 @@ describe('Util', function () {
       });
 
       it('should update service IDs, service names and plan IDs if space scoping is enabled', function () {
-        var actualServiceConfig = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
+        var actualServiceConfig = Common.fixNamesIfSpaceScopingEnabled(underscore.clone(testServiceConfig));
         actualServiceConfig.should.eql(expectedServiceConfig);
       });
 
       it('should have repeatable, unique service IDs, service names and plan IDs for space-scoped instances', function () {
-        var actualServiceConfigFirst = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
-        var actualServiceConfigSecond = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
+        var actualServiceConfigFirst = Common.fixNamesIfSpaceScopingEnabled(underscore.clone(testServiceConfig));
+        var actualServiceConfigSecond = Common.fixNamesIfSpaceScopingEnabled(underscore.clone(testServiceConfig));
         
         process.env['VCAP_APPLICATION'] = vcapApplicationJsonAlternate;
 
-        var actualServiceConfigThird = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
-        var actualServiceConfigFourth = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
+        var actualServiceConfigThird = Common.fixNamesIfSpaceScopingEnabled(underscore.clone(testServiceConfig));
+        var actualServiceConfigFourth = Common.fixNamesIfSpaceScopingEnabled(underscore.clone(testServiceConfig));
 
         actualServiceConfigFirst.should.eql(actualServiceConfigSecond);
         actualServiceConfigThird.should.eql(actualServiceConfigFourth);
@@ -525,7 +520,7 @@ describe('Util', function () {
       });
 
       it('should not modify service configurations if space scoping is disabled', function() {
-        var actualServiceConfig = Common.fixNamesIfSpaceScopingEnabled(copyTestServiceConfig());
+        var actualServiceConfig = Common.fixNamesIfSpaceScopingEnabled(underscore.clone(testServiceConfig));
         actualServiceConfig.should.eql(testServiceConfig); 
       });
     });
