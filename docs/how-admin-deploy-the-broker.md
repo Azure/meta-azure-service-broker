@@ -73,6 +73,7 @@
           CLIENT_SECRET: REPLACE-ME
           SECURITY_USER_NAME: REPLACE-ME
           SECURITY_USER_PASSWORD: REPLACE-ME
+          SPACE_SCOPING_ENABLED: true | false
           AZURE_BROKER_DATABASE_PROVIDER: REPLACE-ME
           AZURE_BROKER_DATABASE_SERVER: REPLACE-ME
           AZURE_BROKER_DATABASE_USER: REPLACE-ME
@@ -151,6 +152,27 @@
       * `SECURITY_USER_NAME` and `SECURITY_USER_PASSWORD`
 
           Cloud Controller authenticates with the Broker using HTTP basic authentication (the `Authorization:` header) on every request and will reject any broker registrations that do not contain a username and password. `SECURITY_USER_NAME` and `SECURITY_USER_PASSWORD` are the username and password of HTTP basic authentication. They are maken up by yourself. When you register the service broker using `cf create-service-broker`, the same values should be used.
+
+      * `SPACE_SCOPING_ENABLED`
+
+          Needs to be set to `true` if the service broker will be deployed in multiple spaces of the same Cloud Foundry environment with the option `--space-scoped` specified when executing `cf create-service-broker` to register the service broker with the Cloud Controller. This option will ensure, that Service Names, Service IDs and Plan IDs are unique for the entire Cloud Foundry environment in case multiple instances of the broker are deployed in different spaces of the same CF environment. The reason for this is, that Service Names, Service IDs and Plan IDs need to be unique even if the broker is deployed with the option `--space-scoped` specified when executing `cf create-service-broker`. The default assumes, that one instance of the service broker is deployed for the entire Cloud Foundry environment, hence you should set this to `false` in most of the cases.
+
+          **Note:** when deploying the broker in a multi-tenant environment, also the name and the route to the broker needs to be unique. The safest way for guaranteeing a unique route for the space-scoped instance of the service broker is to postfix the route-name with the space-id, for example:
+          ``` bash
+          brokerName='myMetaServiceBroker'
+          spaceId=$(cf space yourspacename --guid)
+          echo "Your broker name should be: $brokerName$spaceId"
+          echo "Example Manifest Excerpt:"
+          echo "applications:"
+          echo "- name: $brokerName$spaceId"
+          ```
+          The script above helps you generating a name for your service broker instance that will have a unique route that is unique across the entire targeted Cloud Foundry landscape/environment. If you use this, all conditions are met for enabling a space-scoped broker in a multi-tenant environment.
+
+          **Note:** enabling access explicitly through `cf enable-service-access` is typically not required for space-scoped broker deployments. If the targeted CF environment requires enabling service access to space-scoped brokers, then it would work similar to the following:
+          ``` bash
+          spaceId=$(cf space yourspacename --guid)
+          cf enable-service-access [service-broker-service-name]-$spaceId
+          ```
 
       * Database related configurations
 
