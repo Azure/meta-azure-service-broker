@@ -57,11 +57,11 @@ describe('SqlDbFailoverGroup - Unbind', function () {
     };
 
     cu = new cmdUnbind(validParams);
-    sinon.stub(sqldbfgOps, 'executeSql').yields(null);
+    sinon.stub(sqldbfgOps, 'executeSqls').yields(null);
   });
 
   after(function () {
-    sqldbfgOps.executeSql.restore();
+    sqldbfgOps.executeSqls.restore();
   });
 
   describe('', function () {

@@ -96,6 +96,7 @@
   ```
 
   And here is an optional provisioning parameter `userRoles` you can add to the json file, to specify the roles of the new users created in binding. If not present, the default role is db_owner. More details about roles: https://docs.microsoft.com/en-us/sql/relational-databases/security/authentication-access/database-level-roles?view=sql-server-2017#fixed-database-roles.
+  If roles are not fine-grained for you, there is another provisioning parameter `userPermissions`. The final permissions of the user created in binding will be `userRoles` plus `userPermissions`.
 
   For example,
 
@@ -105,7 +106,8 @@
     "primaryDbName": "sqldba",
     "secondaryServerName": "sqlserverb",
     "failoverGroupName": "failovergroupa",
-    "userRoles": ["db_datareader", "db_datawriter"]
+    "userRoles": ["db_datareader", "db_datawriter"],
+    "userPermissions": ["SELECT"]
   }
   ```
 
