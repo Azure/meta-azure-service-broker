@@ -1,6 +1,6 @@
 /*
   good instanceId : e2778b98-0b6b-11e6-9db3-000d3a002ed5
-  test: 
+  test:
 */
 
 /* jshint camelcase: false */
@@ -140,6 +140,94 @@ describe('SqlDb - Provision - PreConditions', function () {
             (cp.getInvalidParams()).should.deepEqual(['resourceGroupName', 'location', 'sqlServerName', 'sqldbName', 'administratorLogin', 'administratorLoginPassword', 'collation']);
         });
     });
+
+    describe('user provided database login provided', function () {
+
+        before(function () {
+            params = {
+                instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
+                plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
+                parameters: {      // developer's input parameters file
+                    resourceGroup: 'fake-resource-group-name',
+                    location: 'westus',
+                    sqlServerName: 'fake-server-name',
+                    sqlServerParameters: {
+                        properties: {
+                            administratorLogin: 'fake-server-name',
+                            administratorLoginPassword: 'c1oudc0w'
+                        },
+                        connectionPolicy: 'Proxy',
+                        tags: {
+                            foo: 'bar'
+                        }
+                    },
+                    sqldbName: 'fake-db-name',
+                    sqldbParameters: {
+                        properties: {
+                            collation: 'SQL_Latin1_General_CP1_CI_AS'
+                        },
+                        tags: {
+                            foo: 'bar'
+                        }
+                    }
+                },
+                azure: azure,
+                privilege: {
+                    'sqldb': {
+                        'allowToCreateSqlServer': true
+                    }
+                },
+                accountPool:{'sqldb':{}}
+            };
+        });
+
+        describe('provide only database login', function () {
+            before(function () {
+                params['parameters']['userProvidedDatabaseLogin'] = 'test';
+                cp = new cmdProvision(params);
+            });
+
+            after(function () {
+                delete params['parameters']['userProvidedDatabaseLogin'];
+            });
+
+            it('should find invalid parameters', function () {
+                (cp.getInvalidParams().length).should.equal(2);
+                (cp.getInvalidParams()).should.deepEqual(['userProvidedDatabaseLogin', 'userProvidedDatabaseLoginPassword']);
+            });
+        });
+        describe('provide only database login password', function () {
+            before(function () {
+                params['parameters']['userProvidedDatabaseLoginPassword'] = 'test';
+                cp = new cmdProvision(params);
+            });
+
+            after(function () {
+                delete params['parameters']['userProvidedDatabaseLoginPassword'];
+            });
+
+            it('should find invalid parameters', function () {
+                (cp.getInvalidParams().length).should.equal(2);
+                (cp.getInvalidParams()).should.deepEqual(['userProvidedDatabaseLogin', 'userProvidedDatabaseLoginPassword']);
+            });
+        });
+        describe('provide both database login and password', function () {
+            before(function () {
+                params['parameters']['userProvidedDatabaseLogin'] = 'test';
+                params['parameters']['userProvidedDatabaseLoginPassword'] = 'test';
+                cp = new cmdProvision(params);
+            });
+
+            after(function () {
+                delete params['parameters']['userProvidedDatabaseLogin'];
+                delete params['parameters']['userProvidedDatabaseLoginPassword'];
+            });
+
+            it('should find no invalid parameters', function () {
+                (cp.getInvalidParams().length).should.equal(0);
+            });
+        });
+    });
 });
 
 describe('SqlDb - Provision - FixupParameters ', function () {
@@ -188,7 +276,7 @@ describe('SqlDb - Provision - FixupParameters ', function () {
 describe('SqlDb - Provision - Execution (allow to create server)', function () {
     var params = {};
     var cp;
-    
+
     before(function () {
         params = {
             instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
@@ -226,31 +314,31 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
 
         cp = new cmdProvision(params);
         cp.fixupParameters();
-        
+
         msRestRequest.HEAD = sinon.stub();
         msRestRequest.PUT = sinon.stub();
         msRestRequest.GET = sinon.stub();
-        
+
         // check resource group existence
         msRestRequest.HEAD.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name')
             .yields(null, {statusCode: 404});
-            
+
         // create resource group
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name')
             .yields(null, {statusCode: 200});
-        
+
         // create server
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
             .yields(null, {statusCode: 201}, {properties: {fullyQualifiedDomainName: 'fake-fqdn'}});
-        
+
         // create firewall rule
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/firewallRules/newrule')
             .yields(null, {statusCode: 200});
-        
+
         // create connection policy
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/connectionPolicies/Default')
             .yields(null, {statusCode: 200});
-        
+
         // create db
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
             .yields(null, {statusCode: 202}, {});
@@ -259,7 +347,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
     after(function () {
         mockingHelper.restore();
     });
-        
+
     describe('Server & Database that does not previously exist', function() {
 
         before(function () {
@@ -268,7 +356,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
           msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
               .yields(null, {statusCode: 404});
         });
-    
+
         it('should not callback error', function (done) {
             cp.provision(sqldbOps, function (err, result) {
                 should.not.exist(err);
@@ -282,7 +370,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
     });
 
     describe('Sql server exists, but sql database does not exist', function () {
-    
+
         before(function () {
           msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
               .yields(null,
@@ -292,9 +380,9 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
           msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
               .yields(null, {statusCode: 404});
         });
-    
+
         it('should not callback error', function (done) {
-    
+
             cp.provision(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 should.exist(result.body.sqlServerName);
@@ -303,7 +391,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
                 should.exist(result.body.administratorLoginPassword);
                 done();
             });
-    
+
         });
     });
 
@@ -347,7 +435,7 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
         cp = new cmdProvision(params);
         cp.fixupParameters();
     });
-    
+
     after(function () {
         mockingHelper.restore();
     });
@@ -359,7 +447,7 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
             msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
                 .yields(null, {statusCode: 404});
         });
-    
+
         it('should callback error that server not exist', function (done) {
             cp.provision(sqldbOps, function (err, result) {
                 should.exist(err);
@@ -370,7 +458,7 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
     });
 
     describe('Sql server exists, but sql database does not exist', function () {
-    
+
         before(function () {
             msRestRequest.GET = sinon.stub();
             msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
@@ -384,9 +472,9 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
             msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
                 .yields(null, {statusCode: 202}, {});
         });
-    
+
         it('should not callback error', function (done) {
-    
+
             cp.provision(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 should.exist(result.body.sqlServerName);
@@ -395,7 +483,7 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
                 should.exist(result.body.administratorLoginPassword);
                 done();
             });
-    
+
         });
     });
 
@@ -449,7 +537,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
             done();
         });
     });
-    
+
     describe('Incorrect firewall rule specs are given', function () {
         before(function () {
             params = {
