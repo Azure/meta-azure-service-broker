@@ -1,0 +1,6 @@
+{
+    "sqlServerName": "<name-of-server-provided-in-manifest>",
+    "sqldbName": "<name-of-existing-database>",
+    "userProvidedDatabaseLogin": "<name-of-existing-database-login>",
+    "userProvidedDatabaseLoginPassword": "<password-of-existing-database-login>"
+}
