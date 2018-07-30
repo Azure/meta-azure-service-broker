@@ -577,12 +577,7 @@
           "Registered"
         ],
         "displayName": "Registered",
-        "details": {
-          "createMode": "",
-          "edition": "",
-          "maxSizeBytes": "",
-          "requestedServiceObjectiveName": ""
-        }
+        "details": {}
       }
     }
   ]

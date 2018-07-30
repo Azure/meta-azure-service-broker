@@ -1,6 +1,6 @@
 /*
   good instanceId : e2778b98-0b6b-11e6-9db3-000d3a002ed5
-  test: 
+  test:
 */
 
 /* jshint camelcase: false */
@@ -469,3 +469,47 @@ describe('SqlDb - Poll - polling database after update operation', function () {
     });
 });
 
+describe('SqlDb - Poll - registering existing database plan', function () {
+
+    var cp;
+
+    describe('the last operation is provision', function () {
+        before(function () {
+            afterProvisionValidParams.plan_id = '4b1cfc28-dda6-407b-abeb-7aa0b89f52bf';
+            cp = new cmdPoll(afterProvisionValidParams);
+        });
+
+        after(function () {
+            afterProvisionValidParams.plan_id = '3819fdfa-0aaa-11e6-86f4-000d3a002ed5';
+        });
+
+        it('should directly succeed', function (done) {
+            cp.poll(sqldbOps, function (err, result) {
+                should.not.exist(err);
+                result.value.state.should.equal('succeeded');
+                result.value.description.should.equal('Registered the database as a service instance.');
+                done();
+            });
+        });
+    });
+
+    describe('the last operation is provision', function () {
+        before(function () {
+            afterDeprovisionValidParams.plan_id = '4b1cfc28-dda6-407b-abeb-7aa0b89f52bf';
+            cp = new cmdPoll(afterDeprovisionValidParams);
+        });
+
+        after(function () {
+            afterDeprovisionValidParams.plan_id = '3819fdfa-0aaa-11e6-86f4-000d3a002ed5';
+        });
+
+        it('should directly succeed', function (done) {
+            cp.poll(sqldbOps, function (err, result) {
+                should.not.exist(err);
+                result.value.state.should.equal('succeeded');
+                result.value.description.should.equal('Unregistered the database.');
+                done();
+            });
+        });
+    });
+});
