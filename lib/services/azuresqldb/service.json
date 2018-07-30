@@ -566,6 +566,19 @@
           "requestedServiceObjectiveName": "DW1200"
         }
       }
+    },
+    {
+      "id": "4b1cfc28-dda6-407b-abeb-7aa0b89f52bf",
+      "name": "Registered",
+      "free": false,
+      "description": "Register existing database to use. The database won't be deleted in deprovisioning.",
+      "metadata": {
+        "bullets": [
+          "Registered"
+        ],
+        "displayName": "Registered",
+        "details": {}
+      }
     }
   ]
 }

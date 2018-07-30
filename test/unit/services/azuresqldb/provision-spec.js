@@ -1,6 +1,6 @@
 /*
   good instanceId : e2778b98-0b6b-11e6-9db3-000d3a002ed5
-  test: 
+  test:
 */
 
 /* jshint camelcase: false */
@@ -188,7 +188,7 @@ describe('SqlDb - Provision - FixupParameters ', function () {
 describe('SqlDb - Provision - Execution (allow to create server)', function () {
     var params = {};
     var cp;
-    
+
     before(function () {
         params = {
             instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
@@ -226,31 +226,31 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
 
         cp = new cmdProvision(params);
         cp.fixupParameters();
-        
+
         msRestRequest.HEAD = sinon.stub();
         msRestRequest.PUT = sinon.stub();
         msRestRequest.GET = sinon.stub();
-        
+
         // check resource group existence
         msRestRequest.HEAD.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name')
             .yields(null, {statusCode: 404});
-            
+
         // create resource group
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name')
             .yields(null, {statusCode: 200});
-        
+
         // create server
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
             .yields(null, {statusCode: 201}, {properties: {fullyQualifiedDomainName: 'fake-fqdn'}});
-        
+
         // create firewall rule
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/firewallRules/newrule')
             .yields(null, {statusCode: 200});
-        
+
         // create connection policy
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/connectionPolicies/Default')
             .yields(null, {statusCode: 200});
-        
+
         // create db
         msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
             .yields(null, {statusCode: 202}, {});
@@ -259,7 +259,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
     after(function () {
         mockingHelper.restore();
     });
-        
+
     describe('Server & Database that does not previously exist', function() {
 
         before(function () {
@@ -268,7 +268,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
           msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
               .yields(null, {statusCode: 404});
         });
-    
+
         it('should not callback error', function (done) {
             cp.provision(sqldbOps, function (err, result) {
                 should.not.exist(err);
@@ -282,7 +282,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
     });
 
     describe('Sql server exists, but sql database does not exist', function () {
-    
+
         before(function () {
           msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
               .yields(null,
@@ -292,9 +292,9 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
           msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
               .yields(null, {statusCode: 404});
         });
-    
+
         it('should not callback error', function (done) {
-    
+
             cp.provision(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 should.exist(result.body.sqlServerName);
@@ -303,7 +303,7 @@ describe('SqlDb - Provision - Execution (allow to create server)', function () {
                 should.exist(result.body.administratorLoginPassword);
                 done();
             });
-    
+
         });
     });
 
@@ -347,7 +347,7 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
         cp = new cmdProvision(params);
         cp.fixupParameters();
     });
-    
+
     after(function () {
         mockingHelper.restore();
     });
@@ -359,7 +359,7 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
             msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
                 .yields(null, {statusCode: 404});
         });
-    
+
         it('should callback error that server not exist', function (done) {
             cp.provision(sqldbOps, function (err, result) {
                 should.exist(err);
@@ -370,7 +370,7 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
     });
 
     describe('Sql server exists, but sql database does not exist', function () {
-    
+
         before(function () {
             msRestRequest.GET = sinon.stub();
             msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
@@ -384,9 +384,9 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
             msRestRequest.PUT.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
                 .yields(null, {statusCode: 202}, {});
         });
-    
+
         it('should not callback error', function (done) {
-    
+
             cp.provision(sqldbOps, function (err, result) {
                 should.not.exist(err);
                 should.exist(result.body.sqlServerName);
@@ -395,10 +395,113 @@ describe('SqlDb - Provision - Execution (not allow to create server)', function 
                 should.exist(result.body.administratorLoginPassword);
                 done();
             });
-    
+
         });
     });
 
+});
+
+describe('SqlDb - Provision - Registering existing database plan', function () {
+    var params = {};
+    var cp;
+
+    before(function () {
+        params = {
+            instance_id: 'e2778b98-0b6b-11e6-9db3-000d3a002ed5',
+            plan_id: '4b1cfc28-dda6-407b-abeb-7aa0b89f52bf',
+            parameters: {      // developer's input parameters file
+                sqlServerName: 'fake-server-name',
+                sqldbName: 'fake-db-name',
+                userProvidedDatabaseLogin: 'fake-existing-database-login',
+                userProvidedDatabaseLoginPassword: 'fake-password-of-existing-database-login'
+            },
+            azure: azure,
+            privilege: {
+                'sqldb': {
+                    'allowToCreateSqlServer': false
+                }
+            },
+            accountPool:{
+                'sqldb': {
+                    'fake-server-name': {
+                        resourceGroup: 'fake-resource-group-name',
+                        location: 'fake-location',
+                        administratorLogin: 'fake-server-name',
+                        administratorLoginPassword: 'c1oudc0w'
+                    }
+                }
+            }
+        };
+
+        cp = new cmdProvision(params);
+        cp.fixupParameters();
+    });
+
+    afterEach(function () {
+        mockingHelper.restore();
+    });
+
+    describe('Sql server does not exist', function () {
+
+        before(function () {
+            msRestRequest.GET = sinon.stub();
+            msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
+                .yields(null, {statusCode: HttpStatus.NOT_FOUND});
+        });
+
+        it('should not callback error', function (done) {
+            cp.provision(sqldbOps, function (err, result) {
+                should.exist(err);
+                done();
+            });
+        });
+    });
+
+    describe('Sql server exists, but sql database does not exist', function () {
+
+        before(function () {
+            msRestRequest.GET = sinon.stub();
+            msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
+                .yields(null,
+                        {statusCode: HttpStatus.OK},
+                        '{"properties": { "fullyQualifiedDomainName": "fake-fqdn"}}'
+                );
+            msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
+                .yields(null, {statusCode: HttpStatus.NOT_FOUND});
+        });
+
+        it('should not callback error', function (done) {
+            cp.provision(sqldbOps, function (err, result) {
+                should.exist(err);
+                done();
+            });
+        });
+    });
+
+    describe('Sql server exists, sql database exists', function () {
+
+        before(function () {
+            msRestRequest.GET = sinon.stub();
+            msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name')
+                .yields(null,
+                        {statusCode: HttpStatus.OK},
+                        '{"properties": { "fullyQualifiedDomainName": "fake-fqdn"}}'
+                );
+            msRestRequest.GET.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/fake-resource-group-name/providers/Microsoft.Sql/servers/fake-server-name/databases/fake-db-name')
+                .yields(null, {statusCode: HttpStatus.OK}, '{}');
+        });
+
+        it('should not callback error', function (done) {
+            cp.provision(sqldbOps, function (err, result) {
+                should.not.exist(err);
+                should.exist(result.body.sqlServerName);
+                should.exist(result.body.fullyQualifiedDomainName);
+                should.exist(result.body.administratorLogin);
+                should.exist(result.body.administratorLoginPassword);
+                done();
+            });
+        });
+    });
 });
 
 describe('SqlDb - Provision - Firewall rules', function () {
@@ -449,7 +552,7 @@ describe('SqlDb - Provision - Firewall rules', function () {
             done();
         });
     });
-    
+
     describe('Incorrect firewall rule specs are given', function () {
         before(function () {
             params = {
