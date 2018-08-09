@@ -3,6 +3,7 @@
   "name": "azure-rediscache",
   "description": "Azure Redis Cache Service",
   "bindable": true,
+  "plan_updateable": true,
   "tags": [
     "Azure",
     "Redis",

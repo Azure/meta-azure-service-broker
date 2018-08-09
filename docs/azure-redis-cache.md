@@ -28,6 +28,10 @@
 
   1. Check whether deleting the Redis Cache succeeds or not.
 
+### Updated
+
+  1. Update pricing tier and enableNonSslPort setting according to your updating parameters.
+
 ## Create an Azure Redis Cache service
 
 1. Get the service name and plans
@@ -170,6 +174,19 @@
   ```
   cf unbind-service demoapp myrediscache
   ```
+
+## Updating
+
+  ```
+  cf update-service $service_instance_name -p $plan_name -c $updating_parameters
+  ```
+  For example:
+
+  ```
+  cf update-service myrediscache -p standardc0 -c '{"parameters":{"enableNonSslPort":true}}'
+  ```
+
+  You can update only the service plan, only the `enableNonSslPort` setting, or both. Note that, you can't change tier family and capacity in one single request per the limitation of Azure Redis service. For example, you can update from `basicc0` to `standardc0`. And you can't update from `basicc0` to `standardc1`. Instead, `basicc0` -> `standardc0` -> `standardc1` is OK.
 
 ## Delete the service instance
 
