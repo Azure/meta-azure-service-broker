@@ -41,7 +41,15 @@ var azurerediscache = {
     'secondaryKey': '<string>',
     'sslPort': 6380,
     'redisUrl': '<string>'
-  }
+  },
+  updateParameters: {
+      'sqlServerParameters': {
+        'properties': {
+          'administratorLoginPassword': 'newPassword425'
+        }
+      }
+  },
+  updatePlanId: '170fb362-990d-4373-8f47-5d43c593b978'
 };
 testMatrix.push(azurerediscache);
 

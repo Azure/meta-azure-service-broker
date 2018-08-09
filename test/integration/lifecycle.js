@@ -212,13 +212,15 @@ function runLifecycle(testMatrix) {
             test.skip();
           }
 
+          var updatePlanId = service.updatePlanId;
+          if (!updatePlanId) updatePlanId = planId;
           chai.request(server)
           .patch('/v2/service_instances/' + instanceId)
           .set('X-Broker-API-Version', '2.8')
           .auth('demouser', 'demopassword')
           .query({
             'service_id': serviceId,
-            'plan_id': planId,
+            'plan_id': updatePlanId,
             'accepts_incomplete': true,
             'parameters':service.updateParameters
           })
