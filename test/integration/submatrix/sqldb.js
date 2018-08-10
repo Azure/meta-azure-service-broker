@@ -73,7 +73,7 @@ azuresqldb = {
     'uri': '<string>'
   },
   e2e: false,
-  updateParameters: {
+  updatingParameters: {
       'sqlServerParameters': {
         'properties': {
           'administratorLoginPassword': 'newPassword425'

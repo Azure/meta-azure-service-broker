@@ -208,7 +208,7 @@ function runLifecycle(testMatrix) {
           var test = this;
 
           // Skip update if the plan does not support it
-          if (!service.updateParameters){
+          if (!service.updatingParameters){
             test.skip();
           }
 
@@ -219,10 +219,13 @@ function runLifecycle(testMatrix) {
           .set('X-Broker-API-Version', '2.8')
           .auth('demouser', 'demopassword')
           .query({
-            'service_id': serviceId,
+            'accepts_incomplete': true
+          }).send({
+            'organization_guid': uuid.v4(),
             'plan_id': updatePlanId,
-            'accepts_incomplete': true,
-            'parameters':service.updateParameters
+            'service_id': serviceId,
+            'space_guid': uuid.v4(),
+            'parameters':service.updatingParameters
           })
           .end(function (err, res) {
             res.should.have.status(200);

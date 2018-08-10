@@ -39,7 +39,7 @@ var azurerediscache = {
     'sslPort': 6380,
     'redisUrl': '<string>'
   },
-  updateParameters: {
+  updatingParameters: {
     'parameters': {
       'enableNonSslPort': true
     }
