@@ -26,10 +26,7 @@ var azurerediscache = {
     'location': location,
     'cacheName': cacheName,
     'parameters': {
-      'enableNonSslPort': true,
-      'tags': {
-        'foo': 'bar'
-      }
+      'enableNonSslPort': false
     }
   },
   bindingParameters: {},
@@ -43,11 +40,9 @@ var azurerediscache = {
     'redisUrl': '<string>'
   },
   updateParameters: {
-      'sqlServerParameters': {
-        'properties': {
-          'administratorLoginPassword': 'newPassword425'
-        }
-      }
+    'parameters': {
+      'enableNonSslPort': true
+    }
   },
   updatePlanId: '170fb362-990d-4373-8f47-5d43c593b978'
 };
