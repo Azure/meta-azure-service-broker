@@ -27,15 +27,10 @@ describe('RedisCache - Provision - PreConditions', function() {
       instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',
       parameters : {
         resourceGroup: 'redisResourceGroup',
+        location: 'northcentralus',
         cacheName: 'C0CacheNC',
         parameters: {
-          location: 'northcentralus',
-          enableNonSslPort: false,
-          sku: {
-            name: 'Basic',
-            family: 'C',
-            capacity: 0
-          }
+          enableNonSslPort: false
         }
       },
       azure : azure
