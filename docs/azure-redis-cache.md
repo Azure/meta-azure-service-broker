@@ -186,7 +186,10 @@
   cf update-service myrediscache -p standardc0 -c '{"parameters":{"enableNonSslPort":true}}'
   ```
 
-  You can update only the service plan, only the `enableNonSslPort` setting, or both. Note that, you can't change tier family and capacity in one single request per the limitation of Azure Redis service. For example, you can update from `basicc0` to `standardc0`. And you can't update from `basicc0` to `standardc1`. Instead, `basicc0` -> `standardc0` -> `standardc1` is OK.
+  * Updating the service plan.
+    Note that, you can't change tier family and capacity at the same time in one single request per the limitation of Azure Redis service. For example, you can update from `basicc0` to `standardc0`. But you can't update from `basicc0` to `standardc1`. You need to update from `basicc0` to `standardc0`, then from `standardc0` to `standardc1`.
+  * Updating the service properties.
+    Currently, only the `enableNonSslPort` setting is supported to update.
 
 ## Delete the service instance
 
