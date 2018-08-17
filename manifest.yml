@@ -116,5 +116,9 @@ applications:
         }
     }'
     DEFAULT_PARAMETERS_AZURE_SQLDB_FAILOVER_GROUP: '{
+        "readWriteEndpoint": {
+            "failoverPolicy": "Automatic",
+            "failoverWithDataLossGracePeriodMinutes": 60
+        },
         "userRoles": ["db_owner"]
     }'

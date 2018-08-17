@@ -62,6 +62,10 @@ azuresqldbfg = {
     'primaryDbName': primaryDbName,
     'secondaryServerName': secondaryServerName,
     'failoverGroupName': failoverGroupName,
+    'readWriteEndpoint': {
+        'failoverPolicy': 'Automatic',
+        'failoverWithDataLossGracePeriodMinutes': 60
+    },
     'userRoles': ['db_owner'],
     'userPermissions': ['VIEW ANY COLUMN MASTER KEY DEFINITION']
   },
