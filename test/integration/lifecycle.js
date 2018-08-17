@@ -208,19 +208,24 @@ function runLifecycle(testMatrix) {
           var test = this;
 
           // Skip update if the plan does not support it
-          if (!service.updateParameters){
+          if (!service.updatingParameters){
             test.skip();
           }
 
+          var updatePlanId = service.updatePlanId;
+          if (!updatePlanId) updatePlanId = planId;
           chai.request(server)
           .patch('/v2/service_instances/' + instanceId)
           .set('X-Broker-API-Version', '2.8')
           .auth('demouser', 'demopassword')
           .query({
+            'accepts_incomplete': true
+          }).send({
+            'organization_guid': uuid.v4(),
+            'plan_id': updatePlanId,
             'service_id': serviceId,
-            'plan_id': planId,
-            'accepts_incomplete': true,
-            'parameters':service.updateParameters
+            'space_guid': uuid.v4(),
+            'parameters':service.updatingParameters
           })
           .end(function (err, res) {
             res.should.have.status(200);

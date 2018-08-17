@@ -26,10 +26,7 @@ var azurerediscache = {
     'location': location,
     'cacheName': cacheName,
     'parameters': {
-      'enableNonSslPort': true,
-      'tags': {
-        'foo': 'bar'
-      }
+      'enableNonSslPort': false
     }
   },
   bindingParameters: {},
@@ -41,7 +38,13 @@ var azurerediscache = {
     'secondaryKey': '<string>',
     'sslPort': 6380,
     'redisUrl': '<string>'
-  }
+  },
+  updatingParameters: {
+    'parameters': {
+      'enableNonSslPort': true
+    }
+  },
+  updatePlanId: '170fb362-990d-4373-8f47-5d43c593b978'
 };
 testMatrix.push(azurerediscache);
 
