@@ -288,6 +288,10 @@ forms:
     configurable: true
     default: |
       {
+        "readWriteEndpoint": {
+            "failoverPolicy": "Automatic",
+            "failoverWithDataLossGracePeriodMinutes": 60
+        },
         "userRoles": ["db_owner"]
       }
     label: Default Parameters of Azure SQL Database service

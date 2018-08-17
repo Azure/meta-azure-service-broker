@@ -91,7 +91,11 @@
     "primaryServerName": "sqlservera",
     "primaryDbName": "sqldba",
     "secondaryServerName": "sqlserverb",
-    "failoverGroupName": "failovergroupa"
+    "failoverGroupName": "failovergroupa",
+    "readWriteEndpoint": {
+      "failoverPolicy": "Automatic",
+      "failoverWithDataLossGracePeriodMinutes": 60
+    }
   }
   ```
 
@@ -106,6 +110,10 @@
     "primaryDbName": "sqldba",
     "secondaryServerName": "sqlserverb",
     "failoverGroupName": "failovergroupa",
+    "readWriteEndpoint": {
+      "failoverPolicy": "Automatic",
+      "failoverWithDataLossGracePeriodMinutes": 60
+    },
     "userRoles": ["db_datareader", "db_datawriter"],
     "userPermissions": ["SELECT"]
   }

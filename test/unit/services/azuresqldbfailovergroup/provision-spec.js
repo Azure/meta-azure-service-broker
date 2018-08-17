@@ -33,6 +33,10 @@ describe('SqlDbFailoverGroup - Provision - PreConditions', function () {
           'primaryDbName': 'sqldba',
           'secondaryServerName': 'fakeserverb',
           'failoverGroupName': 'failovergroupa',
+          'readWriteEndpoint': {
+              'failoverPolicy': 'Automatic',
+              'failoverWithDataLossGracePeriodMinutes': 60
+          },
           'userRoles': ['db_owner'],
           'userPermissions': ['VIEW ANY COLUMN MASTER KEY DEFINITION']
         },
@@ -74,6 +78,10 @@ describe('SqlDbFailoverGroup - Provision - PreConditions', function () {
           'primaryDbName': 'sqldba',
           'secondaryServerName': 'fakeserverb',
           'failoverGroupName': 'failovergroupa',
+          'readWriteEndpoint': {
+              'failoverPolicy': 'Automatic',
+              'failoverWithDataLossGracePeriodMinutes': 60
+          },
           'userRoles': ['db_owner'],
           'userPermissions': ['VIEW ANY COLUMN MASTER KEY DEFINITION']
         },
@@ -105,12 +113,13 @@ describe('SqlDbFailoverGroup - Provision - PreConditions', function () {
     });
 
     it('should fail to validate the parameters', function () {
-      (cp.getInvalidParams().length).should.equal(4);
+      (cp.getInvalidParams().length).should.equal(5);
       cp.getInvalidParams().should.deepEqual([
         'primaryServerName',
         'primaryDbName',
         'secondaryServerName',
-        'failoverGroupName'
+        'failoverGroupName',
+        'readWriteEndpoint'
       ]);
     });
   });

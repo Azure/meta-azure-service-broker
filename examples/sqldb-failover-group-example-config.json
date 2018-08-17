@@ -1,9 +1,13 @@
 /*
 {
-    "primaryServerName": "<sql-server-name>",     // [Required] The resource group name, admin login, and admin login password of this server should be provided in broker manifest.
-    "primaryDbName": "<sql-database-name>",       // [Required] The existing database on the primary server.
-    "secondaryServerName": "<sql-server-name>",   // [Required] The resource group name, admin login, and admin login password of this server should be provided in broker manifest.
-    "failoverGroupName": "<failover-group-name>", // [Required] The name of the new failover group.
+    "primaryServerName": "<sql-server-name>",        // [Required] The resource group name, admin login, and admin login password of this server should be provided in broker manifest.
+    "primaryDbName": "<sql-database-name>",          // [Required] The existing database on the primary server.
+    "secondaryServerName": "<sql-server-name>",      // [Required] The resource group name, admin login, and admin login password of this server should be provided in broker manifest.
+    "failoverGroupName": "<failover-group-name>",    // [Required] The name of the new failover group.
+    "readWriteEndpoint": {                           // [Required] It totally refers to https://docs.microsoft.com/en-us/rest/api/sql/failovergroups/createorupdate#failovergroupreadwriteendpoint.
+        "failoverPolicy": "Automatic",               // Allowed value: "Automatic", "Manual".
+        "failoverWithDataLossGracePeriodMinutes": 60 // Delete this property if setting "failoverPolicy" by "Manual".
+    },
     "userRoles": <an-array-of-fixed-roles>        // [Optional] If not present, default to db_owner according to the broker manifest. See about fixed roles: https://docs.microsoft.com/en-us/sql/relational-databases/security/authentication-access/database-level-roles?view=sql-server-2017#fixed-database-roles.
     "userPermissions" : <an-array-of-permissions> // [Optional] If not present, default to no extra permission.
 }
@@ -15,6 +19,10 @@
     "primaryDbName": "sqldba",
     "secondaryServerName": "sqlserverb",
     "failoverGroupName": "failovergroupa",
+    "readWriteEndpoint": {
+        "failoverPolicy": "Automatic",
+        "failoverWithDataLossGracePeriodMinutes": 60
+    },
     "userRoles": ["db_datareader", "db_datawriter"],
     "userPermissions": ["SELECT"]
 }
