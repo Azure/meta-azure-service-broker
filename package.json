@@ -12,7 +12,7 @@
   "engines": {
     "node": ">= 6.10.0"
   },
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
   "tags": [
     "service broker",
