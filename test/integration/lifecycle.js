@@ -228,7 +228,7 @@ function runLifecycle(testMatrix) {
             'parameters':service.updatingParameters
           })
           .end(function (err, res) {
-            res.should.have.status(200);
+            res.status.should.be.oneOf([200, 202]);
             done(err);
           });
         });
