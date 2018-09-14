@@ -93,11 +93,11 @@
   }
   ```
 
-  >**NOTE:**
+  **NOTE:**
 
-    * Please remove the comments in the JSON file before you use it.
+   * Please remove the comments in the JSON file before you use it.
 
-    * The `enableNonSslPort` setting has a effect on the `redisUrl` in the [credentials](#format-of-credentials) delivered by binding. If `true`, `redisUrl` would be in `redis` scheme with port `6379`. Else, `redisUrl` would be in `rediss` scheme with port `6380`. With `rediss`, please check if your client supports SSL connection. For Spring Cloud Connector users, you need to upgrade the Connector version to [2.0.3-RELEASE](https://github.com/spring-cloud/spring-cloud-connectors/releases/tag/v2.0.3.RELEASE) or higher.
+   * The `enableNonSslPort` setting has a effect on the `redisUrl` in the [credentials](#format-of-credentials) delivered by binding. If `true`, `redisUrl` would be in `redis` scheme with port `6379`. Else, `redisUrl` would be in `rediss` scheme with port `6380`. With `rediss`, please check if your client supports SSL connection. For Spring Cloud Connector users, you need to upgrade the Connector version to [2.0.3-RELEASE](https://github.com/spring-cloud/spring-cloud-connectors/releases/tag/v2.0.3.RELEASE) or higher.
 
   Above parameters are also the defaults if the broker operator doesn't change broker default settings. You can just run the following command to create a service instance without the json file:
 
@@ -163,9 +163,9 @@
   }
   ```
 
-  >**NOTE:**
+  **NOTE:**
 
-    * The `redisUrl` would be `rediss://*****:6380` if non-SSL port is not enabled.
+   * The `redisUrl` would be `rediss://*****:6380` if non-SSL port is not enabled.
 
 ## Unbinding
 
