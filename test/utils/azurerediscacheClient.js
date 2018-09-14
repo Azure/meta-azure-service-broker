@@ -6,7 +6,7 @@ var statusCode = require('./statusCode');
 module.exports = function() {
   var clientName = 'azurerediscacheClient';
   var log = common.getLogger(clientName);
-  
+
   this.validateCredential = function(credential, next) {
     log.debug('credential: %j', credential);
     try {
@@ -15,13 +15,13 @@ module.exports = function() {
         log.error('Client Error: ' + err);
         client.end(false);
       });
-      
-      var urlClient = redis.createClient(credential.redisUrl);
+
+      var urlClient = redis.createClient(credential.redisUrl, {'tls': {servername: credential.hostname}});
       urlClient.on('error', function (err) {
         log.error('Client created through url Error: ' + err);
         urlClient.end(false);
       });
-      
+
       var key = clientName + 'key' + Math.floor(Math.random()*1000);
       var value = clientName + 'value' + Math.floor(Math.random()*1000);
       async.waterfall([
@@ -74,8 +74,8 @@ module.exports = function() {
         } else {
           next(statusCode.PASS);
         }
-      }); 
-  
+      });
+
     } catch(ex) {
       log.error('Got an exception: ' + ex);
       next(statusCode.FAIL);

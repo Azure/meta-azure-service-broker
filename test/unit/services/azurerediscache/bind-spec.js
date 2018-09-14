@@ -13,7 +13,7 @@ var cmdBind = require('../../../../lib/services/azurerediscache/cmd-bind');
 var redisClient = require('../../../../lib/services/azurerediscache/client');
 var azure = require('../helpers').azure;
 var msRestRequest = require('../../../../lib/common/msRestRequest');
-  
+
 var mockingHelper = require('../mockingHelper');
 mockingHelper.backup();
 redisClient.initialize(azure);
@@ -24,10 +24,16 @@ describe('RedisCache - Bind', function() {
 
     before(function() {
         validParams = {
-            instance_id : 'b259c5e0-7442-46bc-970c-9912613077dd',
-            parameters : {
+            instance_id: 'b259c5e0-7442-46bc-970c-9912613077dd',
+            parameters: {
                 resourceGroup: 'redisResourceGroup',
                 cacheName: 'C0CacheNC'
+            },
+            provisioning_result: {
+              name: 'C0CacheNC',
+              hostname: 'C0CacheNC.fakedomain.com',
+              port: 6379,
+              sslPort: 6380
             },
             azure: azure
         };
@@ -35,17 +41,18 @@ describe('RedisCache - Bind', function() {
         msRestRequest.POST.withArgs('https://management.azure.com//subscriptions/55555555-4444-3333-2222-111111111111/resourceGroups/redisResourceGroup/providers/Microsoft.Cache/Redis/C0CacheNC/listKeys')
           .yields(null, {statusCode: 200}, JSON.stringify(fakeAccessKeys));
     });
-    
+
     after(function() {
         mockingHelper.restore();
     });
-    
+
     describe('When access keys are retrievied from Azure successfully', function() {
         it('should return credentials', function(done) {
             var cp = new cmdBind(validParams);
-            cp.bind(redisClient, function(err, accessKeys) {
+            cp.bind(redisClient, function(err, credentials) {
                 should.not.exist(err);
-                accessKeys.should.eql(fakeAccessKeys);
+                credentials.primaryKey.should.eql(fakeAccessKeys.primaryKey);
+                credentials.secondaryKey.should.eql(fakeAccessKeys.secondaryKey);
                 done();
             });
         });
