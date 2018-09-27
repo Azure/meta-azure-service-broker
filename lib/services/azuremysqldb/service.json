@@ -16,28 +16,28 @@
   },
   "plans": [
     {
-      "id": "a05c9967-9f20-4b17-8c66-bb32ab396fcd",
-      "name": "basic50",
+      "id": "a1603ad1-2eba-402f-8877-7e5a9a2d8075",
+      "name": "basic1",
       "free": false,
-      "description": "Basic Tier, 50 DTUs.",
+      "description": "Basic Tier, 1 vCore.",
       "metadata": {
-        "displayName": "Basic50",
+        "displayName": "Basic1",
         "details": {
           "tier": "Basic",
-          "capacity": 50
+          "capacity": 1
         }
       }
     },
     {
-      "id": "d8d5cac9-d975-48ea-9ac4-8232f92bcb93",
-      "name": "basic100",
+      "id": "ed20f333-c3a0-40c5-99d9-18986b04d673",
+      "name": "basic2",
       "free": false,
-      "description": "Basic Tier, 100 DTUs",
+      "description": "Basic Tier, 2 vCores",
       "metadata": {
-        "displayName": "Basic100",
+        "displayName": "Basic2",
         "details": {
           "tier": "Basic",
-          "capacity": 100
+          "capacity": 2
         }
       }
     }
