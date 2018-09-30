@@ -72,14 +72,7 @@ azuresqldb = {
     'password': '<string>',
     'uri': '<string>'
   },
-  e2e: false,
-  updatingParameters: {
-      'sqlServerParameters': {
-        'properties': {
-          'administratorLoginPassword': 'newPassword425'
-        }
-      }
-  }
+  e2e: false
 };
 testMatrix.push(azuresqldb);
 
