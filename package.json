@@ -12,7 +12,7 @@
   "engines": {
     "node": ">= 6.10.0"
   },
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "A service broker to manage multiple Azure services in Cloud Foundry",
   "tags": [
     "service broker",
@@ -41,7 +41,7 @@
     "typescript": "^2.3.2",
     "underscore": "1.8.3",
     "uuid": "3.2.1",
-    "deep-extend": "0.5.0",
+    "deep-extend": "0.5.1",
     "urlencode": "1.1.0"
   },
   "devDependencies": {
