@@ -227,6 +227,16 @@
   cf unbind-service $app_name $service_instance_name
   ```
 
+## Updating the service instance
+
+  It supports updating `userRoles` and `userPermissions` specified in provisioning parameters.
+
+  For example,
+  
+  ```
+  cf update-service $service_instance_name -c '{"userRoles": ["db_owner"], "userPermissions": []}'
+  ```
+
 ## Delete the service instance
 
   ```
