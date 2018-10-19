@@ -229,10 +229,10 @@
 
 ## Updating the service instance
 
-  It supports updating `userRoles` and `userPermissions` specified in provisioning parameters.
+  It supports updating `userRoles` and `userPermissions` specified in provisioning parameters. The update is only applied to new bindings. That is to say, you need to unbind and re-bind to apply the change on existing bindings.
 
   For example,
-  
+
   ```
   cf update-service $service_instance_name -c '{"userRoles": ["db_owner"], "userPermissions": []}'
   ```
