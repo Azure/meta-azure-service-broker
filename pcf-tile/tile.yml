@@ -282,7 +282,7 @@ forms:
             }
         }
       }
-    label: Default Parameters of Azure SQL Database Failover Group service
+    label: Default Parameters of Azure SQL Database service
   - name: default_parameters_azure_sqldb_failover_group
     type: text
     configurable: true
@@ -294,7 +294,7 @@ forms:
         },
         "userRoles": ["db_owner"]
       }
-    label: Default Parameters of Azure SQL Database service
+    label: Default Parameters of Azure SQL Database Failover Group service
 
 # Add any dependencies your tile has on other installed products.
 # This is often appropriate when using automatic service provisioning
