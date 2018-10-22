@@ -69,6 +69,10 @@ azuresqldbfg = {
     'userRoles': ['db_owner'],
     'userPermissions': ['VIEW ANY COLUMN MASTER KEY DEFINITION']
   },
+  updatingParameters: {
+    'userRoles': ['db_datareader', 'db_datawriter'],
+    'userPermissions': ['SELECT']
+  },
   bindingParameters: {},
   credentials: {
     'databaseLogin': '<string>',
