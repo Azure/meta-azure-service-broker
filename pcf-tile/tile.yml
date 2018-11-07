@@ -28,6 +28,10 @@ packages:
   pre_deploy: |
     cf delete-org -f azure-service-broker-org
     cf delete-quota -f azure-service-broker-org-quota
+    cf service-brokers | grep "^azure_service_broker "
+    if [ "$?" -eq "0" ]; then
+      cf rename-service-broker azure_service_broker azure-service-broker
+    fi
   manifest:
     path: resources/meta-azure-service-broker.zip
     buildpack: nodejs_buildpack
