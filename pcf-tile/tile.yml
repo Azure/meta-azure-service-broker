@@ -28,10 +28,20 @@ packages:
   pre_deploy: |
     cf delete-org -f azure-service-broker-org
     cf delete-quota -f azure-service-broker-org-quota
-    cf service-brokers | grep "^azure_service_broker "
-    if [ "$?" -eq "0" ]; then
+    masbneedsrename=`$CF service-brokers | grep 'azure_service_broker '`
+    if [ -n "$masbneedsrename" ]; then
       cf rename-service-broker azure_service_broker azure-service-broker
     fi
+  # Because of https://github.com/cf-platform-eng/tile-generator/issues/272,
+  # Our 1.7.0, 1.8.0, and 1.9.0 release use "azure_service_broker" as the app
+  # name. So, upgrading from them wouldn't delete the old broker app successfully.
+  # This is the workaround what highly depends on the deploy-all template in
+  # Tile Generator.
+  post_deploy: |
+    cf delete -f azure_service_broker-1.7.0
+    cf delete -f azure_service_broker-1.8.0
+    cf delete -f azure_service_broker-1.9.0
+    register_broker "$BROKER_NAME" "$BROKER_USER" "$BROKER_PASS" "$BROKER_URL" "$GLOBAL_ACCESS" "$BROKER_SERVICES"
   manifest:
     path: resources/meta-azure-service-broker.zip
     buildpack: nodejs_buildpack
