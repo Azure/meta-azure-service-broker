@@ -21,29 +21,14 @@ If you want to run the cases in a specific file, you can use `../node_modules/mo
 
 ## Run the integration tests
 
-1. Prepare a SQL database.
+1. Create a SQL database.
 
-    1. Create a SQL database.
+    You have serveral options to create a SQL database.
 
-      You have serveral options to create a SQL database.
+    * [Create an Azure SQL database](https://azure.microsoft.com/en-us/documentation/articles/sql-database-get-started/)
+    * Use your local SQL server
 
-      * [Create an Azure SQL database](https://azure.microsoft.com/en-us/documentation/articles/sql-database-get-started/)
-      * Create a SQL server on Azure
-
-      Note down the `<service-name>`, `<database-name>`, `<username>` and `<password>`.
-
-    2. Create tables in the SQL database.
-
-        1. Use your favorite way to connect to the SQL database.
-
-          For example:
-
-          ```
-          sudo npm install -g sql-cli
-          mssql --server "<server-name>.database.windows.net" --database <database-name> --user <username>@<server-name> --pass <password> --encrypt
-          ```
-
-        2. Create tables `instances` and `bindings` according to [schema.sql](../scripts/schema.sql).
+    Note down `<server-FQDN>`, `<database-name>`, `<username>` and `<password>`.
 
 2. Setup the environment variables.
 
@@ -68,7 +53,7 @@ If you want to run the cases in a specific file, you can use `../node_modules/mo
 
       ```
       export AZURE_BROKER_DATABASE_PROVIDER="sqlserver"
-      export AZURE_BROKER_DATABASE_SERVER="<service-name>"
+      export AZURE_BROKER_DATABASE_SERVER="<server-FQDN>"
       export AZURE_BROKER_DATABASE_USER="<username>"
       export AZURE_BROKER_DATABASE_PASSWORD="<password>"
       export AZURE_BROKER_DATABASE_NAME="<database-name>"
