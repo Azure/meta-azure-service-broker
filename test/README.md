@@ -34,16 +34,16 @@ If you want to run the cases in a specific file, you can use `../node_modules/mo
 
     2. Create tables in the SQL database.
 
-      1. Use your favorite way to connect to the SQL database.
+        1. Use your favorite way to connect to the SQL database.
 
-        For example:
+          For example:
 
-        ```
-        sudo npm install -g sql-cli
-        mssql --server "<server-name>.database.windows.net" --database <database-name> --user <username>@<server-name> --pass <password> --encrypt
-        ```
+          ```
+          sudo npm install -g sql-cli
+          mssql --server "<server-name>.database.windows.net" --database <database-name> --user <username>@<server-name> --pass <password> --encrypt
+          ```
 
-      2. Create tables `instances` and `bindings` according to [schema.sql](../scripts/schema.sql).
+        2. Create tables `instances` and `bindings` according to [schema.sql](../scripts/schema.sql).
 
 2. Setup the environment variables.
 
