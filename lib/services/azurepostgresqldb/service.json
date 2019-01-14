@@ -19,9 +19,9 @@
       "id": "ffc2a56b-637d-43bb-8e0c-f12750980ad1",
       "name": "basic1",
       "free": false,
-      "description": "Basic Tier, 1 vCore.",
+      "description": "Basic Tier, 1 vCore",
       "metadata": {
-        "displayName": "Basic1",
+        "displayName": "Basic 1",
         "details": {
           "tier": "Basic",
           "capacity": 1
@@ -34,10 +34,153 @@
       "free": false,
       "description": "Basic Tier, 2 vCores",
       "metadata": {
-        "displayName": "Basic2",
+        "displayName": "Basic 2",
         "details": {
           "tier": "Basic",
           "capacity": 2
+        }
+      }
+    },
+    {
+      "id": "c825fffd-eedd-40a3-8ccf-c8f6f51babdc",
+      "name": "generalpurpose2",
+      "free": false,
+      "description": "General Purpose Tier, 2 vCores",
+      "metadata": {
+        "displayName": "General Purpose 2",
+        "details": {
+          "tier": "GeneralPurpose",
+          "capacity": 2
+        }
+      }
+    },
+    {
+      "id": "a1455a17-f82c-4c64-83e3-1fdcc2c545ba",
+      "name": "generalpurpose4",
+      "free": false,
+      "description": "General Purpose Tier, 4 vCores",
+      "metadata": {
+        "displayName": "General Purpose 4",
+        "details": {
+          "tier": "GeneralPurpose",
+          "capacity": 4
+        }
+      }
+    },    
+    {
+      "id": "e4167c16-18d7-48d9-9907-12a12b388e3f",
+      "name": "generalpurpose8",
+      "free": false,
+      "description": "General Purpose Tier, 8 vCores",
+      "metadata": {
+        "displayName": "General Purpose 8",
+        "details": {
+          "tier": "GeneralPurpose",
+          "capacity": 8
+        }
+      }
+    },    
+    {
+      "id": "4a50c603-7f2f-4bd2-a7f5-c3174353b658",
+      "name": "generalpurpose16",
+      "free": false,
+      "description": "General Purpose Tier, 16 vCores",
+      "metadata": {
+        "displayName": "General Purpose 16",
+        "details": {
+          "tier": "GeneralPurpose",
+          "capacity": 16
+        }
+      }
+    },    
+    {
+      "id": "6b7a3299-d0e7-42ed-93be-4be7dd8e4002",
+      "name": "generalpurpose32",
+      "free": false,
+      "description": "General Purpose Tier, 32 vCores",
+      "metadata": {
+        "displayName": "General Purpose 32",
+        "details": {
+          "tier": "GeneralPurpose",
+          "capacity": 32
+        }
+      }
+    },    
+    {
+      "id": "50b22a38-6b10-47e0-8f9c-80a7b50c735a",
+      "name": "generalpurpose64",
+      "free": false,
+      "description": "General Purpose Tier, 64 vCores",
+      "metadata": {
+        "displayName": "General Purpose 64",
+        "details": {
+          "tier": "GeneralPurpose",
+          "capacity": 64
+        }
+      }
+    },
+    {
+      "id": "94e58171-f2a2-4e32-97ad-c753bc7cf229",
+      "name": "memoryoptimized2",
+      "free": false,
+      "description": "Memory Optimized Tier, 2 vCores",
+      "metadata": {
+        "displayName": "Memory Optimized 2",
+        "details": {
+          "tier": "MemoryOptimized",
+          "capacity": 2
+        }
+      }
+    },
+    {
+      "id": "79ed3b82-a0f7-4813-bade-eeb6667b5cba",
+      "name": "memoryoptimized4",
+      "free": false,
+      "description": "Memory Optimized Tier, 4 vCores",
+      "metadata": {
+        "displayName": "Memory Optimized 4",
+        "details": {
+          "tier": "MemoryOptimized",
+          "capacity": 4
+        }
+      }
+    },    
+    {
+      "id": "2f23bbf4-687f-428e-b84a-a2a089f737f5",
+      "name": "memoryoptimized8",
+      "free": false,
+      "description": "Memory Optimized Tier, 8 vCores",
+      "metadata": {
+        "displayName": "Memory Optimized 8",
+        "details": {
+          "tier": "MemoryOptimized",
+          "capacity": 8
+        }
+      }
+    },    
+    {
+      "id": "4a84465e-3873-4ebe-b6ac-45f51421ca45",
+      "name": "memoryoptimized16",
+      "free": false,
+      "description": "Memory Optimized Tier, 16 vCores",
+      "metadata": {
+        "displayName": "Memory Optimized 16",
+        "details": {
+          "tier": "MemoryOptimized",
+          "capacity": 16
+        }
+      }
+    },    
+    {
+      "id": "dad3cd88-fd80-4c2e-ba68-e2ac0715e84b",
+      "name": "memoryoptimized32",
+      "free": false,
+      "description": "Memory Optimized Tier, 32 vCores",
+      "metadata": {
+        "displayName": "Memory Optimized 32",
+        "details": {
+          "tier": "MemoryOptimized",
+          "capacity": 32
         }
       }
     }
