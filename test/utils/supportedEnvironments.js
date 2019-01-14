@@ -10,12 +10,13 @@ var supportedEnvironment = {
     storageEndpointSuffix: '.core.windows.net'
   },
   AzureChinaCloud: {
-    location: 'chinaeast',
-    secLocation: 'chinanorth',
+    location: 'chinaeast2',
+    secLocation: 'chinanorth2',
     redisCacheEndpointSuffix: '.redis.cache.chinacloudapi.cn',
     sqlServerEndpointSuffix: '.database.chinacloudapi.cn',
     serviceBusEndpointSuffix: '.servicebus.chinacloudapi.cn',
-    storageEndpointSuffix: '.core.chinacloudapi.cn'
+    storageEndpointSuffix: '.core.chinacloudapi.cn',
+    postgresqlServerEndpointSuffix: '.postgres.database.chinacloudapi.cn',
   },
   AzureGermanCloud: {
     location: 'germanycentral',

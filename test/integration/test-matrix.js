@@ -23,7 +23,8 @@ switch(process.env['ENVIRONMENT']) {
           'docdb',
           'sqldb',
           'sqldbfg',
-          'rediscache'
+          'rediscache',
+          'postgresqldb'
         ];
         break;
     case 'AzureUSGovernment':
