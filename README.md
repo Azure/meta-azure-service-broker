@@ -4,7 +4,7 @@
 
 ###
 
-**_We recently announced the [Open Service Broker for Azure](https://azure.microsoft.com/en-us/blog/connect-your-applications-to-azure-with-open-service-broker-for-azure/), a new implementation of our service broker that is Open Service Broker-compatible and can be deployed on multiple cloud native platforms, including Kubernetes, in addition to Cloud Foundry. OSBA is currently in preview, but it will eventually replace the Meta Azure Service Broker (MASB). During the OSBA preview period, you should continue to use the MASB for production scenarios. We will provide detailed migration guidance in early 2018. Feel free to send your feedback and questions to the [MASB issue section](https://github.com/Azure/meta-azure-service-broker/issues)._**
+**_We recently announced the [Open Service Broker for Azure](https://azure.microsoft.com/en-us/blog/connect-your-applications-to-azure-with-open-service-broker-for-azure/), a new implementation of our service broker that is Open Service Broker-compatible and can be deployed on multiple cloud native platforms, including Kubernetes, in addition to Cloud Foundry. OSBA is currently in preview, you should continue to use the MASB for production Cloud Foundry scenarios. Feel free to send your feedback and questions to the [MASB issue section](https://github.com/Azure/meta-azure-service-broker/issues)._**
 
 [Cloud Foundry on Azure is generally available.](https://azure.microsoft.com/en-us/blog/general-availability-of-cloud-foundry-and-preview-access-of-pivotal-cloud-foundry/) If you want to try it, please follow [the guidance](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md).
 
@@ -15,6 +15,10 @@ You need an Azure [account](https://azure.microsoft.com/account/). With the acco
 ## How to deploy and use
 
 * [How a Cloud Foundry admin deploys the meta Azure service broker](docs/how-admin-deploy-the-broker.md)
+
+## How to tag resources
+
+* [How to add custom tags to resources with Azure service broker](docs/how-to-tag-resources.md)
 
 ## The provided services
 
