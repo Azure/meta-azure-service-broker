@@ -99,7 +99,7 @@
   ```
   {
     "resourceGroup": "<resource-group>",        // [Required] Unique. Only allow up to 90 characters
-    "location": "<azure-region-name>",          // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'azure location list' to list all locations.
+    "location": "<azure-region-name>",          // [Required] e.g. eastasia, eastus2, westus, etc. You can use azure cli command 'az account list-locations' to list all locations.
     "sqlServerName": "<sql-server-name>",       // [Required] Unique. sqlServerName cannot be empty or null. It can contain only lowercase letters, numbers and '-', but can't start or end with '-' or have more than 63 characters.
     "sqlServerParameters": {
       "allowSqlServerFirewallRules": [          // [Optional] If present, ruleName, startIpAddress and endIpAddress are mandatory in every rule.
