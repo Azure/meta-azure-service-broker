@@ -4,8 +4,6 @@
 
 ###
 
-**_We recently announced the [Open Service Broker for Azure](https://azure.microsoft.com/en-us/blog/connect-your-applications-to-azure-with-open-service-broker-for-azure/), a new implementation of our service broker that is Open Service Broker-compatible and can be deployed on multiple cloud native platforms, including Kubernetes, in addition to Cloud Foundry. OSBA is currently in preview, you should continue to use the MASB for production Cloud Foundry scenarios. Feel free to send your feedback and questions to the [MASB issue section](https://github.com/Azure/meta-azure-service-broker/issues)._**
-
 [Cloud Foundry on Azure is generally available.](https://azure.microsoft.com/en-us/blog/general-availability-of-cloud-foundry-and-preview-access-of-pivotal-cloud-foundry/) If you want to try it, please follow [the guidance](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md).
 
 ## Overview
