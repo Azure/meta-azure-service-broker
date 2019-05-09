@@ -324,5 +324,3 @@ runLifecycle(require('./test-matrix'));
 
 // Rerun lifecycle tests without the ability to create SQL servers
 process.env['AZURE_SQLDB_ALLOW_TO_CREATE_SQL_SERVER'] = 'false';
-
-runLifecycle(require('./test-matrix2'));

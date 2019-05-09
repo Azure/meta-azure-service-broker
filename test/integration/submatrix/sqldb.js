@@ -1,3 +1,4 @@
+/*jshint camelcase: false */
 var uuid = require('uuid');
 var async = require('async');
 
@@ -293,7 +294,7 @@ azuresqldb = {
       sqldb.provision(opParams, function(err) {
         if (err) return callback(err);
         opParams.parameters.sqlServerName = sqlServerName2;
-        opParams.parameters.sqldbName = sqldbNamePre;2
+        opParams.parameters.sqldbName = sqldbNamePre2;
         opParams.parameters.location = location;
         opParams.last_operation = 'provision';
         opParams.provisioning_result = {
