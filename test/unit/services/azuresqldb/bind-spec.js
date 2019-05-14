@@ -27,7 +27,7 @@ describe('SqlDb - bind', function () {
             plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
             parameters: {
                 resourceGroup: 'sqldbResourceGroup',
-                sqlServerName: 'golive4',
+                sqlServerName: 'fakeservera',
                 sqlServerCreateIfNotExist: true,
                 sqlServerParameters: {
                     location: 'westus',
@@ -47,6 +47,24 @@ describe('SqlDb - bind', function () {
                         edition: 'Basic',
                         requestedServiceObjectiveName: 'Basic'
                     }
+                }
+            },
+            accountPool: {
+                'sqldb': {
+                  'fakeservera': {
+                    'resourceGroup': 'fakerg',
+                    'location': 'fakelocation',
+                    'sqlServerName': 'fakeservera',
+                    'administratorLogin': 'fakelogin',
+                    'administratorLoginPassword': 'fakepwd'
+                  },
+                  'fakeserverb': {
+                    'resourceGroup': 'fakerg',
+                    'location': 'fakelocation',
+                    'sqlServerName': 'fakeserverb',
+                    'administratorLogin': 'fakelogin',
+                    'administratorLoginPassword': 'fakepwd'
+                  }
                 }
             },
             provisioning_result: {
@@ -109,13 +127,31 @@ describe('SqlDb - bind - user-provided database login', function () {
             service_id: 'fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5',
             plan_id: '3819fdfa-0aaa-11e6-86f4-000d3a002ed5',
             parameters: {
-                sqlServerName: 'golive4',
+                sqlServerName: 'fakeservera',
                 sqldbName: 'sqldb',
                 userProvidedDatabaseLogin: 'fake-login',
                 userProvidedDatabaseLoginPassword: 'fake-login-password',
             },
+            accountPool: {
+                'sqldb': {
+                  'fakeservera': {
+                    'resourceGroup': 'fakerg',
+                    'location': 'fakelocation',
+                    'sqlServerName': 'fakeservera',
+                    'administratorLogin': 'fakelogin',
+                    'administratorLoginPassword': 'fakepwd'
+                  },
+                  'fakeserverb': {
+                    'resourceGroup': 'fakerg',
+                    'location': 'fakelocation',
+                    'sqlServerName': 'fakeserverb',
+                    'administratorLogin': 'fakelogin',
+                    'administratorLoginPassword': 'fakepwd'
+                  }
+                }
+            },
             provisioning_result: {
-                'id': '/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/golive4/databases/sqldb',
+                'id': '/subscriptions/743f6ed6-83a8-46f0-822d-ea93b953952d/resourceGroups/sqldbResourceGroup/providers/Microsoft.Sql/servers/fakeservera/databases/sqldb',
                 'name': 'sqldb',
                 'type': 'Microsoft.Sql/servers/databases',
                 'location': 'West US',
@@ -136,7 +172,7 @@ describe('SqlDb - bind - user-provided database login', function () {
                     'elasticPoolName': null,
                     'containmentState': 2
                 },
-                'sqlServerName': 'golive4',
+                'sqlServerName': 'fakeservera',
                 'administratorLogin': 'greg',
                 'administratorLoginPassword': 'P@ssw0rd!'
             },
