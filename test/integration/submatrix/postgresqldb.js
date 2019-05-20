@@ -48,8 +48,6 @@ azurepostgresqldb = {
   },
   bindingParameters: {},
   credentials: {
-    'administratorLogin': '<string>',
-    'administratorLoginPassword': '<string>',
     'postgresqlServerName': postgresqlServerName,
     'postgresqlDatabaseName': 'testpgsqldb',
     'postgresqlServerFullyQualifiedDomainName': '<string>',
