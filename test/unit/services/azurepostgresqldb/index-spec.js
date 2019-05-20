@@ -209,25 +209,14 @@ describe('PostgreSqlDb - Index - Bind', function() {
     });
 
     describe('Bind operation should succeed', function() {        
-        it('should not return an error and credentials is complete', function(done) {
+        it('should not return an error and credentials are present', function(done) {
             cb.bind(postgresOps, function(err, result) {
                 should.not.exist(err);
                 should.exist(result);
-
-                var credentialsKeys = [
-                  'postgresqlServerName',
-                  'postgresqlServerFullyQualifiedDomainName',
-                  'username',
-                  'password',
-                  'jdbcUrl'
-                ];
-                credentialsKeys.forEach(function(key){
-                  result.value.credentials.should.have.property(key);
-                });
-                
+                should.exist(result.databaseLogin);
+                should.exist(result.databaseLoginPassword);
                 done();
             });
-                        
         });
     });
 });
