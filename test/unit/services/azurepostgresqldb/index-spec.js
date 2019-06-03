@@ -3,11 +3,17 @@
 /* global describe, before, it */
 
 var should = require('should');
+var sinon = require('sinon');
 var uuid = require('uuid');
 var service = require('../../../../lib/services/azurepostgresqldb/service.json');
+var cmdBind = require('../../../../lib/services/azurepostgresqldb/cmd-bind');
+var cmdUnbind = require('../../../../lib/services/azurepostgresqldb/cmd-unbind');
+var postgresqldbOperations = require('../../../../lib/services/azurepostgresqldb/client');
 var handlers;
 
 var azure = require('../helpers').azure;
+
+var postgresOps = new postgresqldbOperations(azure);
 
 var generatedValidInstanceId = uuid.v4();
 
@@ -167,6 +173,8 @@ describe('PostgreSqlDb - Index - Poll', function() {
 describe('PostgreSqlDb - Index - Bind', function() {
     var validParams;
     
+    var cb;
+
     before(function() {
         validParams = {
             instance_id: generatedValidInstanceId,
@@ -192,34 +200,31 @@ describe('PostgreSqlDb - Index - Bind', function() {
             }
         };
         
+        cb = new cmdBind(validParams);
+        sinon.stub(postgresOps, 'executeSql').yields();
     });
-    
+
+    after(function() {
+        postgresOps.executeSql.restore();
+    });
+
     describe('Bind operation should succeed', function() {        
-        it('should not return an error and credentials is complete', function(done) {
-            handlers.bind(validParams, function(err, reply, result) {
+        it('should not return an error and credentials are present', function(done) {
+            cb.bind(postgresOps, function(err, result) {
                 should.not.exist(err);
-                should.exist(reply);
-                var credentialsKeys = [
-                  'postgresqlServerName',
-                  'postgresqlServerFullyQualifiedDomainName',
-                  'administratorLogin',
-                  'administratorLoginPassword',
-                  'jdbcUrl'
-                ];
-                credentialsKeys.forEach(function(key){
-                  reply.value.credentials.should.have.property(key);
-                });
-                
                 should.exist(result);
+                should.exist(result.databaseLogin);
+                should.exist(result.databaseLoginPassword);
                 done();
             });
-                        
         });
     });
 });
 
 describe('PostgreSqlDb - Index - Unbind', function() {
     var validParams;
+
+    var cu;
     
     before(function() {
         validParams = {
@@ -246,17 +251,17 @@ describe('PostgreSqlDb - Index - Unbind', function() {
             }
         };
         
+        cu = new cmdUnbind(validParams);
+        sinon.stub(postgresOps, 'executeSql').yields();
     });
     
     describe('Unbind operation should succeed', function() {        
         it('should not return an error', function(done) {
-            handlers.unbind(validParams, function(err, reply, result) {
+            cu.unbind(postgresOps, function(err, result) {
                 should.not.exist(err);
-                should.exist(reply);
                 should.exist(result);
                 done();
             });
-                        
         });
     });
 });
