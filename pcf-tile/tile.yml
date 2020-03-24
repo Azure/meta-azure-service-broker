@@ -151,18 +151,23 @@ forms:
       - name: resourceGroup
         type: string
         label: Resource Group of the SQL Server
+        configurable: true
       - name: location
         type: string
         label: Location of the SQL Server
+        configurable: true
       - name: sqlServerName
         type: string
         label: SQL Server Name
+        configurable: true
       - name: administratorLogin
         type: string
         label: SQL Server Administrator Login
+        configurable: true
       - name: administratorLoginPassword
         type: secret
         label: SQL Server Administrator Login Password
+        configurable: true
     label: Sql Server Pool
 - name: default-parameters-config-form
   label: Default Parameters Config
