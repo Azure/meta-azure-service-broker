@@ -150,18 +150,23 @@ forms:
     property_blueprints:
       - name: resourceGroup
         type: string
+        configurable: true
         label: Resource Group of the SQL Server
       - name: location
         type: string
+        configurable: true
         label: Location of the SQL Server
       - name: sqlServerName
         type: string
+        configurable: true
         label: SQL Server Name
       - name: administratorLogin
         type: string
+        configurable: true
         label: SQL Server Administrator Login
       - name: administratorLoginPassword
         type: secret
+        configurable: true
         label: SQL Server Administrator Login Password
     label: Sql Server Pool
 - name: default-parameters-config-form
