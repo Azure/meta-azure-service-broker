@@ -314,6 +314,11 @@ forms:
         "userRoles": ["db_owner"]
       }
     label: Default Parameters of Azure SQL Database Failover Group service
+  - name: isv_tracking_guid
+    configurable: false
+    type: string
+    label: ISV Tracking GUID
+    default: f09bfe12-4077-4c05-8801-5038e052f399
 
 # Add any dependencies your tile has on other installed products.
 # This is often appropriate when using automatic service provisioning

@@ -12,7 +12,7 @@ var config = common.getConfigurations();
 var broker = new Broker(config);
 var log = common.getLogger(common.LOG_CONSTANTS.BROKER);
 
-msRestRequest.init(config.azure);
+msRestRequest.init(config.azure, common.getISVTrackingGUID());
 
 // Brokers listen for '<operation>-<serviceId>' ex: 'poll-fb9bc99e-0aa9-11e6-8a8a-000d3a002ed5'
 var addListeners = function(serviceId, serviceModule) {
