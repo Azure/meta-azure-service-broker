@@ -55,7 +55,7 @@ packages:
 stemcell_criteria:
   os: ubuntu-xenial
   requires_cpi: false
-  version: '170'
+  version: '621'
 
 # Add properties you want to pass to your applications.
 # Properties specified here will not be configurable by the user.
