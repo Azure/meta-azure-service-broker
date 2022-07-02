@@ -1,6 +1,6 @@
 # Azure CosmosDB Service
 
-[Azure CosmosDB](https://azure.microsoft.com/en-us/services/cosmos-db/) is a globally distributed database service designed to enable you to elastically and independently scale throughput and storage across any number of geographical regions with a comprehensive SLA. You can develop document, key/value, or graph databases with Cosmos DB using a series of popular APIs and programming models. Learn how to use Cosmos DB with our quickstarts, tutorials, and samples.
+[Azure Cosmos DB](https://azure.microsoft.com/en-us/services/cosmos-db/) is a globally distributed database service designed to enable you to elastically and independently scale throughput and storage across any number of geographical regions with a comprehensive SLA. You can develop document, key/value, or graph databases with Cosmos DB using a series of popular APIs and programming models. Learn how to use Cosmos DB with our quickstarts, tutorials, and samples.
 
 ## Behaviors
 
@@ -30,7 +30,7 @@
 
   1. Check whether deleting the CosmosDB account succeeds or not.
   
-## Create an Azure CosmosDB service
+## Create an Azure Cosmos DB service
 
 1. Get the service name and plans
 
